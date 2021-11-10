@@ -1,0 +1,41 @@
+db_url: !secret mariadb
+purge_keep_days: 2
+auto_purge: true
+include:
+  domains:
+    - switch
+    - media_player
+    - sensor
+    - person
+    - vacuum
+    - device_tracker
+    - binary_sensor
+    - input_boolean
+    - light
+    - counter
+    - lock
+    - vacuum
+exclude:
+  event_types:
+    - call_service
+  entities:
+    - sensor.outdoor_temperatures
+    - sensor.hourly_energy
+    - sensor.dayly_energy
+    - sensor.weekly_energy
+    - sensor.monthly_energy
+    - sensor.yearly_energy
+    - sensor.ups_status_date
+    - sensor.ups_status_data
+  entity_globs:
+    # time sensor
+    - sensor.time*
+    # power cunsumption
+    - sensor.rtc_*_1min
+    - sensor.rtc_*_state
+    - sensor.*_johannedalsvagen_75_b
+    # frigate
+    - sensor.*_process_fps
+    - sensor.*_camera_fps
+    - sensor.*_detection_fps
+    - switch.adaptive_lighting_*

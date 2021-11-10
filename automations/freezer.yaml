@@ -1,0 +1,58 @@
+- alias: "Freezer temperature alarm"
+  id: e473c7d9-772e-4084-a3aa-9ad6b20781d7
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - sensor.freezer_left_temperature
+        - sensor.freezer_right_temperature
+      above: -15
+      for:
+        minutes: 1
+  action:
+    - service: notify.family
+      data_template:
+        title: "Frysen"
+        message: >
+          {% set mapper =  {
+            'sensor.freezer_left_temperature' : 'vänstra frysen',
+            'sensor.freezer_right_temperature' : 'högra frysen'
+          } %}
+          "För hög temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
+        data:
+          tag: freezer
+          sticky: true
+
+
+- alias: "Freezer critical temperature alarm"
+  id: 434a2b9a-4da7-4bd2-9229-b755ce7d3379
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - sensor.freezer_left_temperature
+        - sensor.freezer_right_temperature
+      above: -10
+      for:
+        minutes: 1
+  action:
+    - repeat:
+        while: 
+        - condition: template
+          value_template: "{{ trigger.to_state.state > -10 }}"
+        sequence:
+        - service: notify.family
+          data_template:
+            title: "Frysen kritisk!"
+            message: >
+              {% set mapper =  {
+                'sensor.freezer_left_temperature' : 'vänstra frysen',
+                'sensor.freezer_right_temperature' : 'högra frysen'
+              } %}
+              "Kritisk temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
+            data:
+              tag: freezer
+              sticky: true
+              ttl: 0
+              priority: high
+              channel: alarm_stream
+        - delay:
+            minutes: 15

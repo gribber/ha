@@ -1,0 +1,76 @@
+- alias: "Turn on outdoor lights at sunset"
+  id: 00f5acc1-28d1-4418-9b1b-e80f3ee004a7
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:30:00"
+  condition: []
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - light.utomhuslampor
+        # - light.entre
+        # - light.parkering_och_uppfart
+        # - light.takfot_uterum
+        # - light.dekoration_ute
+    - delay:
+        seconds: 10
+    - service: homeassistant.turn_on
+      entity_id:
+        - switch.adaptive_lighting_entre
+        - switch.adaptive_lighting_parkering_och_uppfart
+        - switch.adaptive_lighting_dekoration_ute
+
+
+
+- alias: "Turn off outdoor lights at sunrise"
+  id: f1924b0e-ba10-41b2-b67f-fa70b4ea2045
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "+00:15:00"
+  condition: []
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - switch.adaptive_lighting_entre
+        - switch.adaptive_lighting_parkering_och_uppfart
+        - switch.adaptive_lighting_dekoration_ute
+    - delay:
+        seconds: 50
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.utomhuslampor
+        # - light.entre
+        # - light.parkering_och_uppfart
+        # - light.takfot_uterum
+        # - light.dekoration_ute
+
+- alias: "Illuminate outdoor lights on motion"
+  id: c2a7aec0-564a-4759-b32f-4afd4c01a062
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_driveway_presence
+      from: "off"
+      to: "on"
+  condition:
+    condition: state
+    entity_id: 
+      - light.parkering_och_uppfart
+    state: "on"
+  action:
+    - service: scene.create
+      data:
+        scene_id: outdoorlights_before
+        snapshot_entities:
+          - light.parkering_och_uppfart
+    - service: light.turn_on
+      target:
+        entity_id: light.parkering_och_uppfart
+      data:
+        brightness: 255
+    - delay:
+        minutes: 3
+    - service: scene.turn_on
+      target:
+        entity_id: scene.outdoorlights_before

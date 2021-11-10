@@ -1,0 +1,49 @@
+- alias: "boiler: bottom reminder"
+  id: a8a350a1-44dc-4a92-b272-7336812df8e4
+  trigger: 
+    - platform: numeric_state
+      entity_id: sensor.climate_acc_tank_bottom
+      below: 50
+      for: 
+        minutes: 15
+  action:
+    - service: notify.family
+      data:
+        title: "Vedpannan"
+        message: "Dags att elda! (Acktank botten: {{ states('sensor.climate_acc_tank_bottom') }}C)"
+        data:
+          tag: boiler
+          sticky: true
+
+- alias: "boiler: middle reminder"
+  id: db5a1105-9962-4ed3-8959-aa2f97e37b31
+  trigger: 
+    - platform: numeric_state
+      entity_id: sensor.climate_acc_tank_mid
+      below: 60
+      for: 
+        minutes: 15
+  action:
+    - service: notify.family
+      data:
+        title: "Vedpannan"
+        message: "Hög till att elda! (Acktank mitten: {{ states('sensor.climate_acc_tank_mid') }}C)"
+        data:
+          tag: boiler
+          sticky: true
+
+- alias: "boiler: reset"
+  id: e2b1fa65-55e5-47a1-8420-1b0e4cda14e4
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.climate_acc_tank_bottom
+      above: 40
+      for:
+        minutes: 15
+  action:
+    - service: notify.family
+      data:
+        message: "clear_notification"
+        data:
+          tag: boiler
+

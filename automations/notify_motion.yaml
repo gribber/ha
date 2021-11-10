@@ -1,0 +1,59 @@
+- alias: "Flash some lights on driveway motion"
+  id: 63fe107f-06f0-44ad-b430-e2ff493272f7
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_driveway_presence
+      from: "off"
+      to: "on"
+  # condition:
+  #   condition: state
+  #   entity_id: 
+  #     - light.parkering_och_uppfart
+  #   state: "on"
+  action:
+    - service: light.turn_off
+      target:
+        entity_id: light.floor_lamp
+    - delay:
+        seconds: 2
+    - service: light.turn_on
+      target:
+        entity_id: light.floor_lamp
+
+    # - service: scene.create
+    #   data:
+    #     scene_id: notify_lights_before
+    #     snapshot_entities:
+    #       - light.floor_lamp
+    # - service: light.turn_on
+    #   target:
+    #     entity_id: light.floor_lamp
+    #   data:
+    #     brightness: 255
+    #     #transition: 0
+    # - repeat:
+    #     while: 
+    #     - condition: template
+    #       value_template: "{{ repeat.index < 2 }}"
+    #     sequence:
+    #     - delay:
+    #         seconds: 2
+    #     - service: light.turn_on
+    #       target:
+    #         entity_id: light.floor_lamp
+    #       data:
+    #         brightness: 50
+    #         #transition: 0
+    #     - delay:
+    #         seconds: 2
+    #     - service: light.turn_on
+    #       target:
+    #         entity_id: light.floor_lamp
+    #       data:
+    #         brightness: 255
+    #         #transition: 0
+    # - delay:
+    #     seconds: 2
+    # - service: scene.turn_on
+    #   target:
+    #     entity_id: scene.notify_lights_before

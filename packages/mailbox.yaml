@@ -1,0 +1,66 @@
+input_boolean:
+  mailboxtrigger:
+    
+sensor:
+  - platform: template
+    sensors:
+      yougotmail:
+        friendly_name: "You got mail"
+        value_template: >-
+          {% if is_state('binary_sensor.openclose_30', 'on') %}
+            open
+          {% elif is_state('input_boolean.mailboxtrigger', 'on') %}
+            yes
+          {% else%}
+            no
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.openclose_30', 'on') %}
+            mdi:mailbox-open-outline
+          {% elif is_state('input_boolean.mailboxtrigger', 'on') %}
+            mdi:mailbox-up-outline
+          {% else%}
+            mdi:mailbox-outline
+          {% endif %}
+        
+automation:
+  - alias: "mailbox flap opened"
+    id: 95cde0f8-eb92-46ea-946a-816c50d5c252
+    trigger:
+      platform: state
+      entity_id: binary_sensor.mailbox_flap
+      to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.mailboxtrigger
+      state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.mailboxtrigger
+      - service: notify.family
+        data:
+          title: "Postlådan"
+          message: "Kom och töm mig på post!"
+          data:
+            tag: mailbox
+
+  - alias: "mailbox door opened"
+    id: a0c39162-faf8-4f84-88b1-69c96a8fe9c5
+    trigger:
+      platform: state
+      entity_id: binary_sensor.mailbox_door
+      to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.mailboxtrigger
+      state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.mailboxtrigger
+      - service: notify.family
+        data:
+          title: "Postlådan"
+          message: "Tack!"
+          data:
+            tag: mailbox
+            timeout: 900

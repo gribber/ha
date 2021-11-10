@@ -1,0 +1,6 @@
+### common sensors/platforms with non or less configuration ###
+- platform: fitbit
+  monitored_resources:
+    - "body/weight"
+    - "body/bmi"
+    - "body/fat"

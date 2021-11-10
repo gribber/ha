@@ -1,0 +1,17 @@
+- alias: Notify on new HA version
+  id: f98ff89c-0513-4993-a404-8e72f01da65a
+  trigger:
+    platform: state
+    entity_id: sensor.latest_ha_version
+  condition:
+    - condition: template
+#      value_template: '{{ (states.sensor.current_ha_version.state != "") and (states.sensor.current_ha_version.state != "unavailable")}}'
+      value_template: >
+        {% set ignore = ['unknown', 'unavailable', ''] %}
+        {{ trigger.from_state.state not in ignore and trigger.to_state.state not in ignore and trigger.to_state.state != trigger.from_state.state }}
+  action:
+    service: notify.mobile_app_kb2003
+    data:
+      title: "New HA release"
+      message: "version: {{ states.sensor.latest_ha_version.state }}"
+

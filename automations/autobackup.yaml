@@ -1,0 +1,9 @@
+- alias: Perform Daily Backup
+  trigger:
+    - platform: time
+      at: "02:00:00"
+  action:
+    - service: auto_backup.backup_full
+      data:
+        name: "DailyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
+        keep_days: 7

@@ -1,0 +1,25 @@
+# ignore everything
+*
+
+# whitelist stuff
+!automations/
+!binary_sensors/
+!cameras/
+!input/
+!groups/
+!sensors/
+!packages/
+!scripts/
+!scenes/
+!sensors/
+!*.yaml
+!.gitignore
+
+# ignore folders
+# Ignore folders.
+.storage
+.cloud
+.google.token
+
+# ensure ignore
+secrets.yaml

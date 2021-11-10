@@ -1,0 +1,23 @@
+host: a0d7b954-influxdb
+port: 8086
+database: !secret influx_db
+username: !secret influx_user
+password: !secret influx_pass
+max_retries: 3
+default_measurement: state
+include:
+  domains:
+    - sensor
+    - vacuum
+exclude:
+  entities:
+    - sensor.hourly_energy
+    - sensor.dayly_energy
+    - sensor.weekly_energy
+    - sensor.monthly_energy
+    - sensor.yearly_energy
+  entity_globs:
+    - sensor.rtc_*
+tags_attributes:
+  - grafana_name
+  - friendly_name

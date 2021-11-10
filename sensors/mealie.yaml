@@ -1,0 +1,7 @@
+- platform: rest
+  resource: !secret mealie_url
+  method: GET
+  name: Mealie dagens middag 
+  headers:
+    Authorization: !secret mealie_token
+  value_template: "{{ value_json.name }}"
