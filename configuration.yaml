@@ -4,29 +4,18 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-# http access settings
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - !secret trusted_proxy_1
+# integrations
+http: !include integrations/http.yaml
+influxdb: !include integrations/influxdb.yaml
+notify: !include integrations/notify.yaml
+recorder: !include integrations/recorder.yaml
+spotify: !include integrations/spotify.yaml
+tts: !include integrations/tts.yaml
 
-# Text to speech
-tts:
-  - platform: google_translate
-
-recorder: !include recorder.yaml
-influxdb: !include influxdb.yaml
-notify: !include notify.yaml
-
-# spotify
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
-
-group: !include_dir_merge_named groups/
 automation: !include_dir_merge_list automations/
 binary_sensor: !include_dir_merge_list binary_sensors/
-sensor: !include_dir_merge_list sensors/
 camera: !include_dir_merge_list cameras/
-script: !include_dir_merge_list scripts/
+group: !include_dir_merge_list groups/
 scene: !include_dir_merge_list scenes/
+script: !include_dir_merge_list scripts/
+sensor: !include_dir_merge_list sensors/

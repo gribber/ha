@@ -1,0 +1,33 @@
+# IKEA Styrbar deconz events
+# Button  single  long  long-release
+# ----------------------------------
+# big     1002    1001  1003
+# small   2002    2001  2003
+# left    3002    3001  3003
+# right   4002    4001  4003
+
+- alias: "Bedroom remote: big light"
+  id: 40e38707-bc70-40bc-b46c-4d9137b8a00c
+  trigger:
+    - platform: event
+      event_type: deconz_event
+      event_data:
+        id: bedroom_remote_1
+        event: 1002
+  action:
+    - service: light.toggle
+      target:
+        entity_id: light.bedroom_ceiling
+
+- alias: "Bedroom remote: small light"
+  id: 0a888db0-d123-44ac-b031-d429ee01421a
+  trigger:
+    - platform: event
+      event_type: deconz_event
+      event_data:
+        id: bedroom_remote_1
+        event: 2002
+  action:
+    - service: light.toggle
+      target:
+        entity_id: light.hallway_upstairs_wall

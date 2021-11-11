@@ -5,12 +5,13 @@
 !automations/
 !binary_sensors/
 !cameras/
-!input/
 !groups/
-!sensors/
+!input/
+!integrations/
 !packages/
-!scripts/
 !scenes/
+!sensors/
+!scripts/
 !sensors/
 !*.yaml
 !.gitignore
