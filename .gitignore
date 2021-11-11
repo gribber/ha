@@ -17,7 +17,6 @@
 !.gitignore
 
 # ignore folders
-# Ignore folders.
 .storage
 .cloud
 .google.token
