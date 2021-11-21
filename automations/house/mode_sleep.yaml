@@ -15,6 +15,7 @@
     
   action:
     - choose:
+      # reset to sleeping at night until I figure out a better way to detect it
       - conditions:
           condition: trigger
           id: "time"
