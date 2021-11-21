@@ -1,0 +1,8 @@
+# - platform: template
+#   sensors:
+#     climate_heat_calculated_consumption:
+#       unit_of_measurement: W
+#       device_class: power
+#       value_template: >-
+#         {% set waterflow = 2000 %}
+#         {{ ((4.18 * waterflow * states('sensor.climate_heat_deltat')|float * 1000) / 3600)|round(0) }}
