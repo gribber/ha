@@ -1,4 +1,4 @@
-- alias: "bedroom lights"
+- alias: "Bedroom: lights"
   id: 48d8b685-cc44-4b54-bf1b-bbaf4a088413
   trigger:
     - platform: homeassistant

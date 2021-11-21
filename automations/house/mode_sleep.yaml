@@ -1,0 +1,29 @@
+- alias: "House: sleep mode"
+  id: 2c24e58c-fb5f-4b5d-bcf1-6598c26125a1
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: time
+      id: "time"
+      at: input_datetime.house_reset_settings
+    
+  action:
+    - choose:
+      - conditions:
+          condition: trigger
+          id: "time"
+        sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.house_mode_sleep
+
+      default:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.house_mode_sleep
