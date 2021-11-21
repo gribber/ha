@@ -1,0 +1,5 @@
+family:
+  name: "Familjen"
+  entities:
+    - person.linus
+    - person.bella

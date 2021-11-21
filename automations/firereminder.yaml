@@ -3,7 +3,7 @@
   trigger: 
     - platform: numeric_state
       entity_id: sensor.climate_acc_tank_bottom
-      below: 50
+      below: 40
       for: 
         minutes: 15
   action:
@@ -14,6 +14,8 @@
         data:
           tag: boiler
           sticky: true
+          push:
+            badge: 1
 
 - alias: "boiler: middle reminder"
   id: db5a1105-9962-4ed3-8959-aa2f97e37b31
@@ -31,6 +33,8 @@
         data:
           tag: boiler
           sticky: true
+          push:
+            badge: 2
 
 - alias: "boiler: reset"
   id: e2b1fa65-55e5-47a1-8420-1b0e4cda14e4

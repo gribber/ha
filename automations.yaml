@@ -1,0 +1,32 @@
+- id: '1637061926166'
+  alias: testa fjärr
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id:
+      - tradfri_on_off_button
+      - tradfri_remote_control
+  condition: []
+  action:
+  - service: light.toggle
+    target:
+      entity_id: light.floor_lamp
+  mode: single
+- id: '1637062014733'
+  alias: testalite
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: tradfri_remote_control
+  condition: []
+  action:
+  - service: light.toggle
+    target:
+      entity_id: light.floor_lamp
+    data:
+      flash: short
+  mode: single
