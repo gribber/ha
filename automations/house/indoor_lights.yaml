@@ -45,37 +45,37 @@
             # turn on lights
             conditions:
               # in the morning
-            - condition: time
-              after: input_datetime.time_goodmorning
-              # at a workday
-            - condition: state
-              entity_id:
-                - input_boolean.house_mode_workday
-              state: "on"
+              - condition: time
+                after: input_datetime.time_goodmorning
+                # at a workday
+              - condition: state
+                entity_id:
+                  - input_boolean.house_mode_workday
+                state: "on"
 
           - condition: and
             # turn on the lights
             conditions:
-            - condition: time
-              # at specific time in the morning
-              after: input_datetime.time_goodmorning_weekend
-            - condition: state
-              # when it's not a workday
-              entity_id:
-                - input_boolean.house_mode_workday
-              state: "off"
+              - condition: time
+                # at specific time in the morning
+                after: input_datetime.time_goodmorning_weekend
+              - condition: state
+                # when it's not a workday
+                entity_id:
+                  - input_boolean.house_mode_workday
+                state: "off"
           
           - condition: and
             # turn on lights
             conditions:
-            - condition: state
-              # at sunset
-              entity_id:
-                - input_boolean.house_mode_daylight
-              state: "off"
-            - condition: time
-              # if it's not too late
-              before: input_datetime.time_goodnight
+              - condition: state
+                # at sunset
+                entity_id:
+                  - input_boolean.house_mode_daylight
+                state: "off"
+              - condition: time
+                # if it's not too late
+                before: input_datetime.time_goodnight
 
         sequence:
           - choose:
