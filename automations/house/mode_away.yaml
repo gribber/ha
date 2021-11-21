@@ -1,0 +1,35 @@
+- alias: "House: away mode"
+  id: 100921f5-d234-470f-903a-e27a5e51f169
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: state
+      entity_id:
+        - group.family
+
+  action:
+    - alias: "Should we active away mode or not"
+      choose:
+        - alias: "Turn on"
+          conditions:
+            - alias: "when we are detected as away"
+              condition: state
+              entity_id: group.family
+              state: "not_home"
+          sequence:
+            - alias: "Turn on away mode"
+              service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.house_mode_away
+
+      default:
+        - alias: "Turn off away mode"
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.house_mode_away

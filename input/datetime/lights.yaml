@@ -1,0 +1,14 @@
+time_goodmorning:
+  name: "Morgon"
+  has_time: true
+  has_date: false
+
+time_goodmorning_weekend:
+  name: "Morgon helg"
+  has_time: true
+  has_date: false
+
+time_goodnight:
+  name: "Natt"
+  has_time: true
+  has_date: false

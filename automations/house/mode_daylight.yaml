@@ -1,0 +1,56 @@
+- alias: "House: daylight mode"
+  id: 076988f1-1e78-4cdd-96fd-83ff83431e1c
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: numeric_state
+      id: "sun"
+      entity_id:
+        - sun.sun
+      attribute: elevation
+      above: &sun_elevation "-2.0"
+    
+    - platform: state
+      id: lightlevel
+      entity_id:
+        - sensor.motion_driveway_lightlevel
+    
+  action:
+      choose:
+        - conditions:
+          - condition: or
+            conditions:
+            - condition: trigger
+              # if triggered by sunrise
+              id: "sun"
+
+            - condition: and
+              conditions:
+              - condition: numeric_state
+                entity_id:
+                  - sun.sun
+                attribute: elevation
+                above: *sun_elevation
+
+              - condition: numeric_state
+                # it's bright enough outside
+                entity_id:
+                  - sensor.motion_driveway_lightlevel
+                above: 200
+
+          sequence:
+            - service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.house_mode_daylight
+
+      default:
+        # turn off, it's dark outside
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.house_mode_daylight

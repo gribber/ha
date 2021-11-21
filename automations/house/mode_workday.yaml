@@ -1,0 +1,31 @@
+- alias: "House: workday mode"
+  id: b54de7c4-ee5f-497f-8dbc-af5c953bea46
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.workday_today
+    
+  action:
+      choose:
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.workday_today
+            state: "on"
+        
+          sequence:
+            - service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.house_mode_workday
+
+      default:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.house_mode_workday

@@ -3,10 +3,12 @@
 
 # whitelist stuff
 !automations/
+!automations/*/
 !binary_sensors/
 !cameras/
 !groups/
 !input/
+!input/*/
 !integrations/
 !packages/
 !scenes/

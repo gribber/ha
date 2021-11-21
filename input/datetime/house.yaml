@@ -1,0 +1,6 @@
+# reset house at specified time
+house_reset_settings:
+  name: "Tid att återställ manuella inställningar"
+  icon: "mdi:restart"
+  has_time: true
+  has_date: false

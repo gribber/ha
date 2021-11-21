@@ -1,0 +1,24 @@
+# if we are away from home
+house_mode_away:
+  name: "Ingen hemma"
+  icon: "mdi:human-greeting"
+  
+# if we are or about to sleeping 
+house_mode_sleep:
+  name: "Nattläge"
+  icon: "mdi:sleep"
+  
+# if we have guests at home
+house_mode_guests:
+  name: "Gäster hemma"
+  icon: "mdi:account-multiple-plus"
+
+# if it's a workday
+house_mode_workday:
+  name: "Arbetsdag"
+  icon: "mdi:briefcase"
+
+# if there is sunlight or bright enoght outside
+house_mode_daylight:
+  name: "Ljust ute"
+  icon: "mdi:white-balance-sunny"

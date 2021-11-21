@@ -1,0 +1,12 @@
+# switches that disables all automations until turned back off
+bedroom_manual_mode:
+  name: "Sovrum manuellt läge"
+
+parking_manual_mode:
+  name: "Parkering manuellt läge"
+
+kitchen_manual_mode:
+  name: "Köket manuellt läge"
+
+livingroom_manual_mode:
+  name: "Vardagsrum manuellt läge"
