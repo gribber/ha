@@ -5,6 +5,7 @@ homeassistant:
 default_config:
 
 # integrations
+frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
 notify: !include integrations/notify.yaml

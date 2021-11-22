@@ -12,3 +12,8 @@ time_goodnight:
   name: "Natt"
   has_time: true
   has_date: false
+
+wakeup_time:
+  name: "Starttid sollampa"
+  has_time: true
+  has_date: false

@@ -13,6 +13,15 @@
       id: "time"
       at: input_datetime.house_reset_settings
     
+    - platform: state
+      id: "manual"
+      entity_id:
+        - input_boolean.bedroom_manual_mode
+        - input_boolean.kitchen_manual_mode
+        - input_boolean.livingroom_manual_mode
+      from: "off"
+      to: "on"
+
   action:
     - choose:
       # reset to sleeping at night until I figure out a better way to detect it
@@ -24,7 +33,14 @@
             target:
               entity_id: input_boolean.house_mode_sleep
 
+      - conditions:
+          condition: trigger
+          id: "manual"
+        sequence:
+          - &turn_off
+            service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.house_mode_sleep
+          
       default:
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.house_mode_sleep
+        - *turn_off

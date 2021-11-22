@@ -33,24 +33,26 @@
             - condition: and
               conditions:
               - condition: numeric_state
+                # if the sun is up
                 entity_id:
                   - sun.sun
                 attribute: elevation
                 above: *sun_elevation
 
               - condition: numeric_state
-                # it's bright enough outside
+                # and it's bright enough outside
                 entity_id:
                   - sensor.motion_driveway_lightlevel
                 above: 200
 
           sequence:
             - service: input_boolean.turn_on
+              # turn on daylight mode
               target:
                 entity_id: input_boolean.house_mode_daylight
 
       default:
-        # turn off, it's dark outside
+        # turn off daylight mode, it's dark outside
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.house_mode_daylight

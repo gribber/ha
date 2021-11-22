@@ -1,0 +1,7 @@
+wakeup_enabled:
+  name: "Aktivera sollampa"
+  icon: "mdi:theme-light-dark"
+
+wakeup_offwork:
+  name: "Aktiv på helgdagar"
+  icon: "mdi:calendar-blank"

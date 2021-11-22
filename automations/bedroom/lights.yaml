@@ -46,37 +46,36 @@
 
   action:
     - choose:
-      - alias: "Reset manual mode before morning"
-        conditions:
-          - alias: "Triggered by defined time"
-            condition: trigger
-            id: "reset"
+      - conditions:
+        # reset manual mode at defined time
+        - condition: trigger
+          id: "reset"
         
         sequence:
           - &turn_off_manual_mode
-            alias: "Reset manual mode"
+            # reset manual mode
             service: input_boolean.turn_off
             target:
               entity_id: input_boolean.bedroom_manual_mode
       
-      - alias: "Turn off when sleep or away"
-        conditions:
-          - condition: or
-            conditions:
-              - alias: "When away"
-                condition: state
-                entity_id: input_boolean.house_mode_away
-                state: "on"
-              
-              - alias: "When sleeping"
-                condition: state
-                entity_id: input_boolean.house_mode_sleep
-                state: "on"
+      - conditions:
+        # when house mode changes
+        - condition: or
+          conditions:
+            - condition: state
+              # when away
+              entity_id: input_boolean.house_mode_away
+              state: "on"
+            
+            - condition: state
+              # when sleeping
+              entity_id: input_boolean.house_mode_sleep
+              state: "on"
         
         sequence:
           - *turn_off_manual_mode
           - &turn_off
-            alias: "Turn off lights"
+            # turn off lights
             service: light.turn_off
             target:
               area_id: "{{ area_id('Sovrummet') }}"
@@ -84,11 +83,10 @@
               transition: 5
 
 
-      - alias: "Bedroom remote was used"
-        conditions:
-          - alias: "When triggered by bedroom remote"
-            condition: trigger
-            id: "remote"
+      - conditions:
+        # when a remote button is pressed
+        - condition: trigger
+          id: "remote"
 
         sequence:
           - variables:
@@ -153,23 +151,22 @@
                       brightness_step: "{{ step }}"
                       transition: 1
       
-      - alias: "Do nothing when manual mode is on"
-        conditions:
-          - alias: "When manual mode is on"
-            condition: state
+      - conditions:
+          # do nothing when manual mode is on (automations below this)
+          - condition: state
             entity_id: input_boolean.bedroom_manual_mode
             state: "on"
         
         sequence: []
       
-      - alias: "Manual action detected"
-        conditions:
-          - alias: "One of the lights changed state"
-            condition: trigger
+      - conditions:
+        # manual action detected
+          - condition: trigger
+            # one of the lights changed state
             id: "lights"
           
-          - alias: "It was by a user"
-            condition: template
+          - condition: template
+            # and it was by a user
             value_template: "{{ trigger.to_state.context.user_id != None }}"
 
         sequence:
