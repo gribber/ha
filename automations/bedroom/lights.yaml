@@ -44,6 +44,10 @@
       id: reset
       at: input_datetime.house_reset_settings
 
+    - platform: time
+      id: wakeup
+      at: input_datetime.wakeup_time
+
   action:
     - choose:
       - conditions:
@@ -151,6 +155,49 @@
                       brightness_step: "{{ step }}"
                       transition: 1
       
+      - conditions:
+        # wakeup light
+        - condition: trigger
+          # when triggered by time
+          id: "wakeup"
+        - condition: state
+          # and is enabled
+          entity_id:
+            - input_booelan.wakeup_enabled
+          state: "on"
+        - condition: state
+          # and we are home
+          entity_id:
+            - group.family
+          state: "home"
+        - condition: or
+          conditions:
+            - condition: and
+              # on workdays
+              conditions:
+                - condition: state
+                  entity_id:
+                    - input_boolean.wakeup_offwork
+                  state: "off"
+                - condition: state
+                  entity_id:
+                    - input_boolean.house_mode_workday
+                  state: "off"
+
+            - condition: state
+              # or every day
+              entity_id:
+                - input_boolean.wakeup_offwork
+              state: "on"
+
+        sequence:
+          - service: light.turn_on
+            target:
+              entity_id: light.bedroom_ceiling
+            data:
+              transition: 1800
+              brightness: 255
+
       - conditions:
           # do nothing when manual mode is on (automations below this)
           - condition: state
