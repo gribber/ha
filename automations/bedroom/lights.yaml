@@ -163,7 +163,7 @@
         - condition: state
           # and is enabled
           entity_id:
-            - input_booelan.wakeup_enabled
+            - input_boolean.wakeup_enabled
           state: "on"
         - condition: state
           # and we are home
@@ -182,7 +182,7 @@
                 - condition: state
                   entity_id:
                     - input_boolean.house_mode_workday
-                  state: "off"
+                  state: "on"
 
             - condition: state
               # or every day
@@ -191,6 +191,7 @@
               state: "on"
 
         sequence:
+          - *turn_on_manual_mode
           - service: light.turn_on
             target:
               entity_id: light.bedroom_ceiling
