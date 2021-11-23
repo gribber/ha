@@ -1,0 +1,72 @@
+- alias: "House: outdoor lights"
+  id: 628f6bc0-9b4a-461f-878f-92b8de65fa7d
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_daylight
+
+    - platform: state
+      id: movement
+      entity_id: binary_sensor.motion_driveway_presence
+      from: "off"
+      to: "on"
+
+  action:
+    choose:
+    - conditions:
+        - condition: trigger
+          # if triggered by movement
+          id: "movement"
+        - condition: state
+          # and not daylight
+          entity_id:
+            - input_boolean.house_mode_daylight
+          state: "off"
+
+      sequence:
+        # illuminate for a while and return to previous mode
+        - service: scene.create
+          data:
+            scene_id: outdoorlights_before
+            snapshot_entities:
+              - light.parkering_och_uppfart
+        - service: light.turn_on
+          target:
+            entity_id: light.parkering_och_uppfart
+          data:
+            brightness: 255
+        - delay:
+            minutes: 3
+        - service: scene.turn_on
+          target:
+            entity_id: scene.outdoorlights_before
+
+    - conditions:
+        condition: state
+        # if not daylight
+        entity_id:
+          - input_boolean.house_mode_daylight
+        state: "off"
+      sequence:
+        - service: light.turn_on
+          target:
+            entity_id: light.utomhuslampor
+          data:
+            transition: 5
+
+
+    default:
+      - service: light.turn_off
+        target:
+          entity_id: light.utomhuslampor
+        data:
+          transition: 5
+

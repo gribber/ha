@@ -71,10 +71,10 @@
               entity_id: input_boolean.house_mode_away
               state: "on"
             
-            - condition: state
-              # when sleeping
-              entity_id: input_boolean.house_mode_sleep
-              state: "on"
+      #       - condition: state
+      #         # when sleeping
+      #         entity_id: input_boolean.house_mode_sleep
+      #         state: "on"
         
         sequence:
           - *turn_off_manual_mode
@@ -170,6 +170,11 @@
           entity_id:
             - group.family
           state: "home"
+        - condition: state
+          # and manual mode is off
+          entity_id:
+            - input_boolean.bedroom_manual_mode
+          state: "off"
         - condition: or
           conditions:
             - condition: and
