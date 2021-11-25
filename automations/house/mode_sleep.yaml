@@ -22,6 +22,12 @@
       from: "off"
       to: "on"
 
+    - platform: state
+      entity_id:
+        - lock.front_door
+      from: "locked"
+      to: "unlocked"
+      
   action:
     - choose:
       # reset to sleeping at night until I figure out a better way to detect it
