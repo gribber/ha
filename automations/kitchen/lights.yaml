@@ -1,0 +1,64 @@
+- alias: "Kitchen: lights"
+  id: 12efc75c-0603-4bd2-91d9-3cffa6159a82
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_bright_inside
+
+    - platform: time
+      at: 
+        - input_datetime.time_goodmorning
+        - input_datetime.time_goodnight
+      
+  action:
+      choose:
+      - conditions:
+
+        - condition: state
+          # when there is daylight
+          entity_id:
+            - input_boolean.house_mode_bright_inside
+          state: "on"
+
+        sequence:
+          - &turn_off
+            # turn off lights
+            service: light.turn_off
+            target:
+              entity_id:
+                - light.kitchen_lamp
+                - light.kitchen_window_1
+                - light.rice_lamp
+            data:
+              transition: 5
+
+      - conditions:
+        - condition: or
+          conditions:
+          - condition: and
+            # turn on lights if 
+            conditions:
+              - condition: time
+                # at specific time in the morning
+                after: input_datetime.time_goodmorning
+                # but before a specific time in the evening
+                before: input_datetime.time_goodnight
+
+        sequence:
+          - &scene_turn_on
+            service: scene.turn_on
+            target:
+              entity_id:
+                - scene.kitchen_ambience_lights_cozy
+                - scene.kitchen_window_lights_cozy
+
+      default:
+        - *turn_off

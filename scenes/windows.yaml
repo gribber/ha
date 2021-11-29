@@ -1,5 +1,5 @@
 - name: "kitchen window lights cozy"
-  id: f34cd154-84af-49e1-8c2f-325695850dba
+  id: d066cc1d-4396-4958-bcba-3d78cc9ae534
   entities:
     light.kitchen_window_1:
       state: &state "on"

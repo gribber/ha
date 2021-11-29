@@ -1,5 +1,5 @@
 - name: "kitchen ambience lights cozy"
-  id: cada5238-eb8e-47fe-bc5d-270585ff2c33
+  id: 2fa6a0eb-0263-4e48-825e-3e7b353be431
   entities:
     light.kitchen_lamp:
       state: &state "on"
@@ -13,7 +13,7 @@
       transition: *transition
 
 - name: "livingroom ambience lights cozy"
-  id: 7bd29bd9-486c-4d78-94fb-15aa8f005959
+  id: 89d8eb7e-d51e-4824-bb9e-fb99e67204a9
   entities:
     light.floor_lamp:
       state: *state
@@ -22,7 +22,7 @@
       transition: *transition
 
 - name: "family room ambience lights cozy"
-  id: 7bd29bd9-486c-4d78-94fb-15aa8f005959
+  id: 8501b31a-5ce7-4e79-9276-4a00c6fa150c
   entities:
     light.mushroom_lamp:
       state: *state
