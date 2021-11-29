@@ -11,7 +11,7 @@
 
     - platform: state
       entity_id:
-        - input_boolean.house_mode_daylight
+        - input_boolean.house_mode_bright_inside
 
     - platform: time
       at: 
@@ -26,11 +26,11 @@
         - condition: state
           # when there is daylight
           entity_id:
-            - input_boolean.house_mode_daylight
+            - input_boolean.house_mode_bright_inside
           state: "on"
 
         sequence:
-          - &turn_off
+          - &light_turn_off
             # turn off lights
             service: light.turn_off
             target:
@@ -91,7 +91,7 @@
                   - input_boolean.house_mode_sleep
                 state: "on"
               sequence:
-                - &turn_on
+                - &light_turn_on
                   service: light.turn_on
                   target:
                     entity_id:
@@ -107,10 +107,10 @@
                   - input_boolean.house_mode_sleep
                 state: "off"
               sequence:
-                - <<: *turn_on
+                - <<: *light_turn_on
                   data:
                     brightness: 255
                 
       default:
-        - *turn_off
+        - *light_turn_off
       

@@ -1,0 +1,41 @@
+- name: "window lights cozy"
+  id: f34cd154-84af-49e1-8c2f-325695850dba
+  entities:
+    light.livingroom_window_1:
+      state: &state "on"
+      brightness: &brightness 120
+      color_temp: &color_temp 140
+      transition: &transition 2
+    light.family_room_window_1:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+    light.kitchen_window_1:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+    light.hallway_upstairs_window:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+
+- name: "livingroom window lights cozy"
+  id: dbfc3b7c-b732-491a-ac8e-bc1430f90a1b
+  entities:
+    light.livingroom_window_1:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+
+- name: "family room window lights cozy"
+  id: 0e8b1afd-7c68-4b77-82a3-02cc52a4aa90
+  entities:
+    light.family_room_window_1:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition

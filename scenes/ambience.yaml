@@ -1,0 +1,36 @@
+- name: "ambience lights cozy"
+  id: cada5238-eb8e-47fe-bc5d-270585ff2c33
+  entities:
+    light.mushroom_lamp:
+      state: &state "on"
+      brightness: &brightness 20
+      color_temp: &color_temp 250
+      transition: &transition 2
+    light.kitchen_lamp:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+    light.rice_lamp:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+
+- name: "livingroom ambience lights cozy"
+  id: 7bd29bd9-486c-4d78-94fb-15aa8f005959
+  entities:
+    light.floor_lamp:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition
+
+- name: "family room ambience lights cozy"
+  id: 7bd29bd9-486c-4d78-94fb-15aa8f005959
+  entities:
+    light.mushroom_lamp:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+      transition: *transition

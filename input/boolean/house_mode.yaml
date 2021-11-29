@@ -22,3 +22,7 @@ house_mode_workday:
 house_mode_daylight:
   name: "Ljust ute"
   icon: "mdi:white-balance-sunny"
+
+house_mode_bright_inside:
+  name: "Ljust inne"
+  icon: "mdi:white-balance-sunny"
