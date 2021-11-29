@@ -1,16 +1,11 @@
-- name: "ambience lights cozy"
+- name: "kitchen ambience lights cozy"
   id: cada5238-eb8e-47fe-bc5d-270585ff2c33
   entities:
-    light.mushroom_lamp:
+    light.kitchen_lamp:
       state: &state "on"
       brightness: &brightness 20
       color_temp: &color_temp 250
       transition: &transition 2
-    light.kitchen_lamp:
-      state: *state
-      brightness: *brightness
-      color_temp: *color_temp
-      transition: *transition
     light.rice_lamp:
       state: *state
       brightness: *brightness

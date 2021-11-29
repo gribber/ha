@@ -1,21 +1,15 @@
-- name: "window lights cozy"
+- name: "kitchen window lights cozy"
   id: f34cd154-84af-49e1-8c2f-325695850dba
   entities:
-    light.livingroom_window_1:
+    light.kitchen_window_1:
       state: &state "on"
       brightness: &brightness 120
       color_temp: &color_temp 140
       transition: &transition 2
-    light.family_room_window_1:
-      state: *state
-      brightness: *brightness
-      color_temp: *color_temp
-      transition: *transition
-    light.kitchen_window_1:
-      state: *state
-      brightness: *brightness
-      color_temp: *color_temp
-      transition: *transition
+
+- name: "hallway upstairs window lights cozy"
+  id: e9c59e73-34f6-4da7-979b-d4ce9add888e
+  entities:
     light.hallway_upstairs_window:
       state: *state
       brightness: *brightness
