@@ -26,10 +26,10 @@
           # if triggered by movement
           id: "movement"
         - condition: state
-          # and not daylight
+          # and turned on (by daylight off)
           entity_id:
-            - input_boolean.house_mode_daylight
-          state: "off"
+            - light.parkering_och_uppfart
+          state: "on"
 
       sequence:
         # illuminate for a while and return to previous mode
