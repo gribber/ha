@@ -51,3 +51,25 @@
         data:
           tag: boiler
 
+- alias: "boiler: add wood"
+  id: b810302f-435f-4c2e-a69b-fbc1321d56f8
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - sensor.climate_wood_boiler_supply
+      below: 79
+  condition:
+    - condition: numeric_state
+      entity_id:
+        - sensor.climate_acc_tank_bottom
+      below: 70
+  action:
+    - service: notify.family
+      data:
+        title: "Vedpannan"
+        message: "Dags att lägga i mera ved! (Acktank botten: {{ states('sensor.climate_acc_tank_bottom') }}C)"
+        data:
+          tag: boiler
+          sticky: true
+          push:
+            badge: 3
