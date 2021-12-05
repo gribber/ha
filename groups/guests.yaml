@@ -1,0 +1,4 @@
+guests:
+  name: "Besökare"
+  entities:
+    - person.emma_almroth
