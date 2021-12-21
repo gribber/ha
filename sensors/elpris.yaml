@@ -4,6 +4,6 @@
       friendly_name: "Elpris"
       value_template: >-
         {% set transfer = 0.667 %}
-        {% set total = (states('sensor.electricity_price_galevagen_5')|float + transfer) %}
+        {% set total = (states('sensor.electricity_price_galevagen_5')|float(default=0) + transfer) %}
         {{ total | round(3) }}
       unit_of_measurement: "SEK/kWh"
