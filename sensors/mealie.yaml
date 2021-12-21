@@ -4,4 +4,10 @@
   name: Mealie dagens middag 
   headers:
     Authorization: !secret mealie_token
-  value_template: "{{ value_json.name }}"
+  #value_template: "{{ value_json.name }}"
+  value_template: >
+    {% if value_json.name is defined %}
+      {{ value_json.name }}
+    {% else %}
+      inget planerat
+    {% endif %}
