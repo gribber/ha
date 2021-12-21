@@ -23,7 +23,17 @@
     
   action:
       choose:
-        - conditions:
+        - alias: "if it's less than 1 hour since last change"
+          conditions:
+          - condition: template
+            value_template: >
+              {{ (now() - states.input_boolean.house_mode_daylight.last_changed).total_seconds() < 3600 }}
+          sequence: []
+            # do nothing
+
+
+        - alias: "decide if we want to change to daylight mode"
+          conditions:
           - condition: or
             conditions:
             - condition: trigger
