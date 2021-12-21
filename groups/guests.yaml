@@ -2,3 +2,5 @@ guests:
   name: "Besökare"
   entities:
     - person.emma_almroth
+    - person.morsan
+    - person.farsan
