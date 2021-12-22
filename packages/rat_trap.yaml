@@ -1,0 +1,75 @@
+input_boolean:
+  rat_trap_1_armed:
+  rat_trap_2_armed:
+  rat_trap_3_armed:
+
+counter:
+  rat_trap:
+    name: "Rat trap kill count"
+
+template:
+  binary_sensor:
+    - name: "rat_trap_1_door"
+      device_class: opening
+      state: >
+        {% if is_state('binary_sensor.rat_trap_1', 'off') %}
+          on
+        {% else %}
+          off
+        {% endif %}
+    - name: "rat_trap_2_door"
+      device_class: opening
+      state: >
+        {% if is_state('binary_sensor.rat_trap_2', 'off') %}
+          on
+        {% else %}
+          off
+        {% endif %}
+    - name: "rat_trap_3_door"
+      device_class: opening
+      state: >
+        {% if is_state('binary_sensor.rat_trap_3', 'off') %}
+          on
+        {% else %}
+          off
+        {% endif %}
+          
+automation:
+  - alias: "Rat trap"
+    id: "6fb0de3f-e185-4a95-ab77-ca3215f6dac1"
+    trigger:
+      platform: state
+      entity_id:
+        - binary_sensor.rat_trap_1
+        - binary_sensor.rat_trap_2
+        - binary_sensor.rat_trap_3
+      from: "off"
+      to: "on"
+    
+    condition:
+      condition: template
+      value_template: >
+        {% set trap = trigger.entity_id.split('.')[1] %}
+        {{ is_state('input_boolean.'+trap+'_armed', 'on') }}
+
+    action:
+      - service: counter.increment
+        entity_id:
+          - counter.rat_trap
+      - service: input_boolean.turn_off
+        data_template:
+          entity_id: "input_boolean.{{ trigger.entity_id.split('.')[1] }}_armed"
+      - service: notify.family
+        data_template:
+          title: "Råttfångarn"
+          message: >
+            {% set mapper =  {
+              'binary_sensor.rat_trap_1' : 'krypgrunden',
+              'binary_sensor.rat_trap_2' : 'garderoben nere',
+              'binary_sensor.rat_trap_3' : 'vinden'
+            } %}
+            Råttjävul fångad i {{ mapper[trigger.entity_id] }}! (Fångade hittills: {{ states('counter.rat_trap') }})
+          data:
+            tag: rat_trap
+            sticky: true
+
