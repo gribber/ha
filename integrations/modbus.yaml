@@ -1,0 +1,25 @@
+- name: "ctc"
+  type: tcp
+  host: !secret ctc_host
+  port: !secret ctc_port
+  delay: 2
+  retry_on_empty: true
+
+  sensors:
+    - name: "ctc_outdoor_temperature"
+      unit_of_measurement: "°C"
+      address: 62000
+      scan_interval: 60
+      #slave: 1
+      #data_type: integer
+      scale: 0.1
+      input_type: holding
+
+    - name: "ctc_hot_water_temperature"
+      unit_of_measurement: "°C"
+      address: 62003
+      scan_interval: 60
+      #slave: 1
+      #data_type: integer
+      scale: 0.1
+      input_type: holding
