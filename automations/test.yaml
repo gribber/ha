@@ -14,7 +14,7 @@
         - right-press
 
 
-  action:
+  action: []
     # - service: light.toggle
     #   target:
     #     entity_id: light.floor_lamp
