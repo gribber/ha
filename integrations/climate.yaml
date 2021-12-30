@@ -5,6 +5,6 @@
   target_sensor: sensor.earth_cellar_temperature
   min_temp: 0
   max_temp: 4
-  cold_tolerance: 0.3
-  hot_tolerance: 0.3
+  cold_tolerance: 0.1
+  hot_tolerance: 0.1
   precision: 0.1

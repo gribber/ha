@@ -1,6 +1,6 @@
 # if we are away from home
 house_mode_away:
-  name: "Ingen hemma"
+  name: "Bortaläge"
   icon: "mdi:human-greeting"
   
 # if we are or about to sleeping 

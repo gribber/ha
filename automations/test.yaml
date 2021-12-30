@@ -7,25 +7,20 @@
     #   event_data:
     #     id: tradfri_remote_control
 
-    - platform: event
+    - platform: state
       id: remote
-      event_type: deconz_event
-      # event_data:
-      #   id: 
-      #     - "tradfri_on_off_switch"
-      #     - "tradfri_remote_control"
-      context:
-        id:
-          - "3a536aedaf99d0ccc553144cd3f2b36e"
-          - "c05f52bec1858a41e07d3d7055ff2915"
+      entity_id: sensor.fjarren
+      to:
+        - right-press
+
 
   action:
-    - service: light.toggle
-      target:
-        entity_id: light.floor_lamp
-      data:
-        transition: 0
-        flash: short
+    # - service: light.toggle
+    #   target:
+    #     entity_id: light.floor_lamp
+      # data:
+      #   transition: 0
+      #   flash: short
     # - choose:
     #   - alias: "remote was used"
     #     conditions:

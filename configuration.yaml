@@ -4,9 +4,12 @@ homeassistant:
 default_config:
 
 # integrations
+climate: !include integrations/climate.yaml
 frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
+logger: !include integrations/logger.yaml
+#modbus: !include integrations/modbus.yaml
 notify: !include integrations/notify.yaml
 recorder: !include integrations/recorder.yaml
 spotify: !include integrations/spotify.yaml
@@ -18,6 +21,7 @@ camera: !include_dir_merge_list cameras/
 scene: !include_dir_merge_list scenes/
 script: !include_dir_merge_list scripts/
 sensor: !include_dir_merge_list sensors/
+template: !include_dir_merge_list templates/
 
 group: !include_dir_merge_named groups/
 input_boolean: !include_dir_merge_named input/boolean/

@@ -1,0 +1,4 @@
+default: warning
+logs:
+  homeassistant.components.modbus: debug
+  pymodbus.client: debug

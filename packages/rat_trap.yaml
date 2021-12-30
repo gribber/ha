@@ -7,32 +7,33 @@ counter:
   rat_trap:
     name: "Rat trap kill count"
 
-template:
-  binary_sensor:
-    - name: "rat_trap_1_door"
-      device_class: opening
-      state: >
-        {% if is_state('binary_sensor.rat_trap_1', 'off') %}
-          on
-        {% else %}
-          off
-        {% endif %}
-    - name: "rat_trap_2_door"
-      device_class: opening
-      state: >
-        {% if is_state('binary_sensor.rat_trap_2', 'off') %}
-          on
-        {% else %}
-          off
-        {% endif %}
-    - name: "rat_trap_3_door"
-      device_class: opening
-      state: >
-        {% if is_state('binary_sensor.rat_trap_3', 'off') %}
-          on
-        {% else %}
-          off
-        {% endif %}
+# moved outside package as it's not possible to use trigger templates otherwise
+# template:
+#   binary_sensor:
+#     - name: "rat_trap_1_door"
+#       device_class: opening
+#       state: >
+#         {% if is_state('binary_sensor.rat_trap_1', 'off') %}
+#           on
+#         {% else %}
+#           off
+#         {% endif %}
+#     - name: "rat_trap_2_door"
+#       device_class: opening
+#       state: >
+#         {% if is_state('binary_sensor.rat_trap_2', 'off') %}
+#           on
+#         {% else %}
+#           off
+#         {% endif %}
+#     - name: "rat_trap_3_door"
+#       device_class: opening
+#       state: >
+#         {% if is_state('binary_sensor.rat_trap_3', 'off') %}
+#           on
+#         {% else %}
+#           off
+#         {% endif %}
           
 automation:
   - alias: "Rat trap"
@@ -66,7 +67,7 @@ automation:
             {% set mapper =  {
               'binary_sensor.rat_trap_1' : 'krypgrunden',
               'binary_sensor.rat_trap_2' : 'garderoben nere',
-              'binary_sensor.rat_trap_3' : 'vinden'
+              'binary_sensor.rat_trap_3' : 'garderoben nere övre'
             } %}
             Råttjävul fångad i {{ mapper[trigger.entity_id] }}! (Fångade hittills: {{ states('counter.rat_trap') }})
           data:
