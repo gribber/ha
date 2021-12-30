@@ -9,23 +9,23 @@
         - automation_reloaded
         - scene_reloaded
     
-    - platform: event
-      id: remote
-      event_type: deconz_event
-      event_data:
-        id: tradfri_on_off_switch
+    # - platform: event
+    #   id: remote
+    #   event_type: deconz_event
+    #   event_data:
+    #     id: bedroom_remote_1
 
-    - platform: event
-      id: remote
-      event_type: deconz_event
-      event_data:
-        id: bedroom_remote_1
+    # - platform: event
+    #   id: remote
+    #   event_type: deconz_event
+    #   event_data:
+    #     id: bedroom_remote_2
 
-    - platform: event
+    - platform: state
       id: remote
-      event_type: deconz_event
-      event_data:
-        id: bedroom_remote_2
+      entity_id:
+        - sensor.bedroom_remote_right
+      from: "none"
 
     - platform: state
       entity_id:
@@ -94,12 +94,13 @@
 
         sequence:
           - variables:
-              action: "{{ trigger.event.data.event }}"
+              #action: "{{ trigger.event.data.event }}"
+              action: "{{ trigger.to_state.state }}"
 
           - alias: "Remote buttons"
             choose:
               - alias: "Big bulb pressed"
-                conditions: "{{ action == 1002 }}"
+                conditions: "{{ action == 'big-press' }}"
                 sequence:
                   - alias: "toggle ceiling light"
                     service: light.toggle
@@ -113,7 +114,7 @@
                       entity_id: input_boolean.bedroom_manual_mode
 
               - alias: "Small bulb pressed"
-                conditions: "{{ action == 2002 }}"
+                conditions: "{{ action == 'small-press' }}"
                 sequence:
                   - *turn_on_manual_mode
                   - alias: "toggle wall lamp"
@@ -122,7 +123,7 @@
                       entity_id: light.hallway_upstairs_wall
 
               - alias: "Left pressed"
-                conditions: "{{ action == 3002 }}"
+                conditions: "{{ action == 'left-press' }}"
                 sequence:
                   - *turn_on_manual_mode
                   - alias: "toggle left bed lamp"
@@ -131,7 +132,7 @@
                       entity_id: light.bedroom_left
 
               - alias: "Right pressed"
-                conditions: "{{ action == 4002 }}"
+                conditions: "{{ action == 'right-press' }}"
                 sequence:
                   - *turn_on_manual_mode
                   - alias: "toggle right bed lamp"
@@ -140,12 +141,12 @@
                       entity_id: light.bedroom_right
 
               - alias: "Big/small bulb press hold"
-                conditions: "{{ action in [1001, 2001] }}"
+                conditions: "{{ action in ['big-hold', 'small-hold'] }}"
                 sequence:
                   - *turn_on_manual_mode
                   - alias: "determen direction"
                     variables:
-                      step: "{{ 50 if action == 1001 else -50 }}"
+                      step: "{{ 50 if action == 'big-hold' else -50 }}"
                   
                   - alias: "Change brightness"
                     service: light.turn_on
