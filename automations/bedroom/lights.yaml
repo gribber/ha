@@ -9,22 +9,11 @@
         - automation_reloaded
         - scene_reloaded
     
-    # - platform: event
-    #   id: remote
-    #   event_type: deconz_event
-    #   event_data:
-    #     id: bedroom_remote_1
-
-    # - platform: event
-    #   id: remote
-    #   event_type: deconz_event
-    #   event_data:
-    #     id: bedroom_remote_2
-
     - platform: state
       id: remote
       entity_id:
         - sensor.bedroom_remote_right
+        - sensor.bedroom_remote_left
       from: "none"
 
     - platform: state
