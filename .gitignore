@@ -15,6 +15,7 @@
 !sensors/
 !scripts/
 !sensors/
+!templates/
 !*.yaml
 !*.disabled
 !.gitignore
