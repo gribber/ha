@@ -1,0 +1,41 @@
+- alias: "bathroom downstairs: lights"
+  id: 2f16522d-300d-4c7f-8a5c-d00d283b9438
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.bathroom_downstairs_presence
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.bathroom_downstairs_presence
+      to: "off"
+      for:
+        minutes: 1
+
+  action:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id:
+            - binary_sensor.bathroom_downstairs_presence
+          state: "on"
+        
+        sequence:
+          - service: light.turn_on
+            target:
+              entity_id: light.bathroom_downstairs_mirror
+
+      default:
+        - service: light.turn_off
+          target:
+            entity_id: light.bathroom_downstairs_mirror
+
