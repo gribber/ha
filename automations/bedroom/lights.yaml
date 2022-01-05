@@ -1,5 +1,8 @@
 - alias: "Bedroom: lights"
   id: 48d8b685-cc44-4b54-bf1b-bbaf4a088413
+  trace:
+    stored_traces: 25
+
   trigger:
     - platform: homeassistant
       event: start
