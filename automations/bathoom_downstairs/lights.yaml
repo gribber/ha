@@ -12,11 +12,13 @@
     - platform: state
       entity_id:
         - binary_sensor.bathroom_downstairs_presence
+      from: "off"
       to: "on"
 
     - platform: state
       entity_id:
         - binary_sensor.bathroom_downstairs_presence
+      from: "on"
       to: "off"
       for:
         minutes: 1
