@@ -14,6 +14,7 @@ notify: !include integrations/notify.yaml
 recorder: !include integrations/recorder.yaml
 spotify: !include integrations/spotify.yaml
 tts: !include integrations/tts.yaml
+utility_meter: !include integrations/utility_meter.yaml
 
 automation: !include_dir_merge_list automations/
 binary_sensor: !include_dir_merge_list binary_sensors/

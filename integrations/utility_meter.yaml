@@ -1,0 +1,19 @@
+grid_hourly_energy:
+  source: sensor.cumulative_active_import
+  cycle: hourly
+
+grid_daily_energy:
+  source: sensor.cumulative_active_import
+  cycle: daily
+
+grid_weekly_energy:
+  source: sensor.cumulative_active_import
+  cycle: weekly
+
+grid_monthly_energy:
+  source: sensor.cumulative_active_import
+  cycle: monthly
+
+grid_yearly_energy:
+  source: sensor.cumulative_active_import
+  cycle: yearly
