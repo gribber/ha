@@ -7,6 +7,7 @@
     - sensor.outdoor_south_temperature
     - sensor.outdoor_east_temperature
     - sensor.outdoor_west_temperature
+    - sensor.motion_driveway_temperature
 
 - platform: min_max
   name: outdoor_median
@@ -17,5 +18,4 @@
     - sensor.outdoor_south_temperature
     - sensor.outdoor_east_temperature
     - sensor.outdoor_west_temperature
-  
-  
+    - sensor.motion_driveway_temperature
