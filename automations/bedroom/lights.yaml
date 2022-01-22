@@ -17,6 +17,7 @@
       entity_id:
         - sensor.bedroom_remote_right
         - sensor.bedroom_remote_left
+        - sensor.bedroom_remote_wall
       from: "none"
 
     - platform: state
@@ -94,16 +95,33 @@
               - alias: "Big bulb pressed"
                 conditions: "{{ action == 'big-press' }}"
                 sequence:
-                  - alias: "toggle ceiling light"
-                    service: light.toggle
-                    target:
-                      entity_id: light.bedroom_ceiling
+                - choose:
+                  - conditions:
+                    - alias: "if ceiling light is off"
+                      condition: state
+                      entity_id:
+                        - light.bedroom_ceiling
+                      state: "off"
 
-                  - &turn_on_manual_mode
-                    alias: "Turn on manual mode"
-                    service: input_boolean.turn_on
-                    target:
-                      entity_id: input_boolean.bedroom_manual_mode
+                    sequence:
+                    - alias: "turn on ceiling light"
+                      service: light.turn_on
+                      target:
+                        entity_id: light.bedroom_ceiling
+                      data:
+                        brightness: 255
+
+                    - &turn_on_manual_mode
+                      alias: "Turn on manual mode"
+                      service: input_boolean.turn_on
+                      target:
+                        entity_id: input_boolean.bedroom_manual_mode
+
+                  default:
+                    - alias: "turn off ceiling light"
+                      service: light.turn_off
+                      target:
+                        entity_id: light.bedroom_ceiling
 
               - alias: "Small bulb pressed"
                 conditions: "{{ action == 'small-press' }}"
