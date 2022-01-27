@@ -19,6 +19,7 @@
 !*.yaml
 !*.disabled
 !.gitignore
+!README.md
 
 # ignore folders
 .storage
