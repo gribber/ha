@@ -1,0 +1,126 @@
+- alias: "House: vvc"
+  id: 9108277c-4a52-47f6-8481-32813b096a0f
+  trace:
+    stored_traces: 25
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      id: movement
+      entity_id:
+        - binary_sensor.bathroom_downstairs_presence
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.bathroom_downstairs_presence
+      from: "on"
+      to: "off"
+      for:
+        seconds: 10
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_away
+        - input_boolean.house_mode_sleep
+
+    - platform: time
+      at: &lunch_start "10:50:00"
+    - platform: time
+      at: &lunch_end "12:00:00"
+    - platform: time
+      at: &dinner_start "16:50:00"
+    - platform: time
+      at: &dinner_end "18:00:00"
+
+  condition: []
+
+  action:
+    choose:
+      - conditions:
+          - alias: "when house mode is set to"
+            condition: or
+            conditions:
+              - alias: "away"
+                condition: state
+                entity_id: input_boolean.house_mode_away
+                state: "on"
+              - alias: "sleeping"
+                condition: state
+                entity_id: input_boolean.house_mode_sleep
+                state: "on"
+        sequence:
+          - &turn_off_vvc
+            alias: "turn off vvc"
+            service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.house_vvc
+
+      - conditions:
+          - alias: "when entering a bathroom"
+            condition: trigger
+            id: movement
+        sequence:
+          - &turn_on_vvc
+            alias: "turn on vvc"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.house_vvc
+
+      - conditions:
+          - alias: "if the time is"
+            condition: or
+            conditions:
+              - alias: "during lunch"
+                condition: time
+                after: *lunch_start
+                before: *lunch_end
+              - alias: "during dinner"
+                condition: time
+                after: *dinner_start
+                before: *dinner_end
+        sequence:
+          - *turn_on_vvc
+
+    default:
+      - *turn_off_vvc
+
+
+- alias: "House: vvc switch"
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+    - platform: state
+      entity_id: input_boolean.house_vvc
+
+  condition: []
+
+  action:
+    choose:
+      - conditions:
+          condition: state
+          entity_id:
+            - input_boolean.house_vvc
+          state: "on"
+        sequence:
+          service: switch.turn_on
+          target:
+            entity_id: switch.heatpump_vvc
+
+    default:
+      service: switch.turn_off
+      target:
+        entity_id: switch.heatpump_vvc

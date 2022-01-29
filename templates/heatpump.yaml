@@ -1,0 +1,29 @@
+- trigger:
+  - platform: state
+    entity_id:
+      - sensor.heatpump_channel_a_energy
+      - sensor.heatpump_channel_b_energy
+      - sensor.heatpump_channel_c_energy
+  
+  sensor:
+    - name: "heatpump_energy"
+      unique_id: e9d9b63a-8fea-423c-a6d3-6a37ac43f60c
+      state_class: total_increasing
+      unit_of_measurement: kWh
+      device_class: energy
+      state: "{{ (states('sensor.heatpump_channel_a_energy')|float + states('sensor.heatpump_channel_b_energy')|float + states('sensor.heatpump_channel_c_energy')|float)}}"
+
+- trigger:
+  - platform: state
+    entity_id:
+      - sensor.heatpump_channel_a_power
+      - sensor.heatpump_channel_b_power
+      - sensor.heatpump_channel_c_power
+
+  sensor:
+    - name: "heatpump_power"
+      unique_id: 3af7e9ac-4217-402d-a666-beaa6d4374a5
+      state_class: measurement
+      unit_of_measurement: W
+      device_class: power
+      state: "{{ (states('sensor.heatpump_channel_a_power')|float + states('sensor.heatpump_channel_b_power')|float + states('sensor.heatpump_channel_c_power')|float)}}"
