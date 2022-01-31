@@ -83,23 +83,23 @@
             entity_id: light.utomhuslampor
           data:
             transition: 5
-        - delay:
-            seconds: 10
-        - service: homeassistant.turn_on
-          entity_id:
-            - switch.adaptive_lighting_entre
-            - switch.adaptive_lighting_parkering_och_uppfart
-            - switch.adaptive_lighting_dekoration_ute
+        # - delay:
+        #     seconds: 10
+        # - service: homeassistant.turn_on
+        #   entity_id:
+        #     - switch.adaptive_lighting_entre
+        #     - switch.adaptive_lighting_parkering_och_uppfart
+        #     - switch.adaptive_lighting_dekoration_ute
 
 
     default:
-      - service: homeassistant.turn_off
-        entity_id:
-          - switch.adaptive_lighting_entre
-          - switch.adaptive_lighting_parkering_och_uppfart
-          - switch.adaptive_lighting_dekoration_ute
-      - delay:
-          seconds: 50
+      # - service: homeassistant.turn_off
+      #   entity_id:
+      #     - switch.adaptive_lighting_entre
+      #     - switch.adaptive_lighting_parkering_och_uppfart
+      #     - switch.adaptive_lighting_dekoration_ute
+      # - delay:
+      #     seconds: 50
       - service: light.turn_off
         target:
           entity_id: light.utomhuslampor
