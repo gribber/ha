@@ -1,0 +1,5 @@
+motion_bathrooms:
+  name: "Rörelse i något badrum"
+  entities:
+    - binary_sensor.bathroom_downstairs_presence
+    - binary_sensor.bathroom_upstairs_presence

@@ -1,24 +1,42 @@
 - trigger:
-  - platform: state
-    entity_id:
-      - sensor.heatpump_channel_a_energy
-      - sensor.heatpump_channel_b_energy
-      - sensor.heatpump_channel_c_energy
-  
+    - platform: state
+      entity_id:
+        - sensor.heatpump_channel_a_energy
+        - sensor.heatpump_channel_b_energy
+        - sensor.heatpump_channel_c_energy
+
+    - platform: event
+      event_type:
+        - event_template_reloaded
+
   sensor:
     - name: "heatpump_energy"
       unique_id: e9d9b63a-8fea-423c-a6d3-6a37ac43f60c
       state_class: total_increasing
       unit_of_measurement: kWh
       device_class: energy
-      state: "{{ (states('sensor.heatpump_channel_a_energy')|float + states('sensor.heatpump_channel_b_energy')|float + states('sensor.heatpump_channel_c_energy')|float)}}"
+      #state: "{{ (states('sensor.heatpump_channel_a_energy')|float + states('sensor.heatpump_channel_b_energy')|float + states('sensor.heatpump_channel_c_energy')|float) }}"
+      state: >
+        {% set s = ['sensor.heatpump_channel_a_energy', 'sensor.heatpump_channel_b_energy', 'sensor.heatpump_channel_c_energy'] %}
+        {% if states(s[0]) in ['unavailable', 'unknown', 'none'] or states(s[1]) in ['unavailable', 'unknown', 'none'] or states(s[2]) in ['unavailable', 'unknown', 'none'] %}
+          unavailable 
+        {% else %}
+          {% set a =  states(s[0])|float(0) %}
+          {% set b =  states(s[1])|float(0) %}
+          {% set c =  states(s[2])|float(0) %}
+          {% if a == 0 or b == 0 or c == 0 %}
+            unavailable
+          {% else %}
+            {{ (a + b + c)|round(1) }}
+          {% endif %}
+        {% endif %}
 
 - trigger:
-  - platform: state
-    entity_id:
-      - sensor.heatpump_channel_a_power
-      - sensor.heatpump_channel_b_power
-      - sensor.heatpump_channel_c_power
+    - platform: state
+      entity_id:
+        - sensor.heatpump_channel_a_power
+        - sensor.heatpump_channel_b_power
+        - sensor.heatpump_channel_c_power
 
   sensor:
     - name: "heatpump_power"
@@ -26,4 +44,18 @@
       state_class: measurement
       unit_of_measurement: W
       device_class: power
-      state: "{{ (states('sensor.heatpump_channel_a_power')|float + states('sensor.heatpump_channel_b_power')|float + states('sensor.heatpump_channel_c_power')|float)}}"
+      #state: "{{ (states('sensor.heatpump_channel_a_power')|float(0) + states('sensor.heatpump_channel_b_power')|float(0) + states('sensor.heatpump_channel_c_power')|float(0))|round(1) }}"
+      state: >
+        {% set s = ['sensor.heatpump_channel_a_power', 'sensor.heatpump_channel_b_power', 'sensor.heatpump_channel_c_power'] %}
+        {% if states(s[0]) in ['unavailable', 'unknown', 'none'] or states(s[1]) in ['unavailable', 'unknown', 'none'] or states(s[2]) in ['unavailable', 'unknown', 'none'] %}
+          unavailable 
+        {% else %}
+          {% set a =  states(s[0])|float(0) %}
+          {% set b =  states(s[1])|float(0) %}
+          {% set c =  states(s[2])|float(0) %}
+          {% if a == 0 or b == 0 or c == 0 %}
+            unavailable
+          {% else %}
+            {{ (a + b + c)|round(1) }}
+          {% endif %}
+        {% endif %}
