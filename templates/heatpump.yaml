@@ -38,6 +38,10 @@
         - sensor.heatpump_channel_b_power
         - sensor.heatpump_channel_c_power
 
+    - platform: event
+      event_type:
+        - event_template_reloaded
+
   sensor:
     - name: "heatpump_power"
       unique_id: 3af7e9ac-4217-402d-a666-beaa6d4374a5
