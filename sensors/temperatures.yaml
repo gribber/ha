@@ -2,7 +2,7 @@
   name: outdoor_min_max
   type: mean
   round_digits: 1
-  entity_ids:
+  entity_ids: &sensors
     - sensor.outdoor_north_temperature
     - sensor.outdoor_south_temperature
     - sensor.outdoor_east_temperature
@@ -13,9 +13,16 @@
   name: outdoor_median
   type: median
   round_digits: 1
-  entity_ids:
-    - sensor.outdoor_north_temperature
-    - sensor.outdoor_south_temperature
-    - sensor.outdoor_east_temperature
-    - sensor.outdoor_west_temperature
-    - sensor.motion_driveway_temperature
+  entity_ids: *sensors
+
+- platform: min_max
+  name: outdoor_min
+  type: min
+  round_digits: 1
+  entity_ids: *sensors
+
+- platform: min_max
+  name: outdoor_max
+  type: max
+  round_digits: 1
+  entity_ids: *sensors
