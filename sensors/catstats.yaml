@@ -1,0 +1,37 @@
+- platform: history_stats
+  name: "Frej outside today"
+  entity_id: binary_sensor.pet_frej
+  <<: &duration_today
+      state: "off"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      end: "{{ now() }}"
+
+- platform: history_stats
+  name: "Freja outside today"
+  entity_id: binary_sensor.pet_freja
+  <<: *duration_today
+
+- platform: history_stats
+  name: "Leon outside today"
+  entity_id: binary_sensor.pet_leon
+  <<: *duration_today
+
+- platform: history_stats
+  name: "Frej exits today"
+  entity_id: binary_sensor.pet_frej
+  <<: &exits_today
+      state: "off"
+      type: count
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      end: "{{ now() }}"
+
+- platform: history_stats
+  name: "Freja exits today"
+  entity_id: binary_sensor.pet_freja
+  <<: *exits_today
+
+- platform: history_stats
+  name: "Leon exits today"
+  entity_id: binary_sensor.pet_leon
+  <<: *exits_today
