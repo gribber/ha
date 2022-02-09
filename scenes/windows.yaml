@@ -5,7 +5,6 @@
       state: &state "on"
       brightness: &brightness 120
       color_temp: &color_temp 140
-      transition: &transition 2
 
 - name: "hallway upstairs window lights cozy"
   id: e9c59e73-34f6-4da7-979b-d4ce9add888e
@@ -14,7 +13,6 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
-      transition: *transition
 
 - name: "livingroom window lights cozy"
   id: dbfc3b7c-b732-491a-ac8e-bc1430f90a1b
@@ -23,7 +21,6 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
-      transition: *transition
 
 - name: "family room window lights cozy"
   id: 0e8b1afd-7c68-4b77-82a3-02cc52a4aa90
@@ -32,4 +29,3 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
-      transition: *transition

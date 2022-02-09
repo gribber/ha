@@ -91,8 +91,7 @@
                   - input_boolean.house_mode_sleep
                 state: "on"
               sequence:
-                - &light_turn_on
-                  service: light.turn_on
+                - service: light.turn_on
                   target:
                     entity_id:
                       - light.hallway_upstairs_wall
@@ -107,8 +106,12 @@
                   - input_boolean.house_mode_sleep
                 state: "off"
               sequence:
-                - <<: *light_turn_on
+                - service: light.turn_on
+                  target:
+                    entity_id:
+                      - light.hallway_upstairs_wall
                   data:
+                    transition: 2
                     brightness: 255
                 
       default:

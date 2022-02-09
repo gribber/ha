@@ -5,12 +5,10 @@
       state: &state "on"
       brightness: &brightness 20
       color_temp: &color_temp 250
-      transition: &transition 2
     light.rice_lamp:
       state: *state
       brightness: *brightness
       color_temp: *color_temp
-      transition: *transition
 
 - name: "livingroom ambience lights cozy"
   id: 89d8eb7e-d51e-4824-bb9e-fb99e67204a9
@@ -19,7 +17,6 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
-      transition: *transition
 
 - name: "family room ambience lights cozy"
   id: 8501b31a-5ce7-4e79-9276-4a00c6fa150c
@@ -28,4 +25,3 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
-      transition: *transition

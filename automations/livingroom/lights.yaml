@@ -58,6 +58,8 @@
               entity_id:
                 - scene.livingroom_ambience_lights_cozy
                 - scene.livingroom_window_lights_cozy
+            data:
+              transition: 5
 
       default:
         - *turn_off
