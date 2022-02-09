@@ -63,3 +63,65 @@
             {{ (a + b + c)|round(1) }}
           {% endif %}
         {% endif %}
+
+
+- trigger:
+    - platform: state
+      entity_id:
+        - sensor.heatpump_channel_a_energy
+        - sensor.heatpump_channel_b_energy
+        - sensor.heatpump_channel_c_energy
+
+    - platform: event
+      event_type:
+        - event_template_reloaded
+
+  sensor:
+    - name: "heatpump_energy_test2"
+      unique_id: 8b35e33f-fa82-4299-ae4f-3e8c0d8b0a32
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {{ [ states('sensor.heatpump_channel_a_energy'),
+        states('sensor.heatpump_channel_b_energy'),
+        states('sensor.heatpump_channel_c_energy') ]
+        | map('float',none) | sum | round(1,default=none) }}
+      attributes:
+        last_reset: '1970-01-01T00:00:00+00:00'
+      availability: >
+        {{ not 'unavailable' in
+        [ states('sensor.heatpump_channel_a_energy'),
+        states('sensor.heatpump_channel_b_energy'),
+        states('sensor.heatpump_channel_c_energy') ] }}
+
+
+- trigger:
+    - platform: state
+      entity_id:
+        - sensor.heatpump_channel_a_power
+        - sensor.heatpump_channel_b_power
+        - sensor.heatpump_channel_c_power
+
+    - platform: event
+      event_type:
+        - event_template_reloaded
+
+  sensor:
+    - name: "heatpump_power_test2"
+      unique_id: 4dad71db-9db0-4909-ae04-de4414e21db7
+      state_class: measurement
+      unit_of_measurement: W
+      device_class: power
+      state: >
+        {{ [ states('sensor.heatpump_channel_a_power'),
+        states('sensor.heatpump_channel_b_power'),
+        states('sensor.heatpump_channel_c_power') ]
+        | map('float',none) | sum | round(1,default=none) }}
+      # attributes:
+      #   last_reset: '1970-01-01T00:00:00+00:00'
+      availability: >
+        {{ not 'unavailable' in
+        [ states('sensor.heatpump_channel_a_power'),
+        states('sensor.heatpump_channel_b_power'),
+        states('sensor.heatpump_channel_c_power') ] }}
