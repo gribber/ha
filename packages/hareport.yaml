@@ -1,7 +1,8 @@
-sensor:
-  - platform: version
-    name: current_ha_version
-    source: local
+# configuration moved to ui
+# sensor:
+#   - platform: version
+#     name: current_ha_version
+#     source: local
 
 rest_command:
   report_ha_version:
