@@ -8,6 +8,7 @@ climate: !include integrations/climate.yaml
 frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
+google_assistant: !include integrations/google_assistant.yaml
 logger: !include integrations/logger.yaml
 #modbus: !include integrations/modbus.yaml
 notify: !include integrations/notify.yaml

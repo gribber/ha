@@ -1,0 +1,12 @@
+project_id: !secret ga_project_id
+#api_key: !secret ga_api_key
+service_account: !include ga_homeassistant.json
+#secure_devices_pin: !secret verisure_default_code
+report_state: true
+exposed_domains:
+  - light
+  - lock
+  - vacuum
+entity_config:
+  group.all_automations:
+    expose: false
