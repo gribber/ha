@@ -45,6 +45,20 @@
     - platform: time
       at: &dinner_end "18:00:00"
 
+    - platform: state
+      id: back_from_workout
+      entity_id:
+        - person.linus
+      to: home
+
+    - platform: state
+      entity_id:
+        - person.linus
+      from: "not_home"
+      to: "home"
+      for:
+        minutes: 5
+      
   condition: []
 
   action:
@@ -94,11 +108,31 @@
         sequence:
           - *turn_on_vvc
 
+      - conditions:
+          - alias: "when getting back from workout"
+            condition: and
+            conditions:
+              - alias: "if I just got back home"
+                condition: trigger
+                id: back_from_workout
+              - alias: "and time is between"
+                condition: time
+                after: "19:15:00"
+                before: "20:00:00"
+                weekday:
+                  - tue
+                  - wed
+                  - thu
+
+        sequence:
+          - *turn_on_vvc
+
     default:
       - *turn_off_vvc
 
 
 - alias: "House: vvc switch"
+  id: b755328d-ad0c-4f7f-94e4-50d583e06639
   trigger:
     - platform: homeassistant
       event: start
@@ -107,18 +141,30 @@
       event_type:
         - automation_reloaded
         - scene_reloaded
+    
     - platform: state
-      entity_id: input_boolean.house_vvc
+      entity_id: 
+        - input_boolean.house_vvc
+        - input_boolean.boilerroom_manual_mode
 
   condition: []
 
   action:
     choose:
       - conditions:
-          condition: state
-          entity_id:
-            - input_boolean.house_vvc
-          state: "on"
+          condition: and
+          conditions:
+          - alias: "if vvc should be on"
+            condition: state
+            entity_id:
+              - input_boolean.house_vvc
+            state: "on"
+          - alias: "and manual mode is off"
+            condition: state
+            entity_id:
+              - input_boolean.boilerroom_manual_mode
+            state: "off"
+
         sequence:
           service: switch.turn_on
           target:
