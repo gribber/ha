@@ -1,0 +1,85 @@
+- alias: "Laundry room: lights"
+  id: ca853bcb-c701-4090-af6b-0aa888c17562
+  trace:
+    stored_traces: 25
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      id: movement
+      entity_id:
+        - binary_sensor.laundry_room_presence
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.laundry_room_presence
+      from: "on"
+      to: "off"
+      for:
+        seconds: 10
+
+    - platform: state
+      id: button
+      entity_id:
+        - switch.laundry_room_button_1
+      from: "off"
+      to: "on"
+
+  condition: []
+
+  action:
+    choose:
+      - conditions:
+          - alias: "turn on lights when entering the room"
+            condition: and
+            conditions:
+              - alias: "if movement detected"
+                condition: trigger
+                id: movement
+              - alias: "and time is between"
+                condition: time
+                after: "07:30:00"
+                before: "22:00:00"
+
+        sequence:
+          - &turn_on
+            alias: "turn on the lights"
+            service: switch.turn_on
+            target:
+              entity_id: switch.laundry_room_switch_1
+
+
+      - conditions:
+          - condition: trigger
+            id: "button"
+
+        sequence:
+          - choose:
+            - conditions:
+              - alias: "if ceiling light is off"
+                condition: state
+                entity_id:
+                  - switch.laundry_room_switch_1
+                state: "off"
+
+              sequence:
+              - *turn_on
+
+            default:
+              - &turn_off
+                alias: "turn off the lights"
+                service: switch.turn_off
+                target:
+                  entity_id: switch.laundry_room_switch_1
+
+    default:
+      - *turn_off
