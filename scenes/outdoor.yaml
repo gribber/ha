@@ -48,3 +48,15 @@
       state: *state
       brightness: 255
       color_temp: *color_temp
+
+- name: "outdoor work"
+  id: 1e27f5dc-0041-4bdd-9d57-1b09be48e0ff
+  entities:
+    light.parkering_och_uppfart:
+      state: *state
+      brightness: 255
+      color_temp: *color_temp
+    light.entre:
+      state: *state
+      brightness: 255
+      color_temp: *color_temp

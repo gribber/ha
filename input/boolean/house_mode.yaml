@@ -26,3 +26,7 @@ house_mode_daylight:
 house_mode_bright_inside:
   name: "Ljust inne"
   icon: "mdi:white-balance-sunny"
+
+house_mode_outside_work:
+  name: "Snöskottningsläge"
+  icon: "mdi:snowflake"
