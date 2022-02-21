@@ -1,6 +1,8 @@
 - alias: "House: daylight mode"
   id: 076988f1-1e78-4cdd-96fd-83ff83431e1c
   mode: queued
+  trace:
+    stored_traces: 25
 
   trigger:
     - platform: homeassistant
@@ -27,7 +29,7 @@
           conditions:
           - condition: template
             value_template: >
-              {{ (now() - states.input_boolean.house_mode_daylight.last_changed).total_seconds() < 3600 }}
+              {{ (as_timestamp(now()) - as_timestamp(states.input_boolean.house_mode_daylight.last_changed)) < 3600 }}
           sequence: []
             # do nothing
 

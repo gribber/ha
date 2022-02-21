@@ -11,7 +11,7 @@
       event_type:
         - automation_reloaded
         - scene_reloaded
-    
+
     - platform: state
       id: remote
       entity_id:
@@ -24,7 +24,7 @@
       entity_id:
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
-        
+
     - platform: state
       id: lights
       entity_id:
@@ -32,7 +32,7 @@
         - light.bedroom_left
         - light.bedroom_right
         - light.hallway_upstairs_wall
-    
+
     - platform: time
       id: reset
       at: input_datetime.house_reset_settings
@@ -43,202 +43,195 @@
 
   action:
     - choose:
-      - conditions:
-        # reset manual mode at defined time
-        - condition: trigger
-          id: "reset"
-        
-        sequence:
-          - &turn_off_manual_mode
-            # reset manual mode
-            service: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.bedroom_manual_mode
-      
-      - conditions:
-        # when house mode changes
-        - condition: or
-          conditions:
-            - condition: state
-              # when away
-              entity_id: input_boolean.house_mode_away
-              state: "on"
-            
-      #       - condition: state
-      #         # when sleeping
-      #         entity_id: input_boolean.house_mode_sleep
-      #         state: "on"
-        
-        sequence:
-          - *turn_off_manual_mode
-          - &turn_off
-            # turn off lights
-            service: light.turn_off
-            target:
-              area_id: "{{ area_id('Sovrummet') }}"
-            data:
-              transition: 5
+        - conditions:
+            # reset manual mode at defined time
+            - condition: trigger
+              id: "reset"
 
+          sequence:
+            - &turn_off_manual_mode # reset manual mode
+              service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.bedroom_manual_mode
 
-      - conditions:
-        # when a remote button is pressed
-        - condition: trigger
-          id: "remote"
+        - conditions:
+            # when house mode changes
+            - condition: or
+              conditions:
+                - condition: state
+                  # when away
+                  entity_id: input_boolean.house_mode_away
+                  state: "on"
 
-        sequence:
-          - variables:
-              #action: "{{ trigger.event.data.event }}"
-              action: "{{ trigger.to_state.state }}"
+          #       - condition: state
+          #         # when sleeping
+          #         entity_id: input_boolean.house_mode_sleep
+          #         state: "on"
 
-          - alias: "Remote buttons"
-            choose:
-              - alias: "Big bulb pressed"
-                conditions: "{{ action == 'big-press' }}"
-                sequence:
-                - choose:
-                  - conditions:
-                    - alias: "if ceiling light is off"
-                      condition: state
-                      entity_id:
-                        - light.bedroom_ceiling
-                      state: "off"
+          sequence:
+            - *turn_off_manual_mode
+            - &turn_off # turn off lights
+              service: light.turn_off
+              target:
+                area_id: "{{ area_id('Sovrummet') }}"
+              data:
+                transition: 5
 
-                    sequence:
-                    - alias: "turn on ceiling light"
+        - conditions:
+            # when a remote button is pressed
+            - condition: trigger
+              id: "remote"
+
+          sequence:
+            - variables:
+                #action: "{{ trigger.event.data.event }}"
+                action: "{{ trigger.to_state.state }}"
+
+            - alias: "Remote buttons"
+              choose:
+                - alias: "Big bulb pressed"
+                  conditions: "{{ action == 'big-press' }}"
+                  sequence:
+                    - choose:
+                        - conditions:
+                            - alias: "if ceiling light is off"
+                              condition: state
+                              entity_id:
+                                - light.bedroom_ceiling
+                              state: "off"
+
+                          sequence:
+                            - alias: "turn on ceiling light"
+                              service: light.turn_on
+                              target:
+                                entity_id: light.bedroom_ceiling
+                              data:
+                                brightness: 255
+
+                            - &turn_on_manual_mode
+                              alias: "Turn on manual mode"
+                              service: input_boolean.turn_on
+                              target:
+                                entity_id: input_boolean.bedroom_manual_mode
+
+                      default:
+                        - alias: "turn off ceiling light"
+                          service: light.turn_off
+                          target:
+                            entity_id: light.bedroom_ceiling
+
+                - alias: "Small bulb pressed"
+                  conditions: "{{ action == 'small-press' }}"
+                  sequence:
+                    - *turn_on_manual_mode
+                    - alias: "toggle wall lamp"
+                      service: light.toggle
+                      target:
+                        entity_id: light.hallway_upstairs_wall
+
+                - alias: "Left pressed"
+                  conditions: "{{ action == 'left-press' }}"
+                  sequence:
+                    - *turn_on_manual_mode
+                    - alias: "toggle left bed lamp"
+                      service: light.toggle
+                      target:
+                        entity_id: light.bedroom_left
+
+                - alias: "Right pressed"
+                  conditions: "{{ action == 'right-press' }}"
+                  sequence:
+                    - *turn_on_manual_mode
+                    - alias: "toggle right bed lamp"
+                      service: light.toggle
+                      target:
+                        entity_id: light.bedroom_right
+
+                - alias: "Big/small bulb press hold"
+                  conditions: "{{ action in ['big-hold', 'small-hold'] }}"
+                  sequence:
+                    - *turn_on_manual_mode
+                    - alias: "determen direction"
+                      variables:
+                        step: "{{ 50 if action == 'big-hold' else -50 }}"
+
+                    - alias: "Change brightness"
                       service: light.turn_on
                       target:
                         entity_id: light.bedroom_ceiling
                       data:
-                        brightness: 255
+                        brightness_step: "{{ step }}"
+                        transition: 1
 
-                    - &turn_on_manual_mode
-                      alias: "Turn on manual mode"
-                      service: input_boolean.turn_on
-                      target:
-                        entity_id: input_boolean.bedroom_manual_mode
-
-                  default:
-                    - alias: "turn off ceiling light"
-                      service: light.turn_off
-                      target:
-                        entity_id: light.bedroom_ceiling
-
-              - alias: "Small bulb pressed"
-                conditions: "{{ action == 'small-press' }}"
-                sequence:
-                  - *turn_on_manual_mode
-                  - alias: "toggle wall lamp"
-                    service: light.toggle
-                    target:
-                      entity_id: light.hallway_upstairs_wall
-
-              - alias: "Left pressed"
-                conditions: "{{ action == 'left-press' }}"
-                sequence:
-                  - *turn_on_manual_mode
-                  - alias: "toggle left bed lamp"
-                    service: light.toggle
-                    target:
-                      entity_id: light.bedroom_left
-
-              - alias: "Right pressed"
-                conditions: "{{ action == 'right-press' }}"
-                sequence:
-                  - *turn_on_manual_mode
-                  - alias: "toggle right bed lamp"
-                    service: light.toggle
-                    target:
-                      entity_id: light.bedroom_right
-
-              - alias: "Big/small bulb press hold"
-                conditions: "{{ action in ['big-hold', 'small-hold'] }}"
-                sequence:
-                  - *turn_on_manual_mode
-                  - alias: "determen direction"
-                    variables:
-                      step: "{{ 50 if action == 'big-hold' else -50 }}"
-                  
-                  - alias: "Change brightness"
-                    service: light.turn_on
-                    target:
-                      entity_id: light.bedroom_ceiling
-                    data:
-                      brightness_step: "{{ step }}"
-                      transition: 1
-      
-      - conditions:
-        # wakeup light
-        - condition: trigger
-          # when triggered by time
-          id: "wakeup"
-        - condition: state
-          # and is enabled
-          entity_id:
-            - input_boolean.wakeup_enabled
-          state: "on"
-        - condition: state
-          # and we are home
-          entity_id:
-            - group.family
-          state: "home"
-        - condition: state
-          # and manual mode is off
-          entity_id:
-            - input_boolean.bedroom_manual_mode
-          state: "off"
-        - condition: or
-          conditions:
-            - condition: and
-              # on workdays
+        - conditions:
+            # wakeup light
+            - condition: trigger
+              # when triggered by time
+              id: "wakeup"
+            - condition: state
+              # and is enabled
+              entity_id:
+                - input_boolean.wakeup_enabled
+              state: "on"
+            - condition: state
+              # and we are home
+              entity_id:
+                - group.family
+              state: "home"
+            - condition: state
+              # and manual mode is off
+              entity_id:
+                - input_boolean.bedroom_manual_mode
+              state: "off"
+            - condition: or
               conditions:
+                - condition: and
+                  # on workdays
+                  conditions:
+                    - condition: state
+                      entity_id:
+                        - input_boolean.wakeup_offwork
+                      state: "off"
+                    - condition: state
+                      entity_id:
+                        - input_boolean.house_mode_workday
+                      state: "on"
+
                 - condition: state
+                  # or every day
                   entity_id:
                     - input_boolean.wakeup_offwork
-                  state: "off"
-                - condition: state
-                  entity_id:
-                    - input_boolean.house_mode_workday
                   state: "on"
 
+          sequence:
+            - *turn_on_manual_mode
+            - service: light.turn_on
+              target:
+                entity_id: light.bedroom_ceiling
+              data:
+                transition: 1800
+                brightness: 255
+
+        - conditions:
+            # do nothing when manual mode is on (automations below this)
             - condition: state
-              # or every day
-              entity_id:
-                - input_boolean.wakeup_offwork
+              entity_id: input_boolean.bedroom_manual_mode
               state: "on"
 
-        sequence:
-          - *turn_on_manual_mode
-          - service: light.turn_on
-            target:
-              entity_id: light.bedroom_ceiling
-            data:
-              transition: 1800
-              brightness: 255
+          sequence: []
 
-      - conditions:
-          # do nothing when manual mode is on (automations below this)
-          - condition: state
-            entity_id: input_boolean.bedroom_manual_mode
-            state: "on"
-        
-        sequence: []
-      
-      - conditions:
-        # manual action detected
-          - condition: trigger
-            # one of the lights changed state
-            id: "lights"
-          
-          - condition: template
-            # and it was by a user
-            value_template: "{{ trigger.to_state.context.user_id != None }}"
+        - conditions:
+            # manual action detected
+            - condition: trigger
+              # one of the lights changed state
+              id: "lights"
 
-        sequence:
-          - *turn_on_manual_mode
+            - condition: template
+              # and it was by a user
+              value_template: "{{ trigger.to_state.context.user_id != None }}"
+
+          sequence:
+            - *turn_on_manual_mode
 
       default:
         - *turn_off
-
-
-
-
