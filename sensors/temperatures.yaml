@@ -40,4 +40,4 @@
       time_constant: 10
     - filter: time_simple_moving_average
       window_size: "00:05"
-      precision: 2
+      precision: 1
