@@ -5,7 +5,7 @@ house_vvc:
 driveway_movement:
   name: "Rörelse på parkering/uppfart"
   icon: "mdi:run"
-  
+
 front_movement:
   name: "Rörelse utanför entré"
   icon: "mdi:run"

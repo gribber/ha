@@ -58,7 +58,7 @@
       to: "home"
       for:
         minutes: 5
-      
+
   condition: []
 
   action:
@@ -130,7 +130,6 @@
     default:
       - *turn_off_vvc
 
-
 - alias: "House: vvc switch"
   id: b755328d-ad0c-4f7f-94e4-50d583e06639
   trigger:
@@ -141,9 +140,9 @@
       event_type:
         - automation_reloaded
         - scene_reloaded
-    
+
     - platform: state
-      entity_id: 
+      entity_id:
         - input_boolean.house_vvc
         - input_boolean.boilerroom_manual_mode
 
@@ -154,16 +153,16 @@
       - conditions:
           condition: and
           conditions:
-          - alias: "if vvc should be on"
-            condition: state
-            entity_id:
-              - input_boolean.house_vvc
-            state: "on"
-          - alias: "and manual mode is off"
-            condition: state
-            entity_id:
-              - input_boolean.boilerroom_manual_mode
-            state: "off"
+            - alias: "if vvc should be on"
+              condition: state
+              entity_id:
+                - input_boolean.house_vvc
+              state: "on"
+            - alias: "and manual mode is off"
+              condition: state
+              entity_id:
+                - input_boolean.boilerroom_manual_mode
+              state: "off"
 
         sequence:
           service: switch.turn_on
