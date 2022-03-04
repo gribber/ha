@@ -14,7 +14,7 @@ include:
     - light
     - counter
     - lock
-    - vacuum
+    - group
 exclude:
   event_types:
     - call_service
@@ -33,7 +33,6 @@ exclude:
     # power cunsumption
     - sensor.rtc_*_1min
     - sensor.rtc_*_state
-    - sensor.*_johannedalsvagen_75_b
     # frigate
     - sensor.*_process_fps
     - sensor.*_camera_fps
