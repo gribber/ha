@@ -11,16 +11,39 @@
   #     - light.parkering_och_uppfart
   #   state: "on"
   action:
-    - service: light.turn_off
-      target:
-        entity_id: light.floor_lamp
-    - delay:
-        seconds: 2
-    - service: light.turn_on
-      target:
-        entity_id: light.floor_lamp
-      data:
-        brightness: 100
+    - alias: "when motion detected"
+      choose:
+        - conditions:
+            condition: state
+            entity_id:
+              - input_boolean.house_mode_daylight
+            state: "on"
+          sequence:
+            - service: light.turn_on
+              target:
+                entity_id: light.floor_lamp
+            - delay:
+                seconds: 2
+            - service: light.turn_off
+              target:
+                entity_id: light.floor_lamp
+
+        - conditions:
+            condition: state
+            entity_id:
+              - input_boolean.house_mode_daylight
+            state: "off"
+          sequence:
+            - service: light.turn_off
+              target:
+                entity_id: light.floor_lamp
+            - delay:
+                seconds: 2
+            - service: scene.turn_on
+              target:
+                entity_id: scene.livingroom_ambience_lights_cozy
+              data:
+                transition: 1
 
     # - service: scene.create
     #   data:

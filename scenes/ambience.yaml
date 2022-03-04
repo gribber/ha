@@ -25,3 +25,11 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
+
+- name: "hallway downstairs ambience lights cozy"
+  id: 0324aaf5-68e0-40e7-8e77-fd6f91bfb52f
+  entities:
+    light.hallway_downstairs_bench:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp

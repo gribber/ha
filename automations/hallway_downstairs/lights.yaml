@@ -1,0 +1,61 @@
+- alias: "Hallway downstairs: lights"
+  id: 55d4084a-e61b-4e2e-acaf-edc15146b8c8
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_bright_inside
+
+    - platform: time
+      at: 
+        - input_datetime.time_goodmorning
+        - input_datetime.time_goodnight
+      
+  action:
+      choose:
+      - conditions:
+
+        - condition: state
+          # when there is daylight
+          entity_id:
+            - input_boolean.house_mode_bright_inside
+          state: "on"
+
+        sequence:
+          - &turn_off
+            # turn off lights
+            service: light.turn_off
+            target:
+              entity_id:
+                - light.hallway_downstairs_bench
+            data:
+              transition: 5
+
+      - conditions:
+        - condition: or
+          conditions:
+          - condition: and
+            # turn on lights if 
+            conditions:
+              - condition: time
+                # at specific time in the morning
+                after: input_datetime.time_goodmorning
+                # but before a specific time in the evening
+                before: input_datetime.time_goodnight
+
+        sequence:
+          - &scene_turn_on
+            service: scene.turn_on
+            target:
+              entity_id:
+                - scene.hallway_downstairs_ambience_lights_cozy
+
+      default:
+        - *turn_off
