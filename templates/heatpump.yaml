@@ -15,21 +15,35 @@
       state_class: total_increasing
       unit_of_measurement: kWh
       device_class: energy
-      #state: "{{ (states('sensor.heatpump_channel_a_energy')|float + states('sensor.heatpump_channel_b_energy')|float + states('sensor.heatpump_channel_c_energy')|float) }}"
       state: >
-        {% set s = ['sensor.heatpump_channel_a_energy', 'sensor.heatpump_channel_b_energy', 'sensor.heatpump_channel_c_energy'] %}
-        {% if states(s[0]) in ['unavailable', 'unknown', 'none'] or states(s[1]) in ['unavailable', 'unknown', 'none'] or states(s[2]) in ['unavailable', 'unknown', 'none'] %}
-          unavailable 
-        {% else %}
-          {% set a =  states(s[0])|float(0) %}
-          {% set b =  states(s[1])|float(0) %}
-          {% set c =  states(s[2])|float(0) %}
-          {% if a == 0 or b == 0 or c == 0 %}
-            unavailable
-          {% else %}
-            {{ (a + b + c)|round(1) }}
-          {% endif %}
-        {% endif %}
+        {{ [ states('sensor.heatpump_channel_a_energy'),
+        states('sensor.heatpump_channel_b_energy'),
+        states('sensor.heatpump_channel_c_energy') ]
+        | map('float',none) | reject('==', none) | sum | round(1,default=none) }}
+      attributes:
+        last_reset: '1970-01-01T00:00:00+00:00'
+      availability: >
+        {{ not (
+          [ states('sensor.heatpump_channel_a_energy'), 
+          states('sensor.heatpump_channel_b_energy'), 
+          states('sensor.heatpump_channel_c_energy') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+      # state: >
+      #   {% set s = ['sensor.heatpump_channel_a_energy', 'sensor.heatpump_channel_b_energy', 'sensor.heatpump_channel_c_energy'] %}
+      #   {% if states(s[0]) in ['unavailable', 'unknown', 'none'] or states(s[1]) in ['unavailable', 'unknown', 'none'] or states(s[2]) in ['unavailable', 'unknown', 'none'] %}
+      #     unavailable 
+      #   {% else %}
+      #     {% set a =  states(s[0])|float(0) %}
+      #     {% set b =  states(s[1])|float(0) %}
+      #     {% set c =  states(s[2])|float(0) %}
+      #     {% if a == 0 or b == 0 or c == 0 %}
+      #       unavailable
+      #     {% else %}
+      #       {{ (a + b + c)|round(1) }}
+      #     {% endif %}
+      #   {% endif %}
 
 - trigger:
     - platform: state
@@ -61,104 +75,135 @@
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
 
-      # state_class: measurement
-      # unit_of_measurement: W
-      # device_class: power
-      # state: >
-      #   {% set s = ['sensor.heatpump_channel_a_power', 'sensor.heatpump_channel_b_power', 'sensor.heatpump_channel_c_power'] %}
-      #   {% if states(s[0]) in ['unavailable', 'unknown', 'none'] or states(s[1]) in ['unavailable', 'unknown', 'none'] or states(s[2]) in ['unavailable', 'unknown', 'none'] %}
-      #     unavailable 
-      #   {% else %}
-      #     {% set a =  states(s[0])|float(0) %}
-      #     {% set b =  states(s[1])|float(0) %}
-      #     {% set c =  states(s[2])|float(0) %}
-      #     {% if a == 0 or b == 0 or c == 0 %}
-      #       unavailable
-      #     {% else %}
-      #       {{ (a + b + c)|round(1) }}
-      #     {% endif %}
-      #   {% endif %}
+
+# - trigger:
+#     - platform: state
+#       entity_id:
+#         - sensor.heatpump_channel_a_energy
+#         - sensor.heatpump_channel_b_energy
+#         - sensor.heatpump_channel_c_energy
+
+#     - platform: event
+#       event_type:
+#         - event_template_reloaded
+
+#   sensor:
+#     - name: "heatpump_energy_test2"
+#       unique_id: 8b35e33f-fa82-4299-ae4f-3e8c0d8b0a32
+#       unit_of_measurement: "kWh"
+#       device_class: energy
+#       state_class: total_increasing
+#       state: >
+#         {{ [ states('sensor.heatpump_channel_a_energy'),
+#         states('sensor.heatpump_channel_b_energy'),
+#         states('sensor.heatpump_channel_c_energy') ]
+#         | map('float',none) | reject('==', none) | sum | round(1,default=none) }}
+#       attributes:
+#         last_reset: '1970-01-01T00:00:00+00:00'
+#       availability: >
+#         {{ not (
+#           [ states('sensor.heatpump_channel_a_energy'), 
+#           states('sensor.heatpump_channel_b_energy'), 
+#           states('sensor.heatpump_channel_c_energy') ] 
+#           | select('in', ['unknown', 'unavailable', 'none']) 
+#           | list) }}
 
 
-- trigger:
-    - platform: state
-      entity_id:
-        - sensor.heatpump_channel_a_energy
-        - sensor.heatpump_channel_b_energy
-        - sensor.heatpump_channel_c_energy
-
-    - platform: event
-      event_type:
-        - event_template_reloaded
-
-  sensor:
-    - name: "heatpump_energy_test2"
-      unique_id: 8b35e33f-fa82-4299-ae4f-3e8c0d8b0a32
-      unit_of_measurement: "kWh"
-      device_class: energy
-      state_class: total_increasing
+- sensor:
+    - name: "ctc_hw_temperature"
+      unique_id: e9215fc4-3f96-464a-8c48-076a53b0edbe
+      unit_of_measurement: "°C"
+      device_class: "temperature"
       state: >
-        {{ [ states('sensor.heatpump_channel_a_energy'),
-        states('sensor.heatpump_channel_b_energy'),
-        states('sensor.heatpump_channel_c_energy') ]
-        | map('float',none) | reject('==', none) | sum | round(1,default=none) }}
-      attributes:
-        last_reset: '1970-01-01T00:00:00+00:00'
+        {{ nan if states('sensor.ctc_hw_temperature_tmp') == 999.9 else states('sensor.ctc_hw_temperature_tmp') }}
       availability: >
         {{ not (
-          [ states('sensor.heatpump_channel_a_power'), 
-          states('sensor.heatpump_channel_b_power'), 
-          states('sensor.heatpump_channel_c_power') ] 
+          [ states('sensor.ctc_hw_temperature_tmp') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
-      # availability: >
-      #   {{ not 'unavailable' in
-      #   [ states('sensor.heatpump_channel_a_energy'),
-      #   states('sensor.heatpump_channel_b_energy'),
-      #   states('sensor.heatpump_channel_c_energy') ] }}
 
+- sensor:
+    - name: "ctc_hs_return_temperature"
+      unique_id: af717160-527f-4e8d-8ac4-e00d53d7f712
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      state: >
+        {{ nan if states('sensor.ctc_hs_return_temperature_tmp') == 999.9 else states('sensor.ctc_hs_return_temperature_tmp') }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_hs_return_temperature_tmp') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
 
-- trigger:
-    - platform: state
-      entity_id:
-        - sensor.heatpump_channel_a_power
-        - sensor.heatpump_channel_b_power
-        - sensor.heatpump_channel_c_power
+- sensor:
+    - name: "ctc_hw_capacity"
+      unique_id: 3e66fea3-278a-46e4-9537-eaf53ddb87a1
+      unit_of_measurement: "%"
+      state: >
+        {{ nan if states('sensor.ctc_hw_capacity_tmp') == 999.9 else states('sensor.ctc_hw_capacity_tmp') }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_hw_capacity_tmp') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
 
-    - platform: event
-      event_type:
-        - event_template_reloaded
+- sensor:
+    - name: "ctc_status_name"
+      unique_id: 70dc6758-bd0d-44aa-9d9a-09f9ceecabb4
+      state: >
+        {% set mapper =  {
+          '4' : 'Värmekrets',
+          '5' : 'Varmvatten',
+          '6' : 'Pool',
+          '7' : 'Av',
+          '11': 'Kyla'
+        } %}
+        {{ mapper[states('sensor.ctc_status')] if states('sensor.ctc_status') in mapper else "unknown ("+states('sensor.ctc_status')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_status') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
 
-  # sensor:
-  #   - name: "heatpump_power_test2"
-  #     unique_id: 4dad71db-9db0-4909-ae04-de4414e21db7
-  #     state_class: measurement
-  #     unit_of_measurement: W
-  #     device_class: power
-  #     state: >
-  #       {{ [ states('sensor.heatpump_channel_a_power'),
-  #       states('sensor.heatpump_channel_b_power'),
-  #       states('sensor.heatpump_channel_c_power') ]
-  #       | map('float',none) | reject('==', none) | sum | round(1,default=none) }}
-  #     # attributes:
-  #     #   last_reset: '1970-01-01T00:00:00+00:00'
-  #     availability: >
-  #       {{ not (
-  #         [ states('sensor.heatpump_channel_a_power'), 
-  #         states('sensor.heatpump_channel_b_power'), 
-  #         states('sensor.heatpump_channel_c_power') ] 
-  #         | select('in', ['unknown', 'unavailable', 'none']) 
-  #         | list) }}
+- sensor:
+    - name: "ctc_hw_mode_name"
+      unique_id: f653a3e7-172a-46a2-a3a9-68e8cf0e4ca9
+      state: >
+        {% set mapper =  {
+          '0' : 'Ekonomi',
+          '1' : 'Normal',
+          '2' : 'Komfort',
+          '3' : 'Manuell'
+        } %}
+        {{ mapper[states('sensor.ctc_hw_mode')] if states('sensor.ctc_hw_mode') in mapper else "unknown ("+states('sensor.ctc_hw_mode')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_hw_mode') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
 
-      # availability: >
-      #   {{ not 'unavailable' in
-      #   [ states('sensor.heatpump_channel_a_power'),
-      #   states('sensor.heatpump_channel_b_power'),
-      #   states('sensor.heatpump_channel_c_power') ] }}
-
-      # availability: >
-      #     {{ [ states('sensor.heatpump_channel_a_power'),
-      #       states('sensor.heatpump_channel_b_power'),
-      #       states('sensor.heatpump_channel_c_power') ]
-      #       | rejectattr('state', 'in', ['unknown', 'unavailable', 'none'])
-      #     }}
+- sensor:
+    - name: "ctc_hp_status_name"
+      unique_id: fd9a54b0-f3c9-422d-814d-1b84fdb12f17
+      state: >
+        {% set mapper =  {
+          '0' : 'Kompressor från, startfördröjning',
+          '1' : 'Kompressor, redo för start',
+          '2' : 'Kompressor, väntar på flöde',
+          '3' : 'Kompressor, till värme',
+          '4' : 'Avfrostning aktiv',
+          '5' : 'Kompressor, till kyla',
+          '6' : 'Kompressor, från blockerad',
+          '7' : 'Kompressor, från larm',
+          '8' : 'Funktionstest',
+          '30': 'VP ej definierad',
+          '31': 'VP ej tillgänglig',
+          '32': 'Kommunikationsfel',
+          '33': 'Till VV'
+        } %}
+        {{ mapper[states('sensor.ctc_hp_status')] if states('sensor.ctc_hp_status') in mapper else "unknown ("+states('sensor.ctc_hp_status')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_hp_status') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}

@@ -38,3 +38,5 @@ exclude:
     - sensor.*_camera_fps
     - sensor.*_detection_fps
     - switch.adaptive_lighting_*
+    # ctc sensordata modified by templates
+    - sensor.ctc_*_tmp

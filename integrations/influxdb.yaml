@@ -18,6 +18,7 @@ exclude:
     - sensor.yearly_energy
   entity_globs:
     - sensor.rtc_*
+    - sensor.ctc_*_tmp
 tags_attributes:
   - grafana_name
   - friendly_name

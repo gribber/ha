@@ -21,6 +21,7 @@ utility_meter: !include integrations/utility_meter.yaml
 automation: !include_dir_merge_list automations/
 binary_sensor: !include_dir_merge_list binary_sensors/
 camera: !include_dir_merge_list cameras/
+modbus: !include_dir_merge_list modbus/
 scene: !include_dir_merge_list scenes/
 script: !include_dir_merge_list scripts/
 sensor: !include_dir_merge_list sensors/
