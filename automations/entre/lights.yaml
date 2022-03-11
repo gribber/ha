@@ -1,0 +1,127 @@
+- alias: "Entre: lights"
+  id: 2467611a-12d7-4a8d-8650-e18e25e5082b
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_daylight
+        - input_boolean.house_mode_outside_work
+
+    - platform: state
+      id: movement
+      entity_id: input_boolean.front_movement
+      from: "off"
+      to: "on"
+
+    - platform: state
+      id: movement_off
+      entity_id: input_boolean.front_movement
+      from: "on"
+      to: "off"
+
+  action:
+    choose:
+      - alias: "activate outdoor work mode"
+        conditions:
+          - alias: "when outside work mode is on"
+            condition: state
+            entity_id:
+              - input_boolean.house_mode_outside_work
+            state: "on"
+
+        sequence:
+          - alias: "activate outside work scene"
+            service: scene.turn_on
+            target:
+              entity_id: scene.outdoor_work_entre
+            data:
+              transition: 2
+
+
+      - conditions:
+          - condition: trigger
+            # if triggered by movement
+            id: "movement"
+          - condition: state
+            # and turned on (by daylight off)
+            entity_id:
+              - light.entre
+            state: "on"
+
+        sequence:
+          # illuminate for a while and return to previous mode
+          - service: scene.turn_on
+            target:
+              entity_id: scene.outdoor_entre_movement
+            data:
+              transition: 2
+          
+          # - choose:
+          #   # if it's still dark outside, return to previous
+          #   - conditions:
+          #       condition: state
+          #       entity_id:
+          #         - input_boolean.house_mode_daylight
+          #       state: "off"
+          #     sequence:
+          #       - service: scene.turn_on
+          #         target:
+          #           entity_id: scene.outdoor_entre_default
+          #         data:
+          #           transition: 5
+
+          #   # if it's daylight, turn off lights
+          #   - conditions:
+          #       condition: state
+          #       entity_id:
+          #         - input_boolean.house_mode_daylight
+          #       state: "on"
+          #     sequence:
+          #     - service: light.turn_off
+          #       target:
+          #         entity_id: light.entre
+          #       data:
+          #         transition: 5
+
+      - conditions:
+          condition: state
+          # if not daylight
+          entity_id:
+            - input_boolean.house_mode_daylight
+          state: "off"
+        sequence:
+          - service: scene.turn_on
+            target:
+              entity_id: scene.outdoor_entre_lights_default
+            data:
+              transition: 5
+          # - delay:
+          #     seconds: 10
+          # - service: homeassistant.turn_on
+          #   entity_id:
+          #     - switch.adaptive_lighting_entre
+          #     - switch.adaptive_lighting_parkering_och_uppfart
+          #     - switch.adaptive_lighting_dekoration_ute
+
+
+    default:
+      # - service: homeassistant.turn_off
+      #   entity_id:
+      #     - switch.adaptive_lighting_entre
+      #     - switch.adaptive_lighting_parkering_och_uppfart
+      #     - switch.adaptive_lighting_dekoration_ute
+      # - delay:
+      #     seconds: 50
+      - service: light.turn_off
+        target:
+          entity_id: light.entre
+        data:
+          transition: 5
+

@@ -12,6 +12,10 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
+
+- name: "outdoor entre lights default"
+  id: 39bf1e78-179f-4400-8e5e-769b6b183f04
+  entities:
     light.entre:
       state: *state
       brightness: *brightness
@@ -56,6 +60,10 @@
       state: *state
       brightness: 255
       color_temp: *color_temp
+
+- name: "outdoor work entre"
+  id: f6ee135a-33b5-4d75-9854-cc4bbba92aee
+  entities:
     light.entre:
       state: *state
       brightness: 255
