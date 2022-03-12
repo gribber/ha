@@ -207,3 +207,27 @@
           [ states('sensor.ctc_hp_status') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
+
+- sensor:
+    # number of active alarms
+    - name: "ctc_num_alarms"
+      unique_id: af80c891-1f50-4b2d-bc66-f65cdc946b9c
+      state: >
+        {{ ('%04x' % (states('sensor.ctc_alarm_info')|int(0)))[2:4]|int(0) }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_alarm_info') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+- sensor:
+    # number of active infotexts
+    - name: "ctc_num_infotexts"
+      unique_id: 88e56c32-6ace-4cf0-b9a3-a47e3cbba18b
+      state: >
+        {{ ('%04x' % (states('sensor.ctc_alarm_info')|int(0)))[0:2]|int(0) }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_alarm_info') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
