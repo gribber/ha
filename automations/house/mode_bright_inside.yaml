@@ -20,7 +20,11 @@
       id: lightlevel
       entity_id:
         - sensor.motion_driveway_lightlevel
-    
+
+  condition:
+    - condition: template
+      value_template: '{{ trigger.to_state.state != "unavailable" }}'
+
   action:
       choose:
         - conditions:
