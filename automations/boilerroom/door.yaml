@@ -38,7 +38,7 @@
           title: "Pannrummet"
           message: "Tack!"
           data:
-            tag: mailbox
+            tag: boilerroom
             timeout: 900
 
       - &notif_phone_remove
@@ -46,13 +46,13 @@
         data:
           message: "clear_notification"
           data:
-            tag: mailbox
+            tag: boilerroom
 
       - &notif_create
         service: persistent_notification.create
         data:
           title: "Pannrummet"
-          message: "Dörren är öppen!"
+          message: "Pannrumsdörren är öppen!"
           notification_id: "feed_boilerroom"
 
       - &notif_remove
