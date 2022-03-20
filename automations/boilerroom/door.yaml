@@ -1,0 +1,76 @@
+- alias: "Boiler room: door"
+  id: c17f73fe-8285-494b-b502-e7d42c39c832
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.boiler_room_door
+      from: "off"
+      to: "on"
+      for:
+        minutes: 5
+
+    - platform: time
+      at: "21:00:00"
+
+  condition: []
+
+  variables:
+    anchors:
+      - &notif_phone_open
+        service: notify.family
+        data:
+          title: "Pannrumet"
+          message: "Dörren är öppen!"
+          data:
+            tag: boilerroom
+
+      - &notif_phone_closed
+        service: notify.family
+        data:
+          title: "Pannrummet"
+          message: "Tack!"
+          data:
+            tag: mailbox
+            timeout: 900
+
+      - &notif_phone_remove
+        service: notify.family
+        data:
+          message: "clear_notification"
+          data:
+            tag: mailbox
+
+      - &notif_create
+        service: persistent_notification.create
+        data:
+          title: "Pannrummet"
+          message: "Dörren är öppen!"
+          notification_id: "feed_boilerroom"
+
+      - &notif_remove
+        service: persistent_notification.dismiss
+        data: 
+          notification_id: "feed_boilerroom"
+
+  action:
+    - choose:
+        - conditions:
+            condition: state
+            entity_id:
+              - binary_sensor.boiler_room_door
+            state: "on"
+          sequence:
+            - *notif_create
+            - *notif_phone_open
+            
+      default:
+        - *notif_remove
+        - *notif_phone_remove
