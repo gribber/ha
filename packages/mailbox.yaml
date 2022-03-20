@@ -43,6 +43,12 @@ automation:
           message: "Kom och töm mig på post!"
           data:
             tag: mailbox
+      - service: persistent_notification.create
+        data:
+          message: "Töm postlådan"
+          title: "Postlådan"
+          notification_id: "feed_mail"
+
 
   - alias: "mailbox door opened"
     id: a0c39162-faf8-4f84-88b1-69c96a8fe9c5
@@ -64,3 +70,7 @@ automation:
           data:
             tag: mailbox
             timeout: 900
+      - service: persistent_notification.dismiss
+        data: 
+          notification_id: "feed_mail"
+
