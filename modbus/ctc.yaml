@@ -1,0 +1,343 @@
+- name: "ctc"
+  type: tcp
+  host: !secret ctc_host
+  port: !secret ctc_port
+  delay: 3
+  retry_on_empty: true
+
+  sensors:
+    - name: "ctc_hw_mode"
+      unique_id: 5994298b-bf81-48bf-8a23-96300f1f0d71
+      address: 61500
+      slave: 1
+      # varmvattenläge
+      # 0=economy 1=normal 2=comfort 3=customized
+
+    - name: "ctc_hs1_inclination"
+      unique_id: 536dd84a-0e0e-4418-8916-f75d8187c899
+      address: 61513
+      slave: 1
+      scale: 0.1
+      precision: 0
+      # värmekurva
+
+    - name: "ctc_hs1_adjustment"
+      unique_id: 0f26ead7-d5d5-4fb9-9261-8d94b2ae5dcd
+      address: 61517
+      slave: 1
+      scale: 0.1
+      precision: 0
+      # värmekurva förskjutning
+
+    - name: "ctc_outdoor_temperature"
+      unique_id: 6acd0e80-9da9-42e2-87fe-e05e3824f966
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62000
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # utomhustemperatur (givare)
+
+    - name: "ctc_hw_temperature_tmp"
+      unique_id: a9985949-0998-4595-aaf2-d536a258c876
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62003
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # varmvattentemperatur (filtreras med template)
+
+    - name: "ctc_status"
+      unique_id: 76212c32-a22d-4e2d-b17b-957040560124
+      address: 62005
+      slave: 1
+      # 4=värmekrets 5=VV 6=pool 7=av 11=kyla
+
+    - name: "ctc_hs1_setpoint_supply_temperature"
+      unique_id: d72b5ab7-de78-4438-b5ce-c475750261f9
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62007
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # börvärde framledning
+
+    - name: "ctc_hs1_supply_temperature"
+      unique_id: f28920ce-233c-4434-b586-be3f68eb345c
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62011
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # ärvärde framledning
+
+    - name: "ctc_hs_return_temperature_tmp"
+      unique_id: c53bef32-2adf-41ab-928c-0fe4bf77add7
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62015
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # returtemperatur (filtreras med template)
+
+    - name: "ctc_hp_status"
+      unique_id: 472db67d-cbe3-4440-9f84-0cf574a19b85
+      address: 62017
+      slave: 1
+      # 0=Kompressor från, startfördröjning
+      # 1=Kompressor, redo för start
+      # 2=Kompressor, väntar på flöde
+      # 3=Kompressor, till värme
+      # 4=Avfrostning aktiv
+      # 5=Kompressor, till kyla
+      # 6=Kompressor, från blockerad
+      # 7=Kompressor, från larm
+      # 8=Funktionstest
+      # 30=VP ej definierad
+      # 31=VP ej tillgänglig
+      # 32=Kommunikationsfel
+      # 33=Till VV
+
+    - name: "ctc_hp_in"
+      unique_id: b5371035-59c1-4f5f-9543-73319e19227c
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62027
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_out"
+      unique_id: 0db70e6d-1906-470d-854b-40b05879b306
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62037
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_discharge_temperature"
+      unique_id: bfe091e7-360a-495a-8896-d942af6dd333
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62047
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_suction_gas_temperature"
+      unique_id: e21bd9b7-e981-40b2-aeab-b23d95619898
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62057
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_high_pressure"
+      unique_id: c81a4683-67e5-4e98-be12-21355b02831b
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62067
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_low_pressure"
+      unique_id: a21d5bbe-1bac-45a1-bd21-3a4319d63b21
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62077
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_brine_in"
+      unique_id: 398ea2b3-93fb-4c24-937b-04ef7d8f760c
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62087
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_hp_brine_out"
+      unique_id: d3bcf462-e22e-4bae-9877-f925739acf6b
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62097
+      slave: 1
+      scale: 0.1
+      precision: 1
+
+    - name: "ctc_degree_minute"
+      unique_id: 5e8202ce-26c4-411b-bd9b-963e6ccc3b3c
+      unit_of_measurement: "°min"
+      address: 62167
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # gradminut
+
+    - name: "ctc_power_immersion_heater_upper"
+      unique_id: b38756f2-f477-433b-bc3e-f6529340e612
+      unit_of_measurement: "kW"
+      device_class: "power"
+      address: 62168
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # effekt övre elpatron
+
+    - name: "ctc_power_immersion_heater_lower"
+      unique_id: acd8a2c0-04bd-4e66-8583-ad1d3537c0fa
+      unit_of_measurement: "kW"
+      device_class: "power"
+      address: 62169
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # effekt nedre elpatron
+
+    - name: "ctc_hs1_status"
+      unique_id: e9622c88-c6af-4b74-9e24-2ae40d142d75
+      address: 62246
+      slave: 1
+      # 0 = Värme från
+      # 1 = Semester
+      # 2= Nattsänkning
+      # 3= Till (normalläge)
+
+    # visar alltid 0 grader
+    # - name: "ctc_hw_setpoint_lower_tank_temperature"
+    #   unit_of_measurement: "°C"
+    #   device_class: "temperature"
+    #   address: 62274
+    #   slave: 1
+    #   scale: 0.1
+    #   precision: 1
+        # börvärde nedre tank
+
+    - name: "ctc_hw_lower_tank_temperature"
+      unique_id: a03a355a-488e-40ff-a59f-382999f50576
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62275
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # ärvärde VV nedre
+
+    - name: "ctc_hw_tank_temperature"
+      unique_id: 40f755be-b4e8-4ec8-87ba-0724f932e496
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62276
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # ärvärde VV 
+
+    - name: "ctc_hw_capacity_tmp"
+      unique_id: 0fa555d3-0a88-4629-b3f1-7acf7c7285b5
+      unit_of_measurement: "%"
+      address: 62279
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # varmvattenkapacitet i % (filtreras av template)
+
+    # - name: "ctc_radiator_pump_setting"
+    #   unit_of_measurement: "%"
+    #   address: 61570
+    #   slave: 1
+
+    - name: "ctc_hp_charge_pump"
+      unique_id: 726b4e2b-1630-44cb-8aee-ee5ee8c0c9f8
+      unit_of_measurement: "%"
+      address: 62107
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # laddpump
+
+    - name: "ctc_hp_brine_pump"
+      unique_id: 56a70f50-5d3b-4086-b8f3-9ad1b524e94d
+      unit_of_measurement: "%"
+      address: 62117
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # brinepump
+
+    # - name: "ctc_hs1_outdoor_temperature"
+    #   unit_of_measurement: "°C"
+    #   device_class: "temperature"
+    #   address: 62147
+    #   slave: 1
+    #   scale: 0.1
+    #   precision: 1
+
+    - name: "ctc_hp_current_rps"
+      unique_id: 872448d9-a03e-443e-9861-f3f390cba7ac
+      unit_of_measurement: "rps"
+      address: 62193
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # nuvarande RPS
+
+    - name: "ctc_stat_total_operation_lsb"
+      unique_id: c2c32b72-53f2-4872-a530-125a76593740
+      unit_of_measurement: "h"
+      address: 62186
+      slave: 1
+      precision: 0
+      # stats: total drifttid lbs
+
+    - name: "ctc_stat_immerison_heater"
+      unique_id: 22d78c95-134a-4557-9d37-5cbccc4342f6
+      unit_of_measurement: "kWh"
+      address: 62191
+      slave: 1
+      precision: 1
+      # stats: elpatron energianvändning
+
+    - name: "ctc_stat_compressor_operating_time"
+      unique_id: cd0d9be3-02b3-4db1-a641-a564fa73b903
+      unit_of_measurement: "h"
+      address: 62214
+      slave: 1
+      precision: 0
+      # stats: drifttid kompressor
+
+    - name: "ctc_stat_compressor_operating_time_24h"
+      unique_id: 61aad996-8192-4435-8f7d-b5d7c4e398f5
+      unit_of_measurement: "m"
+      address: 62234
+      slave: 1
+      precision: 0
+      # stats: drifttid kompressor senaste dygnet (i minuter)
+
+    # alltid visat 0
+    # - name: "ctc_boiler_open_mixing_valve"
+    #   unit_of_measurement: "°C"
+    #   device_class: "temperature"
+    #   address: 61585
+    #   slave: 1
+    #   scale: 0.1
+    #   precision: 1
+
+    - name: "ctc_alarm_info"
+      unique_id: 3a0b0fac-6031-4eea-92d4-4126e5b30725
+      address: 65001
+      slave: 1
+      # Sums up active alarms & info’s and returns summation. (R)
+      # Byte0 = Number of active alarms. (max 255)
+      # Byte1 = Number of activa information texts.
+
