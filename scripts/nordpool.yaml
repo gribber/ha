@@ -1,0 +1,32 @@
+nordpool_se1:
+  alias: "Reload Nordpool SE1"
+  sequence:
+    - service: homeassistant.reload_config_entry
+      target:
+        entity_id:
+          - sensor.nordpool_se1
+
+nordpool_se2:
+  alias: "Reload Nordpool SE2"
+  sequence:
+    - service: homeassistant.reload_config_entry
+      target:
+        entity_id:
+          - sensor.nordpool_se2
+
+nordpool_se3:
+  alias: "Reload Nordpool SE3"
+  sequence:
+    - service: homeassistant.reload_config_entry
+      target:
+        entity_id:
+          - sensor.nordpool_se3
+
+nordpool_se4:
+  alias: "Reload Nordpool SE4"
+  sequence:
+    - service: homeassistant.reload_config_entry
+      target:
+        entity_id:
+          - sensor.nordpool_se4
+
