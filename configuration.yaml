@@ -23,7 +23,6 @@ binary_sensor: !include_dir_merge_list binary_sensors/
 camera: !include_dir_merge_list cameras/
 modbus: !include_dir_merge_list modbus/
 scene: !include_dir_merge_list scenes/
-script: !include_dir_merge_list scripts/
 sensor: !include_dir_merge_list sensors/
 template: !include_dir_merge_list templates/
 
@@ -33,3 +32,4 @@ input_datetime: !include_dir_merge_named input/datetime/
 input_number: !include_dir_merge_named input/number/
 input_select: !include_dir_merge_named input/select/
 input_text: !include_dir_merge_named input/text/
+script: !include_dir_merge_named scripts/
