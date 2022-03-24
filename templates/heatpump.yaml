@@ -67,7 +67,7 @@
       unit_of_measurement: "°C"
       device_class: "temperature"
       state: >
-        {{ nan if states('sensor.ctc_hw_temperature_tmp') == 999.9 else states('sensor.ctc_hw_temperature_tmp') }}
+        {{ none if states('sensor.ctc_hw_temperature_tmp')|float(none) == 999.9 else states('sensor.ctc_hw_temperature_tmp') }}
       availability: >
         {{ not (
           [ states('sensor.ctc_hw_temperature_tmp') ] 
@@ -80,7 +80,7 @@
       unit_of_measurement: "°C"
       device_class: "temperature"
       state: >
-        {{ nan if states('sensor.ctc_hs_return_temperature_tmp') == 999.9 else states('sensor.ctc_hs_return_temperature_tmp') }}
+        {{ none if states('sensor.ctc_hs_return_temperature_tmp')|float(none) == 999.9 else states('sensor.ctc_hs_return_temperature_tmp') }}
       availability: >
         {{ not (
           [ states('sensor.ctc_hs_return_temperature_tmp') ] 
@@ -92,7 +92,7 @@
       unique_id: 3e66fea3-278a-46e4-9537-eaf53ddb87a1
       unit_of_measurement: "%"
       state: >
-        {{ nan if states('sensor.ctc_hw_capacity_tmp') == 999.9 else states('sensor.ctc_hw_capacity_tmp') }}
+        {{ none if states('sensor.ctc_hw_capacity_tmp')|float(none) == 999.9 else states('sensor.ctc_hw_capacity_tmp') }}
       availability: >
         {{ not (
           [ states('sensor.ctc_hw_capacity_tmp') ] 
