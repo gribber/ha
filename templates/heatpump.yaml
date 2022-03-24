@@ -30,21 +30,6 @@
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
 
-      # state: >
-      #   {% set s = ['sensor.heatpump_channel_a_energy', 'sensor.heatpump_channel_b_energy', 'sensor.heatpump_channel_c_energy'] %}
-      #   {% if states(s[0]) in ['unavailable', 'unknown', 'none'] or states(s[1]) in ['unavailable', 'unknown', 'none'] or states(s[2]) in ['unavailable', 'unknown', 'none'] %}
-      #     unavailable 
-      #   {% else %}
-      #     {% set a =  states(s[0])|float(0) %}
-      #     {% set b =  states(s[1])|float(0) %}
-      #     {% set c =  states(s[2])|float(0) %}
-      #     {% if a == 0 or b == 0 or c == 0 %}
-      #       unavailable
-      #     {% else %}
-      #       {{ (a + b + c)|round(1) }}
-      #     {% endif %}
-      #   {% endif %}
-
 - trigger:
     - platform: state
       entity_id:
@@ -74,39 +59,6 @@
           states('sensor.heatpump_channel_c_power') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
-
-
-# - trigger:
-#     - platform: state
-#       entity_id:
-#         - sensor.heatpump_channel_a_energy
-#         - sensor.heatpump_channel_b_energy
-#         - sensor.heatpump_channel_c_energy
-
-#     - platform: event
-#       event_type:
-#         - event_template_reloaded
-
-#   sensor:
-#     - name: "heatpump_energy_test2"
-#       unique_id: 8b35e33f-fa82-4299-ae4f-3e8c0d8b0a32
-#       unit_of_measurement: "kWh"
-#       device_class: energy
-#       state_class: total_increasing
-#       state: >
-#         {{ [ states('sensor.heatpump_channel_a_energy'),
-#         states('sensor.heatpump_channel_b_energy'),
-#         states('sensor.heatpump_channel_c_energy') ]
-#         | map('float',none) | reject('==', none) | sum | round(1,default=none) }}
-#       attributes:
-#         last_reset: '1970-01-01T00:00:00+00:00'
-#       availability: >
-#         {{ not (
-#           [ states('sensor.heatpump_channel_a_energy'), 
-#           states('sensor.heatpump_channel_b_energy'), 
-#           states('sensor.heatpump_channel_c_energy') ] 
-#           | select('in', ['unknown', 'unavailable', 'none']) 
-#           | list) }}
 
 
 - sensor:
