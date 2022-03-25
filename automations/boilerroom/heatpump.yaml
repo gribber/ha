@@ -1,0 +1,83 @@
+- alias: "Boiler room: heatpump add heater active"
+  id: 2bafd69e-6ba4-47b6-a2cb-e11aa6585759
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: numeric_state
+      id: heater
+      entity_id:
+        - sensor.ctc_power_immersion_heater_upper
+        - sensor.ctc_power_immersion_heater_lower
+      above: 0
+
+
+  condition: []
+
+  variables:
+    anchors:
+      - &notif_phone_create
+        service: notify.family
+        data:
+          title: "Pannrummet"
+          message: "Värmepumpen går på tillsatsvärme!"
+          data:
+            tag: ctc
+
+      - &notif_phone_resolved
+        service: notify.family
+        data:
+          title: "Pannrummet"
+          message: "Tack!"
+          data:
+            tag: ctc
+            timeout: 900
+
+      - &notif_phone_remove
+        service: notify.family
+        data:
+          message: "clear_notification"
+          data:
+            tag: ctc
+
+      - &notif_create
+        service: persistent_notification.create
+        data:
+          title: "Pannrummet"
+          message: "Värmepumpen går på tillsatsvärme!"
+          notification_id: "feed_ctc"
+
+      - &notif_remove
+        service: persistent_notification.dismiss
+        data: 
+          notification_id: "feed_ctc"
+
+  action:
+    - choose:
+        - alias: "if consumption goes above 0"
+          conditions:
+            condition: trigger
+            id: heater
+          sequence:
+            - *notif_create
+            - *notif_phone_create
+            
+        - alias: "if current consumption alredy above 0"
+          conditions:
+            condition: numeric_state
+            entity_id:
+              - sensor.ctc_power_immersion_heater_upper
+              - sensor.ctc_power_immersion_heater_lower
+            above: 0
+          sequence:
+            - *notif_create
+            - *notif_phone_create
+
+      default:
+        - *notif_remove
+        - *notif_phone_remove
