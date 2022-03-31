@@ -28,6 +28,24 @@
       from: "locked"
       to: "unlocked"
       
+    - platform: state
+      id: "phone"
+      entity_id:
+        - sensor.kb2003_charger_type
+      from: "ac"
+      to: "none"
+
+  variables:
+    anchors:
+      - &turn_on
+        service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.house_mode_sleep
+      - &turn_off
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.house_mode_sleep
+
   action:
     - choose:
       # reset to sleeping at night until I figure out a better way to detect it
@@ -35,18 +53,25 @@
           condition: trigger
           id: "time"
         sequence:
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.house_mode_sleep
+          - *turn_on
+
+      - conditions: 
+        - condition: and
+          conditions:
+            - condition: trigger
+              id: "phone"
+            - condition: time
+              after: "05:00:00"
+              before: "09:00:00"
+        sequence:
+          - *turn_off
+          
 
       - conditions:
           condition: trigger
           id: "manual"
         sequence:
-          - &turn_off
-            service: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.house_mode_sleep
+          - *turn_off
           
       default:
         - *turn_off
