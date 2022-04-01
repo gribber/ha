@@ -18,8 +18,8 @@
           - condition: state
             entity_id: input_boolean.house_mode_guests
             state: "on"
-        sequence: 
-          alias: "do nothing"
+        sequence: []
+          # do nothing
             
       - alias: "decide if we want to start clean cycle"
         conditions:
