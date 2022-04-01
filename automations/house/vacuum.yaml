@@ -9,7 +9,23 @@
       id: start_downstairs
       at: input_datetime.time_vacuum_downstairs
 
+    - platform: template
+      id: start_downstairs_notif
+      value_template: "{{ now().strftime('%H:%M:%S') == (state_attr('input_datetime.time_vacuum_downstairs', 'timestamp')|as_datetime - timedelta(minutes=15)).strftime('%H:%M:%S') }}"
+      
+
   condition: []
+
+  variables:
+    anchors:
+      - &notif_phone
+        service: notify.family
+        data:
+          title: "Dammsugaren"
+          message: "Dags för städning om 15min!"
+          data:
+            tag: vacuum
+            timeout: 900
 
   action:
       choose:
@@ -21,26 +37,44 @@
         sequence: []
           # do nothing
             
-      - alias: "decide if we want to start clean cycle"
+      - alias: "decide if we want to do something"
         conditions:
           - condition: and
             conditions:
               - alias: "triggered by start time"
                 condition: trigger
-                id: start_downstairs
-
+                id: 
+                  - "start_downstairs_notif"
+                  - "start_downstairs"
+              
               - alias: "and weekday is on schedule"
                 condition: time
                 weekday:
                   - mon
                   - wed
                   - fri
+
+
         sequence:
-          alias: "start to clean"
-          service: vacuum.start
-          target:
-            entity_id:
-              - vacuum.vac_it_ralph
+          - variables:
+              trigger: "{{ trigger.id }}"
+
+          - alias: "choose what to do"
+            choose:
+              - alias: "if heads up was triggered"
+                conditions: "{{ trigger == 'start_downstairs_notif' }}"
+                sequence:
+                  - *notif_phone
+              
+              - alias: "if actual stard time was triggered"
+                conditions: "{{ trigger == 'start_downstairs' }}"
+                sequence:
+                  alias: "start to clean"
+                  service: vacuum.start
+                  target:
+                    entity_id:
+                      - vacuum.vac_it_ralph
+
 
       # default:
       #     action
