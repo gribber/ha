@@ -12,7 +12,7 @@
     - platform: template
       id: start_downstairs_notif
       value_template: "{{ now().strftime('%H:%M:%S') == (state_attr('input_datetime.time_vacuum_downstairs', 'timestamp')|as_datetime - timedelta(minutes=15)).strftime('%H:%M:%S') }}"
-      
+      # until offset for time trigger is supported: https://github.com/home-assistant/core/pull/56838
 
   condition: []
 
