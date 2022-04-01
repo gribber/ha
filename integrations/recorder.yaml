@@ -3,6 +3,7 @@ purge_keep_days: 2
 auto_purge: true
 include:
   domains:
+    - button
     - switch
     - media_player
     - sensor
