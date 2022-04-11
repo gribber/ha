@@ -1,6 +1,6 @@
 input_boolean:
   mailboxtrigger:
-    
+
 sensor:
   - platform: template
     sensors:
@@ -22,18 +22,18 @@ sensor:
           {% else%}
             mdi:mailbox-outline
           {% endif %}
-        
+
 automation:
   - alias: "mailbox flap opened"
     id: 95cde0f8-eb92-46ea-946a-816c50d5c252
     trigger:
       platform: state
       entity_id: binary_sensor.mailbox_flap
-      to: 'on'
+      to: "on"
     condition:
       condition: state
       entity_id: input_boolean.mailboxtrigger
-      state: 'off'
+      state: "off"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.mailboxtrigger
@@ -49,17 +49,16 @@ automation:
           title: "Postlådan"
           notification_id: "feed_mail"
 
-
   - alias: "mailbox door opened"
     id: a0c39162-faf8-4f84-88b1-69c96a8fe9c5
     trigger:
       platform: state
       entity_id: binary_sensor.mailbox_door
-      to: 'on'
+      to: "on"
     condition:
       condition: state
       entity_id: input_boolean.mailboxtrigger
-      state: 'on'
+      state: "on"
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.mailboxtrigger
@@ -71,6 +70,5 @@ automation:
             tag: mailbox
             timeout: 900
       - service: persistent_notification.dismiss
-        data: 
+        data:
           notification_id: "feed_mail"
-

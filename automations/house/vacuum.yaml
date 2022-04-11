@@ -4,7 +4,6 @@
     stored_traces: 10
 
   trigger:
-
     - platform: time
       id: start_downstairs
       at: input_datetime.time_vacuum_downstairs
@@ -28,32 +27,30 @@
             timeout: 900
 
   action:
-      choose:
+    choose:
       - alias: "if we got guests at home"
         conditions:
           - condition: state
             entity_id: input_boolean.house_mode_guests
             state: "on"
-        sequence: []
-          # do nothing
-            
+        sequence: [] # do nothing
+
       - alias: "decide if we want to do something"
         conditions:
           - condition: and
             conditions:
               - alias: "triggered by start time"
                 condition: trigger
-                id: 
+                id:
                   - "start_downstairs_notif"
                   - "start_downstairs"
-              
+
               - alias: "and weekday is on schedule"
                 condition: time
                 weekday:
                   - mon
                   - wed
                   - fri
-
 
         sequence:
           - variables:
@@ -65,7 +62,7 @@
                 conditions: "{{ trigger == 'start_downstairs_notif' }}"
                 sequence:
                   - *notif_phone
-              
+
               - alias: "if actual stard time was triggered"
                 conditions: "{{ trigger == 'start_downstairs' }}"
                 sequence:
@@ -75,6 +72,5 @@
                     entity_id:
                       - vacuum.vac_it_ralph
 
-
-      # default:
-      #     action
+    # default:
+    #     action

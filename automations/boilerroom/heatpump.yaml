@@ -16,7 +16,6 @@
         - sensor.ctc_power_immersion_heater_lower
       above: 0
 
-
   condition: []
 
   variables:
@@ -54,7 +53,7 @@
 
       - &notif_remove
         service: persistent_notification.dismiss
-        data: 
+        data:
           notification_id: "feed_ctc"
 
   action:
@@ -66,7 +65,7 @@
           sequence:
             - *notif_create
             - *notif_phone_create
-            
+
         - alias: "if current consumption alredy above 0"
           conditions:
             condition: numeric_state

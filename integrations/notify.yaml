@@ -2,4 +2,4 @@
   platform: group
   services:
     - service: mobile_app_kb2003
-    - service: mobile_app_isabells_iphone
+    - service: mobile_app_bellas_iphone

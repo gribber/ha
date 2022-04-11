@@ -1,10 +1,10 @@
 - alias: "boiler: bottom reminder"
   id: a8a350a1-44dc-4a92-b272-7336812df8e4
-  trigger: 
+  trigger:
     - platform: numeric_state
       entity_id: sensor.climate_acc_tank_bottom
       below: 40
-      for: 
+      for:
         minutes: 15
   action:
     - service: notify.family
@@ -19,11 +19,11 @@
 
 - alias: "boiler: middle reminder"
   id: db5a1105-9962-4ed3-8959-aa2f97e37b31
-  trigger: 
+  trigger:
     - platform: numeric_state
       entity_id: sensor.climate_acc_tank_mid
       below: 60
-      for: 
+      for:
         minutes: 15
   action:
     - service: notify.family

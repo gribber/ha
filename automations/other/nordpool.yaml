@@ -1,0 +1,21 @@
+- alias: "Nordpool: reload when hung"
+  id: a7d69bb8-8f5b-46d2-860e-3bcfb9c2cc2d
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.nordpool_se1
+        - sensor.nordpool_se2
+        - sensor.nordpool_se3
+        - sensor.nordpool_se4
+      for:
+        hours: 2
+
+  condition: []
+
+  action:
+    - service: homeassistant.reload_config_entry
+      target:
+        entity_id: "{{ trigger.entity_id }}"
