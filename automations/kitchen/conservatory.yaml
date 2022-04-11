@@ -1,0 +1,42 @@
+- alias: "Kitchen: conservatory door"
+  id: cc0a71fe-be26-4d54-b926-f146380f4487
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.conservatory_door
+      for: &limit "00:10:00"
+
+
+    - platform: state
+      entity_id:
+        - sensor.conservatory_temperature
+        - sensor.kitchen_temperature
+      
+
+  action:
+    choose:
+      - alias: "when triggered"
+        conditions:
+          - alias: "and the door has been open for a while"
+            condition: state
+            entity_id: 
+              - binary_sensor.conservatory_door
+            state: "on"
+            for: *limit
+
+          - alias: "and the temperature difference is above the limit"
+            condition: template
+            value_template: '{{ (states("sensor.kitchen_temperature")|float - states("sensor.conservatory_temperature")|float) > 4 }}'
+
+        sequence:
+          - service: notify.family
+            data:
+              title: "Uterummet"
+              message: 'Dags att stänga dörren ({{ (states("sensor.kitchen_temperature")|float - states("sensor.conservatory_temperature")|float)|round(1) }}C kallare än inne)'
