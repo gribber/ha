@@ -4,6 +4,7 @@ homeassistant:
 default_config:
 
 # integrations
+browser_mod: !include integrations/browser_mod.yaml
 climate: !include integrations/climate.yaml
 frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
