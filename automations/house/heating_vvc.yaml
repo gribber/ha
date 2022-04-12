@@ -156,12 +156,26 @@
     - platform: state
       entity_id:
         - input_boolean.house_vvc
+        - input_boolean.house_vvc_block
         - input_boolean.boilerroom_manual_mode
 
   condition: []
 
   action:
     choose:
+      - conditions:
+          - alias: "if block switch is active"
+            condition: state
+            entity_id:
+              - input_boolean.boilerroom_manual_mode
+            state: "off"
+
+        sequence:
+          alias: "always turn off vvc"
+          service: switch.turn_off
+          target:
+            entity_id: switch.heatpump_vvc
+
       - conditions:
           condition: and
           conditions:
