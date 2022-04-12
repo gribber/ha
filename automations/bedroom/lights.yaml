@@ -24,6 +24,7 @@
       entity_id:
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
+        - input_boolean.house_mode_bright_inside
 
     - platform: state
       id: lights
@@ -219,6 +220,39 @@
               state: "on"
 
           sequence: []
+
+        - conditions:
+              # turn on bedside lights if
+            - condition: state
+              # if it's dark inside
+              entity_id:
+                - input_boolean.house_mode_bright_inside
+              state: "off"
+            - condition: state
+              # and we are not sleeping
+              entity_id: 
+                - input_boolean.house_mode_sleep
+              state: "off"
+              # and we are home
+              entity_id: 
+                - input_boolean.house_mode_away
+              state: "off"
+            - condition: time
+              # after lunch
+              after: "12:00:00"
+              # but before a specific time in the evening
+              before: input_datetime.time_goodnight
+
+          sequence:
+            - &scene_turn_on
+              service: scene.turn_on
+              target:
+                entity_id:
+                  - scene.family_room_ambience_lights_cozy
+                  - scene.family_room_window_lights_cozy
+              data:
+                transition: 5
+
 
         - conditions:
             # manual action detected

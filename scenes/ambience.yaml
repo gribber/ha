@@ -10,6 +10,18 @@
       brightness: *brightness
       color_temp: *color_temp
 
+- name: "bedroom ambience lights cozy"
+  id: 8501b31a-5ce7-4e79-9276-4a00c6fa150c
+  entities:
+    light.bedroom_left:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+    light.bedroom_right:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
+
 - name: "livingroom ambience lights cozy"
   id: 89d8eb7e-d51e-4824-bb9e-fb99e67204a9
   entities:
