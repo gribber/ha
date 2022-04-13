@@ -167,8 +167,8 @@
           - alias: "if block switch is active"
             condition: state
             entity_id:
-              - input_boolean.boilerroom_manual_mode
-            state: "off"
+              - input_boolean.house_vvc_block
+            state: "on"
 
         sequence:
           alias: "always turn off vvc"
