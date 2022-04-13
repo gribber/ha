@@ -222,7 +222,7 @@
           sequence: []
 
         - conditions:
-              # turn on bedside lights if
+            # turn on bedside lights if
             - condition: state
               # if it's dark inside
               entity_id:
@@ -230,11 +230,12 @@
               state: "off"
             - condition: state
               # and we are not sleeping
-              entity_id: 
+              entity_id:
                 - input_boolean.house_mode_sleep
               state: "off"
+            - condition: state
               # and we are home
-              entity_id: 
+              entity_id:
                 - input_boolean.house_mode_away
               state: "off"
             - condition: time
@@ -251,7 +252,6 @@
                   - scene.bedroom_room_ambience_lights_cozy
               data:
                 transition: 5
-
 
         - conditions:
             # manual action detected
