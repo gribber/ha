@@ -238,6 +238,17 @@
               entity_id:
                 - input_boolean.house_mode_away
               state: "off"
+            - condition: and
+              # and both lamps are off (manual mode isnt triggered if only brighness is changed on a lamp already turned on, fixfix)
+              conditions:
+                - condition: state
+                  entity_id:
+                    - light.bedroom_left
+                  state: "off"
+                - condition: state
+                  entity_id:
+                    - light.bedroom_right
+                  state: "off"
             - condition: time
               # after lunch
               after: "12:00:00"
@@ -249,7 +260,7 @@
               service: scene.turn_on
               target:
                 entity_id:
-                  - scene.bedroom_room_ambience_lights_cozy
+                  - scene.bedroom_ambience_lights_cozy
               data:
                 transition: 5
 
