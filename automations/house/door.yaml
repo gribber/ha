@@ -1,0 +1,49 @@
+- alias: "House: door"
+  id: a0dd5741-07ea-4c5c-99ee-b94fe07b755e
+  trace:
+    stored_traces: 25
+
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_away
+      from: "off"
+      to: "on"
+
+  variables:
+    action_lock: "{{ 'LOCK_' ~ trigger.context_id }}"
+
+  action:
+    - choose:
+        conditions:
+          - condition: state
+            entity_id:
+              - lock.front_door
+            state: "unlocked"
+        
+        sequence:
+          - alias: "notify everyone"
+            service: notify.family
+            data:
+              title: "Ytterdörren"
+              message: "Dörren är olåst!"
+              data:
+                tag: frontdoor
+                actions:
+                  - action: "{{ action_lock }}"
+                    title: "Lås dörren"
+          
+          - alias: "wait for respons"
+            wait_for_trigger:
+            - platform: event
+              event_type: mobile_app_notification_action
+              event_data:
+                action: "{{ action_lock }}"
+                
+          - alias: "perform actions"
+            choose:
+            - conditions: "{{ wait.trigger.event.data.action == action_lock }}"
+              sequence:
+                - service: lock.lock
+                  target:
+                    entity_id: lock.front_door
