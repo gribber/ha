@@ -3,11 +3,11 @@ house_vvc:
   icon: "mdi:pump"
 
 house_vvc_preheat:
-  name: "Förvärm temporärt med vvc"
+  name: "Förvärm temporärt med VVC"
   icon: "mdi:pump"
 
 house_vvc_block:
-  name: "Blockera vvc"
+  name: "Blockera VVC"
   icon: "mdi:pump"
 
 driveway_movement:
