@@ -116,6 +116,7 @@
                                 entity_id: input_boolean.bedroom_manual_mode
 
                       default:
+                        - *turn_off_manual_mode
                         - alias: "turn off ceiling light"
                           service: light.turn_off
                           target:
@@ -270,12 +271,14 @@
               # one of the lights changed state
               id: "lights"
 
-            - condition: template
-              # and it was by a user
-              value_template: "{{ trigger.to_state.context.user_id != None }}"
-
           sequence:
-            - *turn_on_manual_mode
+            - choose:
+                conditions: "{{ trigger.to_state.context.user_id != None }}"
+                  # and it was by a user
+                sequence:
+                  - *turn_on_manual_mode
+
+              default: []
 
       default:
         - *turn_off

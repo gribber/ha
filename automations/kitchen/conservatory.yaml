@@ -31,10 +31,10 @@
 
           - alias: "and the temperature difference is above the limit"
             condition: template
-            value_template: '{{ ((states("sensor.kitchen_temperature")|float - states("sensor.conservatory_temperature")|float) > 4) and states("sensor.kitchen_temperature")|float < 20 }}'
+            value_template: '{{ ((states("sensor.kitchen_temperature")|float(0) - states("sensor.conservatory_temperature")|float(0)) > 4) and states("sensor.kitchen_temperature")|float(0) < 20 }}'
 
         sequence:
           - service: notify.family
             data:
               title: "Uterummet"
-              message: 'Dags att stänga dörren ({{ (states("sensor.kitchen_temperature")|float - states("sensor.conservatory_temperature")|float)|round(1) }}C kallare än inne)'
+              message: 'Dags att stänga dörren ({{ (states("sensor.kitchen_temperature")|float(0) - states("sensor.conservatory_temperature")|float(0))|round(1) }}C kallare än inne)'

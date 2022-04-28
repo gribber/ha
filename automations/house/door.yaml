@@ -2,6 +2,7 @@
   id: a0dd5741-07ea-4c5c-99ee-b94fe07b755e
   trace:
     stored_traces: 25
+  mode: restart
 
   trigger:
     - platform: state
