@@ -13,6 +13,14 @@
       # varmvattenläge
       # 0=economy 1=normal 2=comfort 3=customized
 
+    - name: "ctc_hs1_setting_room_temperature"
+      unique_id: 63930bde-6efc-4c2f-84de-0131ab2119f1
+      address: 61509
+      slave: 1
+      scale: 0.1
+      precision: 0
+      # inställning rumstemp
+
     - name: "ctc_hs1_inclination"
       unique_id: 536dd84a-0e0e-4418-8916-f75d8187c899
       address: 61513
@@ -28,6 +36,12 @@
       scale: 0.1
       precision: 0
       # värmekurva förskjutning
+
+    - name: "ctc_hs1_heating_mode"
+      unique_id: 776c827a-cd6f-4f8f-974d-4dd89fa8e3bb
+      address: 61542
+      slave: 1
+      # värmeläge (0=auto, 1=on, 2=off)
 
     - name: "ctc_outdoor_temperature"
       unique_id: 6acd0e80-9da9-42e2-87fe-e05e3824f966
@@ -203,6 +217,16 @@
       scale: 0.1
       precision: 1
       # effekt nedre elpatron
+
+    - name: "ctc_current_room1_temperature"
+      unique_id: f78355c8-9b61-4fe9-b24c-826d2e29a7da
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      address: 62203
+      slave: 1
+      scale: 0.1
+      precision: 1
+      # aktuell rumstemp 1
 
     - name: "ctc_hs1_status"
       unique_id: e9622c88-c6af-4b74-9e24-2ae40d142d75
