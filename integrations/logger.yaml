@@ -1,4 +1,9 @@
 default: warning
 logs:
+  # modbus
   homeassistant.components.modbus: error
   pymodbus.client: error
+  # august
+  # homeassistant.components.august: debug
+  # yalexs: debug
+  # pubnub: debug
