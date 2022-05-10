@@ -42,6 +42,11 @@
       id: wakeup
       at: input_datetime.wakeup_time
 
+    - platform: time
+      id: goodnight
+      at: 
+        - input_datetime.time_goodnight
+
   action:
     - choose:
         - conditions:
@@ -164,6 +169,20 @@
                       data:
                         brightness_step: "{{ step }}"
                         transition: 1
+
+        - conditions:
+            # turn off ambience light
+            - condition: trigger
+              # when it's late
+              id: goodnight
+          sequence:
+            # turn off lights
+            - service: light.turn_off
+              target:
+                entity_id: light.bedroom_window
+              data:
+                transition: 5
+
 
         - conditions:
             # wakeup light
