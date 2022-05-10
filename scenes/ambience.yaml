@@ -21,6 +21,10 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
+    light.bedroom_window:
+      state: *state
+      brightness: *brightness
+      color_temp: *color_temp
 
 - name: "livingroom ambience lights cozy"
   id: 89d8eb7e-d51e-4824-bb9e-fb99e67204a9
