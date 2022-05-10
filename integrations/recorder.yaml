@@ -31,13 +31,8 @@ exclude:
   entity_globs:
     # time sensor
     - sensor.time*
-    # power cunsumption
-    - sensor.rtc_*_1min
-    - sensor.rtc_*_state
     # frigate
     - sensor.*_process_fps
     - sensor.*_camera_fps
-    - sensor.*_detection_fps
-    - switch.adaptive_lighting_*
     # exclude sensordata modified by templates etc (prefixed with _tmp)
     - sensor.*_tmp
