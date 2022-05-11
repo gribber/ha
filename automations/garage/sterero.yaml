@@ -1,0 +1,57 @@
+- alias: "Garage: handle stereo"
+  id: 7edf8e18-0ec4-44cb-9d03-dc49c0fd7a0c
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: state
+      id: door_opens
+      entity_id:
+        - binary_sensor.garage_port
+      from: "off"
+      to: "on"
+
+    - platform: state
+      id: no_motion
+      entity_id: binary_sensor.motion_garage_presence
+      from: "on"
+      to: "off"
+      for:
+        minutes: 15
+
+  condition: []
+
+  action:
+    - choose:
+        - conditions:
+            - alias: "if the port opens"
+              condition: trigger
+              id: door_opens
+
+          sequence:
+            - alias: "turn on the stereo"
+              service: switch.turn_on
+              target:
+                entity_id: switch.garage_plug
+
+
+        - conditions:
+            - alias: "if no motions is detected"
+              condition: trigger
+              id: no_motion
+
+            - alias: "and the port is closed"
+              condition: state
+              entity_id: binary_sensor.garage_port
+              state: "off"
+
+          sequence:
+            - alias: "turn off the stereo"
+            - service: switch.turn_off
+              target:
+                entity_id: switch.garage_plug
