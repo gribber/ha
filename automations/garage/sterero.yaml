@@ -10,18 +10,8 @@
       event_type: automation_reloaded
 
     - platform: state
-      id: port_opens
       entity_id:
         - binary_sensor.garage_port
-      from: "off"
-      to: "on"
-
-    - platform: state
-      id: port_closes
-      entity_id:
-        - binary_sensor.garage_port
-      from: "on"
-      to: "off"
 
     - platform: state
       id: no_motion
@@ -29,16 +19,18 @@
       from: "on"
       to: "off"
       for:
-        minutes: 15
+        minutes: &nomotion 15
 
   condition: []
 
   action:
     - choose:
         - conditions:
-            - alias: "if the port opens"
-              condition: trigger
-              id: port_opens
+            - alias: "if the port is open"
+              condition: state
+              entity_id:
+                - binary_sensor.garage_port
+              state: "on"
 
           sequence:
             - alias: "turn on the stereo"
@@ -48,34 +40,21 @@
 
 
         - conditions:
-            - alias: "if no motions is detected"
-              condition: trigger
-              id: no_motion
-
-            - alias: "and the port is closed"
+            - alias: "if the port is closed"
               condition: state
-              entity_id: binary_sensor.garage_port
+              entity_id:
+                - binary_sensor.garage_port
               state: "off"
-
-          sequence:
-            - &turn_off
-              alias: "turn off the stereo"
-              service: switch.turn_off
-              target:
-                entity_id: switch.garage_plug
-
-
-        - conditions:
-            - alias: "if the port closes"
-              condition: trigger
-              id: port_closing
 
             - alias: "and no motion has been detected for a while"
               condition: state
               entity_id: binary_sensor.motion_garage_presence
               state: "off"
               for:
-                minutes: 5
+                minutes: *nomotion
 
           sequence:
-            - *turn_off
+            - alias: "turn off the stereo"
+              service: switch.turn_off
+              target:
+                entity_id: switch.garage_plug
