@@ -3,10 +3,47 @@ project_id: !secret ga_project_id
 service_account: !include ga_homeassistant.json
 #secure_devices_pin: !secret verisure_default_code
 report_state: true
-exposed_domains:
-  - light
-  - lock
-  - vacuum
+expose_by_default: false
+# exposed_domains:
+#   - light
+#   - lock
+#   - vacuum
 entity_config:
-  group.all_automations:
-    expose: false
+  # bedroom
+  light.bedroom_left:
+    expose: true
+  light.bedroom_right:
+    expose: true
+  light.bedroom_ceiling:
+    expose: true
+  light.bedroom_window:
+    expose: true
+  sensor.bedroom_temperature:
+    expose: true
+
+  # conservatory
+  light.conservatory_ceiling:
+    expose: true
+  light.rice_lamp:
+    expose: true
+  sensor.conservatory_temperature:
+    expose: true
+
+  # office
+  light.office_led_strip:
+    expose: true
+  sensor.office_temperature:
+    expose: true
+  
+  # house
+  light.dekoration_ute:
+    expose: true
+  light.parkering_och_uppfart:
+    expose: true
+  lock.front_door:
+    expose: true
+  vacuum.vac_it_ralph:
+    expose: true
+  input_boolean.house_mode_sleep:
+    expose: true
+
