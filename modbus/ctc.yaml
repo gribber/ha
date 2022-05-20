@@ -37,6 +37,12 @@
       precision: 0
       # värmekurva förskjutning
 
+    - name: "ctc_hs1_blocked"
+      unique_id: 53708adc-ab04-4202-b595-dca56af63ad4
+      address: 61521
+      slave: 1
+      # 0=blockerad, 1=tillåten
+
     - name: "ctc_hs1_heating_mode"
       unique_id: 776c827a-cd6f-4f8f-974d-4dd89fa8e3bb
       address: 61542

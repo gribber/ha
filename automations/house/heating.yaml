@@ -1,0 +1,39 @@
+- alias: "House: floor heat circulation pump"
+  id: 30e75135-6044-4d14-bc8c-75ba60c7fe0e
+  trace:
+    stored_traces: 25
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - sensor.ctc_hs1_blocked
+        - sensor.ctc_hs1_setpoint_supply_temperature
+
+  condition: []
+
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id:
+                - sensor.ctc_hs1_setpoint_supply_temperature
+                #- sensor.ctc_hs1_blocked
+              state: "0"
+
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.floor_heating_circulation_pump
+
+      default:
+        - service: switch.turn_on
+          target:
+            entity_id:
+              - switch.floor_heating_circulation_pump
