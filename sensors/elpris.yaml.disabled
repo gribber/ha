@@ -1,0 +1,14 @@
+# - platform: template
+#   sensors:
+#     electricity_price_total:
+#       friendly_name: "Elpris"
+#       value_template: >-
+#         {% set transfer = 0.667 %}
+#         {% set add = 0.0325 %}
+#         {% set total = (states('sensor.nordpool_se2')|float(default=0) + transfer + add) %}
+#         {{ total | round(3) }}
+#       unit_of_measurement: "SEK/kWh"
+
+
+        # # set price = 0.6366
+        # # set total = price + transfer

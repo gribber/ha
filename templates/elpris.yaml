@@ -1,0 +1,14 @@
+- sensor:
+    - name: "electricity_price_total"
+      unique_id: 8c19fed9-1ab3-45b6-a4a1-67189b100173
+      state: >
+        {% set transfer = 0.667 %}
+        {% set add = 0.0325 %}
+        {% set total = (states('sensor.nordpool_se2')|float(default=0) + transfer + add) %}
+        {{ total | round(3) }}
+      unit_of_measurement: "SEK/kWh"
+      availability: >
+        {{ not (
+          [ states('sensor.nordpool_se2') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
