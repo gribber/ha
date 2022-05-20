@@ -1,0 +1,2 @@
+sensor.cat_flap_catflapdual_battery_level:
+  unit_of_measurement: "%"

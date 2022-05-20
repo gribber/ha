@@ -36,8 +36,67 @@
     - filter: outlier
       window_size: 4
       radius: 2.0
+    # - filter: lowpass
+    #   time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: "00:05"
+      precision: 1
+
+- platform: filter
+  name: "outdoor_min_moving_average_2"
+  entity_id: sensor.outdoor_min
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 5
+    - filter: time_simple_moving_average
+      window_size: "00:05"
+      precision: 1
+
+- platform: filter
+  name: "outdoor_min_moving_average_3"
+  entity_id: sensor.outdoor_min
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 4.0
     - filter: lowpass
       time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: "00:05"
+      precision: 1
+
+- platform: filter
+  name: "outdoor_min_moving_average_4"
+  entity_id: sensor.outdoor_min
+  filters:
+    - filter: time_simple_moving_average
+      window_size: "00:05"
+      precision: 1
+
+- platform: filter
+  name: "outdoor_min_moving_average_5"
+  entity_id: sensor.outdoor_min
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 4.0
+    - filter: lowpass
+      time_constant: 2
+      precision: 2
+    - filter: time_simple_moving_average
+      window_size: "00:05"
+      precision: 1
+
+- platform: filter
+  name: "outdoor_min_moving_average_6"
+  entity_id: sensor.outdoor_min
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 4.0
     - filter: time_simple_moving_average
       window_size: "00:05"
       precision: 1

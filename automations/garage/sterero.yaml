@@ -12,6 +12,12 @@
     - platform: state
       entity_id:
         - binary_sensor.garage_port
+      from:
+        - "on"
+        - "off"
+      to:
+        - "on"
+        - "off"
 
     - platform: state
       id: no_motion
@@ -25,7 +31,8 @@
 
   action:
     - choose:
-        - conditions:
+        - alias: "turn on the stereo"
+          conditions:
             - alias: "if the port is open"
               condition: state
               entity_id:
@@ -39,12 +46,18 @@
                 entity_id: switch.garage_plug
 
 
-        - conditions:
+        - alias: "turn off the stereo"
+          conditions:
             - alias: "if the port is closed"
               condition: state
               entity_id:
                 - binary_sensor.garage_port
               state: "off"
+
+            - alias: "and the stereo is on"
+              condition: state
+              entity_id: switch.garage_plug
+              state: "on"
 
             - alias: "and no motion has been detected for a while"
               condition: state
@@ -58,3 +71,8 @@
               service: switch.turn_off
               target:
                 entity_id: switch.garage_plug
+
+      default:
+        - alias: "nothing to do"
+          delay:
+            milliseconds: 1
