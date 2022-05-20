@@ -13,8 +13,7 @@
 
     - platform: state
       entity_id:
-        - sensor.ctc_hs1_blocked
-        - sensor.ctc_hs1_setpoint_supply_temperature
+        - sensor.ctc_hs1_status
 
   condition: []
 
@@ -23,8 +22,7 @@
         - conditions:
             - condition: state
               entity_id:
-                - sensor.ctc_hs1_setpoint_supply_temperature
-                #- sensor.ctc_hs1_blocked
+                - sensor.ctc_hs1_status
               state: "0"
 
           sequence:
