@@ -11,14 +11,15 @@ frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
 google_assistant: !include integrations/google_assistant.yaml
-google: !include integrations/google.yaml
 logger: !include integrations/logger.yaml
 #modbus: !include integrations/modbus.yaml
 notify: !include integrations/notify.yaml
 recorder: !include integrations/recorder.yaml
-spotify: !include integrations/spotify.yaml
 tts: !include integrations/tts.yaml
 utility_meter: !include integrations/utility_meter.yaml
+# deprecated
+#google: !include integrations/google.yaml
+#spotify: !include integrations/spotify.yaml
 
 automation: !include_dir_merge_list automations/
 binary_sensor: !include_dir_merge_list binary_sensors/

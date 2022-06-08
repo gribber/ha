@@ -1,0 +1,22 @@
+- sensor:
+    - name: sun_elevation
+      unique_id: f519a26c-7055-46af-9592-29d9a8267a0d
+      unit_of_measurement: "°"
+      state: >
+          {{ state_attr('sun.sun', 'elevation') }}
+      availability: >
+          {{ not (
+            [ states('sun.sun') ] 
+            | select('in', ['unknown', 'unavailable', 'none']) 
+            | list) }}
+
+    - name: sun_azimuth
+      unique_id: b5836b46-2a29-43e1-ba88-5e1948a28029
+      unit_of_measurement: "°"
+      state: >
+          {{ state_attr('sun.sun', 'azimuth') }}
+      availability: >
+          {{ not (
+            [ states('sun.sun') ] 
+            | select('in', ['unknown', 'unavailable', 'none']) 
+            | list) }}

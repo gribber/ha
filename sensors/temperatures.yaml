@@ -35,7 +35,8 @@
   filters:
     - filter: outlier
       window_size: 4
-      radius: 2.0
+      radius: 4.0
+      # radius: 2.0
     # - filter: lowpass
     #   time_constant: 10
     - filter: time_simple_moving_average

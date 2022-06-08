@@ -1,3 +1,4 @@
+# deprecated
 - platform: sql
   db_url: !secret mariadb
   scan_interval: 300

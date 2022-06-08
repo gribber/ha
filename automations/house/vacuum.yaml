@@ -63,7 +63,7 @@
                 sequence:
                   - *notif_phone
 
-              - alias: "if actual stard time was triggered"
+              - alias: "if actual start time was triggered"
                 conditions: "{{ trigger == 'start_downstairs' }}"
                 sequence:
                   alias: "start to clean"

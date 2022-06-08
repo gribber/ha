@@ -3,19 +3,21 @@ purge_keep_days: 5
 auto_purge: true
 include:
   domains:
-    - button
-    - switch
-    - media_player
-    - sensor
-    - person
-    - vacuum
-    - device_tracker
     - binary_sensor
+    - button
+    - calendar
+    - counter
+    - device_tracker
+    - group
     - input_boolean
     - light
-    - counter
     - lock
-    - group
+    - number
+    - switch
+    - media_player
+    - person
+    - sensor
+    - vacuum
 exclude:
   event_types:
     - call_service
