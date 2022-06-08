@@ -161,6 +161,23 @@
           | list) }}
 
 - sensor:
+    - name: "ctc_hs1_status_name"
+      unique_id: 9c291126-fe37-4341-987a-fd582e014cf4
+      state: >
+        {% set mapper =  {
+          '0' : 'Från',
+          '1' : 'Semster',
+          '2' : 'Nattsänkning',
+          '3' : 'Till'
+        } %}
+        {{ mapper[states('sensor.ctc_hs1_status')] if states('sensor.ctc_hs1_status') in mapper else "unknown ("+states('sensor.ctc_hs1_status')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_hs1_status') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+- sensor:
     # number of active alarms
     - name: "ctc_num_alarms"
       unique_id: af80c891-1f50-4b2d-bc66-f65cdc946b9c
