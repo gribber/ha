@@ -12,6 +12,11 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
+    light.greenhouse_strip:
+      state: *state
+      brightness: *brightness
+      color_mode: "xy"
+      xy_color: [0.172, 0.7221]
 
 - name: "outdoor entre lights default"
   id: 39bf1e78-179f-4400-8e5e-769b6b183f04
