@@ -1,0 +1,8 @@
+- platform: rest
+  resource: https://services.cnet.se/checkwattapi/v2/measurements/CommunitySolarNow
+  name: checkwatt_data
+  value_template: "{{ value_json.TotalFacilities }}"
+  json_attributes:
+    - BestReading
+    - LatestReading
+  scan_interval: 300

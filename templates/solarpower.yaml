@@ -1,0 +1,16 @@
+- sensor:
+    - name: "se_solar_production_estimate"
+      unique_id: 5367f3de-be51-4bbf-a22e-a6d3705e0c9b
+      state: >
+        {# toppeffekt (från: https://svensksolenergi.se/statistik/) #}
+        {% set total = 2200 %}
+        {# toppeffekt / monitorerad toppeffekt #}
+        {% set factor = (total / (state_attr('sensor.checkwatt_data', 'BestReading')/1024/1024))|float(default=0) %}
+        {% set prod = (factor * (state_attr('sensor.checkwatt_data', 'LatestReading')/1024/1024))|float(default=0)|round(1) %}
+        {{ prod }}
+      unit_of_measurement: "MW"
+      availability: >
+        {{ not (
+          [ states('sensor.checkwatt_data') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
