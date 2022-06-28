@@ -1,0 +1,70 @@
+- alias: "Garage: port"
+  id: a7711621-6c74-47f5-b04c-b6cd382f673f
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: time
+      at: &trigger_time "21:00:00"
+
+  condition: []
+
+  variables:
+    anchors:
+      - &notif_phone_open
+        service: notify.family
+        data:
+          title: "Garaget"
+          message: "Garageporten är öppen!"
+          data:
+            tag: garage
+
+      - &notif_phone_closed
+        service: notify.family
+        data:
+          title: "Garaget"
+          message: "Tack!"
+          data:
+            tag: garage
+            timeout: 900
+
+      - &notif_phone_remove
+        service: notify.family
+        data:
+          message: "clear_notification"
+          data:
+            tag: garage
+
+      - &notif_create
+        service: persistent_notification.create
+        data:
+          title: "Garaget"
+          message: "Garageporten är öppen!"
+          notification_id: "feed_garage"
+
+      - &notif_remove
+        service: persistent_notification.dismiss
+        data: 
+          notification_id: "feed_garage"
+
+  action:
+    - choose:
+        - conditions:
+          - condition: state
+            entity_id:
+              - binary_sensor.garage_port
+            state: "on"
+          - condition: time
+            after: *trigger_time
+          sequence:
+            - *notif_create
+            - *notif_phone_open
+            
+      default:
+        - *notif_remove
+        - *notif_phone_remove
