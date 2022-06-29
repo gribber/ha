@@ -9,6 +9,14 @@
     - platform: event
       event_type: automation_reloaded
 
+    - platform: state
+      entity_id:
+        - input_boolean.garage_port
+      from: "off"
+      to: "on"
+      for:
+        minutes: 5
+
     - platform: time
       at: &trigger_time "21:00:00"
 
