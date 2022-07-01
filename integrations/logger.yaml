@@ -7,4 +7,4 @@ logs:
   # homeassistant.components.august: debug
   # yalexs: debug
   # pubnub: debug
-  custom_components.powercalc.sensor: debug
+  custom_components.powercalc: debug
