@@ -14,6 +14,7 @@ google_assistant: !include integrations/google_assistant.yaml
 logger: !include integrations/logger.yaml
 #modbus: !include integrations/modbus.yaml
 notify: !include integrations/notify.yaml
+powercalc: !include integrations/powercalc.yaml
 recorder: !include integrations/recorder.yaml
 tts: !include integrations/tts.yaml
 utility_meter: !include integrations/utility_meter.yaml

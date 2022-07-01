@@ -1,0 +1,44 @@
+- platform: powercalc
+  entities:
+    - entity_id: light.parking_1
+
+- platform: powercalc
+  create_group: outdoor lights
+  entities:
+    - create_group: outdoor parking driveway
+      include:
+        area: parkering_och_uppfart
+    - create_group: outdoor ambience
+      include:
+        area: dekoration_ute
+
+- platform: powercalc
+  create_group: indoor lights
+  entities:
+    - create_group: conservatory
+      include:
+        area: uterum
+    - create_group: kitchen
+      include:
+        area: kitchen
+    - create_group: family room
+      include:
+        area: allrum
+    - create_group: bathroom
+      include:
+        area: badrum_nere
+    - create_group: hallway downstairs
+      include:
+        area: hallen
+    - create_group: living room
+      include:
+        area: living_room
+    - create_group: hallway upstairs
+      include:
+        area: hall_uppe
+    - create_group: office
+      include:
+        area: hobbyrummet
+    - create_group: bedroom
+      include:
+        area: bedroom
