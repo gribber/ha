@@ -11,7 +11,7 @@
 
     - platform: state
       entity_id:
-        - input_boolean.boiler_room_door
+        - binary_sensor.boiler_room_door
       from: "off"
       to: "on"
       for:
@@ -57,7 +57,7 @@
 
       - &notif_remove
         service: persistent_notification.dismiss
-        data: 
+        data:
           notification_id: "feed_boilerroom"
 
   action:
@@ -70,7 +70,7 @@
           sequence:
             - *notif_create
             - *notif_phone_open
-            
+
       default:
         - *notif_remove
         - *notif_phone_remove
