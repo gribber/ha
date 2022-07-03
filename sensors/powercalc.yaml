@@ -1,47 +1,53 @@
 - platform: powercalc
-  entities:
-    - entity_id: light.parking_1
-
-- platform: powercalc
-  entity_id: light.driveway_1
-
-- platform: powercalc
   create_group: "outdoor lights"
+  unique_id: 28782826-4b21-44d0-8105-60e6b9338bd2
   entities:
     - create_group: "outdoor parking driveway"
+      unique_id: 9366ba2a-8a65-4465-86cf-8651d0765ac2
       include:
         area: parkering_och_uppfart
-    # - create_group: "outdoor ambience"
-    #   include:
-    #     area: dekoration_ute
+    - create_group: "outdoor ambience"
+      unique_id: 4dbfacbd-7fc4-40a6-a4e6-26e385db0f12
+      include:
+        area: dekoration_ute
 
 - platform: powercalc
   create_group: "indoor lights"
+  unique_id: 0259ae80-3fd3-40fe-9cf9-1857f2e28fc0
   entities:
     - create_group: "conservatory"
+      unique_id: 5d77adcf-200f-4111-b1a7-eee8ea1e2a0e
       include:
         area: uterum
     - create_group: "kitchen"
+      unique_id: 24069df6-d3f6-443a-9cc2-ea50b2f1d064
       include:
         area: kitchen
     - create_group: "family room"
+      unique_id: 49d8f20c-79f0-4a4a-a83f-618ef66c7a83
       include:
         area: allrum
-    # - create_group: "bathroom"
-    #   include:
-    #     area: badrum_nere
+    - create_group: "bathroom"
+      unique_id: 8555a54f-b7e2-47b0-b85d-d89ce3d8287f
+      include:
+        area: badrum_nere
     - create_group: "hallway downstairs"
+      unique_id: 12012df5-0c82-44c0-9b7b-3b7a4047f315
       include:
         area: hallen
     - create_group: "living room"
+      unique_id: 0d8e5469-4703-443e-9110-78f7c27f8319
       include:
         area: living_room
     - create_group: "hallway upstairs"
+      unique_id: f4e03db2-285a-4c76-98ad-f4b04b7c4e02
       include:
         area: hall_uppe
-    # - create_group: "office"
-    #   include:
-    #     area: hobbyrummet
+    - create_group: "office"
+      unique_id: ffbefefc-deec-4da8-a06e-841890dc8d43
+      include:
+        area: hobbyrummet
     - create_group: "bedroom"
+      unique_id: 88566455-3dcf-4aa3-968c-e9545e92b64e
       include:
         area: bedroom
