@@ -15,7 +15,13 @@
       from: "off"
       to: "on"
       for:
-        minutes: 5
+        minutes: 10
+
+    - platform: state
+      entity_id:
+        - binary_sensor.boiler_room_door
+      from: "on"
+      to: "off"
 
     - platform: time
       at: "21:00:00"
