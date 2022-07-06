@@ -1,0 +1,13 @@
+- sensor:
+    - name: "average_voltage"
+      unique_id: dc635f85-78f2-46a9-ae53-47145b094d68
+      state: >
+        {{ ((states('sensor.voltage_phase_1')|float(default=0)+states('sensor.voltage_phase_2')|float(default=0)+states('sensor.voltage_phase_3')|float(default=0))/3)|round(1) }}
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+      availability: >
+        {{ not (
+          [ states('sensor.voltage_phase_1'), states('sensor.voltage_phase_2'), states('sensor.voltage_phase_3') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
