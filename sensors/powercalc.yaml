@@ -31,6 +31,19 @@
       unique_id: 8555a54f-b7e2-47b0-b85d-d89ce3d8287f
       include:
         area: badrum_nere
+      entities:
+        - entity_id: light.bathroom_downstairs_mirror
+          standby_power: 1.2
+          fixed:
+            power: 12.3
+    - create_group: "toilet_upstairs"
+      unique_id: 0267cf53-3359-4686-bfc1-8ffb1f5fa60b
+      include:
+        area: toalett_uppe
+      entities:
+        - entity_id: light.upper_toilet
+          fixed:
+            power: "{{ states('sensor.upper_toilet_power') }}"
     - create_group: "hallway downstairs"
       unique_id: 12012df5-0c82-44c0-9b7b-3b7a4047f315
       include:
