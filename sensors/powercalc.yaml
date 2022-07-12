@@ -64,3 +64,11 @@
       unique_id: 88566455-3dcf-4aa3-968c-e9545e92b64e
       include:
         area: bedroom
+    - create_group: "laundry room"
+      unique_id: 6876c60a-971b-4d89-a3f8-0a8c7110c0ea
+      include:
+        area: tvattstuga
+      entities:
+        - entity_id: switch.laundry_room_channel_1
+          fixed:
+            power: "{{ states('sensor.laundry_room_channel_1_power') }}"
