@@ -1,0 +1,47 @@
+- alias: "Hallway upstairs: terrace door"
+  id: 69068a0a-fdf1-4601-b8a8-cd9e8deec8f6
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.terrace_door
+      for: &limit "00:05:00"
+
+    - platform: state
+      entity_id:
+        - sensor.terrace_temperature
+        - sensor.bedroom_temperature
+
+  action:
+    choose:
+      - alias: "when triggered"
+        conditions:
+          - alias: "and the door has been open for a while"
+            condition: state
+            entity_id:
+              - binary_sensor.terrace_door
+            state: "on"
+            for: *limit
+
+          - alias: "and whenever the temperature getting..."
+            condition: or
+            conditions:
+              - alias: "too cold"
+                condition: template
+                value_template: '{{ ((states("sensor.bedroom_temperature")|float(0) - states("sensor.terrace_temperature")|float(0)) > 4) and states("sensor.bedroom_temperature")|float(0) < 19 }}'
+              - alias: "too warm"
+                condition: template
+                value_template: '{{ ((states("sensor.bedroom_temperature")|float(0) - states("sensor.terrace_temperature")|float(0)) < 1) and states("sensor.bedroom_temperature")|float(0) > 19 }}'
+
+
+        sequence:
+          - service: notify.family
+            data:
+              title: "Uterummet uppe"
+              message: 'Dags att stänga dörren (inne: {{ states("sensor.bedroom_temperature")|float(0) }}C ute: {{ states("sensor.terrace_temperature")|float(0) }}C)'
