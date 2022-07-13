@@ -41,7 +41,8 @@
 
 
         sequence:
-          - service: notify.family
+          - alias: "send a notification"
+            service: notify.family
             data:
               title: "Uterummet uppe"
               message: 'Dags att stänga dörren (inne: {{ states("sensor.bedroom_temperature")|float(0) }}C ute: {{ states("sensor.terrace_temperature")|float(0) }}C)'
