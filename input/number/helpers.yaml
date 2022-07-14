@@ -1,0 +1,6 @@
+wind_num_plants:
+  name: "Antal vindkraftverk i drift"
+  min: 0
+  max: 100000
+  mode: box
+  icon: "mdi:turbine"
