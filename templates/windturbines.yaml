@@ -1,0 +1,12 @@
+- sensor:
+    - name: "wind turbines required right now"
+      unique_id: 49bb2f61-2933-4fe4-89e4-29e187eedae9
+      state: >
+        {{ (states('sensor.statnett_prod_se_nuclear')|float(default=0)/(states('sensor.statnett_prod_se_wind')|float(default=0)/states('input_number.wind_num_plants')|int(default=0)))|round(0) }}
+      unit_of_measurement: "turbines"
+      state_class: measurement
+      availability: >
+        {{ not (
+          [ states('sensor.statnett_prod_se_nuclear'), states('sensor.statnett_prod_se_wind') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
