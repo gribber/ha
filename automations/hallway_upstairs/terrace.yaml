@@ -37,7 +37,7 @@
                 value_template: '{{ ((states("sensor.bedroom_temperature")|float(0) - states("sensor.terrace_temperature")|float(0)) > 4) and states("sensor.bedroom_temperature")|float(0) < 19 }}'
               - alias: "too warm"
                 condition: template
-                value_template: '{{ ((states("sensor.bedroom_temperature")|float(0) - states("sensor.terrace_temperature")|float(0)) < 1) and states("sensor.bedroom_temperature")|float(0) > 19 }}'
+                value_template: '{{ (states("sensor.bedroom_temperature")|float(0) < states("sensor.terrace_temperature")|float(0)) and states("sensor.bedroom_temperature")|float(0) > 19 }}'
 
 
         sequence:
