@@ -3,4 +3,12 @@ wind_num_plants:
   min: 0
   max: 100000
   mode: box
-  icon: "mdi:turbine"
+  icon: "mdi:wind-turbine"
+wind_installed_power:
+  name: "Totalt installerad effekt"
+  min: 0
+  max: 100000
+  mode: box
+  unit_of_measurement: MW
+  icon: "mdi:wind-turbine"
+  # http://vindstat.com/rapporter-2/
