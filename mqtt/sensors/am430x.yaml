@@ -1,0 +1,51 @@
+- name: "am430x_rssi"
+  state_topic: "am430x/wlan/rssi"
+  unit_of_measurement: "dB"
+  device_class: "signal_strength"
+
+- name: "am430x_status"
+  state_topic: "am430x/mower/status/plain"
+
+- name: "am430x_status_duration"
+  state_topic: "am430x/mower/status/duration"
+  unit_of_measurement: "min"
+
+- name: "am430x_substatus"
+  state_topic: "am430x/mower/substatus"
+
+- name: "am430x_distance"
+  state_topic: "am430x/mower/distance"
+  unit_of_measurement: "m"
+
+- name: "am430x_mode"
+  state_topic: "am430x/mower/mode"
+
+- name: "am430x_battery_level"
+  state_topic: "am430x/mower/battery/charge"
+  unit_of_measurement: "%"
+  device_class: "battery"
+
+- name: "am430x_temperature"
+  state_topic: "am430x/health/climate/temperature"
+  unit_of_measurement: "°C"
+  device_class: "temperature"
+
+- name: "am430x_humidity"
+  state_topic: "am430x/health/climate/humidity"
+  unit_of_measurement: "%"
+  device_class: "humidity"
+
+- name: "am430x_battery_voltage"
+  state_topic: "am430x/health/voltage/batt"
+  unit_of_measurement: "V"
+  device_class: "voltage"
+
+- name: "am430x_int33_voltage"
+  state_topic: "am430x/health/voltage/int33"
+  unit_of_measurement: "V"
+  device_class: "voltage"
+
+- name: "am430x_ext33_voltage"
+  state_topic: "am430x/health/voltage/ext33"
+  unit_of_measurement: "V"
+  device_class: "voltage"
