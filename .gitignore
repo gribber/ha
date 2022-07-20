@@ -11,6 +11,8 @@
 !input/*/
 !integrations/
 !modbus/
+!mqtt/
+!mqtt/*/
 !packages/
 !scenes/
 !sensors/
