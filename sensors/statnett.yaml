@@ -5,6 +5,7 @@
   queries:
     - name: statnett_prod_se_nuclear
       unique_id: af27fa16-2d8e-403c-81e8-ebd4af7796cf
+      unit_of_measurement: MW
       measurement: MW
       where: '"zone" = ''SE'''
       group_function: last
@@ -12,6 +13,7 @@
       
     - name: statnett_prod_se_wind
       unique_id: 31e09ebe-f58e-493e-8ac4-01b60eac5d44
+      unit_of_measurement: MW
       measurement: MW
       where: '"zone" = ''SE'''
       group_function: last
