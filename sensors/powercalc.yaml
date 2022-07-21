@@ -60,6 +60,11 @@
       unique_id: ffbefefc-deec-4da8-a06e-841890dc8d43
       include:
         area: hobbyrummet
+      entities:
+        - entity_id: light.office_led_strip
+          standby_power: 0.1
+          fixed:
+            power: 18.4
     - create_group: "bedroom"
       unique_id: 88566455-3dcf-4aa3-968c-e9545e92b64e
       include:
