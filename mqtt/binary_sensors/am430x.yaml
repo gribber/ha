@@ -1,5 +1,5 @@
 - name: "am430x_stopped"
   state_topic: "am430x/mower/stopped"
-  payload_off: false
-  payload_on: true
+  payload_off: "false"
+  payload_on: "true"
   device_class: safety

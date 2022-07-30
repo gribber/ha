@@ -25,6 +25,10 @@
   unit_of_measurement: "%"
   device_class: "battery"
 
+- name: "am430x_next_start"
+  state_topic: "am430x/mower/timer/next/unix"
+  unit_of_measurement: "sec"
+
 - name: "am430x_temperature"
   state_topic: "am430x/health/climate/temperature"
   unit_of_measurement: "°C"
