@@ -14,11 +14,23 @@
         - input_boolean.house_mode_daylight
         - input_boolean.house_mode_outside_work
 
+    # - platform: state
+    #   id: movement
+    #   entity_id: binary_sensor.motion_driveway_presence
+    #   from: "off"
+    #   to: "on"
+
     - platform: state
       id: movement
-      entity_id: binary_sensor.motion_driveway_presence
+      entity_id: input_boolean.driveway_movement
       from: "off"
       to: "on"
+
+    - platform: state
+      id: movement_off
+      entity_id: input_boolean.driveway_movement
+      from: "on"
+      to: "off"
 
   action:
     choose:
