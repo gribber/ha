@@ -7,6 +7,7 @@ default_config:
 # integrations
 browser_mod: !include integrations/browser_mod.yaml
 climate: !include integrations/climate.yaml
+ffmpeg: !include integrations/ffmpeg.yaml
 frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
