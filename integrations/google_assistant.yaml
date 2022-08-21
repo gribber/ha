@@ -29,6 +29,10 @@ entity_config:
   sensor.conservatory_temperature:
     expose: true
 
+  # livingroom
+  script.poop_livingroom:
+    expose: true
+
   # office
   light.office_led_strip:
     expose: true

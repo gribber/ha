@@ -44,7 +44,7 @@
 
     - platform: time
       id: goodnight
-      at: 
+      at:
         - input_datetime.time_goodnight
 
   action:
@@ -130,11 +130,22 @@
                 - alias: "Small bulb pressed"
                   conditions: "{{ action == 'small-press' }}"
                   sequence:
-                    - *turn_on_manual_mode
-                    - alias: "toggle wall lamp"
-                      service: light.toggle
-                      target:
-                        entity_id: light.hallway_upstairs_wall
+                    - alias: "toggle poop lamp"
+                      choose:
+                        conditions: "{{ states('script.poop_bedroom') == 'off' }}"
+                        sequence:
+                          - *turn_on_manual_mode
+                          - service: script.turn_on
+                            target:
+                              entity_id: script.poop_bedroom
+                      default:
+                        - *turn_off_manual_mode
+                        - service: switch.turn_off
+                          target:
+                            entity_id: switch.poop_plug
+                        - service: script.turn_off
+                          target:
+                            entity_id: script.poop_bedroom
 
                 - alias: "Left pressed"
                   conditions: "{{ action == 'left-press' }}"
@@ -176,13 +187,16 @@
               # when it's late
               id: goodnight
           sequence:
-            # turn off lights
-            - service: light.turn_off
-              target:
-                entity_id: light.bedroom_window
-              data:
-                transition: 5
-
+            - alias: "if night light mode is off"
+              choose:
+                conditions: "{{ states('input_boolean.bedroom_nightlight') == 'off' }}"
+                sequence:
+                  # turn off lights
+                  - service: light.turn_off
+                    target:
+                      entity_id: light.bedroom_window
+                    data:
+                      transition: 5
 
         - conditions:
             # wakeup light
@@ -292,7 +306,8 @@
 
           sequence:
             - choose:
-                conditions: "{{ trigger.to_state.context.user_id != None }}"
+                conditions:
+                  "{{ trigger.to_state.context.user_id != None }}"
                   # and it was by a user
                 sequence:
                   - *turn_on_manual_mode

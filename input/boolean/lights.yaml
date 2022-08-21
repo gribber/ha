@@ -5,3 +5,7 @@ wakeup_enabled:
 wakeup_offwork:
   name: "Aktiv på helgdagar"
   icon: "mdi:calendar-blank"
+
+bedroom_nightlight:
+  name: "Aktivera nattlampa"
+  icon: "mdi:weather-night"
