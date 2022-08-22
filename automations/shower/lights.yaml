@@ -1,0 +1,51 @@
+- alias: "shower: lights"
+  id: 78a33731-8ff8-49c3-8258-1af62de598ae
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.bathroom_upstairs_presence
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.bathroom_upstairs_presence
+      from: "on"
+      to: "off"
+      for:
+        seconds: 180
+
+  action:
+    - choose:
+        - alias: "when triggered"
+          conditions:
+            - alias: "and motion is detected"
+              condition: state
+              entity_id:
+                - binary_sensor.bathroom_upstairs_presence
+              state: "on"
+
+            - alias: "and we are home"
+              condition: state
+              entity_id:
+                - input_boolean.house_mode_away
+              state: "off"
+
+          sequence:
+            - alias: "turn on the lights"
+              service: light.turn_on
+              target:
+                entity_id: light.shelly_shower
+
+      default:
+        - alias: "turn off the lights"
+          service: light.turn_off
+          target:
+            entity_id: light.shelly_shower
