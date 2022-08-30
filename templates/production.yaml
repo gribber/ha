@@ -1,0 +1,12 @@
+- sensor:
+  - name: "solar_prod_current_spot_revenue"
+    unique_id: 6d42c081-f9d2-4adb-95d8-4defc2283f2b
+    state: >
+      {% set total = (states('sensor.nordpool_se2')|float(default=0) * states('sensor.momentary_active_export')|float(default=0)) %}
+      {{ total | round(3) }}
+    unit_of_measurement: SEK/h
+    availability: >
+      {{ not (
+        [ states('sensor.nordpool_se2'), states('sensor.momentary_active_export') ] 
+        | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}

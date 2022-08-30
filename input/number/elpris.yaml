@@ -1,0 +1,23 @@
+electricity_transfer:
+  name: "electricity transfer cost"
+  mode: box
+  unit_of_measurement: SEK
+  step: 0.001
+  min: 0
+  max: 1
+
+electricity_tax:
+  name: "electricity tax"
+  mode: box
+  unit_of_measurement: SEK
+  step: 0.001
+  min: 0
+  max: 1
+
+electricity_add:
+  name: "electricity additional costs"
+  mode: box
+  unit_of_measurement: SEK
+  step: 0.001
+  min: 0
+  max: 1

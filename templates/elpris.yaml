@@ -2,9 +2,10 @@
     - name: "electricity_price_total"
       unique_id: 8c19fed9-1ab3-45b6-a4a1-67189b100173
       state: >
-        {% set transfer = 0.667 %}
-        {% set add = 0.0325 %}
-        {% set total = (states('sensor.nordpool_se2')|float(default=0) + transfer + add) %}
+        {% set transfer = 0.244 %} {# grid transfer cost #}
+        {% set tax = 0.45 %} {# tax and vat #}
+        {% set add = 0.0413 %} {# additional costs #}
+        {% set total = (states('sensor.nordpool_se2')|float(default=0) + transfer + tax + add) %}
         {{ total | round(3) }}
       unit_of_measurement: "SEK/kWh"
       availability: >
@@ -12,3 +13,16 @@
           [ states('sensor.nordpool_se2') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
+
+- sensor:
+  - name: "electricity_price_additions_total"
+    unique_id: 41560582-611c-414a-bd25-1041483e4ff7
+    state: >
+      {% set total = (states('input_number.electricity_add')|float(default=0) + states('input_number.electricity_tax')|float(default=0) + states('input_number.electricity_transfer')|float(default=0)) %}
+      {{ total | round(3) }}
+    unit_of_measurement: SEK
+    availability: >
+      {{ not (
+        [ states('input_number.electricity_add'), states('input_number.electricity_tax'), states('input_number.electricity_transfer') ] 
+        | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}
