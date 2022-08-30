@@ -17,3 +17,7 @@ driveway_movement:
 front_movement:
   name: "Rörelse utanför entré"
   icon: "mdi:run"
+
+techroom_movement:
+  name: Rörlse i teknikrummet
+  icon: "mdi:run"

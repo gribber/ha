@@ -1,0 +1,57 @@
+- alias: "techroom: presence"
+  id: 7981014b-9e4b-4e0b-ba5b-a32147cf0e2a
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: engage
+      entity_id:
+        - input_boolean.techroom_movement
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - input_boolean.techroom_movement
+      from: "on"
+      to: "off"
+
+
+  action:
+    choose:
+      conditions:
+        - condition: or
+          conditions:
+          - condition: trigger
+            id: "engage"
+          - condition: state
+            entity_id: input_boolean.techroom_movement
+            state: "on"
+
+      sequence:
+        # enable monitors, if turned off
+        choose:
+          conditions:
+            condition: state
+            entity_id: binary_sensor.tech_monitors
+            state: "off"
+          sequence:
+            - service: shell_command.monitor_on
+            - service: command_line.reload
+
+    default:
+      # disable monitors, if turned on
+      choose:
+        conditions:
+          condition: state
+          entity_id: binary_sensor.tech_monitors
+          state: "on"
+        sequence:
+        - service: shell_command.monitor_off
+        - service: command_line.reload
+        

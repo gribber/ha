@@ -1,0 +1,2 @@
+monitor_off: !secret shell_techpi_off
+monitor_on: !secret shell_techpi_on

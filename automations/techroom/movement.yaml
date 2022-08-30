@@ -1,0 +1,49 @@
+- alias: "Movement: techroom"
+  id: 4a346b19-87e7-4d09-99ec-019d7ec05237
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: movement
+      entity_id:
+        - binary_sensor.motion_techroom_presence
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.motion_techroom_presence
+      from: "on"
+      to: "off"
+      for:
+        minutes: 10
+
+  condition: []
+
+  action:
+    choose:
+      - alias: "activate movement mode"
+        conditions:
+          - alias: "when movement is detected at driveway"
+            condition: trigger
+            id: "movement"
+
+        sequence:
+          - alias: "turn on helper"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.techroom_movement
+
+    default:
+      - alias: "turn off helper"
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.techroom_movement

@@ -18,6 +18,7 @@
 !sensors/
 !scripts/
 !sensors/
+!shell_commands/
 !templates/
 !*.yaml
 !*.disabled
