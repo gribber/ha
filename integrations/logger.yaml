@@ -8,3 +8,5 @@ logs:
   # yalexs: debug
   # pubnub: debug
   #custom_components.powercalc: debug
+  #shell commands:
+  #homeassistant.components.shell_command: debug

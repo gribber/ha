@@ -25,6 +25,7 @@
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
         - input_boolean.house_mode_bright_inside
+        - input_boolean.bedroom_nightlight
 
     - platform: state
       id: lights
