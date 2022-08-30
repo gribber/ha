@@ -1,5 +1,6 @@
-- alias: "Entre: lights"
-  id: 2467611a-12d7-4a8d-8650-e18e25e5082b
+- alias: "House: outdoor lights"
+  id: 628f6bc0-9b4a-461f-878f-92b8de65fa7d
+  mode: queued
   trigger:
     - platform: homeassistant
       event: start
@@ -16,13 +17,13 @@
 
     - platform: state
       id: movement
-      entity_id: input_boolean.front_movement
+      entity_id: input_boolean.driveway_movement
       from: "off"
       to: "on"
 
     - platform: state
       id: movement_off
-      entity_id: input_boolean.front_movement
+      entity_id: input_boolean.driveway_movement
       from: "on"
       to: "off"
 
@@ -40,7 +41,7 @@
           - alias: "activate outside work scene"
             service: scene.turn_on
             target:
-              entity_id: scene.outdoor_work_entre
+              entity_id: scene.outdoor_work
             data:
               transition: 2
 
@@ -50,31 +51,58 @@
             # if triggered by movement
             id: "movement"
           - condition: state
-            # and turned on (by daylight off)
+            # and not daylight
             entity_id:
-              - light.entre
-            state: "on"
+              - input_boolean.house_mode_daylight
+            state: "off"
 
         sequence:
           # illuminate for a while and return to previous mode
           - service: scene.turn_on
             target:
-              entity_id: scene.outdoor_entre_movement
+              entity_id: scene.outdoor_parking_movement
             data:
               transition: 2
+          - delay:
+              minutes: 3
           
+          - choose:
+            # if it's still dark outside, return to previous
+            - conditions:
+                condition: state
+                entity_id:
+                  - input_boolean.house_mode_daylight
+                state: "off"
+              sequence:
+                - service: scene.turn_on
+                  target:
+                    entity_id: scene.outdoor_parking_default
+                  data:
+                    transition: 5
 
+            # if it's daylight, turn off lights
+            - conditions:
+                condition: state
+                entity_id:
+                  - input_boolean.house_mode_daylight
+                state: "on"
+              sequence:
+              - service: light.turn_off
+                target:
+                  entity_id: light.parkering_och_uppfart
+                data:
+                  transition: 5
 
       - conditions:
+        # if not daylight
           condition: state
-          # if not daylight
           entity_id:
             - input_boolean.house_mode_daylight
           state: "off"
         sequence:
           - service: scene.turn_on
             target:
-              entity_id: scene.outdoor_entre_lights_default
+              entity_id: scene.outdoor_lights_default
             data:
               transition: 5
 
@@ -82,7 +110,7 @@
     default:
       - service: light.turn_off
         target:
-          entity_id: light.entre
+          entity_id: light.utomhuslampor
         data:
           transition: 5
 
