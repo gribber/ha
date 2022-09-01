@@ -37,7 +37,9 @@
 
     - platform: time
       id: reset
-      at: input_datetime.house_reset_settings
+      at: 
+        - input_datetime.house_reset_settings
+        - input_datetime.house_reset_settings_day
 
     - platform: time
       id: wakeup

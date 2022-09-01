@@ -4,3 +4,9 @@ house_reset_settings:
   icon: "mdi:restart"
   has_time: true
   has_date: false
+
+house_reset_settings_day:
+  name: "Tid att återställ manuella inställningar 2"
+  icon: "mdi:restart"
+  has_time: true
+  has_date: false

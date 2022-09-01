@@ -1,0 +1,5 @@
+techpi_ambience:
+  alias: "run ambience sounds"
+  sequence:
+    - service: shell_command.borg_ambience
+    - service: command_line.reload
