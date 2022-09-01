@@ -51,6 +51,10 @@
           - alias: "when triggered"
             condition: trigger
             id: daylight
+          - alias: "and it turned off"
+            condition: state
+            entity_id: input_boolean.house_mode_daylight
+            state: "off"
 
         sequence:
           - alias: "turn on lights"
