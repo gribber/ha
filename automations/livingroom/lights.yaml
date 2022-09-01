@@ -13,10 +13,18 @@
       entity_id:
         - input_boolean.house_mode_bright_inside
 
+    - platform: state
+      id: night
+      entity_id:
+        - input_boolean.house_mode_sleep
+      from: "off"
+      to: "on"
+
     - platform: time
       at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
+
 
   action:
     choose:
@@ -36,6 +44,18 @@
                 - light.livingroom_window_1
             data:
               transition: 5
+
+      - conditions:
+          - condition: trigger
+            # when night mode is active
+            id: night
+        sequence:
+          - service: light.turn_off
+            # turn of regular lights
+            target:
+              entity_id:
+                - light.vardagsrum_framre
+                - light.vardagsrum_bakre
 
       - conditions:
           - condition: or
