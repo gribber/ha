@@ -17,3 +17,23 @@ grid_monthly_energy:
 grid_yearly_energy:
   source: sensor.cumulative_active_import
   cycle: yearly
+
+grid_hourly_energy_export:
+  source: sensor.cumulative_active_export
+  cycle: hourly
+
+grid_daily_energy_export:
+  source: sensor.cumulative_active_export
+  cycle: daily
+
+grid_weekly_energy_export:
+  source: sensor.cumulative_active_export
+  cycle: weekly
+
+grid_monthly_energy_export:
+  source: sensor.cumulative_active_export
+  cycle: monthly
+
+grid_yearly_energy_export:
+  source: sensor.cumulative_active_export
+  cycle: yearly
