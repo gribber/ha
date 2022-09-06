@@ -166,7 +166,7 @@
       state: >
         {% set mapper =  {
           '0' : 'Från',
-          '1' : 'Semster',
+          '1' : 'Semester',
           '2' : 'Nattsänkning',
           '3' : 'Till'
         } %}
