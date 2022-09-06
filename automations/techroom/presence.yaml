@@ -43,6 +43,7 @@
           sequence:
             - service: shell_command.monitor_on
             - service: command_line.reload
+            - service: shell_command.borg_ambience
 
     default:
       # disable monitors, if turned on
