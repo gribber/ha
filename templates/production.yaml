@@ -2,12 +2,12 @@
   - name: "solar_prod_current_spot_revenue"
     unique_id: 6d42c081-f9d2-4adb-95d8-4defc2283f2b
     state: >
-      {% set total = (states('sensor.nordpool_se2')|float(default=0) * states('sensor.momentary_active_export')|float(default=0)) %}
+      {% set total = (states('sensor.electricity_price_without_vat')|float(default=0) * states('sensor.momentary_active_export')|float(default=0)) %}
       {{ total | round(3) }}
     unit_of_measurement: SEK/h
     availability: >
       {{ not (
-        [ states('sensor.nordpool_se2'), states('sensor.momentary_active_export') ] 
+        [ states('sensor.electricity_price_without_vat'), states('sensor.momentary_active_export') ] 
         | select('in', ['unknown', 'unavailable', 'none']) 
         | list) }}
 
@@ -15,11 +15,11 @@
     unique_id: 6e00a057-be04-4007-9a98-a26e732fb61f
     state: >
       {% set tax_rev = 0.6 %}
-      {% set total = ((states('sensor.nordpool_se2')|float(default=0) + tax_rev) * states('sensor.momentary_active_export')|float(default=0)) %}
+      {% set total = ((states('sensor.electricity_price_without_vat')|float(default=0) + tax_rev) * states('sensor.momentary_active_export')|float(default=0)) %}
       {{ total | round(3) }}
     unit_of_measurement: SEK/h
     availability: >
       {{ not (
-        [ states('sensor.nordpool_se2'), states('sensor.momentary_active_export') ] 
+        [ states('sensor.electricity_price_without_vat'), states('sensor.momentary_active_export') ] 
         | select('in', ['unknown', 'unavailable', 'none']) 
         | list) }}
