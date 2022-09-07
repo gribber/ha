@@ -12,3 +12,20 @@ wind_installed_power:
   unit_of_measurement: MW
   icon: "mdi:wind-turbine"
   # http://vindstat.com/rapporter-2/
+
+
+lightlevel_limit_outdoor:
+  name: "Gräns ute"
+  min: 50
+  max: 500
+  step: 10
+  unit_of_measurement: lx
+  icon: "mdi:theme-light-dark"
+
+lightlevel_limit_indoor:
+  name: "Gräns inne"
+  min: 100
+  max: 1000
+  step: 10
+  unit_of_measurement: lx
+  icon: "mdi:theme-light-dark"
