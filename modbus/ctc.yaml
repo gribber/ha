@@ -13,6 +13,14 @@
       # varmvattenläge
       # 0=economy 1=normal 2=comfort 3=customized
 
+    - name: "ctc_extra_hot_water_timer"
+      unique_id: ed448d2f-ac68-43bb-96e1-9b7a6fd4e4a3
+      address: 61503
+      slave: 1
+      scale: 0.5
+      precision: 1
+      # extra varmvatten, i steg om 0.5 timmar
+
     - name: "ctc_hs1_setting_room_temperature"
       unique_id: 63930bde-6efc-4c2f-84de-0131ab2119f1
       address: 61509
