@@ -9,6 +9,8 @@ include:
   domains:
     - sensor
     - vacuum
+    - input_boolean
+    - input_number
 exclude:
   entities:
     - sensor.hourly_energy
