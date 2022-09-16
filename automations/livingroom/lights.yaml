@@ -13,6 +13,12 @@
       entity_id:
         - input_boolean.house_mode_bright_inside
 
+    - platform: event
+      event_type: deconz_event
+      event_data:
+        id: "livingroom_remote"
+      id: remote
+
     - platform: state
       id: night
       entity_id:
@@ -45,6 +51,37 @@
             data:
               transition: 5
 
+      - conditions:
+          - condition: trigger
+            id: "remote"
+
+        sequence:
+          - choose:
+            - conditions: '{{ trigger.event.data.event == 1002 }}'
+              sequence:
+                - service: light.toggle
+                  target:
+                    entity_id: light.livingroom_front_1
+
+            - conditions: '{{ trigger.event.data.event == 2002 }}'
+              sequence:
+                - service: light.toggle
+                  target:
+                    entity_id: light.livingroom_back_3
+
+            - conditions: '{{ trigger.event.data.event == 1001 }}'
+              sequence:
+                - service: light.toggle
+                  target:
+                    entity_id: light.vardagsrum_framre
+
+            - conditions: '{{ trigger.event.data.event == 2001 }}'
+              sequence:
+                - service: light.toggle
+                  target:
+                    entity_id: light.vardagsrum_bakre
+
+        
       - conditions:
           - condition: trigger
             # when night mode is active

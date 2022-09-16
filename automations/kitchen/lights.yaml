@@ -18,6 +18,13 @@
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
+    - platform: state
+      id: night
+      entity_id:
+        - input_boolean.house_mode_sleep
+      from: "off"
+      to: "on"
+
   action:
     choose:
       - conditions:
@@ -37,6 +44,17 @@
                 - light.rice_lamp
             data:
               transition: 5
+
+      - conditions:
+          - condition: trigger
+            # when night mode is active
+            id: night
+        sequence:
+          - service: light.turn_off
+            # turn of regular lights
+            target:
+              entity_id:
+                - light.kitchen_sink
 
       - conditions:
           - condition: or
