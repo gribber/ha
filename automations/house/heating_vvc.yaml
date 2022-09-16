@@ -103,7 +103,10 @@
             condition: trigger
             id: movement
         sequence:
-          - *turn_on_vvc
+          #- *turn_on_vvc
+          # dummy
+          - delay:
+              milliseconds: 1
 
       - conditions:
           - alias: "if the time is"
@@ -118,7 +121,10 @@
                 after: *dinner_start
                 before: *dinner_end
         sequence:
-          - *turn_on_vvc
+#          - *turn_on_vvc
+          # dummy
+          - delay:
+              milliseconds: 1
 
       - conditions:
           - alias: "when getting back from workout"
