@@ -11,15 +11,13 @@ include:
     - vacuum
     - input_boolean
     - input_number
+    - switch
 exclude:
-  entities:
-    - sensor.hourly_energy
-    - sensor.dayly_energy
-    - sensor.weekly_energy
-    - sensor.monthly_energy
-    - sensor.yearly_energy
   entity_globs:
     - sensor.*_tmp
+    - sensor.grid_*
+    - sensor.solar_*_energy
+    - sensor.house_*_energy
 tags_attributes:
   - grafana_name
   - friendly_name
