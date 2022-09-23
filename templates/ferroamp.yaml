@@ -1,0 +1,14 @@
+- sensor:
+  - name: "ferroamp_xl28_dc_link_voltage_diff"
+    unique_id: db15fc4f-ab41-4174-bea6-0e23504c26be
+    state: >
+      {% set total = (state_attr('sensor.ferroamp_xl28_dc_link_voltage', 'pos')|float(default=0) - state_attr('sensor.ferroamp_xl28_dc_link_voltage', 'neg')|float(default=0)) %}
+      {{ total | round(3) }}
+    unit_of_measurement: V
+    device_class: voltage
+    icon: "mdi:current-dc"
+    availability: >
+      {{ not (
+        [ states('sensor.ferroamp_xl28_dc_link_voltage') ] 
+        | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}

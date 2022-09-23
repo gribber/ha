@@ -16,6 +16,7 @@ exclude:
   entity_globs:
     - sensor.*_tmp
     - sensor.grid_*
+    - sensor.fa_grid_*
     - sensor.solar_*_energy
     - sensor.house_*_energy
 tags_attributes:
