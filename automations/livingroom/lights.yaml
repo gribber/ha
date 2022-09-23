@@ -35,23 +35,6 @@
   action:
     choose:
       - conditions:
-          - condition: state
-            # when there is daylight
-            entity_id:
-              - input_boolean.house_mode_bright_inside
-            state: "on"
-
-        sequence:
-          - &turn_off # turn off lights
-            service: light.turn_off
-            target:
-              entity_id:
-                - light.floor_lamp
-                - light.livingroom_window_1
-            data:
-              transition: 5
-
-      - conditions:
           - condition: trigger
             id: "remote"
 
@@ -81,6 +64,9 @@
                   target:
                     entity_id: light.vardagsrum_bakre
 
+            default:
+              - delay:
+                  milliseconds: 1
         
       - conditions:
           - condition: trigger
@@ -113,6 +99,23 @@
               entity_id:
                 - scene.livingroom_ambience_lights_cozy
                 - scene.livingroom_window_lights_cozy
+            data:
+              transition: 5
+              
+      - conditions:
+          - condition: state
+            # when there is daylight
+            entity_id:
+              - input_boolean.house_mode_bright_inside
+            state: "on"
+
+        sequence:
+          - &turn_off # turn off lights
+            service: light.turn_off
+            target:
+              entity_id:
+                - light.floor_lamp
+                - light.livingroom_window_1
             data:
               transition: 5
 
