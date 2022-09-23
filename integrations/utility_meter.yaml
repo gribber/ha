@@ -50,6 +50,31 @@ grid_yearly_energy_export:
   source: sensor.cumulative_active_export
   cycle: yearly
 
+# ferroamp grid export
+fa_grid_hourly_energy_export:
+  unique_id: ec5e343b-a63a-4a4f-86fc-d5525c290604
+  source: sensor.ferroamp_xl28_external_energy_produced
+  cycle: hourly
+
+fa_grid_daily_energy_export:
+  unique_id: 8d13400b-ac7a-4eae-a058-1bedff96b383
+  source: sensor.ferroamp_xl28_external_energy_produced
+  cycle: daily
+
+fa_grid_weekly_energy_export:
+  unique_id: ff2832a1-f1ea-418b-a2a6-71cea8aed561
+  source: sensor.ferroamp_xl28_external_energy_produced
+  cycle: weekly
+
+fa_grid_monthly_energy_export:
+  unique_id: 923eef44-aa64-4178-8cec-fd14f06f5b0e
+  source: sensor.ferroamp_xl28_external_energy_produced
+  cycle: monthly
+
+fa_grid_yearly_energy_export:
+  unique_id: 3804bf01-b91d-4326-b28a-a9cad5145024
+  source: sensor.ferroamp_xl28_external_energy_produced
+  cycle: yearly
 
 # solar production
 solar_hourly_energy:
