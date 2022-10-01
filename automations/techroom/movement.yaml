@@ -32,7 +32,7 @@
     choose:
       - alias: "activate movement mode"
         conditions:
-          - alias: "when movement is detected at driveway"
+          - alias: "when movement is detected"
             condition: trigger
             id: "movement"
 
