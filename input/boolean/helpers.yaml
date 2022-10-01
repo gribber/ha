@@ -19,5 +19,9 @@ front_movement:
   icon: "mdi:run"
 
 techroom_movement:
-  name: Rörlse i teknikrummet
+  name: "Rörlse i teknikrummet"
+  icon: "mdi:run"
+
+kitchen_movement:
+  name: "Rörlse i köket"
   icon: "mdi:run"
