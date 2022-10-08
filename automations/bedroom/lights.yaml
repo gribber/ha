@@ -27,13 +27,13 @@
         - input_boolean.house_mode_bright_inside
         - input_boolean.bedroom_nightlight
 
-    - platform: state
-      id: lights
-      entity_id:
-        - light.bedroom_ceiling
-        - light.bedroom_left
-        - light.bedroom_right
-        - light.hallway_upstairs_wall
+    # - platform: state
+    #   id: lights
+    #   entity_id:
+    #     - light.bedroom_ceiling
+    #     - light.bedroom_left
+    #     - light.bedroom_right
+    #     - light.hallway_upstairs_wall
 
     - platform: time
       id: reset
@@ -318,4 +318,10 @@
               default: []
 
       default:
-        - *turn_off
+        - service: light.turn_off
+          target:
+            entity_id: >
+              {% set filter = 'light.bedroom_window' if states('input_boolean.bedroom_nightlight') == 'on' else '' %}
+              {{ area_entities('bedroom') | select('search', 'light.') | reject('in', filter) | list }}
+          data:
+            transition: 5

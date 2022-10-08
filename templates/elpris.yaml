@@ -2,7 +2,8 @@
   - name: "electricity_price_total"
     unique_id: 8c19fed9-1ab3-45b6-a4a1-67189b100173
     state: >
-      {% set total = (states('sensor.nordpool_se2')|float(default=0) + states('input_number.electricity_add')|float(default=0) + states('input_number.electricity_tax')|float(default=0) + states('input_number.electricity_transfer')|float(default=0)) %}
+      {% set vat = 1.25 %} {# % vat #}
+      {% set total = (states('sensor.nordpool_se2')|float(default=0) + (states('input_number.electricity_add')|float(default=0)*vat) + states('input_number.electricity_tax')|float(default=0) + states('input_number.electricity_transfer')|float(default=0)) %}
       {{ total | round(3) }}
     unit_of_measurement: "SEK/kWh"
     availability: >
@@ -29,7 +30,8 @@
   - name: "electricity_price_additions_total"
     unique_id: 41560582-611c-414a-bd25-1041483e4ff7
     state: >
-      {% set total = (states('input_number.electricity_add')|float(default=0) + states('input_number.electricity_tax')|float(default=0) + states('input_number.electricity_transfer')|float(default=0)) %}
+      {% set vat = 1.25 %} {# % vat #}
+      {% set total = ((states('input_number.electricity_add')|float(default=0)*vat) + states('input_number.electricity_tax')|float(default=0) + states('input_number.electricity_transfer')|float(default=0)) %}
       {{ total | round(3) }}
     unit_of_measurement: "SEK/kWh"
     availability: >
