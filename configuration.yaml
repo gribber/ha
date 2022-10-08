@@ -17,7 +17,7 @@ notify: !include integrations/notify.yaml
 powercalc: !include integrations/powercalc.yaml
 recorder: !include integrations/recorder.yaml
 tts: !include integrations/tts.yaml
-utility_meter: !include integrations/utility_meter.yaml
+
 # deprecated
 #google: !include integrations/google.yaml
 #spotify: !include integrations/spotify.yaml
@@ -33,6 +33,7 @@ scene: !include_dir_merge_list scenes/
 sensor: !include_dir_merge_list sensors/
 template: !include_dir_merge_list templates/
 
+counter: !include_dir_merge_named helpers/counters/
 group: !include_dir_merge_named groups/
 input_boolean: !include_dir_merge_named input/boolean/
 input_datetime: !include_dir_merge_named input/datetime/
@@ -41,3 +42,4 @@ input_select: !include_dir_merge_named input/select/
 input_text: !include_dir_merge_named input/text/
 script: !include_dir_merge_named scripts/
 shell_command: !include_dir_merge_named shell_commands/
+utility_meter: !include_dir_merge_named integrations/utility_meters/

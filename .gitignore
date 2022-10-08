@@ -7,9 +7,12 @@
 !binary_sensors/
 !cameras/
 !groups/
+!helpers/
+!helpers/*/
 !input/
 !input/*/
 !integrations/
+!integrations/*/
 !modbus/
 !mqtt/
 !mqtt/*/
