@@ -1,0 +1,27 @@
+- alias: "Driveway: objects"
+  id: 694696c1-1ef4-49a4-a340-9edfe3e84652
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.driveway_bus_count
+        - sensor.driveway_car_count
+        - sensor.driveway_cat_count
+        - sensor.driveway_horse_count
+        - sensor.driveway_motorcycle_count
+        - sensor.driveway_person_count
+
+
+  action:
+    - choose:
+      - conditions: "{{ trigger.to_state.state > trigger.from_state.state }}"
+
+        sequence:
+          - variables:
+              object: "{{ trigger.entity_id.split('_')[1] }}"
+              #inc: "{{ trigger.to_state.state - trigger.from_state.state }}"
+          - service: counter.increment
+            target:
+              entity_id: counter.driveway_{{object}}
