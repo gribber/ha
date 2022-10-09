@@ -1,7 +1,7 @@
 driveway_bus_today:
   unique_id: fe3840ed-6aa1-4e57-b42b-36919d4436a5
   source: counter.driveway_bus
-  cycle: hourly
+  cycle: daily
 
 driveway_bus_week:
   unique_id: 79525439-906b-4960-b1b2-eb23565b337e
@@ -17,7 +17,7 @@ driveway_bus_month:
 driveway_car_today:
   unique_id: e0ec224e-0117-4047-a1b6-40a543cf8b32
   source: counter.driveway_car
-  cycle: hourly
+  cycle: daily
 
 driveway_car_week:
   unique_id: 5bb9fe97-65ed-49e0-9d16-d4353d53dc75
@@ -33,7 +33,7 @@ driveway_car_month:
 driveway_cat_today:
   unique_id: 91027566-3328-4480-bca0-85d2ac87fd94
   source: counter.driveway_cat
-  cycle: hourly
+  cycle: daily
 
 driveway_cat_week:
   unique_id: 58536768-89d1-44dd-b569-330b74780c1d
@@ -49,7 +49,7 @@ driveway_cat_month:
 driveway_horse_today:
   unique_id: 1baf049c-66a9-484e-9f25-1c1ffcc0c348
   source: counter.driveway_horse
-  cycle: hourly
+  cycle: daily
 
 driveway_horse_week:
   unique_id: 7519e982-e903-41fe-9ad7-d0160f705975
@@ -65,7 +65,7 @@ driveway_horse_month:
 driveway_motorcycle_today:
   unique_id: 7288666d-ef7f-44fd-8e4d-3e1240272113
   source: counter.driveway_motorcycle
-  cycle: hourly
+  cycle: daily
 
 driveway_motorcycle_weekly:
   unique_id: 0096a117-8f8b-4cf3-8e78-e2edca70442e
@@ -81,7 +81,7 @@ driveway_motorcycle_monthly:
 driveway_person_today:
   unique_id: ad16e92e-b3ea-4c64-96cd-ef65bc0971a3
   source: counter.driveway_person
-  cycle: hourly
+  cycle: daily
 
 driveway_person_week:
   unique_id: e8148e03-6b0e-442e-b670-959bebb07691
