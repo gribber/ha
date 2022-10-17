@@ -44,6 +44,7 @@
                     entity_id: light.kitchen_sink
                   data:
                     brightness: 255
+                    #transition: 1
             default:
               - service: light.turn_off
                 target:

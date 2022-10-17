@@ -15,13 +15,13 @@
     - platform: state
       id: movement
       entity_id:
-        - binary_sensor.laundry_room_presence
+        - binary_sensor.laundry_room_occupancy
       from: "off"
       to: "on"
 
     - platform: state
       entity_id:
-        - binary_sensor.laundry_room_presence
+        - binary_sensor.laundry_room_occupancy
       from: "on"
       to: "off"
       for:

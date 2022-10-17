@@ -11,7 +11,7 @@
 
     - platform: state
       entity_id:
-        - binary_sensor.garage_port
+        - binary_sensor.garage_port_contact
       from:
         - "on"
         - "off"
@@ -21,7 +21,7 @@
 
     - platform: state
       id: no_motion
-      entity_id: binary_sensor.motion_garage_presence
+      entity_id: binary_sensor.motion_garage_occupancy
       from: "on"
       to: "off"
       for:
@@ -36,7 +36,7 @@
             - alias: "if the port is open"
               condition: state
               entity_id:
-                - binary_sensor.garage_port
+                - binary_sensor.garage_port_contact
               state: "on"
 
           sequence:
@@ -51,7 +51,7 @@
             - alias: "if the port is closed"
               condition: state
               entity_id:
-                - binary_sensor.garage_port
+                - binary_sensor.garage_port_contact
               state: "off"
 
             - alias: "and the stereo is on"
@@ -61,7 +61,7 @@
 
             - alias: "and no motion has been detected for a while"
               condition: state
-              entity_id: binary_sensor.motion_garage_presence
+              entity_id: binary_sensor.motion_garage_occupancy
               state: "off"
               for:
                 minutes: *nomotion

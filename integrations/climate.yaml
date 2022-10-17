@@ -2,7 +2,7 @@
   unique_id: "02f818e8-9d5d-4651-8956-4a46e56ba6c4"
   name: "Earth cellar"
   heater: switch.earth_cellar_radiator
-  target_sensor: sensor.earth_cellar_temperature
+  target_sensor: sensor.earth_cellar_climate_temperature
   min_temp: 0
   max_temp: 4
   cold_tolerance: 0.1
