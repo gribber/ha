@@ -1,0 +1,108 @@
+- name: "ctek energy"
+  unique_id: f14395eb-c6a7-42c1-97a8-0f6ab374b729
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "kWh"
+  state_class: "total_increasing"
+  device_class: "energy"
+  value_template: "{{ (value_json['energy'] / 1000) | round(2) }}"
+
+- name: "ctek current phase 1"
+  unique_id: 838d5dfa-d6d3-4d7c-a265-676b8125a264
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "A"
+  state_class: "measurement"
+  device_class: "current"
+  value_template: "{{ value_json['current'][0] | round(2) }}"
+
+- name: "ctek current phase 2"
+  unique_id: c80cf7de-3988-4fc7-962f-ecc1cba6832e
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "A"
+  state_class: "measurement"
+  device_class: "current"
+  value_template: "{{ value_json['current'][1] | round(2) }}"
+
+- name: "ctek current phase 3"
+  unique_id: 51dcc7ec-1b05-4e7b-befb-4df53b45b223
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "A"
+  state_class: "measurement"
+  device_class: "current"
+  value_template: "{{ value_json['current'][2] | round(2) }}"
+
+
+- name: "ctek voltage phase 1"
+  unique_id: 81667d49-5602-41b8-97ce-1066df2a52bb
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "V"
+  state_class: "measurement"
+  device_class: "voltage"
+  value_template: "{{ value_json['voltage'][0] | round(1) }}"
+
+- name: "ctek voltage phase 2"
+  unique_id: 055652b4-536c-44f0-8c5e-5a40f7d28ff0
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "V"
+  state_class: "measurement"
+  device_class: "voltage"
+  value_template: "{{ value_json['voltage'][1] | round(1) }}"
+
+- name: "ctek voltage phase 3"
+  unique_id: b1c857cd-f8b4-4fbe-854c-a1ec4d07da0b
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "V"
+  state_class: "measurement"
+  device_class: "voltage"
+  value_template: "{{ value_json['voltage'][2] | round(1) }}"
+
+- name: "ctek power"
+  unique_id: 0888a562-19ed-4235-b905-ea1b236fc3ae
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "W"
+  state_class: "measurement"
+  device_class: "power"
+  value_template: "{{ value_json['power'] | round(1) }}"
+
+- name: "ctek frequency"
+  unique_id: 8dfed09d-a191-4ef1-b6f7-cc885ffecbba
+  state_topic: "CTEK/91750I01W4019511/evse1/em"
+  unit_of_measurement: "Hz"
+  state_class: "measurement"
+  device_class: "frequency"
+  value_template: "{{ value_json['frequency'] | round(3) }}"
+
+
+- name: "ctek assigned current"
+  unique_id: e0da6db7-9173-4b31-8e15-c647a5b86e31
+  state_topic: "CTEK/91750I01W4019511/evse1/status"
+  unit_of_measurement: "A"
+  state_class: "measurement"
+  device_class: "current"
+  value_template: "{{ value_json['assigned'] }}"
+
+- name: "ctek status"
+  unique_id: 67dc124e-fb6d-43d2-914d-23651f2d8215
+  state_topic: "CTEK/91750I01W4019511/evse1/status"
+  value_template: "{{ value_json.state }}"
+
+- name: "ctek status long"
+  unique_id: b91b17c9-4ed6-43bd-82c5-e71edde07f29
+  state_topic: "CTEK/91750I01W4019511/evse1/status"
+  value_template: >-
+    {% set mapper = {
+      'AVAL' : 'Tillgänglig, ingen elbil ansluten',
+      'PAUS' : 'Paus, laddstationen medger inte laddning',
+      'EVRD' : 'Elbilen är klar',
+      'CHRG' : 'Laddning pågår',
+      'FLTY' : 'FEL, något är fel',
+      'DSBL' : 'Inaktiverad',
+      'CONN' : 'Elbilen är ansluten, väntar på autentisering',
+      'NCRQ' : 'Ingen laddning efterfrågas av elbilen',
+      'AUTH' : 'Autentiserad, väntar på att elbilen skall enslutas',
+      'INVL' : 'Ogiltig, något är fel',
+      'GONE' : 'Elbilen är frånkopplad',
+      'DONE' : 'Laddsessionen är avslutad',
+      'SUHT' : 'Tillfälligt tillstånd för paus',
+      'STHT' : 'Tillfälligt tillstånd för att stoppa laddsessionen'
+    } %}
+    {{ mapper[value_json.state] if value_json.state in mapper else "unknown ("+ value_json.state +")" }}
