@@ -12,6 +12,7 @@ include:
     - input_boolean
     - input_number
     - switch
+    - counter
 exclude:
   entity_globs:
     - sensor.*_tmp

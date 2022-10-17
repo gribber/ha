@@ -1,0 +1,8 @@
+# electricity_price_care:
+#   options:
+#     - "NON"
+#     - "LOW"
+#     - "MEDIUM"
+#     - "HIGH"
+
+# electricity_price_level:

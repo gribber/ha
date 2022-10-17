@@ -77,3 +77,24 @@
         - entity_id: switch.laundry_room_channel_1
           fixed:
             power: "{{ states('sensor.laundry_room_channel_1_power') }}"
+
+- platform: powercalc
+  create_group: "garage lights"
+  unique_id: 765c1684-143e-43da-80b6-8f0ca239db38
+  entities:
+    - create_group: "garage"
+      unique_id: 91a4db55-77bf-49d1-bc51-da2b42c1abbe
+      include:
+        area: garage
+    - create_group: "techroom"
+      unique_id: e226b01a-fd61-4828-bea8-f9a4cb1da3d7
+      include:
+        area: teknikrum
+    - create_group: "boiler_room"
+      unique_id: 8d0333ee-7245-480d-97d8-5b5450c80049
+      include:
+        area: pannrum
+    - create_group: "washhouse"
+      unique_id: b5bdb743-c3ab-400e-afc3-d5822341050e
+      include:
+        area: grovtvattstuga

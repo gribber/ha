@@ -12,6 +12,9 @@
         - sensor.driveway_horse_count
         - sensor.driveway_motorcycle_count
         - sensor.driveway_person_count
+      not_from:
+        - "unknown"
+        - "unavailable"
 
 
   action:

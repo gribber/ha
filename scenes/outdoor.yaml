@@ -4,14 +4,14 @@
     light.parkering_och_uppfart:
       state: &state "on"
       brightness: &brightness 130
-      color_temp: &color_temp 350
+      # color_temp: &color_temp 350
     light.dekoration_ute:
       state: *state
       brightness: 180
     light.takfot_uterum:
       state: *state
       brightness: *brightness
-      color_temp: *color_temp
+      # color_temp: *color_temp
     light.greenhouse_strip:
       state: *state
       brightness: *brightness
@@ -24,7 +24,7 @@
     light.entre:
       state: *state
       brightness: *brightness
-      color_temp: *color_temp
+      # color_temp: *color_temp
 
 - name: "outdoor parking default"
   id: ea697a8f-d842-40f1-89c5-85d71b0fe019
@@ -32,7 +32,7 @@
     light.parkering_och_uppfart:
       state: *state
       brightness: *brightness
-      color_temp: *color_temp
+      # color_temp: *color_temp
 
 - name: "outdoor parking movement"
   id: ec3b6e89-a43c-4c9f-b116-8a5f0a27e382
@@ -40,7 +40,7 @@
     light.parkering_och_uppfart:
       state: *state
       brightness: 255
-      color_temp: *color_temp
+      # color_temp: *color_temp
 
 - name: "outdoor entre default"
   id: 3a5b3d88-234e-4711-9241-a78ee8a4ba63
@@ -48,7 +48,7 @@
     light.entre:
       state: *state
       brightness: *brightness
-      color_temp: *color_temp
+      # color_temp: *color_temp
 
 - name: "outdoor entre movement"
   id: f084ea8d-7683-4f82-bc41-948984a91076
@@ -56,7 +56,7 @@
     light.entre:
       state: *state
       brightness: 255
-      color_temp: *color_temp
+      # color_temp: *color_temp
 
 - name: "outdoor work"
   id: 1e27f5dc-0041-4bdd-9d57-1b09be48e0ff
@@ -64,7 +64,7 @@
     light.parkering_och_uppfart:
       state: *state
       brightness: 255
-      color_temp: *color_temp
+      # color_temp: *color_temp
 
 - name: "outdoor work entre"
   id: f6ee135a-33b5-4d75-9854-cc4bbba92aee
@@ -72,4 +72,11 @@
     light.entre:
       state: *state
       brightness: 255
-      color_temp: *color_temp
+      # color_temp: *color_temp
+
+- name: "testscene"
+  id: 55c0bef5-4749-4615-8edb-1ac215dba849
+  entities:
+    light.parkering_och_uppfart:
+      state: "on"
+      brightness: 255
