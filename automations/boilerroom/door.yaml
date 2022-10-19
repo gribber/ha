@@ -11,7 +11,7 @@
 
     - platform: state
       entity_id:
-        - binary_sensor.boiler_room_door
+        - binary_sensor.boiler_room_door_contact
       from: "off"
       to: "on"
       for:
@@ -19,7 +19,7 @@
 
     - platform: state
       entity_id:
-        - binary_sensor.boiler_room_door
+        - binary_sensor.boiler_room_door_contact
       from: "on"
       to: "off"
 
@@ -71,7 +71,7 @@
         - conditions:
             condition: state
             entity_id:
-              - binary_sensor.boiler_room_door
+              - binary_sensor.boiler_room_door_contact
             state: "on"
           sequence:
             - *notif_create

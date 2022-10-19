@@ -10,7 +10,7 @@
 
     - platform: state
       entity_id:
-        - binary_sensor.conservatory_door
+        - binary_sensor.conservatory_door_contact
       for: &limit "00:10:00"
 
     - platform: state
@@ -25,7 +25,7 @@
           - alias: "and the door has been open for a while"
             condition: state
             entity_id:
-              - binary_sensor.conservatory_door
+              - binary_sensor.conservatory_door_contact
             state: "on"
             for: *limit
 

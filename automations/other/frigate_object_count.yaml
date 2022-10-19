@@ -15,6 +15,7 @@
       not_from:
         - "unknown"
         - "unavailable"
+        - "none"
 
 
   action:
