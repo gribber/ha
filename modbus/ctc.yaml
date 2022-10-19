@@ -57,6 +57,12 @@
       slave: 1
       # värmeläge (0=auto, 1=on, 2=off)
 
+    - name: "ctc_hs1_heating_program"
+      unique_id: 9d3c2790-0a66-44d0-8073-30042e07443b
+      address: 61671
+      slave: 1
+      # program (0=economy, 1=normal, 2=comfort, 3=custom)
+
     - name: "ctc_outdoor_temperature"
       unique_id: 6acd0e80-9da9-42e2-87fe-e05e3824f966
       unit_of_measurement: "°C"
@@ -361,6 +367,12 @@
       slave: 1
       precision: 0
       # stats: drifttid kompressor senaste dygnet (i minuter)
+
+    - name: "ctc_smartgrid_mode"
+      unique_id: ce1f204f-393a-4e4a-a1ef-0e7e66e589ac
+      address: 62301
+      slave: 1
+      # SGMode (0=none/normal, 1=block, 2=low price, 3=high cap)
 
     # alltid visat 0
     # - name: "ctc_boiler_open_mixing_valve"

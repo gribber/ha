@@ -178,6 +178,39 @@
           | list) }}
 
 - sensor:
+    - name: "ctc_hs1_heating_program_name"
+      unique_id: 786fa011-190d-43b2-bcaa-7c5b38c5fdc0
+      state: >
+        {% set mapper =  {
+          '0' : 'Ekonomi',
+          '1' : 'Normal',
+          '2' : 'Komfort',
+          '3' : 'Anpassad'
+        } %}
+        {{ mapper[states('sensor.ctc_hs1_heating_program')] if states('sensor.ctc_hs1_heating_program') in mapper else "unknown ("+states('sensor.ctc_hs1_heating_program')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_hs1_heating_program') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+- sensor:
+    - name: "ctc_smartgrid_mode_name"
+      unique_id: 389f746f-de7e-49e6-8e8b-886c7aa4ba3b
+      state: >
+        {% set mapper =  {
+          '0' : 'Normal',
+          '1' : 'Block',
+          '2' : 'Lågt pris',
+          '3' : 'Högt pris'
+        } %}
+        {{ mapper[states('sensor.ctc_smartgrid_mode')] if states('sensor.ctc_smartgrid_mode') in mapper else "unknown ("+states('sensor.ctc_smartgrid_mode')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_smartgrid_mode') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+- sensor:
     # number of active alarms
     - name: "ctc_num_alarms"
       unique_id: af80c891-1f50-4b2d-bc66-f65cdc946b9c
