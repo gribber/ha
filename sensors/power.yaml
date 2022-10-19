@@ -18,3 +18,12 @@
       window_size: "00:01"
       precision: 0
 
+- platform: filter
+  name: "shelly_dishwasher_power"
+  unique_id: 2de5d7de-86fa-40fb-915e-cd43c101d025
+  entity_id: sensor.shelly_dishwasher_power_tmp
+  filters:
+    - filter: time_simple_moving_average
+      window_size: "00:01"
+      precision: 0
+
