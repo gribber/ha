@@ -4,7 +4,12 @@
   unit_of_measurement: "kWh"
   state_class: "total_increasing"
   device_class: "energy"
-  value_template: "{{ (value_json['energy'] / 1000) | round(2) }}"
+  value_template: >-
+    {% if ([value_json['energy']] | select('in', ['unknown', 'unavailable', 'none', '0']) | list) %}
+      none
+    {% else %}
+      {{ (value_json['energy'] / 1000) | round(2) }}
+    {% endif %}
 
 - name: "ctek current phase 1"
   unique_id: 838d5dfa-d6d3-4d7c-a265-676b8125a264
