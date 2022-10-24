@@ -257,3 +257,24 @@ solar_sso_21090071_yearly_energy:
   unique_id: 7928aff4-4c87-4417-8b37-17eba91a1881
   source: sensor.ferroamp_xl28_sso_21090071_total_energy
   cycle: yearly
+
+# heatpump meters
+heatpump_hourly_energy:
+  unique_id: e2f4e2c5-e528-4df3-bfa2-cd9eae5de15c
+  source: sensor.heatpump_energy
+  cycle: hourly
+
+heatpump_daily_energy:
+  unique_id: 6984109d-a8be-4bcc-843f-48e2ca4f9f6b
+  source: sensor.heatpump_energy
+  cycle: daily
+
+heatpump_weekly_energy:
+  unique_id: e09e3702-c524-49da-82b1-8e5e472c15db
+  source: sensor.heatpump_energy
+  cycle: weekly
+
+heatpump_montly_energy:
+  unique_id: bacf32fe-dd9e-4621-8d51-0d2ac7b42bff
+  source: sensor.heatpump_energy
+  cycle: monthly

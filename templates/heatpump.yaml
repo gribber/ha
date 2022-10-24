@@ -210,6 +210,22 @@
           [ states('sensor.ctc_smartgrid_mode') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
+
+- sensor:
+    # ctc spotprice
+    - name: "ctc_elspot"
+      unique_id: be27b519-1b75-43c4-9040-e97ce1f6f2bc
+      #unit_of_measurement: "SEK/kWh"
+      device_class: monetary
+      unit_of_measurement: "SEK/kWh"
+      state: >
+        {{ (states('sensor.ctc_elspot_integer')|int(0) + states('sensor.ctc_elspot_decimals')|float(0)) }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_elspot_integer'), states('sensor.ctc_elspot_decimals') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
 - sensor:
     # number of active alarms
     - name: "ctc_num_alarms"
