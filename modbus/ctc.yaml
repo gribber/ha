@@ -374,6 +374,19 @@
       slave: 1
       # SGMode (0=none/normal, 1=block, 2=low price, 3=high cap)
 
+    - name: "ctc_elspot_integer"
+      unique_id: 1d6f6407-f2d6-4d72-8e55-5036fcd7fd0a
+      address: 62302
+      slave: 1
+      precision: 0
+
+    - name: "ctc_elspot_decimals"
+      unique_id: 10220510-b459-4983-bcd9-fbf9a03da000
+      address: 62303
+      slave: 1
+      scale: 0.0001
+      precision: 4
+
     # alltid visat 0
     # - name: "ctc_boiler_open_mixing_valve"
     #   unit_of_measurement: "°C"
