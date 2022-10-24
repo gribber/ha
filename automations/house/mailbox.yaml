@@ -1,0 +1,92 @@
+- alias: "House: mailbox"
+  id: ae403d31-d120-47cb-ba66-ac401b08d8e2
+  mode: queued
+
+  trigger:
+    # - platform: homeassistant
+    #   event: start
+
+    # - platform: event
+    #   event_type: automation_reloaded
+
+    - platform: state
+      id: "flap"
+      entity_id:
+        - binary_sensor.mailbox_flap_contact
+      from: "off"
+      to: "on"
+      
+    - platform: state
+      id: "door"
+      entity_id:
+        - binary_sensor.mailbox_door_contact
+      from: "off"
+      to: "on"
+
+  action:
+    - choose:
+      - conditions:
+          condition: trigger
+          id: "flap"
+          
+        sequence:
+          - service: input_number.increment
+            target:
+              entity_id:
+                - input_number.mailbox_deliveries
+              
+          - choose:
+            - conditions:
+                condition: numeric_state
+                entity_id:
+                  - input_number.mailbox_deliveries
+                above: 1
+              
+              sequence:
+                - service: notify.family
+                  data:
+                    title: "Postlådan"
+                    message: "Mera post, töm postlådan! (lev: {{states('input_number.mailbox_deliveries')|int}})"
+                    data:
+                      tag: mailbox
+                - service: persistent_notification.create
+                  data:
+                    message: "Mera post, töm postlådan! (lev: {{states('input_number.mailbox_deliveries')|int}})"
+                    title: "Postlådan"
+                    notification_id: "feed_mail"
+                    
+            default:
+              - service: notify.family
+                data:
+                  title: "Postlådan"
+                  message: "Kom och töm mig på post!"
+                  data:
+                    tag: mailbox
+              - service: persistent_notification.create
+                data:
+                  message: "Töm postlådan"
+                  title: "Postlådan"
+                  notification_id: "feed_mail"
+
+
+      - conditions:
+        - condition: trigger
+          id: "door"
+
+        sequence:
+          - service: input_number.set_value
+            target:
+              entity_id:
+                - input_number.mailbox_deliveries
+            data:
+              value: 0
+          - service: notify.family
+            data:
+              title: "Postlådan"
+              message: "Tack!"
+              data:
+                tag: mailbox
+                timeout: 900
+          - service: persistent_notification.dismiss
+            data:
+              notification_id: "feed_mail"

@@ -29,3 +29,9 @@ lightlevel_limit_indoor:
   step: 10
   unit_of_measurement: lx
   icon: "mdi:theme-light-dark"
+
+
+mailbox_deliveries:
+  name: "Antal postleveranser"
+  min: 0
+  max: 10
