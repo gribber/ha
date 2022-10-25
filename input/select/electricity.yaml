@@ -5,4 +5,10 @@
 #     - "MEDIUM"
 #     - "HIGH"
 
-# electricity_price_level:
+electricity_price_level:
+  options:
+    - "VERY_HIGH"
+    - "HIGH"
+    - "NORMAL"
+    - "LOW"
+    - "VERY_LOW"
