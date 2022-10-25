@@ -1,0 +1,13 @@
+ps_heat_capacitor:
+  name: "powersaver heat capacitor"
+  unit_of_measurement: "°C"
+  min: 15
+  max: 25
+  step: 0.1
+
+ps_heat_capacitor_deltat:
+  name: "powersaver heat capacitor deltaT"
+  unit_of_measurement: "°C"
+  min: -10
+  max: 10
+  step: 0.1
