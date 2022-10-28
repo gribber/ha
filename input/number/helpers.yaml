@@ -30,6 +30,12 @@ lightlevel_limit_indoor:
   unit_of_measurement: lx
   icon: "mdi:theme-light-dark"
 
+sun_elevation_limit:
+  name: "Minsta solhöjd för dagsljus"
+  min: -3
+  max: 3
+  step: 0.5
+  unit_of_measurement: "°"
 
 mailbox_deliveries:
   name: "Antal postleveranser"
