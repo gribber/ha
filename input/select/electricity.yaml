@@ -1,14 +1,15 @@
-# electricity_price_care:
-#   options:
-#     - "NON"
-#     - "LOW"
-#     - "MEDIUM"
-#     - "HIGH"
-
-electricity_price_level:
+electricity_price_care:
   options:
-    - "VERY_HIGH"
-    - "HIGH"
-    - "NORMAL"
-    - "LOW"
-    - "VERY_LOW"
+    - "NO_CARE"
+    - "LOW_CARE"
+    - "MEDIUM_CARE"
+    - "HIGH_CARE"
+
+# electricity_price_level_name:
+#   options:
+#     - "VERY_HIGH"
+#     - "HIGH"
+#     - "NORMAL"
+#     - "LOW"
+#     - "VERY_LOW"
+

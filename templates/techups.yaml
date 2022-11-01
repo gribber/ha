@@ -1,0 +1,13 @@
+- sensor:
+  - name: "techups_power_tmp"
+    unique_id: 6eebb286-9c25-424b-90e7-68db598267d9
+    state: >
+      {% set load = (states('sensor.techups_nominal_real_power')|float(default=0) * (states('sensor.techups_load')|float(default=0)/100)) %}
+      {{ load | round(3) }}
+    unit_of_measurement: W
+    device_class: power    
+    availability: >
+      {{ not (
+        [ states('sensor.techups_nominal_real_power'), states('sensor.techups_load') ] 
+        | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}

@@ -98,3 +98,10 @@
       unique_id: b5bdb743-c3ab-400e-afc3-d5822341050e
       include:
         area: grovtvattstuga
+
+- platform: powercalc
+  unique_id: 3788b38d-5330-4c7e-a0ea-8565dda2c6c9
+  entity_id: sensor.dummy
+  name: "techups"
+  fixed: 
+    power: "{{(states('sensor.techups_power_tmp')}}"
