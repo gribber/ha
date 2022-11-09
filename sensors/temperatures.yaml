@@ -3,7 +3,7 @@
   type: mean
   round_digits: 1
   entity_ids: &sensors
-    - sensor.outdoor_north_temperature
+#    - sensor.outdoor_north_temperature
     - sensor.outdoor_south_temperature
     - sensor.outdoor_east_temperature
     - sensor.outdoor_west_temperature

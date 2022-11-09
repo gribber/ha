@@ -12,6 +12,7 @@ frontend: !include integrations/frontend.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
 google_assistant: !include integrations/google_assistant.yaml
+home_connect_alt: !include integrations/home_connect_alt.yaml
 logger: !include integrations/logger.yaml
 notify: !include integrations/notify.yaml
 powercalc: !include integrations/powercalc.yaml

@@ -6,7 +6,7 @@
   device_class: "energy"
   value_template: >-
     {% if ([value_json['energy']] | select('in', ['unknown', 'unavailable', 'none', '0']) | list) %}
-      none
+      unavailable
     {% else %}
       {{ (value_json['energy'] / 1000) | round(2) }}
     {% endif %}
@@ -68,13 +68,14 @@
   device_class: "power"
   value_template: "{{ value_json['power'] | round(1) }}"
 
-- name: "ctek frequency"
-  unique_id: 8dfed09d-a191-4ef1-b6f7-cc885ffecbba
-  state_topic: "CTEK/91750I01W4019511/evse1/em"
-  unit_of_measurement: "Hz"
-  state_class: "measurement"
-  device_class: "frequency"
-  value_template: "{{ value_json['frequency'] | round(3) }}"
+# useless, 0.1Hz resolution
+# - name: "ctek frequency"
+#   unique_id: 8dfed09d-a191-4ef1-b6f7-cc885ffecbba
+#   state_topic: "CTEK/91750I01W4019511/evse1/em"
+#   unit_of_measurement: "Hz"
+#   state_class: "measurement"
+#   device_class: "frequency"
+#   value_template: "{{ value_json['frequency'] | round(3) }}"
 
 
 - name: "ctek assigned current"

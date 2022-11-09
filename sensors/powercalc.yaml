@@ -104,4 +104,4 @@
   entity_id: sensor.dummy
   name: "techups"
   fixed: 
-    power: "{{(states('sensor.techups_power_tmp')}}"
+    power: "{{states('sensor.techups_power_tmp')}}"
