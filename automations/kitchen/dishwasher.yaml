@@ -1,0 +1,49 @@
+- alias: "Dishwasher: reminder"
+  id: 6c309c9c-d7d0-440a-a49f-fc4e97dcfa76
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      id: "start"
+      entity_id:
+        - sensor.012050386564014027_bsh_common_status_operationstate
+      from: "BSH.Common.EnumType.OperationState.Inactive"
+      to: "BSH.Common.EnumType.OperationState.Run"
+
+    - platform: state
+      id: "finished"
+      entity_id:
+        - sensor.012050386564014027_bsh_common_status_operationstate
+      from: "BSH.Common.EnumType.OperationState.Run"
+      to: "BSH.Common.EnumType.OperationState.Finished"
+
+
+  action:
+    choose:
+      - conditions:
+        - condition: trigger
+          id: "start"
+
+        sequence:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.dishwasher_start
+            data:
+              value: "{{ states('sensor.shelly_dishwasher_energy')|float(0) }}"
+
+
+      - conditions:
+        - condition: trigger
+          id: "finished"
+          
+        sequence:
+          - variables:
+              consumption: "{{ (states('sensor.shelly_dishwasher_energy')|float(0) - states('input_number.dishwasher_start')|float(0))|round(2) }}"
+
+          - service: notify.family
+            data:
+              title: "Diskmaskinen"
+              message: "Disken klar! (förbrukning: {{consumption}}kWh)"
+              data:
+                tag: dishwasher
