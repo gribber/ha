@@ -1,14 +1,14 @@
 - alias: "Dishwasher: reminder"
   id: 6c309c9c-d7d0-440a-a49f-fc4e97dcfa76
   trace:
-    stored_traces: 10
+    stored_traces: 20
 
   trigger:
     - platform: state
       id: "start"
       entity_id:
         - sensor.012050386564014027_bsh_common_status_operationstate
-      from: "BSH.Common.EnumType.OperationState.Inactive"
+      from: "BSH.Common.EnumType.OperationState.Ready"
       to: "BSH.Common.EnumType.OperationState.Run"
 
     - platform: state
