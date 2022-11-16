@@ -1,0 +1,76 @@
+- alias: "House: water leak"
+  id: 995c171e-c998-42b6-9599-d5395bcca1d8
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: "sensor"
+      entity_id:
+        - binary_sensor.water_sink_water_leak
+        - binary_sensor.water_wardrove_water_leak
+      from: "off"
+      to: "on"
+
+  variables:
+    data: &notify_data 
+      importance: high
+      ttl: 0
+      #persistent: true
+      tag: water_leak
+      sticky: true
+      visibility: public
+
+
+  action:
+    choose:
+      - conditions:
+        - condition: trigger
+          id: "sensor"
+
+        sequence:
+          - variables:
+              msg: >
+                {% set mapper =  {
+                  'binary_sensor.water_sink_water_leak' : 'under diskbänken',
+                  'binary_sensor.water_wardrove_water_leak' : 'i garderoben nere'
+                } %}
+                Vatten upptäckt {{ mapper[trigger.entity_id] }}!
+
+          - service: notify.family
+            data_template:
+              title: "Vattenläcka!"
+              message: "{{msg}}"
+              data: *notify_data
+
+      - conditions:
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id:
+                - binary_sensor.water_sink_water_leak
+              state: "on"
+            - condition: state
+              entity_id:
+                - binary_sensor.water_wardrove_water_leak
+              state: "on"
+
+        sequence:
+          - variables:
+              msg: >
+                {% set e = (['binary_sensor.water_sink_water_leak', 'binary_sensor.water_wardrove_water_leak'] | select('is_state', 'on') | list) %}
+                {% set mapper =  {
+                  'binary_sensor.water_sink_water_leak' : 'under diskbänken',
+                  'binary_sensor.water_wardrove_water_leak' : 'i garderoben nere'
+                } %}
+                Vatten upptäckt {{mapper[e[0]] if e else 'någonstans'}}!
+
+          - service: notify.family
+            data_template:
+              title: "Vattenläcka!"
+              message: "{{msg}}"
+              data: *notify_data
