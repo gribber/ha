@@ -12,7 +12,7 @@
       id: "sensor"
       entity_id:
         - binary_sensor.water_sink_water_leak
-        - binary_sensor.water_wardrove_water_leak
+        - binary_sensor.water_wardrobe_water_leak
       from: "off"
       to: "on"
 
@@ -37,7 +37,7 @@
               msg: >
                 {% set mapper =  {
                   'binary_sensor.water_sink_water_leak' : 'under diskbänken',
-                  'binary_sensor.water_wardrove_water_leak' : 'i garderoben nere'
+                  'binary_sensor.water_wardrobe_water_leak' : 'i garderoben nere'
                 } %}
                 Vatten upptäckt {{ mapper[trigger.entity_id] }}!
 
@@ -56,16 +56,16 @@
               state: "on"
             - condition: state
               entity_id:
-                - binary_sensor.water_wardrove_water_leak
+                - binary_sensor.water_wardrobe_water_leak
               state: "on"
 
         sequence:
           - variables:
               msg: >
-                {% set e = (['binary_sensor.water_sink_water_leak', 'binary_sensor.water_wardrove_water_leak'] | select('is_state', 'on') | list) %}
+                {% set e = (['binary_sensor.water_sink_water_leak', 'binary_sensor.water_wardrobe_water_leak'] | select('is_state', 'on') | list) %}
                 {% set mapper =  {
                   'binary_sensor.water_sink_water_leak' : 'under diskbänken',
-                  'binary_sensor.water_wardrove_water_leak' : 'i garderoben nere'
+                  'binary_sensor.water_wardrobe_water_leak' : 'i garderoben nere'
                 } %}
                 Vatten upptäckt {{mapper[e[0]] if e else 'någonstans'}}!
 
