@@ -79,6 +79,7 @@
               entity_id:
                 - light.vardagsrum_framre
                 - light.vardagsrum_bakre
+                - light.floor_lamp
 
       - conditions:
           - condition: or
@@ -91,6 +92,11 @@
                     after: input_datetime.time_goodmorning
                     # but before a specific time in the evening
                     before: input_datetime.time_goodnight
+                  - condition: state
+                    # when it's dark inside
+                    entity_id:
+                      - input_boolean.house_mode_bright_inside
+                    state: "off"
 
         sequence:
           - &scene_turn_on
