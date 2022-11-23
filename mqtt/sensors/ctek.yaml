@@ -5,7 +5,7 @@
   state_class: "total_increasing"
   device_class: "energy"
   value_template: >-
-    {% if ([value_json['energy']] | select('in', ['unknown', 'unavailable', 'none', '0']) | list) %}
+    {% if (value_json['energy'] | select('in', ['unknown', 'unavailable', 'none', '0']) | list) or (value_json['energy'] == 0) %}
       unavailable
     {% else %}
       {{ (value_json['energy'] / 1000) | round(2) }}
