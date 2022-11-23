@@ -8,7 +8,9 @@
       id: "start"
       entity_id:
         - sensor.012050386564014027_bsh_common_status_operationstate
-      from: "BSH.Common.EnumType.OperationState.Ready"
+      from: 
+        - "BSH.Common.EnumType.OperationState.Ready"
+        - "BSH.Common.EnumType.OperationState.DelayedStart"
       to: "BSH.Common.EnumType.OperationState.Run"
 
     - platform: state
