@@ -7,7 +7,7 @@
       color_temp: &color_temp 250
     light.kitchen_lamp:
       state: *state
-      brightness: 80
+      brightness: *brightness
       color_temp: *color_temp
 
 - name: "bedroom ambience lights cozy"

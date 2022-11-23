@@ -3,7 +3,7 @@
   entities:
     light.kitchen_window_1:
       state: &state "on"
-      brightness: &brightness 120
+      brightness: 200
       color_temp: &color_temp 140
 
 - name: "hallway upstairs window lights cozy"
@@ -11,7 +11,7 @@
   entities:
     light.hallway_upstairs_window:
       state: *state
-      brightness: *brightness
+      brightness: &brightness 120
       color_temp: *color_temp
 
 - name: "livingroom window lights cozy"
