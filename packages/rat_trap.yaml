@@ -67,7 +67,7 @@ automation:
             {% set mapper =  {
               'binary_sensor.rat_trap_1' : 'krypgrunden',
               'binary_sensor.rat_trap_2' : 'garderoben nere',
-              'binary_sensor.rat_trap_3' : 'garderoben nere övre'
+              'binary_sensor.rat_trap_3' : 'väggen uppe'
             } %}
             Råttjävul fångad i {{ mapper[trigger.entity_id] }}! (Fångade hittills: {{ states('counter.rat_trap') }})
           data:
