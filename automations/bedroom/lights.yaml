@@ -15,9 +15,9 @@
     - platform: state
       id: remote
       entity_id:
-        - sensor.bedroom_remote_right
+        - sensor.bedroom_remote_right_action
         - sensor.bedroom_remote_left_action
-        - sensor.bedroom_remote_wall
+        - sensor.bedroom_remote_wall_action
       from: 
         - "none"
         - ""
@@ -101,7 +101,7 @@
             - alias: "Remote buttons"
               choose:
                 - alias: "Big bulb pressed"
-                  conditions: "{{ action in ['big-press', 'on'] }}"
+                  conditions: "{{ action in ['big-press', 'on', 'brightness_up_click'] }}"
                   sequence:
                     - choose:
                         - conditions:
@@ -133,7 +133,7 @@
                             entity_id: light.bedroom_ceiling
 
                 - alias: "Small bulb pressed"
-                  conditions: "{{ action in ['small-press', 'off'] }}"
+                  conditions: "{{ action in ['small-press', 'off', 'brightness_down_click'] }}"
                   sequence:
                     - alias: "toggle poop lamp"
                       choose:

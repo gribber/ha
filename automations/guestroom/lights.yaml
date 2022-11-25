@@ -1,0 +1,62 @@
+- alias: "Guestroom: lights"
+  id: 14dcdcb8-9ed3-485f-96d8-d115b03030e9
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_bright_inside
+
+    - platform: time
+      at:
+        - input_datetime.time_goodmorning
+        - input_datetime.time_goodnight
+
+  action:
+    choose:
+      - conditions:
+          - condition: state
+            # when there is daylight
+            entity_id:
+              - input_boolean.house_mode_bright_inside
+            state: "on"
+
+        sequence:
+          - &turn_off # turn off lights
+            service: homeassistant.turn_off
+            target:
+              entity_id:
+                - switch.lidl_plug
+            # data:
+            #   transition: 5
+
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: and
+                # turn on lights if
+                conditions:
+                  - condition: time
+                    # at specific time in the morning
+                    after: input_datetime.time_goodmorning
+                    # but before a specific time in the evening
+                    before: input_datetime.time_goodnight
+
+        sequence:
+          - &scene_turn_on
+            service: homeassistant.turn_on
+            target:
+              entity_id:
+                - switch.lidl_plug
+            # data:
+            #   transition: 5
+
+    default:
+      - *turn_off
+ 
