@@ -16,14 +16,6 @@
       id: movement
       entity_id:
         - input_boolean.laundryroom_movement
-      from: "off"
-      to: "on"
-
-    - platform: state
-      entity_id:
-        - input_boolean.laundryroom_movement
-      from: "on"
-      to: "off"
 
     - platform: state
       id: button
@@ -36,26 +28,6 @@
 
   action:
     choose:
-      - conditions:
-          - alias: "turn on lights when entering the room"
-            condition: and
-            conditions:
-              - alias: "if movement detected"
-                condition: trigger
-                id: movement
-              - alias: "and time is between"
-                condition: time
-                after: "07:30:00"
-                before: "22:00:00"
-
-        sequence:
-          - &turn_on
-            alias: "turn on the lights"
-            service: switch.turn_on
-            target:
-              entity_id: switch.laundry_room_channel_1
-
-
       - conditions:
           - condition: trigger
             id: "button"
@@ -70,7 +42,11 @@
                 state: "off"
 
               sequence:
-              - *turn_on
+              - &turn_on
+                alias: "turn on the lights"
+                service: switch.turn_on
+                target:
+                  entity_id: switch.laundry_room_channel_1
 
             default:
               - &turn_off
@@ -78,6 +54,23 @@
                 service: switch.turn_off
                 target:
                   entity_id: switch.laundry_room_channel_1
+
+      - conditions:
+          - alias: "turn on lights when entering the room"
+            condition: and
+            conditions:
+              - alias: "if movement detected"
+                condition: state
+                entity_id:
+                  - input_boolean.laundryroom_movement
+                state: 'on'
+              - alias: "and time is between"
+                condition: time
+                after: "07:30:00"
+                before: "22:00:00"
+
+        sequence:
+          - *turn_on
 
     default:
       - *turn_off
