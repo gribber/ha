@@ -54,59 +54,60 @@
         time_fired: "{{ now() }}"
 
 
-# left bedroom remote
-- trigger:
-    - platform: homeassistant
-      event: start
+# # left bedroom remote
+# - trigger:
+#     - platform: homeassistant
+#       event: start
 
-    - platform: event
-      event_type:
-        - event_template_reloaded
+#     - platform: event
+#       event_type:
+#         - event_template_reloaded
 
-    - platform: event
-      id: remote
-      event_type: deconz_event
-      event_data:
-        id: bedroom_remote_2
+#     # - platform: event
+#     #   id: remote
+#     #   event_type: deconz_event
+#     #   event_data:
+#     #     id: bedroom_remote_2
 
-    - platform: state
-      entity_id: sensor.bedroom_remote_left
-      to:
-        - "power-press"
-        - "big-press"
-        - "big-hold-release"
-        - "left-press"
-        - "left-hold-release"
-        - "right-press"
-        - "right-hold-release"
-        - "small-press"
-        - "small-hold-release"
+#     - platform: state
+#       entity_id:
+#         - sensor.bedroom_remote_2_action
+#       id: remote
 
-  sensor:
-    - name: "bedroom_remote_left"
-      state: >
-        {% set mapper =  {
-          1001 : 'big-hold',
-          1002 : 'big-press',
-          1003 : 'big-hold-release',
-          2001 : 'small-hold',
-          2002 : 'small-press',
-          2003 : 'small-hold-release',
-          3001 : 'left-hold',
-          3002 : 'left-press',
-          3003 : 'left-hold-release',
-          4001 : 'right-hold',
-          4002 : 'right-press',
-          4003 : 'right-hold-release'
-        }
-        %}
-        {% if trigger is defined and trigger.event is defined and trigger.event.data is defined and trigger.event.data.event is defined %}
-          {{ mapper[trigger.event.data.event] }}
-        {% else %}
-          none
-        {% endif %}        
-      attributes:
-        time_fired: "{{ now() }}"
+#     - platform: state
+#       entity_id: sensor.bedroom_remote_left
+#       to:
+#         - "power-press"
+#         - "big-press"
+#         - "big-hold-release"
+#         - "left-press"
+#         - "left-hold-release"
+#         - "right-press"
+#         - "right-hold-release"
+#         - "small-press"
+#         - "small-hold-release"
+
+#   sensor:
+#     - name: "bedroom_remote_left"
+#       state: >
+#         {% set mapper =  {
+#           'brightness_move_up' : 'big-hold',
+#           'on' : 'big-press',
+#           'brightness_stop' : 'big-hold-release',
+#           'brightness_move_down' : 'small-hold',
+#           'off' : 'small-press',
+#           'brightness_stop' : 'small-hold-release',
+#           'arrow_left_hold' : 'left-hold',
+#           'arrow_left_click' : 'left-press',
+#           'arrow_left_release' : 'left-hold-release',
+#           'arrow_right_hold' : 'right-hold',
+#           'arrow_right_click' : 'right-press',
+#           'arrow_right_release' : 'right-hold-release'
+#         }
+#         %}
+#         {{ mapper[trigger.to_state.state] if trigger.to_state.state in mapper else '' }}
+#       attributes:
+#         time_fired: "{{ now() }}"
 
 # bedroom remote wall
 - trigger:

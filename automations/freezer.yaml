@@ -3,7 +3,7 @@
   trigger:
     - platform: numeric_state
       entity_id:
-        - sensor.freezer_left_temperature
+        - sensor.freezer_kitchen_temperature
         - sensor.freezer_right_temperature
       above: -15
       for:
@@ -14,7 +14,7 @@
         title: "Frysen"
         message: >
           {% set mapper =  {
-            'sensor.freezer_left_temperature' : 'vänstra frysen',
+            'sensor.freezer_kitchen_temperature' : 'frysen i köket',
             'sensor.freezer_right_temperature' : 'högra frysen'
           } %}
           "För hög temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
@@ -28,7 +28,7 @@
   trigger:
     - platform: numeric_state
       entity_id:
-        - sensor.freezer_left_temperature
+        - sensor.freezer_kitchen_temperature
         - sensor.freezer_right_temperature
       above: -10
       for:
@@ -44,7 +44,7 @@
             title: "Frysen kritisk!"
             message: >
               {% set mapper =  {
-                'sensor.freezer_left_temperature' : 'vänstra frysen',
+                'sensor.freezer_kitchen_temperature' : 'frysen i köket',
                 'sensor.freezer_right_temperature' : 'högra frysen'
               } %}
               "Kritisk temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"

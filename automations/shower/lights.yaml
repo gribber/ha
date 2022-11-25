@@ -10,13 +10,13 @@
 
     - platform: state
       entity_id:
-        - binary_sensor.bathroom_upstairs_presence
+        - binary_sensor.motion_bathroom_upstairs_occupancy
       from: "off"
       to: "on"
 
     - platform: state
       entity_id:
-        - binary_sensor.bathroom_upstairs_presence
+        - binary_sensor.motion_bathroom_upstairs_occupancy
       from: "on"
       to: "off"
       for:
@@ -29,7 +29,7 @@
             - alias: "and motion is detected"
               condition: state
               entity_id:
-                - binary_sensor.bathroom_upstairs_presence
+                - binary_sensor.motion_bathroom_upstairs_occupancy
               state: "on"
 
             - alias: "and we are home"

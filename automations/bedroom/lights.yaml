@@ -16,9 +16,11 @@
       id: remote
       entity_id:
         - sensor.bedroom_remote_right
-        - sensor.bedroom_remote_left
+        - sensor.bedroom_remote_left_action
         - sensor.bedroom_remote_wall
-      from: "none"
+      from: 
+        - "none"
+        - ""
 
     - platform: state
       entity_id:
@@ -99,7 +101,7 @@
             - alias: "Remote buttons"
               choose:
                 - alias: "Big bulb pressed"
-                  conditions: "{{ action == 'big-press' }}"
+                  conditions: "{{ action in ['big-press', 'on'] }}"
                   sequence:
                     - choose:
                         - conditions:
@@ -131,7 +133,7 @@
                             entity_id: light.bedroom_ceiling
 
                 - alias: "Small bulb pressed"
-                  conditions: "{{ action == 'small-press' }}"
+                  conditions: "{{ action in ['small-press', 'off'] }}"
                   sequence:
                     - alias: "toggle poop lamp"
                       choose:
@@ -151,7 +153,7 @@
                             entity_id: script.poop_bedroom
 
                 - alias: "Left pressed"
-                  conditions: "{{ action == 'left-press' }}"
+                  conditions: "{{ action in ['left-press', 'arrow_left_click'] }}"
                   sequence:
                     - *turn_on_manual_mode
                     - alias: "toggle left bed lamp"
@@ -160,7 +162,7 @@
                         entity_id: light.bedroom_left
 
                 - alias: "Right pressed"
-                  conditions: "{{ action == 'right-press' }}"
+                  conditions: "{{ action in ['right-press', 'arrow_right_click'] }}"
                   sequence:
                     - *turn_on_manual_mode
                     - alias: "toggle right bed lamp"
@@ -169,12 +171,12 @@
                         entity_id: light.bedroom_right
 
                 - alias: "Big/small bulb press hold"
-                  conditions: "{{ action in ['big-hold', 'small-hold'] }}"
+                  conditions: "{{ action in ['big-hold', 'small-hold', 'brightness_move_up', 'brightness_move_down'] }}"
                   sequence:
                     - *turn_on_manual_mode
                     - alias: "determen direction"
                       variables:
-                        step: "{{ 50 if action == 'big-hold' else -50 }}"
+                        step: "{{ 50 if action in ['big-hold', 'brightness_move_up'] else -50 }}"
 
                     - alias: "Change brightness"
                       service: light.turn_on
