@@ -14,13 +14,13 @@
     - platform: state
       id: movement
       entity_id:
-        - binary_sensor.motion_techroom_presence
+        - binary_sensor.motion_techroom_occupancy
       from: "off"
       to: "on"
 
     - platform: state
       entity_id:
-        - binary_sensor.motion_techroom_presence
+        - binary_sensor.motion_techroom_occupancy
       from: "on"
       to: "off"
       for:

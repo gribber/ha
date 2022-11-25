@@ -13,11 +13,10 @@
       entity_id:
         - input_boolean.house_mode_bright_inside
 
-    - platform: event
-      event_type: deconz_event
-      event_data:
-        id: "livingroom_remote"
+    - platform: state
       id: remote
+      entity_id:
+        - sensor.livingroom_remote_action
 
     - platform: state
       id: night
@@ -39,26 +38,29 @@
             id: "remote"
 
         sequence:
+          - variables:
+              action: "{{ trigger.to_state.state }}"
+          
           - choose:
-            - conditions: '{{ trigger.event.data.event == 1002 }}'
+            - conditions: "{{ action == 'on' }}"
               sequence:
                 - service: light.toggle
                   target:
                     entity_id: light.livingroom_front_1
 
-            - conditions: '{{ trigger.event.data.event == 2002 }}'
+            - conditions: "{{ action == 'off' }}"
               sequence:
                 - service: light.toggle
                   target:
                     entity_id: light.livingroom_back_3
 
-            - conditions: '{{ trigger.event.data.event == 1001 }}'
+            - conditions: "{{ action == 'brightness_move_up' }}"
               sequence:
                 - service: light.toggle
                   target:
                     entity_id: light.vardagsrum_framre
 
-            - conditions: '{{ trigger.event.data.event == 2001 }}'
+            - conditions: "{{ action == 'brightness_move_down' }}"
               sequence:
                 - service: light.toggle
                   target:

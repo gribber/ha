@@ -10,7 +10,7 @@
     - name: "rat_trap_2_door"
       device_class: opening
       state: >
-        {% if is_state('binary_sensor.rat_trap_2', 'off') %}
+        {% if is_state('binary_sensor.rat_trap_2_contact', 'off') %}
           on
         {% else %}
           off
@@ -18,7 +18,7 @@
     - name: "rat_trap_3_door"
       device_class: opening
       state: >
-        {% if is_state('binary_sensor.rat_trap_3', 'off') %}
+        {% if is_state('binary_sensor.rat_trap_3_contact', 'off') %}
           on
         {% else %}
           off
