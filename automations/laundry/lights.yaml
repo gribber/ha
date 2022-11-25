@@ -12,20 +12,18 @@
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - platform: state 
       id: movement
       entity_id:
-        - binary_sensor.laundry_room_occupancy
+        - input_boolean.laundryroom_movement
       from: "off"
       to: "on"
 
     - platform: state
       entity_id:
-        - binary_sensor.laundry_room_occupancy
+        - input_boolean.laundryroom_movement
       from: "on"
       to: "off"
-      for:
-        seconds: 10
 
     - platform: state
       id: button

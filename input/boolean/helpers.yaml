@@ -25,3 +25,7 @@ techroom_movement:
 kitchen_movement:
   name: "Rörlse i köket"
   icon: "mdi:run"
+
+laundryroom_movement:
+  name: "Rörlse i tvättstugan"
+  icon: "mdi:run"

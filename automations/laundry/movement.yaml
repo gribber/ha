@@ -1,0 +1,49 @@
+- alias: "Movement: laundryroom"
+  id: bc7852b3-a205-4a37-a2d3-946e33baee6f
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: movement
+      entity_id:
+        - binary_sensor.motion_laundry_room_occupancy
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.motion_laundry_room_occupancy
+      from: "on"
+      to: "off"
+      for:
+        minutes: 3
+
+  condition: []
+
+  action:
+    choose:
+      - alias: "activate movement mode"
+        conditions:
+          - alias: "when movement is detected"
+            condition: trigger
+            id: "movement"
+
+        sequence:
+          - alias: "turn on helper"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.laundryroom_movement
+
+    default:
+      - alias: "turn off helper"
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.laundryroom_movement
