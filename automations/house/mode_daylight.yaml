@@ -26,7 +26,7 @@
     - platform: numeric_state
       id: lightlevel_day
       entity_id:
-        - sensor.motion_driveway_lightlevel
+        - sensor.motion_driveway_illuminance_lux
       above: input_number.lightlevel_limit_outdoor
       for:
         minutes: 5
@@ -34,7 +34,7 @@
     - platform: numeric_state
       id: lightlevel_night
       entity_id:
-        - sensor.motion_driveway_lightlevel
+        - sensor.motion_driveway_illuminance_lux
       below: input_number.lightlevel_limit_outdoor
       for:
         minutes: 5
@@ -52,7 +52,7 @@
               above: input_number.sun_elevation_limit
             - condition: numeric_state
               entity_id:
-                - sensor.motion_driveway_lightlevel
+                - sensor.motion_driveway_illuminance_lux
               above: input_number.lightlevel_limit_outdoor
               
           sequence:

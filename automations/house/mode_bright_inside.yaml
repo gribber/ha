@@ -19,7 +19,7 @@
     - platform: state
       id: lightlevel
       entity_id:
-        - sensor.motion_driveway_lightlevel
+        - sensor.motion_driveway_illuminance_lux
 
   condition:
     - condition: template
@@ -46,7 +46,7 @@
               - condition: numeric_state
                 # and it's bright enough outside
                 entity_id:
-                  - sensor.motion_driveway_lightlevel
+                  - sensor.motion_driveway_illuminance_lux
                 above: 500
 
           sequence:

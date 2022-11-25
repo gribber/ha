@@ -14,13 +14,13 @@
     - platform: state
       id: movement
       entity_id:
-        - binary_sensor.motion_driveway_presence
+        - binary_sensor.motion_driveway_occupancy
       from: "off"
       to: "on"
 
     - platform: state
       entity_id:
-        - binary_sensor.motion_driveway_presence
+        - binary_sensor.motion_driveway_occupancy
       from: "on"
       to: "off"
       for:
@@ -69,13 +69,13 @@
     - platform: state
       id: movement
       entity_id:
-        - binary_sensor.motion_front_presence
+        - binary_sensor.motion_front_occupancy
       from: "off"
       to: "on"
 
     - platform: state
       entity_id:
-        - binary_sensor.motion_front_presence
+        - binary_sensor.motion_front_occupancy
       from: "on"
       to: "off"
       for:

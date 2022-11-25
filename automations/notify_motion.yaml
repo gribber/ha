@@ -2,7 +2,7 @@
   id: 63fe107f-06f0-44ad-b430-e2ff493272f7
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_driveway_presence
+      entity_id: binary_sensor.motion_driveway_occupancy
       from: "off"
       to: "on"
   # condition:
