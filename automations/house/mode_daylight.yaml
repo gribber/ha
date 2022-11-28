@@ -11,18 +11,17 @@
     - platform: event
       event_type: automation_reloaded
 
+    - platform: state
+      entity_id:
+        - input_number.sun_elevation_limit
+      
     - platform: numeric_state
       id: "sun_up"
       entity_id:
         - sun.sun
       attribute: elevation
-      above: &sun_elevation "-2.0"
+      above: &sun_elevation input_number.sun_elevation_limit
     
-    # - platform: state
-    #   id: lightlevel
-    #   entity_id:
-    #     - sensor.motion_driveway_lightlevel
-
     - platform: numeric_state
       id: lightlevel_day
       entity_id:
@@ -40,8 +39,6 @@
         minutes: 5
 
   condition: []
-    # - condition: template
-    #   value_template: '{{ false if trigger is defined and trigger.to_state is defined and trigger.to_state.state is defined and (trigger.to_state.state == "unavailable") else true }}'
 
   action:
       choose:
@@ -61,43 +58,6 @@
               target:
                 entity_id: input_boolean.house_mode_daylight
 
-        # - alias: "if it's less than 1 hour since last change"
-        #   conditions:
-        #   - condition: template
-        #     value_template: >
-        #       {{ (as_timestamp(now()) - as_timestamp(states.input_boolean.house_mode_daylight.last_changed)) < 3600 }}
-        #   sequence: []
-        #     # do nothing
-
-
-        # - alias: "decide if we want to change to daylight mode"
-        #   conditions:
-        #   - condition: or
-        #     conditions:
-        #     - condition: trigger
-        #       # if triggered by sunrise
-        #       id: "sun"
-
-        #     - condition: and
-        #       conditions:
-        #       - condition: numeric_state
-        #         # if the sun is up
-        #         entity_id:
-        #           - sun.sun
-        #         attribute: elevation
-        #         above: *sun_elevation
-
-        #       - condition: numeric_state
-        #         # and it's bright enough outside
-        #         entity_id:
-        #           - sensor.motion_driveway_lightlevel
-        #         above: 200
-
-        #   sequence:
-        #     - service: input_boolean.turn_on
-        #       # turn on daylight mode
-        #       target:
-        #         entity_id: input_boolean.house_mode_daylight
 
       default:
         # turn off daylight mode, it's dark outside
