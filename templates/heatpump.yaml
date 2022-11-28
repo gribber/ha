@@ -212,6 +212,23 @@
           | list) }}
 
 - sensor:
+    - name: "ctc_smartgrid_mode_mapped"
+      unique_id: 83df814b-339b-4d83-a6c4-f22553626c77
+      state: >
+        {% set mapper =  {
+          '0' : '1',
+          '1' : '2',
+          '2' : '0',
+          '3' : '2'
+        } %}
+        {{ mapper[states('sensor.ctc_smartgrid_mode')] if states('sensor.ctc_smartgrid_mode') in mapper else "unknown ("+states('sensor.ctc_smartgrid_mode')+")" }}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_smartgrid_mode') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+- sensor:
     # ctc spotprice
     - name: "ctc_elspot"
       unique_id: be27b519-1b75-43c4-9040-e97ce1f6f2bc
