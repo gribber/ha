@@ -1,5 +1,9 @@
-- name: family
-  platform: group
+- platform: group
+  name: family
   services:
     - service: mobile_app_kb2003
-    - service: mobile_app_bellas_iphone
+    - service: mobile_app_isabells_iphone
+
+- platform: telegram
+  name: castle
+  chat_id: !secret telegram_id_castle

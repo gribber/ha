@@ -1,0 +1,30 @@
+- sensor:
+  - name: "el_next_cheapest_hour"
+    unique_id: 6cfc8418-c663-40a8-8d54-09827e3730bd
+    state: >
+      {% set hours = 1 %}
+      {% set nordpool_entity = 'sensor.nordpool_se2' %}
+      {% set limit = (((now()+timedelta(days=1)).replace(hour=11,minute=0,second=0)-now()).seconds/3600) | int %}
+      {## Here be dragons  ##}
+      {% set tod=state_attr(nordpool_entity,'raw_today') %}
+      {% if(is_state_attr(nordpool_entity, 'tomorrow_valid', True)) %}
+        {% set tod=tod + state_attr(nordpool_entity, 'raw_tomorrow') %}
+      {% endif %}
+      {% set ns = namespace(value=0, amount=1000, index=0) %}
+      {% for i in range(now().hour, min(tod | length - (hours-1), limit+now().hour)) %}
+        {% set ns.value =  tod[i:i+hours] | map(attribute='value') | sum  %} 
+        {% if (ns.value < ns.amount) %}
+          {% set ns.index = i %}
+          {% set ns.amount = ns.value %}
+        {% endif %}
+      {% endfor %}
+      {% set price = tod[ns.index].value %}
+      {{ tod[ns.index].start }}
+    # attributes:
+    #   price: "i need variable support for templates! {{ some_var.price }}"
+    #unit_of_measurement: "SEK/kWh"
+    availability: >
+      {{ not (
+        [ states('sensor.nordpool_se2') ] 
+        | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}

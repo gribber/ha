@@ -49,3 +49,70 @@
               message: "Disken klar! (förbrukning: {{consumption}}kWh)"
               data:
                 tag: dishwasher
+
+          - service: notify.castle
+            data:
+              title: "Diskmaskinen"
+              message: "Disken klar! (förbrukning: {{consumption}}kWh)"
+
+
+- alias: "Dishwasher: intelligent start"
+  id: c2d665a4-53ca-4456-ae99-be0a6a37dc8e
+  trace:
+    stored_traces: 20
+
+  trigger:
+    # - platform: state
+    #   id: "door_closed"
+    #   entity_id: binary_sensor.012050386564014027_bsh_common_status_doorstate
+    #   from: "on"
+    #   to: "off"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.012050386564014027_bsh_common_status_remotecontrolstartallowed
+      from: "off"
+      to: "on"
+  action:
+    choose:
+      - conditions:
+          and:
+          - condition: state
+            entity_id:
+              - binary_sensor.012050386564014027_bsh_common_status_remotecontrolstartallowed
+            state: "on"
+
+            
+        sequence:
+          - service: notify.castle
+            data:
+              title: Diskmaskinen
+              message: >
+                Kommer starta diskmaskinen {{ as_timestamp(states('sensor.el_next_cheapest_hour'))|timestamp_custom('%d/%m %H:%M') }}
+
+          - service: tts.google_translate_say
+            data:
+              entity_id: media_player.kitchen_display
+              language: sv
+              message: >
+                {% set add = '' %}
+                {% if (as_datetime(states('sensor.el_next_cheapest_hour')).day == now().day) %}
+                  {% if (as_datetime(states('sensor.el_next_cheapest_hour')).hour > 18) %}
+                    {% set add = 'ikväll' %}
+                  {% endif %}
+                {% else %}
+                  {% set add = 'i morgon' %}
+                  {% if (as_datetime(states('sensor.el_next_cheapest_hour')).hour < 6) %}
+                    {% set add = 'inatt' %}
+                  {% endif %}
+                {% endif %}
+                "Kommer starta diskmaskinen {{ as_datetime(states('sensor.el_next_cheapest_hour')).hour }} 00 {{add}}"
+
+          - service: home_connect_alt.start_program
+            data:
+              device_id: 7b6022c5a26eda9e5f48679e4274a490
+              program_key: Dishcare.Dishwasher.Program.Kurz60
+              options:
+                - key: BSH.Common.Option.StartInRelative
+                  value: "{{ (as_datetime(states('sensor.el_next_cheapest_hour'))-now()).seconds }}"
+                  #unit: seconds
