@@ -16,6 +16,7 @@ include:
 exclude:
   entity_globs:
     - sensor.*_tmp
+    - sensor.*_last_seen
     - sensor.grid_*
     - sensor.fa_grid_*
     - sensor.solar_*_energy

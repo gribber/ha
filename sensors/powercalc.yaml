@@ -105,3 +105,12 @@
   name: "techups"
   fixed: 
     power: "{{states('sensor.techups_power_tmp')}}"
+
+- platform: powercalc
+  create_group: "smart speakers"
+  unique_id: f883310e-e09c-4d1c-8ef7-b2e83b530324
+  entities:
+    - entity_id: media_player.hobbyroom_speaker
+    - entity_id: media_player.kitchen_display
+    - entity_id: media_player.vardagsrummet_speaker
+    - entity_id: media_player.sovrummet_speaker

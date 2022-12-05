@@ -39,3 +39,5 @@ exclude:
     - sensor.*_camera_fps
     # exclude sensordata modified by templates etc (prefixed with _tmp)
     - sensor.*_tmp
+    # exclude z2m last seen sensors
+    - sensor.*_last_seen
