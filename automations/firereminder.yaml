@@ -57,7 +57,7 @@
     - platform: numeric_state
       entity_id:
         - sensor.climate_wood_boiler_supply
-      below: 79
+      below: 80
   condition:
     - condition: numeric_state
       entity_id:
