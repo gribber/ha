@@ -4,18 +4,35 @@
     stored_traces: 10
 
   trigger:
-    - platform: state
-      entity_id:
-        - sensor.nordpool_se1
-        - sensor.nordpool_se2
-        - sensor.nordpool_se3
-        - sensor.nordpool_se4
-      for:
-        hours: 2
+    - platform: time_pattern
+      hours: "*"
+
+    # - platform: event
+    #   event_type:
+    #     - automation_reloaded
+
+  variables: 
+    np_update: >
+      {% set np_list = ['sensor.nordpool_se1', 'sensor.nordpool_se2', 'sensor.nordpool_se3', 'sensor.nordpool_se4'] %}
+      {% set np_data = namespace(entities=[]) %}
+      {% for s in np_list %}
+        {% if (as_timestamp(now()) - as_timestamp(states[s].last_updated) > 7200) %}
+          {% set np_data.entities = np_data.entities + [s] %}
+        {% endif %}
+      {% endfor %}
+      {{ np_data.entities }}
 
   condition: []
 
   action:
-    - service: homeassistant.reload_config_entry
-      target:
-        entity_id: "{{ trigger.entity_id }}"
+    - choose:
+      - conditions: "{{ np_update != '' }}"
+
+        sequence:
+          # - service: system_log.write
+          #   data:
+          #     message: "boop: {{ np_update }}"
+
+          - service: homeassistant.reload_config_entry
+            target:
+              entity_id: "{{ np_update }}"
