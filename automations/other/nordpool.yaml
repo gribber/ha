@@ -21,6 +21,7 @@
         {% endif %}
       {% endfor %}
       {{ np_data.entities }}
+    apa: "['sda', 'gfh']"
 
   condition: []
 
@@ -36,3 +37,8 @@
           - service: homeassistant.reload_config_entry
             target:
               entity_id: "{{ np_update }}"
+          
+          - service: notify.castle
+            data:
+              title: nordpool
+              message: "Laddar om {{np_update|join(', ')}}"
