@@ -1,0 +1,9 @@
+ctc_chargepump:
+  alias: "Laddpump"
+  sequence:
+    - service: modbus.write_register
+      data:
+        slave: 1
+        hub: ctc
+        value: "{{ states('input_number.ctc_set_chargepump') }}"
+        address: 61570

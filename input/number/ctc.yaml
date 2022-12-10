@@ -1,0 +1,7 @@
+ctc_set_chargepump:
+  name: "Laddpump"
+  min: 20
+  max: 100
+  step: 5
+  unit_of_measurement: "%"
+  icon: "mdi:theme-light-dark"
