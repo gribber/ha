@@ -1,5 +1,8 @@
 - alias: "test multiple remotes"
   id: 64070baf-8273-4617-b223-4295f9e1db5b
+  mode: queued
+  trace:
+    stored_traces: 20
   trigger:
     # - platform: event
     #   id: remote
@@ -9,12 +12,13 @@
 
     - platform: state
       id: remote
-      entity_id: sensor.fjarren
-      to:
-        - right-press
+      entity_id: sensor.bedroom_remote_wall_action
 
 
-  action: []
+  action:
+    - service: system_log.write
+      data:
+        message: "{{ trigger }}"
     # - service: light.toggle
     #   target:
     #     entity_id: light.floor_lamp
@@ -33,3 +37,20 @@
     #         service: light.toggle
     #         target:
     #           entity_id: light.floor_lamp
+
+
+# - alias: test2
+#   id: de2741d2-72c0-4f96-b7dc-39583739c125
+#   mode: queued
+#   trace:
+#     stored_traces: 20
+#   trigger:
+#     - platform: time
+#       at: 
+#         entity_id: input_datetime.house_test_time
+#         offset: -00:30:00
+
+#   action:
+#     - service: system_log.write
+#       data:
+#         message: "boop: {{ trigger }}"

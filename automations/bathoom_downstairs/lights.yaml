@@ -1,5 +1,6 @@
 - alias: "bathroom downstairs: lights"
   id: 2f16522d-300d-4c7f-8a5c-d00d283b9438
+  mode: queued
   trigger:
     - platform: homeassistant
       event: start
@@ -20,7 +21,7 @@
       from: "on"
       to: "off"
       for:
-        minutes: 1
+        seconds: 120
 
   action:
     - choose:

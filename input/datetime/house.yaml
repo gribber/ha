@@ -10,3 +10,8 @@ house_reset_settings_day:
   icon: "mdi:restart"
   has_time: true
   has_date: false
+
+house_test_time:
+  name: testtime
+  has_time: true
+  has_date: false
