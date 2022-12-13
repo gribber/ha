@@ -5,7 +5,8 @@
 
   trigger:
     - platform: time_pattern
-      hours: "*"
+      hours: '*'
+
 
     # - platform: event
     #   event_type:
@@ -21,13 +22,12 @@
         {% endif %}
       {% endfor %}
       {{ np_data.entities }}
-    apa: "['sda', 'gfh']"
 
   condition: []
 
   action:
     - choose:
-      - conditions: "{{ np_update != '' }}"
+      - conditions: "{{ np_update is defined and np_update|length>0 }}"
 
         sequence:
           # - service: system_log.write
@@ -41,4 +41,4 @@
           - service: notify.castle
             data:
               title: nordpool
-              message: "Laddar om {{np_update|join(', ')}}"
+              message: Laddar om {{np_update|map('regex_replace', '^.+_')|join(', ')}}
