@@ -1,0 +1,5 @@
+- platform: energyscore
+  name: Heatpump energy score
+  unique_id: 5e3d9543-eee6-42bc-bf4b-a0a187a5790d
+  price_entity: sensor.nordpool_se2
+  energy_entity: sensor.heatpump_energy
