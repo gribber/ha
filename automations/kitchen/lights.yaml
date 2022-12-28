@@ -30,6 +30,11 @@
       from: "off"
       to: "on"
 
+    - platform: state
+      id: remote
+      entity_id:
+        - sensor.kitchen_remote_action
+      
   action:
     choose:
       - conditions:
@@ -52,6 +57,41 @@
                 data:
                   transition: 5
                   
+
+      - conditions:
+        - condition: trigger
+          id: remote
+
+        sequence:
+          - variables:
+              action: "{{ trigger.to_state.state }}"
+
+          # - service: system_log.write
+          #   data:
+          #     message: "trigger: {{ trigger }}"
+
+          - choose:
+            - alias: "big pressed"
+              conditions: "{{ action in ['on'] }}"
+              sequence:
+                - service: light.turn_on
+                  target:
+                    entity_id:
+                      light.kitchen_table
+            - alias: "small pressed"
+              conditions: "{{ action in ['off'] }}"
+              sequence:
+                - service: light.turn_off
+                  target:
+                    entity_id:
+                      light.kitchen_table
+            - alias: "right pressed"
+              conditions: "{{ action in ['arrow_right_click'] }}"
+              sequence:
+                - service: light.toggle
+                  target:
+                    entity_id:
+                      light.kitchen_bench
 
       - conditions:
           - condition: state
