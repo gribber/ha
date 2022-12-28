@@ -1,0 +1,25 @@
+garage_doom:
+  mode: restart
+  
+  variables:
+      pattern: mmamammmmammamamaaamammma
+  
+  sequence:
+    - repeat:
+        count: 20
+        sequence:
+          - service: light.turn_on
+            data:
+              brightness: >-
+                {{((pattern[repeat.index%(pattern|length)] | ord - 96)*9.807) | round }}
+            target:
+              entity_id:
+                - light.garage_alert
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 0
+              milliseconds: 800
+    - service: light.turn_off
+      target:
+        entity_id: light.garage_alert
