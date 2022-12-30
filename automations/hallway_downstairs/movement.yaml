@@ -1,0 +1,49 @@
+- alias: "Movement: hallway downstairs"
+  id: aa2a22c1-e965-4222-9068-f136ac898dd4
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: movement
+      entity_id:
+        - binary_sensor.motion_hallway_downstairs_occupancy
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.motion_hallway_downstairs_occupancy
+      from: "on"
+      to: "off"
+      for:
+        seconds: 15
+
+  condition: []
+
+  action:
+    choose:
+      - alias: "activate movement mode"
+        conditions:
+          - alias: "when movement is detected"
+            condition: trigger
+            id: "movement"
+
+        sequence:
+          - alias: "turn on helper"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.hallway_downstairs_movement
+
+    default:
+      - alias: "turn off helper"
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.hallway_downstairs_movement

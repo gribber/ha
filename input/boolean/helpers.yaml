@@ -29,3 +29,7 @@ kitchen_movement:
 laundryroom_movement:
   name: "Rörlse i tvättstugan"
   icon: "mdi:run"
+
+hallway_downstairs_movement:
+  name: "Rörelse i hallen"
+  icon: "mdi:run"
