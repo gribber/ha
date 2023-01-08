@@ -1,0 +1,106 @@
+- alias: "Human: parking"
+  id: 99f7a23a-2164-44f5-b021-71405162ed5e
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: person
+      entity_id:
+        - binary_sensor.parking_person_occupancy
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.parking_person_occupancy
+      from: "on"
+      to: "off"
+      for:
+        minutes: 1
+
+  condition: []
+
+  action:
+    choose:
+      - alias: "activate detect mode"
+        conditions:
+          - alias: "when person is detected on parking"
+            condition: trigger
+            id: "person"
+
+        sequence:
+          - alias: "turn on helper"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.parking_human
+            
+
+
+    default:
+      - alias: "turn off helper"
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.parking_human
+
+
+- alias: "Human: propery"
+  id: 0c09b67d-0cf4-4f6f-9ce2-7338d0171090
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: person
+      entity_id:
+        - group.property_humans
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - group.property_humans
+      from: "on"
+      to: "off"
+      for:
+        minutes: 1
+
+  condition: []
+
+  action:
+    choose:
+      - alias: "activate detect mode"
+        conditions:
+          - alias: "when person is detected somewhere"
+            condition: trigger
+            id: "person"
+
+        sequence:
+          - alias: "turn on helper"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.property_human
+            
+
+
+    default:
+      - alias: "turn off helper"
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.property_human
+
+

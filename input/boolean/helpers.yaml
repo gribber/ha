@@ -33,3 +33,11 @@ laundryroom_movement:
 hallway_downstairs_movement:
   name: "Rörelse i hallen"
   icon: "mdi:run"
+
+parking_human:
+  name: "Person på parkeringen"
+  icon: "mdi:human"
+
+property_human:
+  name: "Person på gården"
+  icon: "mdi:human"

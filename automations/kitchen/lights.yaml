@@ -122,6 +122,7 @@
               entity_id:
                 - light.kitchen_sink
                 - light.kitchen_table
+                - light.kitchen_bench
 
       - conditions:
           - condition: or

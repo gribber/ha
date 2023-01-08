@@ -1,0 +1,5 @@
+property_humans:
+  name: "Person på gården"
+  entities:
+    - binary_sensor.parking_person_occupancy
+    - binary_sensor.barn_person_occupancy

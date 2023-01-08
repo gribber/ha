@@ -106,7 +106,7 @@
                     {% set add = 'inatt' %}
                   {% endif %}
                 {% endif %}
-                "Kommer starta diskmaskinen {{ as_datetime(states('sensor.el_next_cheapest_hour')).hour }} 00 {{add}}"
+                "Kommer starta diskmaskinen klockan {{ as_datetime(states('sensor.el_next_cheapest_hour')).hour }} {{add}}"
 
           - service: home_connect_alt.start_program
             data:
