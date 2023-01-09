@@ -1,0 +1,43 @@
+# test of yadayada
+- sensor:
+    - name: "hot water price"
+      unique_id: 7798844f-3305-43c1-a658-b135ff473602
+      unit_of_measurement: SEK
+      state: >
+        {% if is_state('sensor.ctc_status', '5') %}
+          {{ states('sensor.electricity_price_total')|float * (states('sensor.heatpump_power')|float / 1000) }}
+        {% else %}
+          0
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.ctc_status'), states('sensor.electricity_price_total'), states('sensor.heatpump_power') ]
+          | select('in', ['unknown', 'unavailable', 'none'])
+          | list) }}
+
+    - name: "heat pump price"
+      unique_id: 36f47428-ac32-4dee-8d78-f9926840cbe6
+      unit_of_measurement: SEK
+      state: >
+        {% if is_number(states('sensor.heatpump_hourly_energy')) and is_number(states('sensor.electricity_price_total')) %}
+          {{ (states('sensor.heatpump_hourly_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
+        {% else %}
+          None
+        {% endif %}
+
+
+    - name: "solar_self_consumption_price"
+      unique_id: 8d8409b3-e155-4b29-8493-efcc9ddbf0e6
+      unit_of_measurement: SEK
+#      state_class: total_increasing
+      state: >
+        {% if is_number(states('sensor.solar_self_consumption_hourly_energy')) and is_number(states('sensor.electricity_price_total')) %}
+          {{ (states('sensor.solar_self_consumption_hourly_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
+        {% else %}
+          None
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.solar_self_consumption_hourly_energy'), states('sensor.electricity_price_total') ]
+          | select('in', ['unknown', 'unavailable', 'none'])
+          | list) }}

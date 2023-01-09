@@ -128,6 +128,36 @@ solar_inverter_yearly_energy:
   source: sensor.ferroamp_xl28_inverter_energy_produced
   cycle: yearly
 
+# solar energy self consumption
+solar_self_consumption_hourly_energy:
+  unique_id: 453cc001-682e-4264-9874-8a27819654ca
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+  cycle: hourly
+
+solar_self_consumption_daily_energy:
+  unique_id: 89c0ea6e-79bc-4553-ba9c-8f194858b715
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+  cycle: daily
+
+solar_self_consumption_weekly_energy:
+  unique_id: 099c653e-49e1-4d99-8686-57d7004ea0b7
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+  cycle: weekly
+
+solar_self_consumption_monthly_energy:
+  unique_id: 55469817-f1dc-4860-84eb-1cf78bf3c997
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+  cycle: monthly
+
+solar_self_consumption_yearly_energy:
+  unique_id: 8ffafeab-11c4-4f3f-a89b-a2bc98c87645
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+  cycle: yearly
+
+solar_self_consumption_energy:
+  unique_id: 4cd32408-03d5-4912-bcaa-f67ab9fc1361
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+
 # house consumption
 house_consumption_hourly_energy:
   unique_id: 11dfd68d-6a68-4d4c-818d-136d5e8bf273
@@ -258,23 +288,3 @@ solar_sso_21090071_yearly_energy:
   source: sensor.ferroamp_xl28_sso_21090071_total_energy
   cycle: yearly
 
-# heatpump meters
-heatpump_hourly_energy:
-  unique_id: e2f4e2c5-e528-4df3-bfa2-cd9eae5de15c
-  source: sensor.heatpump_energy
-  cycle: hourly
-
-heatpump_daily_energy:
-  unique_id: 6984109d-a8be-4bcc-843f-48e2ca4f9f6b
-  source: sensor.heatpump_energy
-  cycle: daily
-
-heatpump_weekly_energy:
-  unique_id: e09e3702-c524-49da-82b1-8e5e472c15db
-  source: sensor.heatpump_energy
-  cycle: weekly
-
-heatpump_montly_energy:
-  unique_id: bacf32fe-dd9e-4621-8d51-0d2ac7b42bff
-  source: sensor.heatpump_energy
-  cycle: monthly

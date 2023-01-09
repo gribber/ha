@@ -12,3 +12,16 @@
         [ states('sensor.ferroamp_xl28_dc_link_voltage') ] 
         | select('in', ['unknown', 'unavailable', 'none']) 
         | list) }}
+
+  - name: ferroamp_xl28_solar_energy_self_consumed
+    unique_id: 8b4c2be8-5284-48b9-9ffd-d5dbb0057d88
+    state: >
+      {{ states('sensor.ferroamp_xl28_inverter_energy_produced')|float - states('sensor.ferroamp_xl28_external_energy_produced')|float }}
+    unit_of_measurement: kWh
+    device_class: energy
+    icon: "mdi:solar-power"
+    availability: >
+      {{ not (
+        [ states('sensor.ferroamp_xl28_inverter_energy_produced'), states('sensor.ferroamp_xl28_external_energy_produced') ] 
+        | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}
