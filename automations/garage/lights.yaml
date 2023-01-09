@@ -1,0 +1,56 @@
+- alias: "garage: lights"
+  id: b10a0b7d-74bb-48f7-aee5-6233c82149ab
+  mode: queued
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.motion_garage_occupancy
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.motion_garage_occupancy
+      from: "on"
+      to: "off"
+      for:
+        seconds: 120
+
+
+  action:
+    - choose:
+        - alias: "when triggered"
+          conditions:
+            - alias: "and motion is detected"
+              condition: state
+              entity_id:
+                - binary_sensor.motion_garage_occupancy
+              state: "on"
+
+            - alias: "and we are home (intruder alert?!)"
+              condition: state
+              entity_id:
+                - input_boolean.house_mode_away
+              state: "off"
+
+          sequence:
+            # - alias: "turn on the lights"
+            #   service: light.turn_on
+            #   target:
+            #     entity_id: light.bathroom_downstairs_mirror
+            - alias: "doom"
+              service: script.turn_on
+              target:
+                entity_id: script.garage_doom
+
+      # default:
+      #   - service: light.turn_off
+      #     target:
+      #       entity_id: light.bathroom_downstairs_mirror
