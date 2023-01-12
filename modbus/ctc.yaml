@@ -67,6 +67,7 @@
       unique_id: 6acd0e80-9da9-42e2-87fe-e05e3824f966
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62000
       slave: 1
       scale: 0.1
@@ -93,6 +94,7 @@
       unique_id: d72b5ab7-de78-4438-b5ce-c475750261f9
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62007
       slave: 1
       scale: 0.1
@@ -103,6 +105,7 @@
       unique_id: f28920ce-233c-4434-b586-be3f68eb345c
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62011
       slave: 1
       scale: 0.1
@@ -113,6 +116,7 @@
       unique_id: c53bef32-2adf-41ab-928c-0fe4bf77add7
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62015
       slave: 1
       scale: 0.1
@@ -141,6 +145,7 @@
       unique_id: b5371035-59c1-4f5f-9543-73319e19227c
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62027
       slave: 1
       scale: 0.1
@@ -150,6 +155,7 @@
       unique_id: 0db70e6d-1906-470d-854b-40b05879b306
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62037
       slave: 1
       scale: 0.1
@@ -159,6 +165,7 @@
       unique_id: bfe091e7-360a-495a-8896-d942af6dd333
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62047
       slave: 1
       scale: 0.1
@@ -168,6 +175,7 @@
       unique_id: e21bd9b7-e981-40b2-aeab-b23d95619898
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62057
       slave: 1
       scale: 0.1
@@ -177,6 +185,7 @@
       unique_id: c81a4683-67e5-4e98-be12-21355b02831b
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62067
       slave: 1
       scale: 0.1
@@ -186,6 +195,7 @@
       unique_id: a21d5bbe-1bac-45a1-bd21-3a4319d63b21
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62077
       slave: 1
       scale: 0.1
@@ -195,6 +205,7 @@
       unique_id: 398ea2b3-93fb-4c24-937b-04ef7d8f760c
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62087
       slave: 1
       scale: 0.1
@@ -204,6 +215,7 @@
       unique_id: d3bcf462-e22e-4bae-9877-f925739acf6b
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62097
       slave: 1
       scale: 0.1
@@ -212,6 +224,7 @@
     - name: "ctc_degree_minute"
       unique_id: 5e8202ce-26c4-411b-bd9b-963e6ccc3b3c
       unit_of_measurement: "°min"
+      state_class: measurement
       address: 62167
       slave: 1
       scale: 0.1
@@ -222,6 +235,7 @@
       unique_id: b38756f2-f477-433b-bc3e-f6529340e612
       unit_of_measurement: "kW"
       device_class: "power"
+      state_class: measurement
       address: 62168
       slave: 1
       scale: 0.1
@@ -232,6 +246,7 @@
       unique_id: acd8a2c0-04bd-4e66-8583-ad1d3537c0fa
       unit_of_measurement: "kW"
       device_class: "power"
+      state_class: measurement
       address: 62169
       slave: 1
       scale: 0.1
@@ -242,6 +257,7 @@
       unique_id: f78355c8-9b61-4fe9-b24c-826d2e29a7da
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62203
       slave: 1
       scale: 0.1
@@ -271,6 +287,7 @@
       unique_id: a03a355a-488e-40ff-a59f-382999f50576
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62275
       slave: 1
       scale: 0.1
@@ -281,6 +298,7 @@
       unique_id: 40f755be-b4e8-4ec8-87ba-0724f932e496
       unit_of_measurement: "°C"
       device_class: "temperature"
+      state_class: measurement
       address: 62276
       slave: 1
       scale: 0.1
@@ -339,6 +357,7 @@
     - name: "ctc_stat_total_operation_lsb"
       unique_id: c2c32b72-53f2-4872-a530-125a76593740
       unit_of_measurement: "h"
+      state_class: total
       address: 62186
       slave: 1
       precision: 0
@@ -347,6 +366,7 @@
     - name: "ctc_stat_immerison_heater"
       unique_id: 22d78c95-134a-4557-9d37-5cbccc4342f6
       unit_of_measurement: "kWh"
+      state_class: total
       address: 62191
       slave: 1
       precision: 1
@@ -355,6 +375,7 @@
     - name: "ctc_stat_compressor_operating_time"
       unique_id: cd0d9be3-02b3-4db1-a641-a564fa73b903
       unit_of_measurement: "h"
+      state_class: total
       address: 62214
       slave: 1
       precision: 0
