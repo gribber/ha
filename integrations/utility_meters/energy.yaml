@@ -8,6 +8,16 @@ ctek_total_cost:
   unique_id: 51e2df0c-3b7a-4df3-a59c-750abe304ecc
   source: sensor.ctek_price
 
+ctek_total_cost2a:
+  unique_id: e5fd3809-12ec-4f29-b024-9503710b47ae
+  net_consumption: true
+  source: sensor.ctek_price2
+
+ctek_total_cost2b:
+  unique_id: d1bec624-a166-4982-acda-b23a5033cd24
+  net_consumption: false
+  source: sensor.ctek_price2
+
 # solar self consumption 
 solar_self_consumption_cost:
   unique_id: b20665a7-408c-4bb8-9fe8-15fa60b66e6b

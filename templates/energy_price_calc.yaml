@@ -36,6 +36,31 @@
           | select('in', ['unknown', 'unavailable', 'none'])
           | list) }}
 
+    - name: "ctek_price2"
+      unique_id: 638b65ca-bd04-4748-896a-f231f9fb04bd
+      unit_of_measurement: SEK
+      state: >
+        {% set total = states('sensor.house_consumption_hourly_energy')|float %}
+        {% set faimport = states('sensor.fa_grid_hourly_energy_import')|float %}
+        {% set ctek = states('sensor.ctek_hourly')|float %}
+        {% set house = total - ctek %}
+        {% set ctek_import = (faimport - house)|round(2) %}
+        {% if faimport > 0 and ctek > 0 and ctek_import > 0 %}
+          {% set new = (ctek_import * states('sensor.electricity_price_total')|float)|round(2) %}
+          {% if new > states('sensor.ctek_price2')|float %}
+            {{ new }}
+          {% else %}
+            {{ states('sensor.ctek_price2')|float }}
+          {% endif %}
+        {% else %}
+          0
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.house_consumption_hourly_energy'), states('sensor.fa_grid_hourly_energy_import'), states('sensor.ctek_hourly'), states('sensor.electricity_price_total') ]
+          | select('in', ['unknown', 'unavailable', 'none'])
+          | list) }}
+
     - name: "solar_self_consumption_price"
       unique_id: 8d8409b3-e155-4b29-8493-efcc9ddbf0e6
       unit_of_measurement: SEK
