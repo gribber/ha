@@ -1,0 +1,77 @@
+
+- alias: "Zucky Stardust (nere)"
+  id: 574e8534-e0c3-47b4-b731-15ed8e5e92be
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: time
+      id: start_downstairs
+      at: input_datetime.time_vacuum_downstairs
+
+    - platform: template
+      id: start_downstairs_notif
+      value_template: "{{ now().strftime('%H:%M:%S') == (state_attr('input_datetime.time_vacuum_downstairs', 'timestamp')|as_datetime - timedelta(minutes=15)).strftime('%H:%M:%S') }}"
+      # until offset for time trigger is supported: https://github.com/home-assistant/core/pull/56838
+
+  condition: []
+
+  variables:
+    anchors:
+      - &notif_phone
+        service: notify.family
+        data:
+          title: "Zucky Stardust"
+          message: "Dags för städning om 15min!"
+          data:
+            tag: vacuum_zucky
+            timeout: 900
+
+  action:
+    choose:
+      - alias: "if we got guests at home"
+        conditions:
+          - condition: state
+            entity_id: input_boolean.house_mode_guests
+            state: "on"
+        sequence: [] # do nothing
+
+      - alias: "decide if we want to do something"
+        conditions:
+          - condition: and
+            conditions:
+              - alias: "triggered by start time"
+                condition: trigger
+                id:
+                  - "start_downstairs_notif"
+                  - "start_downstairs"
+
+              - alias: "and weekday is on schedule"
+                condition: time
+                weekday:
+                  - mon
+                  - wed
+                  - fri
+
+        sequence:
+          - variables:
+              trigger: "{{ trigger.id }}"
+
+          - alias: "choose what to do"
+            choose:
+              - alias: "if heads up was triggered"
+                conditions: "{{ trigger == 'start_downstairs_notif' }}"
+                sequence:
+                  - *notif_phone
+
+              - alias: "if actual start time was triggered"
+                conditions: "{{ trigger == 'start_downstairs' }}"
+                sequence:
+                  alias: "start to clean"
+                  service: vacuum.start
+                  target:
+                    entity_id:
+                      - vacuum.zucky_stardust
+
+    # default:
+    #     action

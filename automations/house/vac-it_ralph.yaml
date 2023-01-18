@@ -1,16 +1,16 @@
-- alias: "Vacuum: start"
+- alias: "Vac-it Ralph (uppe)"
   id: c5ae7db7-0bf6-4cd9-99fc-797126b13efd
   trace:
     stored_traces: 10
 
   trigger:
     - platform: time
-      id: start_downstairs
-      at: input_datetime.time_vacuum_downstairs
+      id: start_upstairs
+      at: input_datetime.time_vacuum_upstairs
 
     - platform: template
-      id: start_downstairs_notif
-      value_template: "{{ now().strftime('%H:%M:%S') == (state_attr('input_datetime.time_vacuum_downstairs', 'timestamp')|as_datetime - timedelta(minutes=15)).strftime('%H:%M:%S') }}"
+      id: start_upstairs_notif
+      value_template: "{{ now().strftime('%H:%M:%S') == (state_attr('input_datetime.time_vacuum_upstairs', 'timestamp')|as_datetime - timedelta(minutes=15)).strftime('%H:%M:%S') }}"
       # until offset for time trigger is supported: https://github.com/home-assistant/core/pull/56838
 
   condition: []
@@ -20,10 +20,10 @@
       - &notif_phone
         service: notify.family
         data:
-          title: "Dammsugaren"
+          title: "Vac-it Ralph"
           message: "Dags för städning om 15min!"
           data:
-            tag: vacuum
+            tag: vacuum_ralph
             timeout: 900
 
   action:
@@ -42,8 +42,8 @@
               - alias: "triggered by start time"
                 condition: trigger
                 id:
-                  - "start_downstairs_notif"
-                  - "start_downstairs"
+                  - "start_upstairs_notif"
+                  - "start_upstairs"
 
               - alias: "and weekday is on schedule"
                 condition: time
@@ -59,12 +59,12 @@
           - alias: "choose what to do"
             choose:
               - alias: "if heads up was triggered"
-                conditions: "{{ trigger == 'start_downstairs_notif' }}"
+                conditions: "{{ trigger == 'start_upstairs_notif' }}"
                 sequence:
                   - *notif_phone
 
               - alias: "if actual start time was triggered"
-                conditions: "{{ trigger == 'start_downstairs' }}"
+                conditions: "{{ trigger == 'start_upstairs' }}"
                 sequence:
                   alias: "start to clean"
                   service: vacuum.start
@@ -74,3 +74,4 @@
 
     # default:
     #     action
+

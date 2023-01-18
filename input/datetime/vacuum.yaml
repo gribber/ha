@@ -1,9 +1,9 @@
 time_vacuum_downstairs:
-  name: "Dammsugare nere"
+  name: "Starttid nere"
   has_time: true
   has_date: false
 
 time_vacuum_upstairs:
-  name: "Dammsugare uppe"
+  name: "Starttid uppe"
   has_time: true
   has_date: false
