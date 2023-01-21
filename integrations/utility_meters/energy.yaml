@@ -8,6 +8,27 @@ ctek_total_cost:
   unique_id: 51e2df0c-3b7a-4df3-a59c-750abe304ecc
   source: sensor.ctek_price
 
+ctek_daily_cost:
+  unique_id: 6beffd44-0622-404b-b40c-836db031c68c
+  source: sensor.ctek_price
+  cycle: daily
+
+ctek_weekly_cost:
+  unique_id: 7091380d-98c5-481c-878f-e2f8cfcceb75
+  source: sensor.ctek_price
+  cycle: weekly
+
+ctek_monthly_cost:
+  unique_id: 3ae7e49a-da6d-41cd-984b-f0fa7d66d80c
+  source: sensor.ctek_price
+  cycle: monthly
+
+ctek_yearly_cost:
+  unique_id: 008402ef-f4f0-4025-b4da-7e9cbf1b0ca9
+  source: sensor.ctek_price
+  cycle: yearly
+
+
 ctek_total_cost2a:
   unique_id: e5fd3809-12ec-4f29-b024-9503710b47ae
   net_consumption: true
@@ -18,9 +39,27 @@ ctek_total_cost2b:
   net_consumption: false
   source: sensor.ctek_price2
 
-# solar self consumption 
+# solar self consumption
+solar_self_consumption_daily_cost:
+  unique_id: 48b43ae0-b4b6-4925-9f06-f390e3a7f598
+  source: sensor.solar_self_consumption_price
+  cycle: daily
+
+solar_self_consumption_weekly_cost:
+  unique_id: ac2ceddd-e649-4dde-a091-7a246ee2638c
+  source: sensor.solar_self_consumption_price
+  cycle: weekly
+
+solar_self_consumption_monthly_cost:
+  unique_id: 8c1f95c6-60df-40a2-b126-4b9e6011dfda
+  source: sensor.solar_self_consumption_price
+  cycle: monthly
+
+solar_self_consumption_yearly_cost:
+  unique_id: 99c38862-beb8-4e2b-b52a-42b4a51d461a
+  source: sensor.solar_self_consumption_price
+  cycle: yearly
+
 solar_self_consumption_cost:
   unique_id: b20665a7-408c-4bb8-9fe8-15fa60b66e6b
   source: sensor.solar_self_consumption_price
-
-

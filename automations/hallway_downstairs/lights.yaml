@@ -14,7 +14,7 @@
         - input_boolean.house_mode_bright_inside
 
     - platform: time
-      at: 
+      at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
@@ -22,55 +22,63 @@
       id: movement
       entity_id:
         - input_boolean.hallway_downstairs_movement
-      
+
+    - platform: state
+      id: media
+      entity_id:
+        - media_player.shield_cinema
+      to: "playing"
+
   action:
-      choose:
+    choose:
       - conditions:
-        - condition: trigger
-          id: movement
+          - condition: trigger
+            id:
+              - movement
+              - media
         sequence:
           - choose:
-            - conditions:
-              - condition: state
-                entity_id:
-                  - input_boolean.hallway_downstairs_movement
-                state: "on"
+              - conditions:
+                  - condition: state
+                    entity_id:
+                      - input_boolean.hallway_downstairs_movement
+                    state: "on"
 
-              - condition: state
-                entity_id:
-                  - input_boolean.house_mode_bright_inside
-                state: "off"
+                  - condition: state
+                    entity_id:
+                      - input_boolean.house_mode_bright_inside
+                    state: "off"
 
-              - condition: state
-                entity_id:
-                  - input_boolean.house_mode_sleep
-                state: "off"
+                  - condition: state
+                    entity_id:
+                      - input_boolean.house_mode_sleep
+                    state: "off"
 
-              - condition: time
-                before: "23:00"
-                after: "06:00"
+                  - condition: time
+                    before: "23:00"
+                    after: "06:00"
 
-              sequence:
-                - choose:
-                  - conditions:
-                      - condition: state
-                        entity_id:
-                          - media_player.shield_cinema
-                        state: "playing"
-                    sequence:
+                sequence:
+                  - choose:
+                      - conditions:
+                          - condition: state
+                            entity_id:
+                              - media_player.shield_cinema
+                            state: "playing"
+                        sequence:
+                          - service: light.turn_on
+                            target:
+                              entity_id: light.hallen
+                            data:
+                              brightness: 50
+                              transition: 1
+                    default:
                       - service: light.turn_on
                         target:
                           entity_id: light.hallen
                         data:
-                          brightness: 50
+                          brightness: 255
                           transition: 1
-                  default:
-                    - service: light.turn_on
-                      target:
-                        entity_id: light.hallen
-                      data:
-                        brightness: 255
-                        transition: 1
 
             default:
               - service: light.turn_off
@@ -80,15 +88,14 @@
                   transition: 5
 
       - conditions:
-        - condition: state
-          # when there is daylight
-          entity_id:
-            - input_boolean.house_mode_bright_inside
-          state: "on"
+          - condition: state
+            # when there is daylight
+            entity_id:
+              - input_boolean.house_mode_bright_inside
+            state: "on"
 
         sequence:
-          - &turn_off
-            # turn off lights
+          - &turn_off # turn off lights
             service: light.turn_off
             target:
               entity_id:
@@ -97,16 +104,16 @@
               transition: 5
 
       - conditions:
-        - condition: or
-          conditions:
-          - condition: and
-            # turn on lights if 
+          - condition: or
             conditions:
-              - condition: time
-                # at specific time in the morning
-                after: input_datetime.time_goodmorning
-                # but before a specific time in the evening
-                before: input_datetime.time_goodnight
+              - condition: and
+                # turn on lights if
+                conditions:
+                  - condition: time
+                    # at specific time in the morning
+                    after: input_datetime.time_goodmorning
+                    # but before a specific time in the evening
+                    before: input_datetime.time_goodnight
 
         sequence:
           - &scene_turn_on
@@ -115,5 +122,5 @@
               entity_id:
                 - scene.hallway_downstairs_ambience_lights_cozy
 
-      default:
-        - *turn_off
+    default:
+      - *turn_off
