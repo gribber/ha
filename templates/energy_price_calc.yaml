@@ -36,28 +36,33 @@
           | select('in', ['unknown', 'unavailable', 'none'])
           | list) }}
 
-    - name: "ctek_price2"
+    - name: "ctek_price_import"
       unique_id: 638b65ca-bd04-4748-896a-f231f9fb04bd
       unit_of_measurement: SEK
       state: >
         {% set total = states('sensor.house_consumption_hourly_energy')|float %}
-        {% set faimport = states('sensor.fa_grid_hourly_energy_import')|float %}
+        {# set grid_import = states('sensor.fa_grid_hourly_energy_import')|float #}
+        {% set grid_import = states('sensor.grid_hourly_energy')|float %}
         {% set ctek = states('sensor.ctek_hourly')|float %}
         {% set house = total - ctek %}
-        {% set ctek_import = (faimport - house)|round(2) %}
-        {% if faimport > 0 and ctek > 0 and ctek_import > 0 %}
-          {% set new = (ctek_import * states('sensor.electricity_price_total')|float)|round(2) %}
-          {% if new > states('sensor.ctek_price2')|float %}
-            {{ new }}
+        {% set ctek_import = (grid_import - house)|round(2) %}
+        {% if grid_import > 0 and ctek > 0 %}
+          {% if ctek_import > 0 %}
+            {% set new = (ctek_import * states('sensor.electricity_price_total')|float)|round(2) %}
+            {% if new > states('sensor.ctek_price_import')|float %}
+              {{ new }}
+            {% else %}
+              {{ states('sensor.ctek_price_import')|float }}
+            {% endif %}
           {% else %}
-            {{ states('sensor.ctek_price2')|float }}
+            {{ states('sensor.ctek_price_import')|float }}
           {% endif %}
         {% else %}
           0
         {% endif %}
       availability: >
         {{ not (
-          [ states('sensor.house_consumption_hourly_energy'), states('sensor.fa_grid_hourly_energy_import'), states('sensor.ctek_hourly'), states('sensor.electricity_price_total') ]
+          [ states('sensor.grid_hourly_energy'), states('sensor.house_consumption_hourly_energy'), states('sensor.fa_grid_hourly_energy_import'), states('sensor.ctek_hourly'), states('sensor.electricity_price_total') ]
           | select('in', ['unknown', 'unavailable', 'none'])
           | list) }}
 
