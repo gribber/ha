@@ -42,18 +42,28 @@
                 state: "off"
 
               sequence:
-              - &turn_on
+              - &turn_on_ceiling
                 alias: "turn on the lights"
                 service: switch.turn_on
                 target:
                   entity_id: switch.laundry_room_channel_1
+              - &turn_on_bench
+                alias: "turn on bench light"
+                service: light.turn_on
+                target:
+                  entity_id: light.laundry_room_bench
+                data:
+                  brightness: 50
+                  transition: 1
 
             default:
               - &turn_off
                 alias: "turn off the lights"
-                service: switch.turn_off
+                service: homeassistant.turn_off
                 target:
-                  entity_id: switch.laundry_room_channel_1
+                  entity_id: 
+                    - switch.laundry_room_channel_1
+                    - light.laundry_room_bench
 
       - conditions:
           - alias: "turn on lights when entering the room"
@@ -70,7 +80,8 @@
                 before: "22:00:00"
 
         sequence:
-          - *turn_on
+          - *turn_on_ceiling
+          - *turn_on_bench
 
     default:
       - *turn_off
