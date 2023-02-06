@@ -32,7 +32,9 @@
       id: "phone"
       entity_id:
         - sensor.kb2003_charger_type
-      from: "ac"
+      from: 
+        - "ac"
+        - "usb"
       to: "none"
 
   variables:

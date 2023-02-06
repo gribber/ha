@@ -13,3 +13,6 @@ livingroom_manual_mode:
 
 boilerroom_manual_mode:
   name: "Pannrum manuellt läge"
+
+hallway_downstairs_manual_mode:
+  name: "Hall nere manuellt läge"

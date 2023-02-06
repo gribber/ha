@@ -1,0 +1,30 @@
+- alias: "Manual mode: turn off at defined time"
+  id: 624c2596-32a1-44f7-864b-f56728145498
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: time
+      id: reset
+      at: 
+        - input_datetime.house_reset_settings
+        - input_datetime.house_reset_settings_day
+
+  action:
+    choose:
+      - conditions:
+        - condition: trigger
+          id: reset
+        sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
+                - input_boolean.bedroom_manual_mode
+                - input_boolean.parking_manual_mode
+                - input_boolean.kitchen_manual_mode
+                - input_boolean.livingroom_manual_mode
+                - input_boolean.bedroom_manual_mode

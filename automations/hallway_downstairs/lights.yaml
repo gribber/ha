@@ -32,6 +32,15 @@
   action:
     choose:
       - conditions:
+          - condition: state
+            # when manual mode is on
+            entity_id:
+              - input_boolean.hallway_downstairs_manual_mode
+            state: "on"
+        sequence: []
+          # do nothing
+
+      - conditions:
           - condition: trigger
             id:
               - movement
