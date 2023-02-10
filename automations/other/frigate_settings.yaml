@@ -1,0 +1,45 @@
+- alias: "frigate: improve contrast"
+  id: 1ceb3ae2-9210-4eb2-8006-be665ee1bcad
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id: input_boolean.house_mode_daylight
+
+  action:
+    choose:
+      conditions:
+        condition: state
+        entity_id: input_boolean.house_mode_daylight
+        state: "on"
+
+      sequence:
+        repeat:
+          for_each: &cams
+            - "barn"
+            - "driveway"
+            - "parking"
+          sequence:
+            - service: mqtt.publish
+              data:
+                qos: 0
+                topic: "frigate/{{repeat.item}}/improve_contrast/set"
+                payload: "OFF"
+
+    default:
+      repeat:
+        for_each: *cams
+        sequence:
+          - service: mqtt.publish
+            data:
+              qos: 0
+              topic: "frigate/{{repeat.item}}/improve_contrast/set"
+              payload: "ON"
