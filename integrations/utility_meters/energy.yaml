@@ -1,8 +1,28 @@
 # ctek ev charger hourly usage to calculate the cost
-ctek_hourly:
+ctek_hourly_energy:
   unique_id: 1a8c608a-a339-4512-acc8-72fd4ea5a755
   source: sensor.ctek_energy
   cycle: hourly
+
+ctek_daily_energy:
+  unique_id: 200e69cd-97bc-47fb-805d-d7f09c1853e1
+  source: sensor.ctek_energy
+  cycle: daily
+
+ctek_weekly_energy:
+  unique_id: 86dec846-813c-482a-ad32-4232af425936
+  source: sensor.ctek_energy
+  cycle: weekly
+
+ctek_monthly_energy:
+  unique_id: 1f955ef4-ccc9-49ac-be77-6d730daeebfe
+  source: sensor.ctek_energy
+  cycle: monthly
+
+ctek_yearly_energy:
+  unique_id: b5917f81-2ad5-4fa1-8764-3f2b2c44ead1
+  source: sensor.ctek_energy
+  cycle: yearly
 
 # ctek ev charger cost
 ctek_total_cost:
