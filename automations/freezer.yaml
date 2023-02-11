@@ -5,6 +5,7 @@
       entity_id:
         - sensor.freezer_kitchen_temperature
         - sensor.freezer_right_temperature
+        - sensor.garage_freezer_temperature
       above: -15
       for:
         minutes: 1
@@ -15,7 +16,8 @@
         message: >
           {% set mapper =  {
             'sensor.freezer_kitchen_temperature' : 'frysen i köket',
-            'sensor.freezer_right_temperature' : 'högra frysen'
+            'sensor.freezer_right_temperature' : 'frysen i tvättstugan',
+            'sensor.garage_freezer_temperature' : 'frysen i garaget'
           } %}
           "För hög temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
         data:
@@ -30,6 +32,7 @@
       entity_id:
         - sensor.freezer_kitchen_temperature
         - sensor.freezer_right_temperature
+        - sensor.garage_freezer_temperature
       above: -10
       for:
         minutes: 1
@@ -45,7 +48,8 @@
             message: >
               {% set mapper =  {
                 'sensor.freezer_kitchen_temperature' : 'frysen i köket',
-                'sensor.freezer_right_temperature' : 'högra frysen'
+                'sensor.freezer_right_temperature' : 'frysen i tvättstugan',
+                'sensor.garage_freezer_temperature' : 'frysen i garaget'
               } %}
               "Kritisk temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
             data:
