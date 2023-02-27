@@ -1,13 +1,6 @@
 - alias: "Manual mode: turn off at defined time"
   id: 624c2596-32a1-44f7-864b-f56728145498
   trigger:
-    - platform: homeassistant
-      event: start
-
-    - platform: event
-      event_type:
-        - automation_reloaded
-
     - platform: time
       id: reset
       at: 
@@ -17,8 +10,8 @@
   action:
     choose:
       - conditions:
-        - condition: trigger
-          id: reset
+          - condition: trigger
+            id: reset
         sequence:
           - service: input_boolean.turn_off
             target:
@@ -27,4 +20,26 @@
                 - input_boolean.parking_manual_mode
                 - input_boolean.kitchen_manual_mode
                 - input_boolean.livingroom_manual_mode
+                - input_boolean.hallway_downstairs_manual_mode
+
+
+- alias: "Manual mode: turn off after active for X minutes"
+  id: ee354ef8-d169-4b44-ac27-83a19e418111
+  trigger:
+    - platform: state
+      entity_id: input_boolean.hallway_downstairs_manual_mode
+      to: "on"
+      for:
+        minutes: &timeout 60
+
+  action:
+    choose:
+      - conditions:
+          - condition: state
+            entity_id: input_boolean.hallway_downstairs_manual_mode
+            state: "on"
+        sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
                 - input_boolean.hallway_downstairs_manual_mode
