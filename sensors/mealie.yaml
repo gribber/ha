@@ -1,7 +1,8 @@
 - platform: rest
-  resource: !secret mealie_url
+  unique_id: c72031bc-69e0-45c8-a084-db8f97b4ba8e
+  resource: !secret mealie_url_day
   method: GET
-  name: Mealie dagens middag 
+  name: Mealie dagens middag
   headers:
     Authorization: !secret mealie_token
   #value_template: "{{ value_json.name }}"
@@ -11,3 +12,10 @@
     {% else %}
       inget planerat
     {% endif %}
+
+# - platform: rest
+#   resource: !secret mealie_url_week
+#   method: GET
+#   name: Mealie veckans meny
+#   headers:
+#     Authorization: !secret mealie_token

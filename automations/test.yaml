@@ -57,3 +57,17 @@
 #     - service: system_log.write
 #       data:
 #         message: "boop: {{ trigger }}"
+
+# - alias: "detect atmos"
+#   trigger:
+#     - platform: state
+#       entity_id: media_player.onkyo
+#       attribute: format
+
+#   action:
+#     choose:
+#       conditions: "{{ 'Atmos' in state_attr('media_player.onkyo', 'format') }}"
+#       sequence:
+#         - service: light.turn_on
+#           data:
+#             entity_id: light.atmos_light
