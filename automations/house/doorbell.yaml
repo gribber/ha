@@ -1,0 +1,35 @@
+- alias: "House: door bell"
+  id: 54036205-5324-4d60-aa95-e24f9ff99a34
+  trace:
+    stored_traces: 25
+  mode: single
+
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.door_bell
+      from: "off"
+      to: "on"
+
+  variables:
+    anchors:
+      - &notif_phone
+        service: notify.family
+        data:
+          title: "Dörrklockan"
+          message: "Det ringer på dörrklockan!"
+          data:
+            tag: door_bell
+            timeout: 900
+
+  action:
+    choose:
+      conditions:
+        - condition: state
+          entity_id: input_boolean.house_mode_away
+          state: "off"
+      sequence:
+        - *notif_phone
+
+    default:
+      - *notif_phone
