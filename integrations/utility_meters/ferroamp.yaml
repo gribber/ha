@@ -154,7 +154,7 @@ solar_inverter_yearly_energy:
   source: sensor.ferroamp_xl28_inverter_energy_produced
   cycle: yearly
 
-# solar energy self consumption
+# solar energy self consumption (inverter prod - fa export)
 solar_self_consumption_hourly_energy:
   unique_id: 453cc001-682e-4264-9874-8a27819654ca
   source: sensor.ferroamp_xl28_solar_energy_self_consumed
@@ -183,6 +183,36 @@ solar_self_consumption_yearly_energy:
 solar_self_consumption_energy:
   unique_id: 4cd32408-03d5-4912-bcaa-f67ab9fc1361
   source: sensor.ferroamp_xl28_solar_energy_self_consumed
+
+# solar energy self consumption (solar prod - meter export) using meter instead of fa export numbers which using another measurement method
+solar_meter_self_consumption_hourly_energy:
+  unique_id: f8f3ee05-81e7-4a1a-a052-3da85252431b
+  source: sensor.house_solar_energy_self_consumed
+  cycle: hourly
+
+solar_meter_self_consumption_daily_energy:
+  unique_id: 7d2dd55a-7acf-4dc0-9bd3-53dd932ec00f
+  source: sensor.house_solar_energy_self_consumed
+  cycle: daily
+
+solar_meter_self_consumption_weekly_energy:
+  unique_id: 49668b0d-5052-427b-adba-6864f8b4f9f0
+  source: sensor.house_solar_energy_self_consumed
+  cycle: weekly
+
+solar_meter_self_consumption_monthly_energy:
+  unique_id: 852d4b7d-7588-48ff-9db4-5b1b294739fb
+  source: sensor.house_solar_energy_self_consumed
+  cycle: monthly
+
+solar_meter_self_consumption_yearly_energy:
+  unique_id: 95001275-f21f-4d32-a31a-317e36b56a44
+  source: sensor.house_solar_energy_self_consumed
+  cycle: yearly
+
+solar_meter_self_consumption_energy:
+  unique_id: 99dbc831-42ae-4c22-844e-06828da7cadf
+  source: sensor.house_solar_energy_self_consumed
 
 # house consumption
 house_consumption_hourly_energy:
@@ -313,4 +343,3 @@ solar_sso_21090071_yearly_energy:
   unique_id: 7928aff4-4c87-4417-8b37-17eba91a1881
   source: sensor.ferroamp_xl28_sso_21090071_total_energy
   cycle: yearly
-

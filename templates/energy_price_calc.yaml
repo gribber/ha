@@ -71,13 +71,25 @@
       unit_of_measurement: SEK
 #      state_class: total_increasing
       state: >
-        {% if is_number(states('sensor.solar_self_consumption_hourly_energy')) and is_number(states('sensor.electricity_price_total')) %}
-          {{ (states('sensor.solar_self_consumption_hourly_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
+        {% if is_number(states('sensor.solar_meter_self_consumption_hourly_energy')) and is_number(states('sensor.electricity_price_total')) %}
+          {{ (states('sensor.solar_meter_self_consumption_hourly_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
         {% else %}
           None
         {% endif %}
       availability: >
         {{ not (
-          [ states('sensor.solar_self_consumption_hourly_energy'), states('sensor.electricity_price_total') ]
+          [ states('sensor.solar_meter_self_consumption_hourly_energy'), states('sensor.electricity_price_total') ]
           | select('in', ['unknown', 'unavailable', 'none'])
           | list) }}
+
+    - name: grid_export_daily_tax_revenue
+      unique_id: bbe799dd-9a5f-4141-9b11-c1d9ffc7b04e
+      unit_of_measurement: SEK
+      state: >
+        {{ (states('sensor.grid_daily_energy_export')|float(0) * 0.6 )|round(1) }}
+      availability: >
+        {{ not (
+          [ states('sensor.grid_daily_energy_export') ] 
+          | select('equalto', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+

@@ -16,7 +16,17 @@
   - name: ferroamp_xl28_solar_energy_self_consumed
     unique_id: 8b4c2be8-5284-48b9-9ffd-d5dbb0057d88
     state: >
-      {{ states('sensor.ferroamp_xl28_inverter_energy_produced')|float - states('sensor.ferroamp_xl28_external_energy_produced')|float }}
+      {% if is_number(states('sensor.ferroamp_xl28_inverter_energy_produced')) and is_number(states('sensor.ferroamp_xl28_external_energy_produced'))%}
+        {% set new = states('sensor.ferroamp_xl28_inverter_energy_produced')|float - states('sensor.ferroamp_xl28_external_energy_produced')|float %}
+        {% set old = states('sensor.ferroamp_xl28_solar_energy_self_consumed')|float(0) %}
+        {% if (new > old) %}
+          {{ new }}
+        {% else %}
+          {{ old }}
+        {% endif %}
+      {% else %}
+        None
+      {% endif %}
     unit_of_measurement: kWh
     device_class: energy
     icon: "mdi:solar-power"
@@ -24,4 +34,48 @@
       {{ not (
         [ states('sensor.ferroamp_xl28_inverter_energy_produced'), states('sensor.ferroamp_xl28_external_energy_produced') ] 
         | select('in', ['unknown', 'unavailable', 'none']) 
+        | list) }}
+
+  - name: ferroamp_sso_east32_efficiency
+    unique_id: 9bdf3976-9bcc-49a7-930b-798302c8499b
+    state: >
+      {{ (states('sensor.ferroamp_xl28_sso_22010644_pv_string_power')|int(0) / 4150 * 100)|round(1) }}
+    unit_of_measurement: '%'
+    availability: >
+      {{ not (
+        [ states('sensor.ferroamp_xl28_sso_22010644_pv_string_power') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
+        | list) }}
+
+  - name: ferroamp_sso_south32_efficiency
+    unique_id: b548ea2f-7809-4874-b729-9872e7cfa8b9
+    state: >
+      {{ (states('sensor.ferroamp_xl28_sso_21090039_pv_string_power')|int(0) / 7470 * 100)|round(1) }}
+    unit_of_measurement: '%'
+    availability: >
+      {{ not (
+        [ states('sensor.ferroamp_xl28_sso_21090039_pv_string_power') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
+        | list) }}
+
+  - name: ferroamp_sso_south45_efficiency
+    unique_id: fed71da3-306f-471a-b8e0-621cd2837398
+    state: >
+      {{ (states('sensor.ferroamp_xl28_sso_21090135_pv_string_power')|int(0) / 7470 * 100)|round(1) }}
+    unit_of_measurement: '%'
+    availability: >
+      {{ not (
+        [ states('sensor.ferroamp_xl28_sso_21090135_pv_string_power') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
+        | list) }}
+
+  - name: ferroamp_sso_west32_efficiency
+    unique_id: 8019b82b-d2af-47bb-bb9b-fe58e1aa47fb
+    state: >
+      {{ (states('sensor.ferroamp_xl28_sso_21090071_pv_string_power')|int(0) / 4150 * 100)|round(1) }}
+    unit_of_measurement: '%'
+    availability: >
+      {{ not (
+        [ states('sensor.ferroamp_xl28_sso_21090071_pv_string_power') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
         | list) }}

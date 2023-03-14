@@ -1,0 +1,59 @@
+- sensor:
+    - name: house_exkl_ev_daily_energy
+      unique_id: 21e99410-5d64-4f80-8ddc-929e189081b7
+      state: "{{ (states('sensor.house_consumption_daily_energy')|float - states('sensor.ctek_daily_energy')|float)|round(1) }}"
+      unit_of_measurement: kWh
+      device_class: energy
+      #icon: "mdi:house"
+      availability: >
+        {{ not (
+          [ states('sensor.house_consumption_daily_energy'), states('sensor.ctek_daily_energy') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    - name: house_exkl_ev_monthly_energy
+      unique_id: d24bf48c-2aca-4b7d-b25a-2c3269022be6
+      state: "{{ (states('sensor.house_consumption_monthly_energy')|float - states('sensor.ctek_monthly_energy')|float)|round(1) }}"
+      unit_of_measurement: kWh
+      device_class: energy
+      #icon: "mdi:house"
+      availability: >
+        {{ not (
+          [ states('sensor.house_consumption_monthly_energy'), states('sensor.ctek_monthly_energy') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    - name: house_exkl_ev_yearly_energy
+      unique_id: 95279398-da85-4815-a8dd-00811f8e29d0
+      state: "{{ (states('sensor.house_consumption_yearly_energy')|float - states('sensor.ctek_yearly_energy')|float)|round(1) }}"
+      unit_of_measurement: kWh
+      device_class: energy
+      #icon: "mdi:house"
+      availability: >
+        {{ not (
+          [ states('sensor.house_consumption_yearly_energy'), states('sensor.ctek_yearly_energy') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    - name: house_solar_energy_self_consumed
+      unique_id: 5e5ab337-2b19-4cdd-bf8e-924309bb4fb5
+      state: >
+        {% if is_number(states('sensor.ferroamp_xl28_total_solar_energy')) and is_number(states('sensor.cumulative_active_export')) %}
+          {% set new = states('sensor.ferroamp_xl28_total_solar_energy')|float - states('sensor.cumulative_active_export')|float %}
+          {% set old = states('sensor.house_solar_energy_self_consumed')|float(0) %}
+          {% if (new > old) %}
+            {{ new }}
+          {% else %}
+            {{ old }}
+          {% endif %}
+        {% else %}
+          None
+        {% endif %}
+      unit_of_measurement: kWh
+      device_class: energy
+      icon: "mdi:solar-power"
+      availability: >
+        {{ not (
+          [ states('sensor.ferroamp_xl28_total_solar_energy'), states('sensor.cumulative_active_export') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
