@@ -57,3 +57,19 @@
           [ states('sensor.ferroamp_xl28_total_solar_energy'), states('sensor.cumulative_active_export') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
+
+    - name: house_consumption_exkl_ev_power
+      unique_id: 469d173f-469b-4e73-918b-4d9e2dad72a1
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {% if is_number(states('sensor.ferroamp_xl28_consumption_power')) and is_number(states('sensor.ctek_power')) %}
+          {{states('sensor.ferroamp_xl28_consumption_power')|int - states('sensor.ctek_power')|int }}
+        {% else %}
+          none
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.ferroamp_xl28_consumption_power'), states('sensor.ctek_power') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}

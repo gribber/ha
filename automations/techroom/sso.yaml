@@ -1,0 +1,33 @@
+- alias: "SSO: faultcode"
+  id: 46d44938-1a8c-43df-9ef5-9d36d424bb95
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.ferroamp_xl28_sso_22010644_faultcode
+        - sensor.ferroamp_xl28_sso_21090039_faultcode
+        - sensor.ferroamp_xl28_sso_21090135_faultcode
+        - sensor.ferroamp_xl28_sso_21090071_faultcode
+      
+  action:
+    choose:
+      - conditions: "{{ trigger.to_state.state in ['none', 'unknown', 'unavailable', ''] }}"
+        sequence: []
+
+      - conditions: "{{ trigger.to_state.state|int > 0 }}"
+
+        sequence:
+          - service: notify.castle
+            data:
+              title: Ferroamp SSO
+              message: >
+                SSO {{trigger.to_state.name}} rapporterar felkod: {{trigger.to_state.state}}
+
+    default:
+      - service: notify.castle
+        data:
+          title: Ferroamp SSO
+          message: >
+            SSO {{trigger.to_state.attributes.friendly_name}} rapporterar normalt läge igen efter {{trigger.for}}
