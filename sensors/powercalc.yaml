@@ -114,3 +114,24 @@
     - entity_id: media_player.kitchen_display
     - entity_id: media_player.vardagsrummet_speaker
     - entity_id: media_player.sovrummet_speaker
+
+- platform: powercalc
+  create_group: "environment and air quality"
+  unique_id: f5f210d6-1608-467e-b272-a7b0a83ae6b2
+  entities:
+    - entity_id: fan.livingroom_starkvind
+      fixed:
+        power: >
+          {% set map = {
+            '0' : 0,
+            '1' : 2.0,
+            '2' : 2.8,
+            '3' : 4.8,
+            '4' : 7.6,
+            '5' : 11.9,
+            '6' : 17.8,
+            '7' : 26.3,
+            '8' : 30.6,
+            '9' : 35.8
+          } %}
+          {{ map[states('sensor.livingroom_starkvind_fan_speed')] if is_number(states('sensor.livingroom_starkvind_fan_speed')) else 0 }}
