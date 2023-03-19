@@ -1,0 +1,54 @@
+- alias: "livingroom: air cleaner"
+  id: 61dc9746-9143-4d5e-8bc5-d282cad4391b
+  mode: queued
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_away
+        - input_boolean.house_mode_sleep
+
+  action:
+    choose:
+      - conditions:
+          - condition: state
+            entity_id:
+              - input_boolean.house_mode_guests
+            state: "off"
+          - condition: state
+            entity_id:
+              - input_boolean.house_mode_sleep
+            state: "on"
+
+        sequence:
+          - service: fan.set_percentage
+            target:
+              entity_id: fan.livingroom_starkvind
+            data:
+              percentage: 55
+
+      - conditions:
+          - condition: state
+            entity_id:
+              - input_boolean.house_mode_away
+            state: "on"
+
+        sequence:
+          - service: fan.set_percentage
+            target:
+              entity_id: fan.livingroom_starkvind
+            data:
+              percentage: 55
+
+    default:
+      - service: fan.set_percentage
+        target:
+          entity_id: fan.livingroom_starkvind
+        data:
+          percentage: 11
