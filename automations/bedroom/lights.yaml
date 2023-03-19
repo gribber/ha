@@ -136,22 +136,10 @@
                 - alias: "Small bulb pressed"
                   conditions: "{{ action in ['small-press', 'off', 'brightness_down_click'] }}"
                   sequence:
-                    - alias: "toggle poop lamp"
-                      choose:
-                        conditions: "{{ states('script.poop_bedroom') == 'off' }}"
-                        sequence:
-                          - *turn_on_manual_mode
-                          - service: script.turn_on
-                            target:
-                              entity_id: script.poop_bedroom
-                      default:
-                        - *turn_off_manual_mode
-                        - service: switch.turn_off
-                          target:
-                            entity_id: switch.poop_plug
-                        - service: script.turn_off
-                          target:
-                            entity_id: script.poop_bedroom
+                    - alias: "toggle window lamp"
+                      service: light.toggle
+                      target:
+                        entity_id: light.bedroom_window
 
                 - alias: "Left pressed"
                   conditions: "{{ action in ['left-press', 'arrow_left_click'] }}"
