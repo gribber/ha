@@ -10,6 +10,14 @@
         - sensor.ferroamp_xl28_sso_21090039_faultcode
         - sensor.ferroamp_xl28_sso_21090135_faultcode
         - sensor.ferroamp_xl28_sso_21090071_faultcode
+      not_from:
+        - "none"
+        - "unknown"
+        - "unavailable"
+      not_to:
+        - "none"
+        - "unknown"
+        - "unavailable"
       
   action:
     choose:
