@@ -1,5 +1,6 @@
 - alias: "Hallway upstairs: lights"
   id: 009d2374-2031-4d2d-b19d-349a5ac5c52f
+  mode: queued
   trigger:
     - platform: homeassistant
       event: start
