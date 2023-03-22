@@ -21,11 +21,7 @@
       
   action:
     choose:
-      - conditions: "{{ trigger.to_state.state in ['none', 'unknown', 'unavailable', ''] }}"
-        sequence: []
-
       - conditions: "{{ trigger.to_state.state|int > 0 }}"
-
         sequence:
           - service: notify.castle
             data:
@@ -42,4 +38,4 @@
         data:
           title: Ferroamp
           message: >
-            {{trigger.to_state.attributes.friendly_name}} rapporterar normalt läge igen
+            {{trigger.to_state.name}} rapporterar normalt läge igen
