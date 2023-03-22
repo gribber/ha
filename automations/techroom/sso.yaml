@@ -28,8 +28,8 @@
               title: Ferroamp
               message: >
                 {% set f = namespace(errors=[]) %}
-                {% for a in trigger.to_state.state.attributes|reject('in', ['icon', 'friendly_name']) %}
-                    {% set f.errors = f.errors + [trigger.to_state.state.attributes[a]] %}
+                {% for a in trigger.to_state.attributes|reject('in', ['icon', 'friendly_name']) %}
+                    {% set f.errors = f.errors + [trigger.to_state.attributes[a]] %}
                 {% endfor %}
                 {{trigger.to_state.name}} rapporterar felkod: {{trigger.to_state.state}} ({{f.errors|join(', ')}})
 
