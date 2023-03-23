@@ -1,5 +1,6 @@
 - alias: "SSO: faultcode"
   id: 46d44938-1a8c-43df-9ef5-9d36d424bb95
+  mode: queued
   trace:
     stored_traces: 10
 

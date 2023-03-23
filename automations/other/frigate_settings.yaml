@@ -28,6 +28,7 @@
             - "driveway"
             - "parking"
             - "parking_barn"
+            - "parking_house"
           sequence:
             - service: mqtt.publish
               data:
