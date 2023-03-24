@@ -19,6 +19,7 @@ include:
     - person
     - sensor
     - vacuum
+    - fan
 exclude:
   event_types:
     - call_service
