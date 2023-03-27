@@ -3,15 +3,25 @@
   trigger:
     platform: state
     entity_id: sensor.latest_ha_version
+    not_from:
+      - "none"
+      - "unknown"
+      - "unavailable"
+      - ""
+    not_to:
+      - "none"
+      - "unknown"
+      - "unavailable"
+      - ""
   condition:
     - condition: template
 #      value_template: '{{ (states.sensor.current_ha_version.state != "") and (states.sensor.current_ha_version.state != "unavailable")}}'
       value_template: >
-        {% set ignore = ['unknown', 'unavailable', ''] %}
+        {% set ignore = ['unknown', 'unavailable', 'none', ''] %}
         {{ trigger.from_state.state not in ignore and trigger.to_state.state not in ignore and trigger.to_state.state != trigger.from_state.state }}
   action:
     service: notify.mobile_app_kb2003
     data:
       title: "New HA release"
-      message: "version: {{ states.sensor.latest_ha_version.state }}"
+      message: "version: {{ states('sensor.latest_ha_version') }}"
 
