@@ -7,11 +7,20 @@
     Authorization: !secret mealie_token
   #value_template: "{{ value_json.name }}"
   value_template: >
-    {% if value_json.name is defined %}
-      {{ value_json.name }}
+    {% if value_json[0].recipe.name is defined %}
+      {{ value_json[0].recipe.name }}
     {% else %}
       inget planerat
     {% endif %}
+
+  json_attributes_path: $..recipe
+  json_attributes:
+    - name
+    - id
+    - totalTime
+    - prepTime
+    - performTime
+
 
 # - platform: rest
 #   resource: !secret mealie_url_week
