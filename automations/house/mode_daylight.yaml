@@ -5,8 +5,8 @@
     stored_traces: 25
 
   trigger:
-    - platform: homeassistant
-      event: start
+    # - platform: homeassistant
+    #   event: start
 
     - platform: event
       event_type: automation_reloaded
