@@ -2,7 +2,8 @@
     - name: "mealie_today_image"
       unique_id: f26c2640-fe8c-4b8b-98b1-1dc3a39cc9c2
       state: >
-        https://middag.regerar.se/api/media/recipes/{{state_attr('sensor.mealie_dagens_middag', 'id')}}/images/original.webp
+        {% set m = states('sensor.mealie_dagens_middag')|from_json  %}
+        https://middag.regerar.se/api/media/recipes/{{m.id}}/images/original.webp
       availability: >
         {{ not (
           [ states('sensor.mealie_dagens_middag') ] 
