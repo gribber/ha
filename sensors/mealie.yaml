@@ -7,7 +7,7 @@
     Authorization: !secret mealie_token
   #value_template: "{{ value_json.name }}"
   value_template: >
-    {% if value_json[0].recipe.name is defined %}
+    {% if value_json[0] is defined and value_json[0].recipe is defined and value_json[0].recipe.name is defined %}
       {{ value_json[0].recipe.name }}
     {% else %}
       inget planerat
