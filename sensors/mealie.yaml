@@ -10,21 +10,6 @@
     {% if value_json[0] is defined and value_json[0].recipe is defined and value_json[0].recipe.name is defined %}
       {"name":"{{value_json[0].recipe.name}}","id":"{{value_json[0].recipe.id}}"}
     {% else %}
-      inget planerat
+      {"name":"inget planerat","id":""}
     {% endif %}
 
-  # json_attributes_path: $..recipe
-  # json_attributes:
-  #   - name
-  #   - id
-  #   - totalTime
-  #   - prepTime
-  #   - performTime
-
-
-# - platform: rest
-#   resource: !secret mealie_url_week
-#   method: GET
-#   name: Mealie veckans meny
-#   headers:
-#     Authorization: !secret mealie_token

@@ -31,6 +31,7 @@ modbus: !include_dir_merge_list modbus/
 mqtt:
   sensor: !include_dir_merge_list mqtt/sensors/
   binary_sensor: !include_dir_merge_list mqtt/binary_sensors/
+rest: !include_dir_merge_list integrations/rest/
 scene: !include_dir_merge_list scenes/
 sensor: !include_dir_merge_list sensors/
 template: !include_dir_merge_list templates/

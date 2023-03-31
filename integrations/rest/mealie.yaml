@@ -1,0 +1,99 @@
+- resource_template: >
+    {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+    {% set end = (strptime(start, '%Y-%m-%d') + timedelta(days=6)).date() %}
+    http://10.5.70.201:9926/api/groups/mealplans?start_date={{start}}&end_date={{end}}
+  method: GET
+  headers:
+    Authorization: !secret mealie_token
+  sensor:
+    - name: mealie monday
+      unique_id: 55bb1205-ac9a-412c-b2a1-6fb55e5fcb77
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, "%Y-%m-%d")).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
+    - name: mealie tuesday
+      unique_id: e9e2dbe1-4347-4232-befa-f754ffcdfbb6
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, '%Y-%m-%d') + timedelta(days=1)).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
+    - name: mealie wednesday
+      unique_id: 39c42b58-31b0-46ec-9065-8f8ae4326928
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, '%Y-%m-%d') + timedelta(days=2)).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
+    - name: mealie thursday
+      unique_id: 7fb6e3fa-58e5-4f68-91d6-fd8c0b05f50a
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, '%Y-%m-%d') + timedelta(days=3)).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
+    - name: mealie friday
+      unique_id: 5848435c-24a7-41f0-9bda-2750e2229f8a
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, '%Y-%m-%d') + timedelta(days=4)).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
+    - name: mealie saturday
+      unique_id: 5368b2a5-2e10-4db3-bb57-ac45d6f22b46
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, '%Y-%m-%d') + timedelta(days=5)).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
+    - name: mealie sunday
+      unique_id: 1412e1dc-5d8e-422c-81c2-a194e4a12f03
+      value_template: >
+        {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
+        {% set day = (strptime(start, '%Y-%m-%d') + timedelta(days=6)).date() %}
+        {% set m = namespace(dinner=[]) %}
+        {% set m.dinner = '{"name":"inget planerat","id":""}' %}
+        {% for i in value_json['items'] %}
+          {% if day|string == i.date|string %}
+            {% set m.dinner = '{"name":"'+i.recipe.name+'","id":"'+i.recipe.id+'"}' %}
+          {% endif%}
+        {% endfor%}
+        {{m.dinner}}
