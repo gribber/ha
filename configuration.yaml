@@ -27,6 +27,7 @@ tts: !include integrations/tts.yaml
 automation: !include_dir_merge_list automations/
 binary_sensor: !include_dir_merge_list binary_sensors/
 camera: !include_dir_merge_list cameras/
+light: !include_dir_merge_list lights/
 modbus: !include_dir_merge_list modbus/
 mqtt:
   sensor: !include_dir_merge_list mqtt/sensors/

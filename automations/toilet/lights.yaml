@@ -20,7 +20,7 @@
       from: "on"
       to: "off"
       for:
-        seconds: 60
+        seconds: 180
 
   action:
     - choose:
