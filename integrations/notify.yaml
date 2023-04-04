@@ -7,3 +7,7 @@
 - platform: telegram
   name: castle
   chat_id: !secret telegram_id_castle
+
+- platform: telegram
+  name: castle_log
+  chat_id: !secret telegram_id_castle_log
