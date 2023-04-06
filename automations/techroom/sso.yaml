@@ -24,7 +24,7 @@
     choose:
       - conditions: "{{ trigger.to_state.state|int > 0 }}"
         sequence:
-          - service: notify.castle
+          - service: notify.castle_log
             data:
               title: Ferroamp
               message: >
@@ -35,7 +35,7 @@
                 {{trigger.to_state.name}} rapporterar felkod: {{trigger.to_state.state}} ({{f.errors|join(', ')}})
 
     default:
-      - service: notify.castle
+      - service: notify.castle_log
         data:
           title: Ferroamp
           message: >

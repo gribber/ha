@@ -38,7 +38,7 @@
             target:
               entity_id: "{{ np_update }}"
           
-          - service: notify.castle
+          - service: notify.castle_log
             data:
               title: nordpool
               message: Laddar om {{np_update|map('regex_replace', '^.+_')|join(', ')}}
@@ -68,7 +68,7 @@
             target:
               entity_id: "{{ np_update }}"
           
-          - service: notify.castle
+          - service: notify.castle_log
             data:
               title: nordpool
               message: "tomorrow_valid=true, laddar om {{np_update|map('regex_replace', '^.+_')|join(', ')}}"

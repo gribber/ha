@@ -1,0 +1,6 @@
+- platform: group
+  name: "kitchen_island"
+  unique_id: de411e50-39d7-4f1e-8d87-1c1e3542aed6
+  entities:
+    - light.kitchen_island_1
+    - light.kitchen_island_2

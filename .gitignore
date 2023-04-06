@@ -13,6 +13,7 @@
 !input/*/
 !integrations/
 !integrations/*/
+!lights/
 !modbus/
 !mqtt/
 !mqtt/*/
