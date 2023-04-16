@@ -1,0 +1,39 @@
+- alias: "eHub: system state"
+  id: e0e5220c-f753-4adb-9a48-d574928ada9c
+  mode: queued
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.ferroamp_xl28_system_state
+      not_from:
+        - "none"
+        - "unknown"
+        - "unavailable"
+      not_to:
+        - "none"
+        - "unknown"
+        - "unavailable"
+      
+  action:
+    choose:
+      - conditions: "{{ trigger.to_state.state|int > 0 }}"
+        sequence:
+          - service: notify.castle_log
+            data:
+              title: Ferroamp
+              message: >
+                {% set f = namespace(errors=[]) %}
+                {% for a in trigger.to_state.attributes|reject('in', ['icon', 'friendly_name']) %}
+                    {% set f.errors = f.errors + [trigger.to_state.attributes[a]] %}
+                {% endfor %}
+                {{trigger.to_state.name}}: {{trigger.to_state.state}} (attributes: {{f.errors|join(', ')}})
+
+    default:
+      - service: notify.castle_log
+        data:
+          title: Ferroamp
+          message: >
+            {{trigger.to_state.name}} rapporterar state '0'
