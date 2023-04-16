@@ -10,13 +10,11 @@
     #   event_data:
     #     id: tradfri_remote_control
     - platform: time_pattern
-      hours: '*'
-
+      hours: "*"
 
     - platform: state
       id: remote
       entity_id: sensor.bedroom_remote_wall_action
-
 
   action:
     - service: system_log.write
@@ -25,23 +23,21 @@
     # - service: light.toggle
     #   target:
     #     entity_id: light.floor_lamp
-      # data:
-      #   transition: 0
-      #   flash: short
+    # data:
+    #   transition: 0
+    #   flash: short
     # - choose:
     #   - alias: "remote was used"
     #     conditions:
     #       - alias: "when triggered"
     #         condition: trigger
     #         id: "remote"
-        
+
     #     sequence:
     #       - alias: "toggle a light"
     #         service: light.toggle
     #         target:
     #           entity_id: light.floor_lamp
-
-
 # - alias: test2
 #   id: de2741d2-72c0-4f96-b7dc-39583739c125
 #   mode: queued
@@ -49,7 +45,7 @@
 #     stored_traces: 20
 #   trigger:
 #     - platform: time
-#       at: 
+#       at:
 #         entity_id: input_datetime.house_test_time
 #         offset: -00:30:00
 
@@ -71,3 +67,25 @@
 #         - service: light.turn_on
 #           data:
 #             entity_id: light.atmos_light
+
+# - alias: notify if big change
+#   id: 1eb553c9-1a2b-4de8-a92e-727582e07617
+#   trigger:
+#     - platform: state
+#       entity_id:
+#         - sensor.gold_price
+
+#   action:
+#     choose:
+#       conditions:
+#         - condition: template
+#           value_template: >
+#             {% set a = trigger.from_state.state %}
+#             {% set b = trigger.to_state.state %}
+#             {% set maxchange = 5 %}
+#             {% set diff = (a-b)/((a+b)/2)*100 %}
+#             {{ true if (diff > maxchange or diff < maxchange) else false }}
+#       sequence:
+#         service: notify.notify
+#         data:
+#           message: "big change in price!"

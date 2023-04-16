@@ -64,7 +64,12 @@
       unit_of_measurement: "W"
       state: >
         {% if is_number(states('sensor.ferroamp_xl28_consumption_power')) and is_number(states('sensor.ctek_power')) %}
-          {{states('sensor.ferroamp_xl28_consumption_power')|int - states('sensor.ctek_power')|int }}
+          {% set c = states('sensor.ferroamp_xl28_consumption_power')|int - states('sensor.ctek_power')|int %}
+          {% if c > 0 %}
+            {{c}}
+          {% else %}
+            0
+          {% endif %}
         {% else %}
           none
         {% endif %}

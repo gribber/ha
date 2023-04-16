@@ -5,6 +5,6 @@
   password: !secret xiaomi_cloud_password
   draw: ['all']
   map_transformation:
-    scale: 2
+    scale: 3
   attributes:
     - calibration_points

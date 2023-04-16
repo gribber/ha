@@ -222,7 +222,7 @@
         - input_boolean.house_vvc_preheat
       from: "off"
       to: "on"
-      for: &preheat "00:05:00"
+      for: &preheat "00:10:00"
 
   action:
     - service: input_boolean.turn_off
