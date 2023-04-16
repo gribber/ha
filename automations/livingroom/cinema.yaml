@@ -1,0 +1,22 @@
+- alias: "livingroom: turn off cinema if we leave the house"
+  id: 9dd4d185-e6d1-4cb7-80ba-bb32fc3968ca
+  mode: queued
+  trigger:
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_away
+
+  action:
+    choose:
+      - conditions:
+          - condition: state
+            entity_id:
+              - input_boolean.house_mode_away
+            state: "on"
+        sequence:
+          - service: homeassistant.turn_off
+            target:
+              entity_id: media_player.home_theater
+
+    default: []
