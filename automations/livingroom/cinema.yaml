@@ -18,5 +18,9 @@
           - service: homeassistant.turn_off
             target:
               entity_id: media_player.home_theater
+          - service: notify.castle_log
+            data:
+              title: Hemmabion
+              message: "Stängde av då ingen är hemma"
 
     default: []
