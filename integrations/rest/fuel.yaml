@@ -1,0 +1,16 @@
+- resource: https://henrikhjelm.se/api/getdata.php?lan=vasternorrlands-lan
+  method: GET
+  scan_interval: 1800
+  sensor:
+    - name: fuel_ingo_birsta_diesel
+      unique_id: c80845bf-9b1c-47fe-9ec9-d79d2227c56c
+      unit_of_measurement: SEK
+      value_template: "{{ value_json.vasternorrlandslan_Ingo_SundsvallSundsbruk_Antennvagen_3__diesel | float }}"
+    - name: fuel_ingo_birsta_95
+      unique_id: fd089d69-8d85-4b03-9eb2-ea86173ae45f
+      unit_of_measurement: SEK
+      value_template: "{{ value_json.vasternorrlandslan_Ingo_SundsvallSundsbruk_Antennvagen_3__95 | float }}"
+    - name: fuel_ingo_birsta_etanol
+      unique_id: 9c29035b-f866-489b-b2ec-9f4a1f6e5ea6
+      unit_of_measurement: SEK
+      value_template: "{{ value_json.vasternorrlandslan_Ingo_SundsvallSundsbruk_Antennvagen_3__etanol | float }}"
