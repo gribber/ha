@@ -2,17 +2,17 @@
   id: 9dd4d185-e6d1-4cb7-80ba-bb32fc3968ca
   mode: queued
   trigger:
-
     - platform: state
       entity_id:
         - input_boolean.house_mode_away
+      to: "on"
 
   action:
     choose:
       - conditions:
           - condition: state
             entity_id:
-              - input_boolean.house_mode_away
+              - media_player.home_theater
             state: "on"
         sequence:
           - service: homeassistant.turn_off

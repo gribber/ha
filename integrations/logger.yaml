@@ -8,6 +8,6 @@ logs:
   # yalexs: debug
   # pubnub: debug
   #custom_components.powercalc: debug
-  #custom_components.pax_ble: debug
+  custom_components.pax_ble: error
   #shell commands:
   #homeassistant.components.shell_command: debug
