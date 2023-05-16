@@ -8,3 +8,13 @@
   cold_tolerance: 0.1
   hot_tolerance: 0.1
   precision: 0.1
+
+- platform: generic_thermostat
+  unique_id: 8384b298-8282-4343-a8af-31afad1570ad
+  name: "Techroom ventilation"
+  heater: switch.techroom_ventilation_plug
+  ac_mode: true
+  target_sensor: sensor.techroom_temperature
+  min_temp: 7
+  max_temp: 30
+  target_temp_step: 1
