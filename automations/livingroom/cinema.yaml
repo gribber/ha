@@ -13,7 +13,9 @@
           - condition: state
             entity_id:
               - media_player.home_theater
-            state: "on"
+            state: 
+              - "on"
+              - "playing"
         sequence:
           - service: homeassistant.turn_off
             target:

@@ -266,3 +266,9 @@
           [ states('sensor.ctc_alarm_info') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
+
+- sensor:
+    - name: ctc_hw_heating
+      unique_id: d6256581-fc50-4734-91d5-643808795e1d
+      state: >
+        {{ 0 if has_value('sensor.ctc_hw_capacity') else 1 }}

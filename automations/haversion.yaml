@@ -7,12 +7,12 @@
       - "none"
       - "unknown"
       - "unavailable"
-      - null
+      - "null"
     not_to:
       - "none"
       - "unknown"
       - "unavailable"
-      - null
+      - "null"
   condition:
     - condition: template
 #      value_template: '{{ (states.sensor.current_ha_version.state != "") and (states.sensor.current_ha_version.state != "unavailable")}}'
