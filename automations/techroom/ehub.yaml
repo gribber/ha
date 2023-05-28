@@ -25,11 +25,7 @@
             data:
               title: Ferroamp
               message: >
-                {% set f = namespace(errors=[]) %}
-                {% for a in trigger.to_state.attributes|reject('in', ['icon', 'friendly_name']) %}
-                    {% set f.errors = f.errors + [trigger.to_state.attributes[a]] %}
-                {% endfor %}
-                {{trigger.to_state.name}}: {{trigger.to_state.state}} (attributes: {{f.errors|join(', ')}})
+                {{trigger.to_state.name}}: {{trigger.to_state.state}}
 
     default:
       - service: notify.castle_log

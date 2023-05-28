@@ -15,11 +15,13 @@
         - "none"
         - "unknown"
         - "unavailable"
+        - "400"
       not_to:
         - "none"
         - "unknown"
         - "unavailable"
-      
+        - "400"
+      # 400 = powerlimiting (if only one code reported), to exclude cloud effects and export limits
   action:
     choose:
       - conditions: "{{ trigger.to_state.state|int > 0 }}"
