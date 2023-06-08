@@ -13,6 +13,7 @@
       entity_id:
         - binary_sensor.water_sink_water_leak
         - binary_sensor.water_wardrobe_water_leak
+        - binary_sensor.water_bedroom_ac_water_leak
       from: "off"
       to: "on"
 
@@ -25,52 +26,50 @@
       sticky: true
       visibility: public
 
+    msg: >
+      {% if trigger is defined and has_value('trigger.entity_id') %}
+        {% set e = trigger.entity_id %}
+      {% else %}
+        {% set e = (
+          [
+            'binary_sensor.water_sink_water_leak', 
+            'binary_sensor.water_wardrobe_water_leak', 
+            'binary_sensor.water_bedroom_ac_water_leak'
+          ]
+          | select('is_state', 'on')
+          | list)
+        %}
+      {% endif %}
+      {% set mapper =  {
+        'binary_sensor.water_sink_water_leak' : ' under diskbänken',
+        'binary_sensor.water_wardrobe_water_leak' : ' i garderoben nere',
+        'binary_sensor.water_bedroom_ac_water_leak': ', tanken till AC i sovrummet är full'
+      } %}
+      Vatten upptäckt{{mapper[e[0]] if e else ' någonstans'}}!
 
   action:
     choose:
-      - conditions:
-        - condition: trigger
-          id: "sensor"
+      conditions:
+        condition: or
+        conditions:
+          - condition: trigger
+            id: "sensor"
 
-        sequence:
-          - variables:
-              msg: >
-                {% set mapper =  {
-                  'binary_sensor.water_sink_water_leak' : 'under diskbänken',
-                  'binary_sensor.water_wardrobe_water_leak' : 'i garderoben nere'
-                } %}
-                Vatten upptäckt {{ mapper[trigger.entity_id] }}!
+          - condition: state
+            entity_id:
+              - binary_sensor.water_sink_water_leak
+              - binary_sensor.water_wardrobe_water_leak
+              - binary_sensor.water_bedroom_ac_water_leak
+            state: "on"
+            match: any
 
-          - service: notify.family
-            data_template:
-              title: "Vattenläcka!"
-              message: "{{msg}}"
-              data: *notify_data
-
-      - conditions:
-        - condition: or
-          conditions:
-            - condition: state
-              entity_id:
-                - binary_sensor.water_sink_water_leak
-              state: "on"
-            - condition: state
-              entity_id:
-                - binary_sensor.water_wardrobe_water_leak
-              state: "on"
-
-        sequence:
-          - variables:
-              msg: >
-                {% set e = (['binary_sensor.water_sink_water_leak', 'binary_sensor.water_wardrobe_water_leak'] | select('is_state', 'on') | list) %}
-                {% set mapper =  {
-                  'binary_sensor.water_sink_water_leak' : 'under diskbänken',
-                  'binary_sensor.water_wardrobe_water_leak' : 'i garderoben nere'
-                } %}
-                Vatten upptäckt {{mapper[e[0]] if e else 'någonstans'}}!
-
-          - service: notify.family
-            data_template:
-              title: "Vattenläcka!"
-              message: "{{msg}}"
-              data: *notify_data
+      sequence:
+        - service: notify.family
+          data_template:
+            title: "Vattenläcka!"
+            message: "{{msg}}"
+            data: *notify_data
+        - service: notify.castle
+          data:
+            title: "Vattenläcka!"
+            message: "{{msg}}"

@@ -1,0 +1,17 @@
+- alias: "Bedroom: AC"
+  id: 7267672f-0076-4d66-aa19-637bbb23275a
+  trigger:
+    - platform: state
+      id: "sensor"
+      entity_id:
+        - binary_sensor.water_bedroom_ac_water_leak
+      from: "off"
+      to: "on"
+  action:
+    - service: homeassistant.turn_off
+      target:
+        entity_id: climate.air_conditioner
+    - service: notify.castle_log
+      data:
+        title: "AC Sovrum"
+        message: Slog av AC pga full vattentank
