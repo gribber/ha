@@ -1,0 +1,46 @@
+- alias: "Green house: door"
+  id: 7f5de8d7-4089-4876-9779-ef756fb850f2
+  trigger:
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.greenhouse_door_contact
+      for: &time_limit "00:05:00"
+
+    - platform: numeric_state
+      entity_id:
+        - sensor.greenhouse_temperature
+      below: &temp_limit 15
+      for: *time_limit
+
+  action:
+    choose:
+      - alias: "when triggered"
+        conditions:
+          - alias: "and the door has been open for a while"
+            condition: state
+            entity_id:
+              - binary_sensor.greenhouse_door_contact
+            state: "on"
+            for: *time_limit
+
+          - alias: "and whenever the temperature is too low"
+            condition: numeric_state
+            entity_id:
+              - sensor.greenhouse_temperature
+            below: *temp_limit
+            
+
+        sequence:
+          # - alias: "send a notification"
+          #   service: notify.family
+          #   data:
+          #     title: "Växthuset"
+          #     message: 'Dags att stänga dörren (temperatur: {{ states("sensor.greenhouse_temperature")|float(0) }}C)'
+          - service: notify.castle
+            data:
+              title: "Växthuset"
+              message: 'Dags att stänga dörren (temperatur: {{ states("sensor.greenhouse_temperature")|float(0) }}C)'
