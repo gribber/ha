@@ -1,0 +1,18 @@
+- alias: "Techroom: ups changed status"
+  id: 811aa378-4a4e-4b52-a63f-ed63ea9a4172
+  mode: queued
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      entity_id: sensor.techups_status
+      not_to:
+        - "unknown"
+        - "unavailable"
+
+  action:
+    - service: notify.castle
+      data:
+        title: "UPS teknikrum"
+        message: "Status: {{states('sensor.techups_status')}}"
