@@ -7,12 +7,17 @@
   state_topic: "am430x/mower/status/plain"
   value_template: "{{ 'Charging' if 'Charging (' in value else value }}"
 
+- name: "am430x_status_id"
+  state_topic: "am430x/mower/status"
 
 - name: "am430x_status_duration"
   state_topic: "am430x/mower/status/duration"
   unit_of_measurement: "min"
 
 - name: "am430x_substatus"
+  state_topic: "am430x/mower/substatus/plain"
+
+- name: "am430x_substatus_id"
   state_topic: "am430x/mower/substatus"
 
 - name: "am430x_distance"
