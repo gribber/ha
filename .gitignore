@@ -6,6 +6,7 @@
 !automations/*/
 !binary_sensors/
 !cameras/
+!command_line/
 !groups/
 !helpers/
 !helpers/*/
@@ -37,3 +38,4 @@
 # ensure ignore
 secrets.yaml
 google_calendars.yaml
+known_devices.yaml
