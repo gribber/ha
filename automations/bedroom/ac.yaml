@@ -1,4 +1,4 @@
-- alias: "Bedroom: AC"
+- alias: "Bedroom: AC watertank"
   id: 7267672f-0076-4d66-aa19-637bbb23275a
   trigger:
     - platform: state
