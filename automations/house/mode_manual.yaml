@@ -16,7 +16,7 @@
           - service: input_boolean.turn_off
             target:
               entity_id:
-                - input_boolean.bedroom_manual_mode
+                #- input_boolean.bedroom_manual_mode
                 - input_boolean.parking_manual_mode
                 - input_boolean.kitchen_manual_mode
                 - input_boolean.livingroom_manual_mode
