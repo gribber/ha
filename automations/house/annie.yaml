@@ -1,0 +1,22 @@
+- alias: "Annie: outside working area"
+  id: b3c00dc3-b327-498e-9076-8ab6ed4fb3b7
+  mode: queued
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.am430x_substatus_id
+      to:
+        - "8"
+
+  action:
+    - service: notify.castle
+      data:
+        title: ' '
+        message: ' '
+        data:
+          photo:
+            - url: "https://ha.regerar.se{{ state_attr('camera.annie_map', 'entity_picture') }}"
+              caption: "Annie: utanför arbetsområde"
