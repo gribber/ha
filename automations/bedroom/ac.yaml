@@ -15,3 +15,45 @@
       data:
         title: "AC Sovrum"
         message: Slog av AC pga full vattentank
+
+
+- alias: "Bedroom: Turn on AC if warm"
+  id: 1b84349e-0c7c-4984-8561-6b3e7a4c80a1
+  trigger:
+    - platform: time
+      id: time
+      at: input_datetime.ac_turn_on
+
+  condition:
+    # only apply when we are home
+    - condition: state
+      entity_id:
+        - input_boolean.house_mode_away
+      state: "off"
+
+    # only make sense during summer
+    - condition: state
+      entity_id:
+        - input_boolean.house_mode_summer
+      state: "on"
+
+    # do not turn on if the water tank is full
+    - condition: state
+      entity_id:
+        - binary_sensor.water_bedroom_ac_water_leak
+      state: "off"
+
+    # only if it's too warm
+    - condition: numeric_state
+      entity_id:
+        - sensor.bedroom_temperature
+      above: 21
+
+  action:
+    - service: homeassistant.turn_on
+      target:
+        entity_id: climate.air_conditioner
+    - service: notify.castle_log
+      data:
+        title: "AC Sovrum"
+        message: "Slog på AC:n"

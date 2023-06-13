@@ -1,0 +1,4 @@
+ac_turn_on:
+  name: "Tid att starta AC"
+  has_date: false
+  has_time: yes
