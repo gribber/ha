@@ -57,3 +57,17 @@
       data:
         title: "AC Sovrum"
         message: "Slog på AC:n"
+
+
+- alias: "Bedroom: AC plug"
+  id: 33837bc5-0c32-42a0-be69-cd35810213f9
+  trigger:
+    - platform: state
+      entity_id: switch.bedroom_ac_plug
+      to: "off"
+
+  action:
+    - service: notify.castle
+      data:
+        title: "Plug AC Sovrum"
+        message: "Strömmen stängdes av till AC:n"
