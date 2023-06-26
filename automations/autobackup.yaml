@@ -6,4 +6,4 @@
     - service: auto_backup.backup_full
       data:
         name: "DailyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
-        keep_days: 7
+        keep_days: 4
