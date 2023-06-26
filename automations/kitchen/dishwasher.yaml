@@ -43,12 +43,12 @@
           - variables:
               consumption: "{{ (states('sensor.shelly_dishwasher_energy')|float(0) - states('input_number.dishwasher_start')|float(0))|round(2) }}"
 
-          - service: notify.family
-            data:
-              title: "Diskmaskinen"
-              message: "Disken klar! (förbrukning: {{consumption}}kWh)"
-              data:
-                tag: dishwasher
+          # - service: notify.family
+          #   data:
+          #     title: "Diskmaskinen"
+          #     message: "Disken klar! (förbrukning: {{consumption}}kWh)"
+          #     data:
+          #       tag: dishwasher
 
           - service: notify.castle
             data:

@@ -7,11 +7,14 @@
   trigger:
     - platform: state
       entity_id:
-        - sensor.am430x_substatus_id
+        - sensor.am430x_status_id
       to:
-        - "8"
+        - "7"
 
   action:
+    - delay:
+        seconds: 1
+    
     - service: notify.castle
       data:
         title: ' '
@@ -19,4 +22,4 @@
         data:
           photo:
             - url: "https://ha.regerar.se{{ state_attr('camera.annie_map', 'entity_picture') }}"
-              caption: "Annie: utanför arbetsområde"
+              caption: "Annie: {{states('sensor.am430x_status')}} - {{states('sensor.am430x_substatus')}} ({{states('sensor.am430x_substatus_id')}})"
