@@ -1,4 +1,4 @@
-- alias: "Annie: outside working area"
+- alias: "Annie: error"
   id: b3c00dc3-b327-498e-9076-8ab6ed4fb3b7
   mode: queued
   trace:
@@ -10,15 +10,19 @@
         - sensor.am430x_status_id
       to:
         - "7"
+      not_from:
+        - "unknown"
+        - "unavailable"
+        - "0" # 0 = please wait
 
   action:
     - delay:
         seconds: 1
-    
+
     - service: notify.castle
       data:
-        title: ' '
-        message: ' '
+        title: " "
+        message: " "
         data:
           photo:
             - url: "https://ha.regerar.se{{ state_attr('camera.annie_map', 'entity_picture') }}"
