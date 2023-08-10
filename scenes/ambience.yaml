@@ -9,6 +9,9 @@
       state: *state
       brightness: *brightness
       color_temp: *color_temp
+    light.kitchen_bench:
+      state: *state
+      brightness: 1
 
 - name: "bedroom ambience lights cozy"
   id: f92ddb77-1a7f-4a38-a3bf-e5d83c69639c

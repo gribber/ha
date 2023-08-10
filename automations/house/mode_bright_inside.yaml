@@ -19,23 +19,25 @@
         - sun.sun
       attribute: elevation
       above: &sun_elevation input_number.sun_elevation_limit
-    
+
     - platform: numeric_state
       id: lightlevel_day
       entity_id:
-        - sensor.motion_driveway_illuminance_lux
+        #        - sensor.motion_driveway_illuminance_lux
+        - sensor.outdoor_illuminance_min
       above: input_number.lightlevel_limit_indoor
       for:
         minutes: 5
-      
+
     - platform: numeric_state
       id: lightlevel_night
       entity_id:
-        - sensor.motion_driveway_illuminance_lux
+        #       - sensor.motion_driveway_illuminance_lux
+        - sensor.outdoor_illuminance_min
       below: input_number.lightlevel_limit_indoor
       for:
         minutes: 5
-      
+
   condition: []
 
   action:
@@ -47,15 +49,15 @@
             above: input_number.sun_elevation_limit
           - condition: numeric_state
             entity_id:
-              - sensor.motion_driveway_illuminance_lux
+              #              - sensor.motion_driveway_illuminance_lux
+              - sensor.outdoor_illuminance_min
             above: input_number.lightlevel_limit_indoor
-            
+
         sequence:
           - service: input_boolean.turn_on
             # turn on daylight mode
             target:
               entity_id: input_boolean.house_mode_bright_inside
-
 
     default:
       # turn off daylight mode, it's dark inside

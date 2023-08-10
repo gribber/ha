@@ -14,26 +14,28 @@
     - platform: state
       entity_id:
         - input_number.sun_elevation_limit
-      
+
     - platform: numeric_state
       id: "sun_up"
       entity_id:
         - sun.sun
       attribute: elevation
       above: &sun_elevation input_number.sun_elevation_limit
-    
+
     - platform: numeric_state
       id: lightlevel_day
       entity_id:
-        - sensor.motion_driveway_illuminance_lux
+        #- sensor.motion_driveway_illuminance_lux
+        - sensor.outdoor_illuminance_min
       above: input_number.lightlevel_limit_outdoor
       for:
         minutes: 5
-      
+
     - platform: numeric_state
       id: lightlevel_night
       entity_id:
-        - sensor.motion_driveway_illuminance_lux
+        #- sensor.motion_driveway_illuminance_lux
+        - sensor.outdoor_illuminance_min
       below: input_number.lightlevel_limit_outdoor
       for:
         minutes: 5
@@ -41,26 +43,26 @@
   condition: []
 
   action:
-      choose:
-        - conditions:
-            - condition: numeric_state
-              entity_id:
-                - sensor.sun_elevation
-              above: input_number.sun_elevation_limit
-            - condition: numeric_state
-              entity_id:
-                - sensor.motion_driveway_illuminance_lux
-              above: input_number.lightlevel_limit_outdoor
-              
-          sequence:
-            - service: input_boolean.turn_on
-              # turn on daylight mode
-              target:
-                entity_id: input_boolean.house_mode_daylight
+    choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id:
+              - sensor.sun_elevation
+            above: input_number.sun_elevation_limit
+          - condition: numeric_state
+            entity_id:
+              #- sensor.motion_driveway_illuminance_lux
+              - sensor.outdoor_illuminance_min
+            above: input_number.lightlevel_limit_outdoor
 
+        sequence:
+          - service: input_boolean.turn_on
+            # turn on daylight mode
+            target:
+              entity_id: input_boolean.house_mode_daylight
 
-      default:
-        # turn off daylight mode, it's dark outside
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.house_mode_daylight
+    default:
+      # turn off daylight mode, it's dark outside
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.house_mode_daylight

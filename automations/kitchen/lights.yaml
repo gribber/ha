@@ -75,10 +75,10 @@
                 sequence:
                   - service: light.toggle
                     target:
-                      entity_id: 
+                      entity_id:
                         - light.kitchen_table
                         - light.kitchen_table_filament
-                        
+
               - alias: "small pressed"
                 conditions: "{{ action in ['off'] }}"
                 sequence:
@@ -107,6 +107,7 @@
                 - light.kitchen_lamp
                 - light.kitchen_window_1
                 - light.rice_lamp
+                - light.kitchen_bench
             data:
               transition: 5
 
