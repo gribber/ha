@@ -1,4 +1,4 @@
-enable_autodiscovery: false
+enable_autodiscovery: true
 sensors:
   - create_group: "outdoor lights"
     unique_id: 28782826-4b21-44d0-8105-60e6b9338bd2
@@ -29,11 +29,11 @@ sensors:
         unique_id: 24069df6-d3f6-443a-9cc2-ea50b2f1d064
         # include:
         #   template: >
-        #     {{ 
-        #       expand(area_entities('kitchen')) 
+        #     {{
+        #       expand(area_entities('kitchen'))
         #       | selectattr( 'domain' , 'eq' , 'light' )
         #       | map(attribute='entity_id')
-        #       | list 
+        #       | list
         #     }}
         include:
           area: kitchen
@@ -143,7 +143,7 @@ sensors:
   - entity_id: sensor.dummy
     unique_id: 3788b38d-5330-4c7e-a0ea-8565dda2c6c9
     name: "techups"
-    fixed: 
+    fixed:
       power: "{{states('sensor.techups_power_tmp')}}"
 
   - create_group: "smart speakers"
