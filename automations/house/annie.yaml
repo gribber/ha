@@ -25,5 +25,5 @@
         message: " "
         data:
           photo:
-            - url: "https://ha.regerar.se{{ state_attr('camera.annie_map', 'entity_picture') }}"
+            - url: "https://ha.regerar.se{{ state_attr('image.annie_map', 'entity_picture') }}"
               caption: "Annie: {{states('sensor.am430x_status')}} - {{states('sensor.am430x_substatus')}} ({{states('sensor.am430x_substatus_id')}})"
