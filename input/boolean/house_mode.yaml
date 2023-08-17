@@ -2,12 +2,12 @@
 house_mode_away:
   name: "Bortaläge"
   icon: "mdi:human-greeting"
-  
-# if we are or about to sleeping 
+
+# if we are or about to sleeping
 house_mode_sleep:
   name: "Nattläge"
   icon: "mdi:sleep"
-  
+
 # if we have guests at home
 house_mode_guests:
   name: "Gäster hemma"
@@ -25,6 +25,10 @@ house_mode_daylight:
 
 house_mode_bright_inside:
   name: "Ljust inne"
+  icon: "mdi:white-balance-sunny"
+
+house_mode_bright_hallway:
+  name: "Ljust i hallen"
   icon: "mdi:white-balance-sunny"
 
 house_mode_outside_work:

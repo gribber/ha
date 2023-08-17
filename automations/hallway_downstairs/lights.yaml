@@ -11,7 +11,7 @@
 
     - platform: state
       entity_id:
-        - input_boolean.house_mode_bright_inside
+        - input_boolean.house_mode_bright_hallway
 
     - platform: time
       at:
@@ -37,7 +37,8 @@
             entity_id:
               - input_boolean.hallway_downstairs_manual_mode
             state: "on"
-        sequence: []
+        sequence:
+          []
           # do nothing
 
       - conditions:
@@ -55,7 +56,7 @@
 
                   - condition: state
                     entity_id:
-                      - input_boolean.house_mode_bright_inside
+                      - input_boolean.house_mode_bright_hallway
                     state: "off"
 
                   - condition: state
@@ -100,7 +101,7 @@
           - condition: state
             # when there is daylight
             entity_id:
-              - input_boolean.house_mode_bright_inside
+              - input_boolean.house_mode_bright_hallway
             state: "on"
 
         sequence:

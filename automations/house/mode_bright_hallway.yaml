@@ -1,0 +1,49 @@
+- alias: "House: bright hallway mode"
+  id: d5b4e5d2-06db-456d-baef-32a8942e8deb
+  mode: queued
+
+  trigger:
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: numeric_state
+      id: lightlevel_day
+      entity_id:
+        - sensor.motion_hallway_downstairs_illuminance_lux
+      above: input_number.lightlevel_limit_hallway
+      for:
+        minutes: 5
+
+    - platform: numeric_state
+      id: lightlevel_night
+      entity_id:
+        - sensor.motion_hallway_downstairs_illuminance_lux
+      below: input_number.lightlevel_limit_hallway
+      for:
+        minutes: 5
+
+    - platform: state
+      entity_id:
+        - input_number.lightlevel_limit_hallway
+
+  condition: []
+
+  action:
+    choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id:
+              - sensor.motion_hallway_downstairs_illuminance_lux
+            above: input_number.lightlevel_limit_hallway
+
+        sequence:
+          - service: input_boolean.turn_on
+            # turn on daylight mode
+            target:
+              entity_id: input_boolean.house_mode_bright_hallway
+
+    default:
+      # turn off daylight mode, it's dark inside
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.house_mode_bright_hallway

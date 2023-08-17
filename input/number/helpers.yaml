@@ -29,6 +29,14 @@ lightlevel_limit_indoor:
   unit_of_measurement: lx
   icon: "mdi:theme-light-dark"
 
+lightlevel_limit_hallway:
+  name: "Gräns hall"
+  min: 10
+  max: 200
+  step: 10
+  unit_of_measurement: lx
+  icon: "mdi:theme-light-dark"
+
 sun_elevation_limit:
   name: "Minsta solhöjd för dagsljus"
   min: -3
