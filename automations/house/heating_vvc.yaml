@@ -12,24 +12,24 @@
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
-      id: movement
-      entity_id:
-        - group.motion_bathrooms
-        # - binary_sensor.bathroom_downstairs_presence
-        # - binary_sensor.bathroom_upstairs_presence
-      from: "off"
-      to: "on"
+    # - platform: state
+    #   id: movement
+    #   entity_id:
+    #     - group.motion_bathrooms
+    #     # - binary_sensor.bathroom_downstairs_presence
+    #     # - binary_sensor.bathroom_upstairs_presence
+    #   from: "off"
+    #   to: "on"
 
-    - platform: state
-      entity_id:
-        - group.motion_bathrooms
-        # - binary_sensor.bathroom_downstairs_presence
-        # - binary_sensor.bathroom_upstairs_presence
-      from: "on"
-      to: "off"
-      for:
-        seconds: 10
+    # - platform: state
+    #   entity_id:
+    #     - group.motion_bathrooms
+    #     # - binary_sensor.bathroom_downstairs_presence
+    #     # - binary_sensor.bathroom_upstairs_presence
+    #   from: "on"
+    #   to: "off"
+    #   for:
+    #     seconds: 10
 
     - platform: state
       entity_id:
@@ -62,6 +62,10 @@
     - platform: state
       entity_id:
         - input_boolean.house_vvc_preheat
+
+    - platform: time_pattern
+      id: cycle
+      minutes: "/15"
 
   condition: []
 
@@ -98,33 +102,33 @@
             target:
               entity_id: input_boolean.house_vvc
 
-      - conditions:
-          - alias: "when entering a bathroom"
-            condition: trigger
-            id: movement
-        sequence:
-          #- *turn_on_vvc
-          # dummy
-          - delay:
-              milliseconds: 1
+      # - conditions:
+      #     - alias: "when entering a bathroom"
+      #       condition: trigger
+      #       id: movement
+      #   sequence:
+      #     #- *turn_on_vvc
+      #     # dummy
+      #     - delay:
+      #         milliseconds: 1
 
-      - conditions:
-          - alias: "if the time is"
-            condition: or
-            conditions:
-              - alias: "during lunch"
-                condition: time
-                after: *lunch_start
-                before: *lunch_end
-              - alias: "during dinner"
-                condition: time
-                after: *dinner_start
-                before: *dinner_end
-        sequence:
-#          - *turn_on_vvc
-          # dummy
-          - delay:
-              milliseconds: 1
+      # - conditions:
+      #     - alias: "if the time is"
+      #       condition: or
+      #       conditions:
+      #         - alias: "during lunch"
+      #           condition: time
+      #           after: *lunch_start
+      #           before: *lunch_end
+      #         - alias: "during dinner"
+      #           condition: time
+      #           after: *dinner_start
+      #           before: *dinner_end
+      #   sequence:
+      #     #          - *turn_on_vvc
+      #     # dummy
+      #     - delay:
+      #         milliseconds: 1
 
       - conditions:
           - alias: "when getting back from workout"
@@ -144,8 +148,27 @@
         sequence:
           - *turn_on_vvc
 
+      - conditions:
+          condition: and
+          conditions:
+            - condition: trigger
+              id: cycle
+            - condition: time
+              # quickfix until a proper way to determine if we are sleeping or not is in place
+              after: "07:00:00"
+              before: "21:00:00"
+
+        sequence:
+          - *turn_on_vvc
+          - delay:
+            # also quickfix, until I measure incoming hot water
+              minutes: 5
+          - *turn_off_vvc
+
     default:
       - *turn_off_vvc
+
+
 
 - alias: "House: vvc switch"
   id: b755328d-ad0c-4f7f-94e4-50d583e06639
@@ -204,6 +227,7 @@
       service: switch.turn_off
       target:
         entity_id: switch.vvc_pump
+
 
 
 - alias: "House: vvc preheat"
