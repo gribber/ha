@@ -1,0 +1,4 @@
+# this is used to detect if someone uses the shower
+- platform: derivative
+  name: shower_derivative
+  source: sensor.shower_humidity
