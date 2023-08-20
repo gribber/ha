@@ -161,17 +161,16 @@
         sequence:
           - *turn_on_vvc
           - delay:
-            # also quickfix, until I measure incoming hot water
+              # also quickfix, until I measure incoming hot water
               minutes: 5
           - *turn_off_vvc
 
     default:
       - *turn_off_vvc
 
-
-
 - alias: "House: vvc switch"
   id: b755328d-ad0c-4f7f-94e4-50d583e06639
+  mode: queued
   trigger:
     - platform: homeassistant
       event: start
@@ -227,8 +226,6 @@
       service: switch.turn_off
       target:
         entity_id: switch.vvc_pump
-
-
 
 - alias: "House: vvc preheat"
   id: d7bb04cd-922f-4515-8eba-90c59f2e37c8
