@@ -8,6 +8,7 @@
     - platform: state
       entity_id:
         - binary_sensor.door_bell
+        - binary_sensor.front_door_occupancy
       from: "off"
       to: "on"
 
