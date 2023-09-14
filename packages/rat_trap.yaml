@@ -14,7 +14,7 @@ automation:
     trigger:
       platform: state
       entity_id:
-        - binary_sensor.rat_trap_1
+#        - binary_sensor.rat_trap_1
         - binary_sensor.rat_trap_2_contact
         - binary_sensor.rat_trap_3_contact
       from: "off"
