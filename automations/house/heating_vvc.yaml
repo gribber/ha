@@ -12,38 +12,19 @@
         - automation_reloaded
         - scene_reloaded
 
-    # - platform: state
-    #   id: movement
-    #   entity_id:
-    #     - group.motion_bathrooms
-    #     # - binary_sensor.bathroom_downstairs_presence
-    #     # - binary_sensor.bathroom_upstairs_presence
-    #   from: "off"
-    #   to: "on"
-
-    # - platform: state
-    #   entity_id:
-    #     - group.motion_bathrooms
-    #     # - binary_sensor.bathroom_downstairs_presence
-    #     # - binary_sensor.bathroom_upstairs_presence
-    #   from: "on"
-    #   to: "off"
-    #   for:
-    #     seconds: 10
-
     - platform: state
       entity_id:
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
 
-    - platform: time
-      at: &lunch_start "10:50:00"
-    - platform: time
-      at: &lunch_end "11:30:00"
-    - platform: time
-      at: &dinner_start "16:50:00"
-    - platform: time
-      at: &dinner_end "18:00:00"
+    # - platform: time
+    #   at: &lunch_start "10:50:00"
+    # - platform: time
+    #   at: &lunch_end "11:30:00"
+    # - platform: time
+    #   at: &dinner_start "16:50:00"
+    # - platform: time
+    #   at: &dinner_end "18:00:00"
 
     - platform: state
       id: back_from_workout
@@ -65,7 +46,15 @@
 
     - platform: time_pattern
       id: cycle
-      minutes: "/15"
+      minutes: "/20"
+    
+    - platform: state
+      id: turnoff
+      entity_id:
+        - input_boolean.house_vvc
+      to: "on"
+      for:
+        minutes: &timeout 5
 
   condition: []
 
@@ -131,6 +120,14 @@
       #         milliseconds: 1
 
       - conditions:
+          - alias: "when vvc has been on for <timeout>"
+            condition: trigger
+            id: turnoff
+
+        sequence:
+          - *turn_off_vvc
+
+      - conditions:
           - alias: "when getting back from workout"
             condition: and
             conditions:
@@ -155,15 +152,15 @@
               id: cycle
             - condition: time
               # quickfix until a proper way to determine if we are sleeping or not is in place
-              after: "07:00:00"
+              after: "06:30:00"
               before: "21:00:00"
 
         sequence:
           - *turn_on_vvc
-          - delay:
-              # also quickfix, until I measure incoming hot water
-              minutes: 5
-          - *turn_off_vvc
+          # - delay:
+          #     # also quickfix, until I measure incoming hot water
+          #     minutes: 5
+          # - *turn_off_vvc
 
     default:
       - *turn_off_vvc
