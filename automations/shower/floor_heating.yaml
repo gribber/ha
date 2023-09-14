@@ -27,35 +27,57 @@
   id: decdc5d9-5bd0-41ab-bf91-7e77a38e49b3
   mode: queued
   trigger:
-    - platform: state
+    # - platform: state
+    #   entity_id:
+    #     - switch.laundry_room_channel_2
+    #   to: "on"
+    #   for:
+    #     minutes: &timeout 120
+
+    - platform: numeric_state
+      id: end
       entity_id:
-        - switch.laundry_room_channel_2
-      to: "on"
+        - sensor.shower_derivative
+      below: 50
       for:
         minutes: &timeout 120
 
     - platform: state
+      id: motion
       entity_id:
         - binary_sensor.motion_bathroom_upstairs_occupancy
 
     - platform: time_pattern
+      id: time
       minutes: "/5"
 
   action:
     choose:
       - conditions:
-          condition: state
-          entity_id:
-            - switch.laundry_room_channel_2
-          state: "on"
-          for:
-            minutes: *timeout
+          condition: or
+          conditions:
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id:
+                    - motion
+                    - time
+                - condition: state
+                  entity_id:
+                    - switch.laundry_room_channel_2
+                  state: "on"
+                  for:
+                    minutes: &timeout_force 240
+            
+            - condition: trigger
+              id: end
+
 
         sequence:
           - service: notify.castle_log
             data:
               title: "Duschen"
-              message: "Stängde av golvvärmen nu efter 2 timmar"
+              message: "Stängde av golvvärmen nu efter {{ relative_time(states.switch.laundry_room_channel_2.last_changed) }}"
           - service: switch.turn_off
             target:
               entity_id: switch.laundry_room_channel_2
