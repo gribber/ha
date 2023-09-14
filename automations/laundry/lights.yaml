@@ -17,12 +17,12 @@
       entity_id:
         - input_boolean.laundryroom_movement
 
-    - platform: state
-      id: button
-      entity_id:
-        - binary_sensor.laundry_room_channel_1_input
-      from: "off"
-      to: "on"
+    # - platform: state
+    #   id: button
+    #   entity_id:
+    #     - binary_sensor.laundry_room_channel_1_input
+    #   from: "off"
+    #   to: "on"
 
   condition: []
 
