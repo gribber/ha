@@ -7,35 +7,37 @@
       above: 50
 
   action:
-    choose:
-      - conditions:
-          condition: state
-          entity_id:
-            - switch.laundry_room_channel_2
-          state: "off"
+    - choose:
+        - conditions:
+            condition: state
+            entity_id:
+              - switch.laundry_room_channel_2
+            state: "off"
 
-        sequence:
-          - service: notify.castle_log
-            data:
-              title: "Duschen"
-              message: "Någon har duschat, startar golvvärmen (derivat: {{trigger.to_state.state}})"
-          - service: switch.turn_on
-            target:
-              entity_id: switch.laundry_room_channel_2
+          sequence:
+            - service: notify.castle_log
+              data:
+                title: "Duschen"
+                message: "Någon har duschat, startar golvvärmen (derivat: {{trigger.to_state.state}})"
+            - service: switch.turn_on
+              target:
+                entity_id: switch.laundry_room_channel_2
+    - service: input_datetime.set_datetime
+      target:
+        entity_id: input_datetime.shower_last_detected
+      data:
+        timestamp: "{{ now().timestamp() }}"
 
 - alias: "Shower: turn off floor heating"
   id: decdc5d9-5bd0-41ab-bf91-7e77a38e49b3
   mode: queued
   trigger:
-    # - platform: state
-    #   entity_id:
-    #     - switch.laundry_room_channel_2
-    #   to: "on"
-    #   for:
-    #     minutes: &timeout 120
+    - platform: template
+      id: end_time
+      value_template: "{{ now().timestamp() - states.input_datetime.shower_last_detected.attributes.timestamp > 7200 }}"
 
     - platform: numeric_state
-      id: end
+      id: end_dev
       entity_id:
         - sensor.shower_derivative
       below: 50
@@ -68,16 +70,23 @@
                   state: "on"
                   for:
                     minutes: &timeout_force 240
-            
-            - condition: trigger
-              id: end
 
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id:
+                    - end_time
+                    - end_dev
+                - condition: state
+                  entity_id:
+                    - switch.laundry_room_channel_2
+                  state: "on"
 
         sequence:
           - service: notify.castle_log
             data:
               title: "Duschen"
-              message: "Stängde av golvvärmen nu efter {{ relative_time(states.switch.laundry_room_channel_2.last_changed) }}"
+              message: "Stängde av golvvärmen nu efter {{ relative_time(states.switch.laundry_room_channel_2.last_changed) }} (trigger: {{trigger.id}})"
           - service: switch.turn_off
             target:
               entity_id: switch.laundry_room_channel_2

@@ -1,0 +1,3 @@
+shower_last_detected:
+  has_time: true
+  has_date: true
