@@ -31,13 +31,15 @@
 - alias: "Shower: turn off floor heating"
   id: decdc5d9-5bd0-41ab-bf91-7e77a38e49b3
   mode: queued
+  trace:
+    stored_traces: 25
   trigger:
     - platform: template
-      id: end_time
+      id: endtime
       value_template: "{{ now().timestamp() - states.input_datetime.shower_last_detected.attributes.timestamp > 7200 }}"
 
     - platform: numeric_state
-      id: end_dev
+      id: endder
       entity_id:
         - sensor.shower_derivative
       below: 50
@@ -51,7 +53,8 @@
 
     - platform: time_pattern
       id: time
-      minutes: "/5"
+      #minutes: "/5"
+      minutes: "5"
 
   action:
     choose:
@@ -75,8 +78,8 @@
               conditions:
                 - condition: trigger
                   id:
-                    - end_time
-                    - end_dev
+                    - endtime
+                    - endder
                 - condition: state
                   entity_id:
                     - switch.laundry_room_channel_2
@@ -86,7 +89,7 @@
           - service: notify.castle_log
             data:
               title: "Duschen"
-              message: "Stängde av golvvärmen nu efter {{ relative_time(states.switch.laundry_room_channel_2.last_changed) }} (trigger: {{trigger.id}})"
+              message: "Stängde av golvvärmen nu efter {{ (now().timestamp() - states.switch.laundry_room_channel_2.last_changed.timestamp())|timestamp_custom('%-Ht%-Mm', false) }} (trigger: {{trigger.id}})"
           - service: switch.turn_off
             target:
               entity_id: switch.laundry_room_channel_2

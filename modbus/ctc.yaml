@@ -3,7 +3,7 @@
   host: !secret ctc_host
   port: !secret ctc_port
   delay: 3
-  retry_on_empty: true
+  #retry_on_empty: true
 
   sensors:
     - name: "ctc_hw_mode"

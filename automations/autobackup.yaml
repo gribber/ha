@@ -1,9 +1,69 @@
-- alias: Perform Daily Backup
+# - alias: Perform Daily Backup
+#   id: 06f128dc-2720-4410-aec8-1e6e7f17ca7e
+#   trigger:
+#     - platform: time
+#       at: "02:00:00"
+#   action:
+#     - service: auto_backup.backup_full
+#       data:
+#         name: "DailyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
+#         keep_days: 2
+
+# - alias: "AutoBackup: Hourly Backup"
+#   id: 1b71571b-7aba-4a41-820d-bfdea87c75bf
+#   trigger:
+#     platform: time_pattern
+#     hours: "/3"
+#   action:
+#     # partial backup to save storage
+#     service: auto_backup.backup_partial
+#     data:
+#       name: "AutoBackup: {{ now().strftime('%a, %Y-%M-%d %H:%M') }}"
+#       addons:
+#         - core_mariadb
+#         - core_mosquitto
+#       folders:
+#         - homeassistant
+#         - share
+#         - ssl
+#       keep_days: 2
+#       #location: /mounts/backup
+
+- alias: "AutoBackup: Daily Backup"
+  id: 96256f87-9a45-4f2c-bb83-23b983a93afc
   trigger:
-    - platform: time
-      at: "02:00:00"
+    platform: time
+    at: "02:30:00"
+  condition:
+    condition: time
+    weekday:
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      - sun
   action:
-    - service: auto_backup.backup_full
-      data:
-        name: "DailyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
-        keep_days: 4
+    service: auto_backup.backup_full
+    data:
+      name: "DailyBackup: {{ now().strftime('%a, %Y-%m-%d') }}"
+      keep_days: 7
+      #location: /mounts/backup
+
+- alias: "AutoBackup: Weekly Backup"
+  id: a3f0c772-b3c1-4a71-a7ca-0e246c1b5df7
+  trigger:
+    platform: time
+    at: "02:30:00"
+  condition:
+    condition: time
+    weekday:
+      - mon
+  action:
+    service: auto_backup.backup_full
+    data:
+      name: "WeeklyBackup: {{ now().strftime('%a, %Y-%m-%d') }}"
+      # store backup for a month
+      # i.e. backup each week and store for 4 weeks
+      keep_days: 28
+      #location: /mounts/backup
