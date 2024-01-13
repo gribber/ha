@@ -14,6 +14,10 @@ driveway_movement:
   name: "Rörelse på parkering/uppfart"
   icon: "mdi:run"
 
+barn_movement:
+  name: "Rörelse på parkering/lada"
+  icon: "mdi:run"
+
 front_movement:
   name: "Rörelse utanför entré"
   icon: "mdi:run"

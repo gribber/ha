@@ -31,6 +31,7 @@
 
 
 - platform: filter
+  unique_id: 192877a3-2d3a-4016-b35b-0dd97ab290be
   name: "outdoor_min_moving_average"
   entity_id: sensor.outdoor_min
   filters:

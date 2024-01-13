@@ -272,3 +272,26 @@
       unique_id: d6256581-fc50-4734-91d5-643808795e1d
       state: >
         {{ 0 if has_value('sensor.ctc_hw_capacity') else 1 }}
+
+
+- sensor:
+    - name: heatpump_hs_daily_share
+      unique_id: 7e013b6c-1a3f-4d06-a984-0705201eff93
+      unit_of_measurement: '%'
+      state: >
+        {% if states('sensor.heatpump_circuit_daily_energy_for_hs')|float > 0 and states('sensor.heatpump_daily_energy')|float > 0 %}
+          {{ (states('sensor.heatpump_circuit_daily_energy_for_hs')|float / states('sensor.heatpump_daily_energy')|float*100)|round(1) }}
+        {% else %}
+          100
+        {% endif %}
+
+- sensor:
+    - name: heatpump_hw_daily_share
+      unique_id: fa187448-c226-468d-8b89-a11d08652014
+      unit_of_measurement: '%'
+      state: >
+        {% if states('sensor.heatpump_circuit_daily_energy_for_hw')|float > 0 and states('sensor.heatpump_daily_energy')|float > 0 %}
+          {{ (states('sensor.heatpump_circuit_daily_energy_for_hw')|float / states('sensor.heatpump_daily_energy')|float*100)|round(1) }}
+        {% else %}
+          100
+        {% endif %}

@@ -3,3 +3,9 @@ motion_bathrooms:
   entities:
     - binary_sensor.motion_bathroom_downstairs_occupancy
     - binary_sensor.motion_bathroom_upstairs_occupancy
+
+motion_parking:
+  name: "Rörelse på parkering/lada/uppfart"
+  entities:
+    - input_boolean.driveway_movement
+    - input_boolean.barn_movement

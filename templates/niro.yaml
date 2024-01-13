@@ -3,7 +3,7 @@
       unique_id: d5f7595c-397c-4d17-aede-9057a6f82972
       unit_of_measurement: mil
       state: >
-        {% set d = (as_timestamp(now()) - as_timestamp("2022-10-12 00:00:00") ) | timestamp_custom("%j")| int %}
+        {% set d = ((as_timestamp(now()) - as_timestamp("2022-10-12 00:00:00")) / 86400) | int %}
         {% set odo = (states('sensor.niro_odometer')|int/10)|int %}
         {% set limit = 1500/365 %}
         {% set cur = d*limit|int %}

@@ -80,6 +80,14 @@
               entity_id: input_boolean.house_vvc
 
       - conditions:
+          - alias: "when spot price is too high"
+            condition: numeric_state
+            entity_id: input_number.electricity_price_level
+            above: 3
+        sequence:
+          - *turn_off_vvc
+
+      - conditions:
           - alias: "when preheat is active"
             condition: state
             entity_id: input_boolean.house_vvc_preheat

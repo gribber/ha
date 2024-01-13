@@ -1,0 +1,64 @@
+- alias: "Spot price change"
+  id: 0fc03d6f-62ca-4a0f-b8a6-52873e84d2d5
+  trace:
+    stored_traces: 25
+  mode: single
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - sensor.nordpool_se2
+
+  action:
+    - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id:
+              - sensor.nordpool_se2
+            above: 2.5
+        sequence:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.electricity_price_level
+            data:
+              value: 5
+
+      - conditions:
+          - condition: numeric_state
+            entity_id:
+              - sensor.nordpool_se2
+            above: 1.5
+        sequence:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.electricity_price_level
+            data:
+              value: 4
+
+      - conditions:
+          - condition: numeric_state
+            entity_id:
+              - sensor.nordpool_se2
+            above: 0.5
+        sequence:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.electricity_price_level
+            data:
+              value: 3
+
+      default:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.electricity_price_level
+          data:
+            value: 2
+
+

@@ -51,6 +51,57 @@
           entity_id: input_boolean.driveway_movement
 
 
+- alias: "Movement: barn"
+  id: eca6bdb4-acd6-4238-a307-3edaa4ac3bd4
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      id: movement
+      entity_id:
+        - binary_sensor.motion_barn_occupancy
+      from: "off"
+      to: "on"
+
+    - platform: state
+      entity_id:
+        - binary_sensor.motion_barn_occupancy
+      from: "on"
+      to: "off"
+      for:
+        minutes: 1
+
+  condition: []
+
+  action:
+    choose:
+      - alias: "activate movement mode"
+        conditions:
+          - alias: "when movement is detected at driveway"
+            condition: trigger
+            id: "movement"
+
+        sequence:
+          - alias: "turn on helper"
+            service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.barn_movement
+            
+
+
+    default:
+      - alias: "turn off helper"
+        service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.barn_movement
 
 
 - alias: "Movement: front"

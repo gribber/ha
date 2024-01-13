@@ -18,10 +18,18 @@
       choose:
         - alias: "Turn on"
           conditions:
-            - alias: "when we are detected as away"
-              condition: state
-              entity_id: group.family
-              state: "not_home"
+            - not:
+              - or:
+                - alias: "when we are detected as away"
+                  condition: state
+                  entity_id: 
+                    - group.family
+                  state: "home"
+                - alias: "when guests are detected as away"
+                  condition: state
+                  entity_id: 
+                    - group.guests
+                  state: "home"
           sequence:
             - alias: "Turn on away mode"
               service: input_boolean.turn_on

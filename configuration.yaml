@@ -3,6 +3,7 @@ homeassistant:
   packages: !include_dir_named packages
 
 default_config:
+bluetooth:
 
 # integrations
 #browser_mod: !include integrations/browser_mod.yaml

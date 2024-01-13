@@ -9,6 +9,20 @@
   action:
     - choose:
         - conditions:
+            - alias: "when spot price is too high"
+              condition: numeric_state
+              entity_id: input_number.electricity_price_level
+              above: 3
+          sequence:
+            - service: notify.castle_log
+              data:
+                title: "Duschen"
+                message: "Någon har duschat, men för dyr el för att starta golvvärmen!"
+            - service: switch.turn_off
+              target:
+                entity_id: switch.laundry_room_channel_2
+
+        - conditions:
             condition: state
             entity_id:
               - switch.laundry_room_channel_2

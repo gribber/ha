@@ -1,0 +1,21 @@
+- sensor:
+    - name: "coffee_maker_state"
+      unique_id: f1b1a0d6-1ee5-4951-9fbd-825ddd12a863
+      state: >
+        {% set p = states('sensor.coffee_plug_power')|int %}
+        {% if (p < 1) %}
+          off
+        {% elif (p < 20) %}
+          idle
+        {% elif (p > 1280) and (p < 1360) %}
+          heating
+        {% elif (p > 1470) and (p < 1550) %}
+          brewing
+        {% else %}
+          unknown
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.coffee_plug_power') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}

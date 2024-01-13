@@ -1,0 +1,45 @@
+- alias: "waze: announce arrival time"
+  id: 9d40e5cb-f8fb-45e3-87d8-dd848b670bb9
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: zone
+      entity_id:
+        - person.bella
+      zone: zone.hemmets_hus
+      event: leave
+
+    - platform: zone
+      entity_id:
+        - person.linus
+      zone: zone.norra_berget
+      event: leave
+
+    - platform: zone
+      entity_id:
+        - person.bella
+      zone: zone.hemmets_hus
+      event: enter
+
+  variables:
+    event: "{{ 'lämnade' if trigger.event == 'leave' else 'kom fram till' }}"
+    person: "{{ trigger.to_state.attributes.friendly_name }}"
+    sensor: "sensor.{{trigger.to_state.attributes.id}}_waze_travel_time"
+    zone: "{{ trigger.zone.attributes.friendly_name }}"
+  action:
+    - if: "{{ trigger.event == 'leave' }}"
+      then:
+        - variables:
+            arrival: >
+              {% set t = states(sensor)|int %}
+              {{ (now().timestamp() + (t*60)) | timestamp_custom('%H:%M') }}
+        - service: notify.castle_log
+          data:
+            title: "Resa"
+            message: "{{person}} {{event}} {{zone}} (kommer vara hemma ungefär {{arrival}})"
+      else:
+        - service: notify.castle_log
+          data:
+            title: "Resa"
+            message: "{{person}} {{event}} {{zone}}"
