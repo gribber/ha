@@ -80,3 +80,47 @@
       default:
         - *notif_remove
         - *notif_phone_remove
+
+- alias: "Boiler room: heatpump select circuit for utility meters"
+  id: 20a9b1ed-82fb-4207-9e38-47e5483bb15a
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: state
+      id: hotwater
+      entity_id:
+        - sensor.ctc_hw_heating
+
+  condition: []
+
+  # variables:
+  #   anchors:
+  #     - &meters
+  #       service: select.select_option
+  #       target:
+  #         entity_id:
+  #           - select.heatpump_circuit_daily_energy
+  #           - select.heatpump_circuit_weekly_energy
+  #           - select.heatpump_circuit_monthly_energy
+  #           - select.heatpump_circuit_yearly_energy
+  #           - select.heatpump_circuit_energy
+  #       data:
+  #         option: "{{ 'for_hw' if is_state('sensor.ctc_hw_heating', '1') else 'for_hs' }}"
+
+  action:
+    - service: select.select_option
+      target:
+        entity_id:
+          - select.heatpump_circuit_daily_energy
+          - select.heatpump_circuit_weekly_energy
+          - select.heatpump_circuit_monthly_energy
+          - select.heatpump_circuit_yearly_energy
+          - select.heatpump_circuit_energy
+      data:
+        option: "{{ 'for_hw' if is_state('sensor.ctc_hw_heating', '1') else 'for_hs' }}"

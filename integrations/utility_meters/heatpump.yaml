@@ -18,3 +18,43 @@ heatpump_montly_energy:
   unique_id: bacf32fe-dd9e-4621-8d51-0d2ac7b42bff
   source: sensor.heatpump_energy
   cycle: monthly
+
+# separate sensors for heat system and hot water
+heatpump_circuit_daily_energy:
+  unique_id: feb50224-afd4-473d-802b-5effeca340e7
+  source: sensor.heatpump_energy
+  cycle: daily
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_circuit_weekly_energy:
+  unique_id: c596a89a-27e2-4825-bea7-57bc673f06f9
+  source: sensor.heatpump_energy
+  cycle: weekly
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_circuit_monthly_energy:
+  unique_id: 7a8d4e5f-f3c5-483f-971f-ce9da41e618b
+  source: sensor.heatpump_energy
+  cycle: monthly
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_circuit_yearly_energy:
+  unique_id: 07afe773-2436-4e5e-81aa-70bfa8017769
+  source: sensor.heatpump_energy
+  cycle: yearly
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_circuit_energy:
+  unique_id: 3dd398d1-f595-4788-8442-71543de22707
+  source: sensor.heatpump_energy
+  tariffs:
+    - for_hs
+    - for_hw
