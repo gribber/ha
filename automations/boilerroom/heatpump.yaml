@@ -95,7 +95,7 @@
     - platform: state
       id: hotwater
       entity_id:
-        - sensor.ctc_hw_heating
+        - sensor.ctc_status
 
   condition: []
 
