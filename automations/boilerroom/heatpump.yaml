@@ -123,4 +123,4 @@
           - select.heatpump_circuit_yearly_energy
           - select.heatpump_circuit_energy
       data:
-        option: "{{ 'for_hw' if is_state('sensor.ctc_hw_heating', '1') else 'for_hs' }}"
+        option: "{{ 'for_hw' if is_state('sensor.ctc_status', '5') else 'for_hs' }}"
