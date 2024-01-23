@@ -1,0 +1,38 @@
+- sensor:
+    - name: "open_doors"
+      unique_id: 4c98083a-2616-4919-bb57-ce989e86df56
+      # until variables are supported in templates, state and attribute code are duplicated below
+      state: >
+        {% set ignore = '(niro_|_bsh_|rat_trap|mailbox)' %}
+        {% set doors = 
+          states.binary_sensor
+            |selectattr('attributes.device_class', 'eq', 'door')
+            |rejectattr('entity_id', 'search', ignore)
+            |map(attribute='entity_id')
+            |list 
+        %}
+        {% set doorsopen = 
+          states.binary_sensor
+            |selectattr('entity_id', 'in', doors)
+            |selectattr('state', 'eq', 'on')
+            |list
+            |count 
+        %}
+        {{doorsopen}}
+      attributes:
+        open: >
+          {% set ignore = '(niro_|_bsh_|rat_trap|mailbox)' %}
+          {% set doors = 
+            states.binary_sensor
+              |selectattr('attributes.device_class', 'eq', 'door')
+              |rejectattr('entity_id', 'search', ignore)
+              |map(attribute='entity_id')
+              |list 
+          %}
+          {{ states.binary_sensor|selectattr('entity_id', 'in', doors)| selectattr('state', 'eq', 'on')|map(attribute='name')|join(', ')}}
+
+      availability: >
+        {{ not (
+          [ states('sensor.coffee_plug_power') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
