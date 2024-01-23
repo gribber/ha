@@ -1,3 +1,19 @@
+- alias: "House: door update trigger"
+  id: 3daa6225-7b3d-4c85-9353-5cf4a482e9f7
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_away
+      from: "off"
+      to: "on"
+
+  action:
+    - service: button.press
+      target:
+        entity_id: button.front_door_wake
+
+
+
 - alias: "House: door"
   id: a0dd5741-07ea-4c5c-99ee-b94fe07b755e
   trace:
@@ -10,6 +26,8 @@
         - input_boolean.house_mode_away
       from: "off"
       to: "on"
+      for:
+        minutes: 1
 
   variables:
     action_lock: "{{ 'LOCK_' ~ trigger.context_id }}"
