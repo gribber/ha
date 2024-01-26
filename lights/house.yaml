@@ -1,0 +1,16 @@
+- platform: group
+  name: lights to turn off while away
+  unique_id: e68d5549-bdd2-4c27-9613-91d169ddb288
+  entities:
+    - light.kitchen_island_1
+    - light.kitchen_island_2
+    - light.kitchen_table
+    - light.livingroom_front_1
+    - light.livingroom_front_2
+    - light.livingroom_front_3
+    - light.livingroom_front_4
+    - light.livingroom_back_1
+    - light.livingroom_back_2
+    - light.livingroom_back_3
+    - light.livingroom_back_4
+    - light.bedroom_ceiling
