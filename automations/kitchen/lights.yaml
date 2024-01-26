@@ -24,8 +24,9 @@
         - input_datetime.time_goodnight
 
     - platform: state
-      id: night
+      id: nightaway
       entity_id:
+        - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
       from: "off"
       to: "on"
@@ -93,6 +94,20 @@
                       entity_id: light.kitchen_bench
 
       - conditions:
+          - condition: trigger
+            # when night/away mode is active
+            id: nightaway
+        sequence:
+          - service: light.turn_off
+            # turn of regular lights
+            target:
+              entity_id:
+                - light.kitchen_sink
+                - light.kitchen_table
+                - light.kitchen_bench
+                - light.kitchen_island
+
+      - conditions:
           - condition: state
             # when there is daylight
             entity_id:
@@ -110,20 +125,6 @@
                 - light.kitchen_bench
             data:
               transition: 5
-
-      - conditions:
-          - condition: trigger
-            # when night mode is active
-            id: night
-        sequence:
-          - service: light.turn_off
-            # turn of regular lights
-            target:
-              entity_id:
-                - light.kitchen_sink
-                - light.kitchen_table
-                - light.kitchen_bench
-                - light.kitchen_island
 
       - conditions:
           - condition: or
