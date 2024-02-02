@@ -20,7 +20,7 @@
     light.livingroom_window_1:
       state: *state
       brightness: *brightness
-      color_temp: *color_temp
+      color_temp_kelvin: &color_temp_kelvin 2600
 
 - name: "family room window lights cozy"
   id: 0e8b1afd-7c68-4b77-82a3-02cc52a4aa90
@@ -28,7 +28,7 @@
     light.family_room_window_1:
       state: *state
       brightness: *brightness
-      color_temp: *color_temp
+      color_temp_kelvin: *color_temp_kelvin
 
 - name: "laundry room window lights cozy"
   id: 9587977a-f56e-440a-88fe-c76e37b4840b
