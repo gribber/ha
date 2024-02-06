@@ -1,0 +1,4 @@
+- platform: skolmat
+  name: "tallnas_forskola"
+  #url: "https://skolmaten.se/about/rss/tallnas-forskola/"
+  url: "https://skolmaten.se/tallnas-forskola/rss/weeks/"
