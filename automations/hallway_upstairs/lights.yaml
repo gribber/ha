@@ -15,23 +15,52 @@
         - input_boolean.house_mode_bright_inside
 
     - platform: time
-      at: 
+      at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
-      
-  action:
-      choose:
-      - conditions:
 
-        - condition: state
-          # when there is daylight
-          entity_id:
-            - input_boolean.house_mode_bright_inside
-          state: "on"
+    - platform: state
+      id: "no_movement"
+      entity_id:
+        - binary_sensor.motion_hallway_upstairs_occupancy
+      from: "on"
+      to: "off"
+      for:
+        minutes: 5
+
+    - platform: state
+      id: night_or_away
+      entity_id:
+        - input_boolean.house_mode_sleep
+        - input_boolean.house_mode_away
+      from: "off"
+      to: "on"
+
+  action:
+    choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - "no_movement"
+              - "night_or_away"
+        sequence:
+          - &turn_off_ceiling
+            service: light.turn_off
+            target:
+              entity_id:
+                - light.hallen_uppe
+            data:
+              transition: 5
+
+      - conditions:
+          - condition: state
+            # when there is daylight
+            entity_id:
+              - input_boolean.house_mode_bright_inside
+            state: "on"
 
         sequence:
-          - &turn_off
-            # turn off lights
+          - &turn_off_window # turn off lights
             service: light.turn_off
             target:
               entity_id:
@@ -40,16 +69,16 @@
               transition: 5
 
       - conditions:
-        - condition: or
-          conditions:
-          - condition: and
-            # turn on lights if 
+          - condition: or
             conditions:
-              - condition: time
-                # at specific time in the morning
-                after: input_datetime.time_goodmorning
-                # but before a specific time in the evening
-                before: input_datetime.time_goodnight
+              - condition: and
+                # turn on lights if
+                conditions:
+                  - condition: time
+                    # at specific time in the morning
+                    after: input_datetime.time_goodmorning
+                    # but before a specific time in the evening
+                    before: input_datetime.time_goodnight
 
         sequence:
           - &scene_turn_on
@@ -58,5 +87,5 @@
               entity_id:
                 - scene.hallway_upstairs_window_lights_cozy
 
-      default:
-        - *turn_off
+    default:
+      - *turn_off_window

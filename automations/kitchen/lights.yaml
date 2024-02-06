@@ -78,7 +78,6 @@
                     target:
                       entity_id:
                         - light.kitchen_table
-                        - light.kitchen_table_filament
 
               - alias: "small pressed"
                 conditions: "{{ action in ['off'] }}"
