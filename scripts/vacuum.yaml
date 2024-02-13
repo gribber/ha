@@ -1,0 +1,19 @@
+ralph_clean_room:
+  alias: "Ralph clean specific room"
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_segment
+      target:
+        entity_id: vacuum.vac_it_ralph
+      data:
+        segments: >
+          {% if states('input_select.ralph_rooms') == 'Sovrummet' %}
+            16
+          {% elif states('input_select.ralph_rooms') == 'Gästrummet' %}
+            17
+          {% elif states('input_select.ralph_rooms') == 'Hallen' %}
+            18
+          {% elif states('input_select.ralph_rooms') == 'Tvättstugan' %}
+            19
+          {% elif states('input_select.ralph_rooms') == 'Kontoret' %}
+            20
+          {% endif %}
