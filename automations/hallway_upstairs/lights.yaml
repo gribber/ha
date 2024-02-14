@@ -36,8 +36,36 @@
       from: "off"
       to: "on"
 
+    - platform: state
+      id: remote
+      entity_id:
+        - sensor.remote_hallway_upstairs_1_action
+
   action:
     choose:
+      - conditions:
+          - condition: trigger
+            id: remote
+        sequence:
+          - variables:
+              action: "{{ trigger.to_state.state }}"
+
+          - choose:
+              - alias: "on pressed"
+                conditions: "{{ action in ['on'] }}"
+                sequence:
+                  - service: light.toggle
+                    target:
+                      entity_id:
+                        - light.hallway_upstairs_2
+
+              - alias: "off pressed"
+                conditions: "{{ action in ['off'] }}"
+                sequence:
+                  - service: light.toggle
+                    target:
+                      entity_id: light.hallway_upstairs_1
+
       - conditions:
           - condition: trigger
             id:
