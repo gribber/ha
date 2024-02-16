@@ -103,7 +103,6 @@
               entity_id:
                 - light.kitchen_sink
                 - light.kitchen_table
-                - light.kitchen_bench
                 - light.kitchen_island
 
       - conditions:

@@ -54,17 +54,38 @@
               - alias: "on pressed"
                 conditions: "{{ action in ['on'] }}"
                 sequence:
-                  - service: light.toggle
-                    target:
-                      entity_id:
-                        - light.hallway_upstairs_2
+                  - choose:
+                      - conditions: "{{ states('light.hallway_upstairs_2') == 'off' }}"
+                        sequence:
+                          - service: light.turn_on
+                            target:
+                              entity_id:
+                                - light.hallway_upstairs_2
+                            data:
+                              brightness: 255
+                    default:
+                      - service: light.turn_off
+                        target:
+                          entity_id:
+                            - light.hallway_upstairs_2
 
               - alias: "off pressed"
                 conditions: "{{ action in ['off'] }}"
                 sequence:
-                  - service: light.toggle
-                    target:
-                      entity_id: light.hallway_upstairs_1
+                  - choose:
+                      - conditions: "{{ states('light.hallway_upstairs_1') == 'off' }}"
+                        sequence:
+                          - service: light.turn_on
+                            target:
+                              entity_id:
+                                - light.hallway_upstairs_1
+                            data:
+                              brightness: 255
+                    default:
+                      - service: light.turn_off
+                        target:
+                          entity_id:
+                            - light.hallway_upstairs_1
 
       - conditions:
           - condition: trigger
@@ -76,7 +97,8 @@
             service: light.turn_off
             target:
               entity_id:
-                - light.hallen_uppe
+                - light.hallway_upstairs_1
+                - light.hallway_upstairs_2
             data:
               transition: 5
 
