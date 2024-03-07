@@ -49,7 +49,6 @@ ctek_yearly_cost:
   source: sensor.ctek_price
   cycle: yearly
 
-
 # ctek_total_cost2a:
 #   unique_id: e5fd3809-12ec-4f29-b024-9503710b47ae
 #   net_consumption: true
@@ -105,3 +104,91 @@ solar_self_consumption_yearly_cost:
 solar_self_consumption_cost:
   unique_id: b20665a7-408c-4bb8-9fe8-15fa60b66e6b
   source: sensor.solar_self_consumption_price
+
+# main fuse calculations
+main_fuse_hourly_energy_fuse20:
+  unique_id: 135b616f-d8a3-4568-8ea9-be86593b4f47
+  source: sensor.reimann_fuse20_energy
+  cycle: hourly
+
+main_fuse_hourly_energy_fuse25:
+  unique_id: f03e94b9-576e-460c-bd35-b6cf6a609ef7
+  source: sensor.reimann_fuse25_energy
+  cycle: hourly
+
+main_fuse_daily_energy_fuse20:
+  unique_id: dbcd04f3-6d4e-4c92-af19-7780cc1ec279
+  source: sensor.reimann_fuse20_energy
+  cycle: daily
+
+main_fuse_daily_energy_fuse25:
+  unique_id: cbb08412-a4c7-442d-81d9-569347af660e
+  source: sensor.reimann_fuse25_energy
+  cycle: daily
+
+main_fuse_monthly_energy_fuse20:
+  unique_id: a8f0f237-5e28-470c-b28e-27a2d12fa0ba
+  source: sensor.reimann_fuse20_energy
+  cycle: monthly
+
+main_fuse_monthly_energy_fuse25:
+  unique_id: 7887a24e-c50e-4d27-bcc2-7483bf288eaa
+  source: sensor.reimann_fuse25_energy
+  cycle: monthly
+
+main_fuse_yearly_energy_fuse20:
+  unique_id: 67d6c95a-12d2-4736-8430-b832327c17b4
+  source: sensor.reimann_fuse20_energy
+  cycle: yearly
+
+main_fuse_yearly_energy_fuse25:
+  unique_id: 97f5a4cb-7f0d-4716-a8d5-4acb9389d3cc
+  source: sensor.reimann_fuse25_energy
+  cycle: yearly
+
+main_fuse_energy_fuse20:
+  unique_id: fcfeddca-9fe0-435d-a80d-b8244b89ef11
+  source: sensor.reimann_fuse20_energy
+
+main_fuse_energy_fuse25:
+  unique_id: ab941d6c-104f-49c0-a613-06f955a4e0c9
+  source: sensor.reimann_fuse25_energy
+
+# main fuse revenue calculations
+main_fuse20_daily_revenue:
+  unique_id: 8c8264f3-bfed-480d-9c13-2c187ecf0382
+  source: sensor.fuse20_export_revenue
+  cycle: daily
+
+main_fuse25_daily_revenue:
+  unique_id: 166b4cc9-2c1a-445c-a604-c312bd849084
+  source: sensor.fuse25_export_revenue
+  cycle: daily
+
+main_fuse20_monthly_revenue:
+  unique_id: e66e6812-5377-44eb-8c40-bd7f9526857b
+  source: sensor.fuse20_export_revenue
+  cycle: monthly
+
+main_fuse25_monthly_revenue:
+  unique_id: c11eef3c-285b-4e7f-85cb-c4759d2c422c
+  source: sensor.fuse25_export_revenue
+  cycle: monthly
+
+main_fuse20_yearly_revenue:
+  unique_id: a1f5e1a2-bc96-41f5-8782-2b48830cd4e7
+  source: sensor.fuse20_export_revenue
+  cycle: yearly
+
+main_fuse25_yearly_revenue:
+  unique_id: e428d2eb-d86d-4e52-b90d-2c3aa3bb7d28
+  source: sensor.fuse25_export_revenue
+  cycle: yearly
+
+main_fuse20_revenue:
+  unique_id: 845a321e-57fb-4aa5-a6c4-9799764940b6
+  source: sensor.fuse20_export_revenue
+
+main_fuse25_revenue:
+  unique_id: 7aa9aaf6-c4bb-4dce-9ff2-e3410767c614
+  source: sensor.fuse25_export_revenue

@@ -69,7 +69,7 @@
     - name: "solar_self_consumption_price"
       unique_id: 8d8409b3-e155-4b29-8493-efcc9ddbf0e6
       unit_of_measurement: SEK
-#      state_class: total_increasing
+      #      state_class: total_increasing
       state: >
         {% if is_number(states('sensor.solar_meter_self_consumption_hourly_energy')) and is_number(states('sensor.electricity_price_total')) %}
           {{ (states('sensor.solar_meter_self_consumption_hourly_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
@@ -93,3 +93,24 @@
           | select('equalto', ['unknown', 'unavailable', 'none']) 
           | list) }}
 
+    - name: "fuse25_export_revenue"
+      unique_id: b8ca3b0b-c68d-4d0b-96ba-d42c2fc0d938
+      unit_of_measurement: SEK
+      state: >
+        {{ (states('sensor.main_fuse_hourly_energy_fuse25')|float(0) * states('sensor.electricity_price_without_vat')|float(0))|round(2) }}
+      availability: >
+        {{ not (
+          [ states('sensor.main_fuse_hourly_energy_fuse25'), states('sensor.electricity_price_without_vat') ]
+          | select('equalto', ['unknown', 'unavailable', 'none'])
+          | list) }}
+
+    - name: "fuse20_export_revenue"
+      unique_id: aeb108ab-6ed6-4a9b-bea4-a8795b79af2f
+      unit_of_measurement: SEK
+      state: >
+        {{ (states('sensor.main_fuse_hourly_energy_fuse20')|float(0) * states('sensor.electricity_price_without_vat')|float(0))|round(2) }}
+      availability: >
+        {{ not (
+          [ states('sensor.main_fuse_hourly_energy_fuse20'), states('sensor.electricity_price_without_vat') ]
+          | select('equalto', ['unknown', 'unavailable', 'none'])
+          | list) }}

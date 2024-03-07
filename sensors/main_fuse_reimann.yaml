@@ -1,0 +1,9 @@
+- platform: integration
+  name: reimann_fuse20_energy
+  source: sensor.export_power_below_20a
+  unit_prefix: k
+
+- platform: integration
+  name: reimann_fuse25_energy
+  source: sensor.export_power_above_20a
+  unit_prefix: k
