@@ -2,17 +2,37 @@
   id: 3daa6225-7b3d-4c85-9353-5cf4a482e9f7
   trigger:
     - platform: state
+      id: away
       entity_id:
         - input_boolean.house_mode_away
       from: "off"
       to: "on"
 
+    - platform: time_pattern
+      id: schedule
+      minutes: "1"
+
   action:
-    - service: button.press
-      target:
-        entity_id: button.front_door_wake
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: away
+          sequence:
+            - service: button.press
+              target:
+                entity_id: button.front_door_wake
 
-
+        - conditions:
+            - condition: trigger
+              id: schedule
+            - condition: state
+              entity_id:
+                - input_boolean.house_mode_away
+              state: "off"
+          sequence:
+            - service: button.press
+              target:
+                entity_id: button.front_door_wake
 
 - alias: "House: door"
   id: a0dd5741-07ea-4c5c-99ee-b94fe07b755e
@@ -39,7 +59,7 @@
             entity_id:
               - lock.front_door
             state: "unlocked"
-        
+
         sequence:
           - alias: "notify everyone"
             service: notify.family
@@ -51,18 +71,18 @@
                 actions:
                   - action: "{{ action_lock }}"
                     title: "Lås dörren"
-          
+
           - alias: "wait for respons"
             wait_for_trigger:
-            - platform: event
-              event_type: mobile_app_notification_action
-              event_data:
-                action: "{{ action_lock }}"
-                
+              - platform: event
+                event_type: mobile_app_notification_action
+                event_data:
+                  action: "{{ action_lock }}"
+
           - alias: "perform actions"
             choose:
-            - conditions: "{{ wait.trigger.event.data.action == action_lock }}"
-              sequence:
-                - service: lock.lock
-                  target:
-                    entity_id: lock.front_door
+              - conditions: "{{ wait.trigger.event.data.action == action_lock }}"
+                sequence:
+                  - service: lock.lock
+                    target:
+                      entity_id: lock.front_door
