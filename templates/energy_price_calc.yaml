@@ -97,7 +97,11 @@
       unique_id: b8ca3b0b-c68d-4d0b-96ba-d42c2fc0d938
       unit_of_measurement: SEK
       state: >
-        {{ (states('sensor.main_fuse_hourly_energy_fuse25')|float(0) * states('sensor.electricity_price_without_vat')|float(0))|round(2) }}
+        {% if is_number(states('sensor.main_fuse_hourly_energy_fuse25')) and is_number(states('sensor.electricity_price_without_vat')) %}
+          {{ (states('sensor.main_fuse_hourly_energy_fuse25')|float(0) * states('sensor.electricity_price_without_vat')|float(0))|round(2) }}
+        {% else %}
+          None
+        {% endif %}
       availability: >
         {{ not (
           [ states('sensor.main_fuse_hourly_energy_fuse25'), states('sensor.electricity_price_without_vat') ]
@@ -108,7 +112,11 @@
       unique_id: aeb108ab-6ed6-4a9b-bea4-a8795b79af2f
       unit_of_measurement: SEK
       state: >
-        {{ (states('sensor.main_fuse_hourly_energy_fuse20')|float(0) * states('sensor.electricity_price_without_vat')|float(0))|round(2) }}
+        {% if is_number(states('sensor.main_fuse_hourly_energy_fuse20')) and is_number(states('sensor.electricity_price_without_vat')) %}
+          {{ (states('sensor.main_fuse_hourly_energy_fuse20')|float(0) * states('sensor.electricity_price_without_vat')|float(0))|round(2) }}
+        {% else %}
+          None
+        {% endif %}
       availability: >
         {{ not (
           [ states('sensor.main_fuse_hourly_energy_fuse20'), states('sensor.electricity_price_without_vat') ]

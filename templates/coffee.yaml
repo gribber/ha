@@ -7,9 +7,9 @@
           off
         {% elif (p < 20) %}
           idle
-        {% elif (p > 1280) and (p < 1360) %}
+        {% elif (p > 1280) and (p < 1380) %}
           heating
-        {% elif (p > 1470) and (p < 1550) %}
+        {% elif (p > 1450) and (p < 1550) %}
           brewing
         {% else %}
           unknown
