@@ -3,12 +3,14 @@
   type: mean
   round_digits: 1
   entity_ids: &sensors
-    - sensor.outdoor_north_temperature
-    - sensor.outdoor_south_temperature
-    - sensor.outdoor_east_temperature
-    - sensor.outdoor_west_temperature
-    - sensor.motion_driveway_temperature
-    - sensor.motion_barn_temperature
+    # - sensor.outdoor_north_temperature
+    # - sensor.outdoor_south_temperature
+    # - sensor.outdoor_east_temperature
+    # - sensor.outdoor_west_temperature
+    # - sensor.motion_driveway_temperature
+    # - sensor.motion_barn_temperature
+    - sensor.outdoor_ow_west_temperature
+    - sensor.outdoor_ow_north_temperature
 
 - platform: min_max
   name: outdoor_median
@@ -28,8 +30,6 @@
   round_digits: 1
   entity_ids: *sensors
 
-
-
 - platform: filter
   unique_id: 192877a3-2d3a-4016-b35b-0dd97ab290be
   name: "outdoor_min_moving_average"
@@ -37,13 +37,21 @@
   filters:
     - filter: outlier
       window_size: 4
-      radius: 4.0
-      # radius: 2.0
-    # - filter: lowpass
-    #   time_constant: 10
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 10
     - filter: time_simple_moving_average
       window_size: "00:05"
-      precision: 1
+      precision: 2
+    # - filter: outlier
+    #   window_size: 4
+    #   radius: 4.0
+    #   # radius: 2.0
+    # # - filter: lowpass
+    # #   time_constant: 10
+    # - filter: time_simple_moving_average
+    #   window_size: "00:05"
+    #   precision: 1
 
 - platform: filter
   name: "outdoor_min_moving_average_2"
@@ -103,3 +111,16 @@
     - filter: time_simple_moving_average
       window_size: "00:05"
       precision: 1
+
+- platform: filter
+  name: "filtered realistic temperature"
+  entity_id: sensor.outdoor_min
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: "00:05"
+      precision: 2
