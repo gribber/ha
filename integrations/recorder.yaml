@@ -21,6 +21,7 @@ include:
     - sensor
     - vacuum
     - fan
+    - zone
 exclude:
   event_types:
     - call_service
