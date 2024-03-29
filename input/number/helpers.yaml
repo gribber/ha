@@ -48,3 +48,24 @@ mailbox_deliveries:
   name: "Antal postleveranser"
   min: 0
   max: 10
+
+vvc_start:
+  name: "Starttemperatur"
+  min: 20
+  max: 40
+  unit_of_measurement: "°C"
+  icon: "mdi:thermometer-low"
+
+vvc_stop:
+  name: "Stopptemperatur"
+  min: 25
+  max: 45
+  unit_of_measurement: "°C"
+  icon: "mdi:thermometer-high"
+
+vvc_diff:
+  name: "Differential"
+  min: 1
+  max: 10
+  unit_of_measurement: "°C"
+  icon: "mdi:thermometer-chevron-up"

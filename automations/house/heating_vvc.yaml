@@ -1,5 +1,6 @@
 - alias: "House: vvc"
   id: 9108277c-4a52-47f6-8481-32813b096a0f
+  mode: queued
   trace:
     stored_traces: 25
 
@@ -10,51 +11,25 @@
     - platform: event
       event_type:
         - automation_reloaded
-        - scene_reloaded
 
     - platform: state
       entity_id:
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
-
-    # - platform: time
-    #   at: &lunch_start "10:50:00"
-    # - platform: time
-    #   at: &lunch_end "11:30:00"
-    # - platform: time
-    #   at: &dinner_start "16:50:00"
-    # - platform: time
-    #   at: &dinner_end "18:00:00"
-
-    - platform: state
-      id: back_from_workout
-      entity_id:
-        - person.linus
-      to: home
-
-    - platform: state
-      entity_id:
-        - person.linus
-      from: "not_home"
-      to: "home"
-      for:
-        minutes: 5
-
-    - platform: state
-      entity_id:
+        - zone.home
+        - input_number.electricity_price_level
         - input_boolean.house_vvc_preheat
 
-    - platform: time_pattern
-      id: cycle
-      minutes: "/20"
-    
-    - platform: state
-      id: turnoff
-      entity_id:
-        - input_boolean.house_vvc
-      to: "on"
-      for:
-        minutes: &timeout 5
+    - platform: time
+      at:
+        - &time_start "06:00:00"
+        - &time_stop "21:00:00"
+        - &morning_start "06:30:00"
+        - &morning_end "08:00:00"
+        - &lunch_start "10:45:00"
+        - &lunch_end "11:30:00"
+        - &dinner_start "16:30:00"
+        - &dinner_end "18:00:00"
 
   condition: []
 
@@ -99,76 +74,34 @@
             target:
               entity_id: input_boolean.house_vvc
 
-      # - conditions:
-      #     - alias: "when entering a bathroom"
-      #       condition: trigger
-      #       id: movement
-      #   sequence:
-      #     #- *turn_on_vvc
-      #     # dummy
-      #     - delay:
-      #         milliseconds: 1
-
-      # - conditions:
-      #     - alias: "if the time is"
-      #       condition: or
-      #       conditions:
-      #         - alias: "during lunch"
-      #           condition: time
-      #           after: *lunch_start
-      #           before: *lunch_end
-      #         - alias: "during dinner"
-      #           condition: time
-      #           after: *dinner_start
-      #           before: *dinner_end
-      #   sequence:
-      #     #          - *turn_on_vvc
-      #     # dummy
-      #     - delay:
-      #         milliseconds: 1
-
-      - conditions:
-          - alias: "when vvc has been on for <timeout>"
-            condition: trigger
-            id: turnoff
-
+      - conditions: "{{ (states('zone.home')|int > 0 and state_attr('zone.home', 'persons')[0] == 'person.linus') }}"
+        # if i'm the only one at home
         sequence:
-          - *turn_off_vvc
+          - choose:
+              - conditions:
+                  - condition: or
+                    conditions:
+                      - condition: time
+                        after: *morning_start
+                        before: *morning_end
+                      - condition: time
+                        after: *lunch_start
+                        before: *lunch_end
+                      - condition: time
+                        after: *dinner_start
+                        before: *dinner_end
+                sequence:
+                  - *turn_on_vvc
+            default:
+              - *turn_off_vvc
 
       - conditions:
-          - alias: "when getting back from workout"
-            condition: and
-            conditions:
-              - alias: "if I just got back home"
-                condition: trigger
-                id: back_from_workout
-              - alias: "and time is between"
-                condition: time
-                after: "19:15:00"
-                before: "20:00:00"
-                weekday:
-                  - tue
-                  - thu
-
+          - condition: time
+            # quickfix until a proper way to determine if we are sleeping or not is in place
+            after: *time_start
+            before: *time_stop
         sequence:
           - *turn_on_vvc
-
-      - conditions:
-          condition: and
-          conditions:
-            - condition: trigger
-              id: cycle
-            - condition: time
-              # quickfix until a proper way to determine if we are sleeping or not is in place
-              after: "06:30:00"
-              before: "21:00:00"
-
-        sequence:
-          - *turn_on_vvc
-          # - delay:
-          #     # also quickfix, until I measure incoming hot water
-          #     minutes: 5
-          # - *turn_off_vvc
 
     default:
       - *turn_off_vvc
@@ -183,13 +116,31 @@
     - platform: event
       event_type:
         - automation_reloaded
-        - scene_reloaded
 
     - platform: state
       entity_id:
         - input_boolean.house_vvc
         - input_boolean.house_vvc_block
         - input_boolean.boilerroom_manual_mode
+        - input_number.vvc_stop
+        #- input_number.vvc_start
+        - input_number.vvc_diff
+
+    - platform: numeric_state
+      id: vvc_start
+      entity_id:
+        - sensor.wardrobe_house_hot_water_supply
+      #below: input_number.vvc_start
+      below: 0
+      value_template: >
+        {% set offset = states('input_number.vvc_stop')|float(0) - states('input_number.vvc_diff')|float(0) %}
+        {{ states('sensor.wardrobe_house_hot_water_supply')|float(0) - offset }}
+
+    - platform: numeric_state
+      id: vvc_stop
+      entity_id:
+        - sensor.wardrobe_house_hot_water_supply
+      above: input_number.vvc_stop
 
   condition: []
 
@@ -223,14 +174,24 @@
               state: "off"
 
         sequence:
-          service: switch.turn_on
-          target:
-            entity_id: switch.vvc_pump
+          - choose:
+              - conditions:
+                  - condition: numeric_state
+                    entity_id:
+                      - sensor.wardrobe_house_hot_water_supply
+                    below: input_number.vvc_stop
+                sequence:
+                  service: switch.turn_on
+                  target:
+                    entity_id: switch.vvc_pump
+            default:
+              - &turn_off_pump
+                service: switch.turn_off
+                target:
+                  entity_id: switch.vvc_pump
 
     default:
-      service: switch.turn_off
-      target:
-        entity_id: switch.vvc_pump
+      - *turn_off_pump
 
 - alias: "House: vvc preheat"
   id: d7bb04cd-922f-4515-8eba-90c59f2e37c8
