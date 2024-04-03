@@ -23,7 +23,7 @@
       state: >
         {% set export = states('sensor.momentary_active_export')|float * 1000 %}
         {% if export > 14000 %}
-          14000
+          14000.0{{ range(1, 99) | random }}
         {% else %}
           {{ export }}
         {% endif %}
