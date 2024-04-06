@@ -235,7 +235,7 @@
       device_class: monetary
       unit_of_measurement: "SEK/kWh"
       state: >
-        {{ 'none' if states('sensor.ctc_elspot_integer')|int == 32767 else (states('sensor.ctc_elspot_integer')|int(0) + states('sensor.ctc_elspot_decimals')|float(0)) }}
+        {{ 'none' if (states('sensor.ctc_elspot_integer')|int == 32767 or states('sensor.ctc_elspot_decimals')|float == 3.2767) else (states('sensor.ctc_elspot_integer')|int(0) + states('sensor.ctc_elspot_decimals')|float(0)) }}
       availability: >
         {{ not (
           [ states('sensor.ctc_elspot_integer'), states('sensor.ctc_elspot_decimals') ] 
