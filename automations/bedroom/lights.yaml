@@ -18,7 +18,7 @@
         - sensor.bedroom_remote_right_action
         - sensor.bedroom_remote_left_action
         - sensor.bedroom_remote_wall_action
-      from: 
+      from:
         - "none"
         - "None"
         - ""
@@ -30,17 +30,17 @@
         - input_boolean.house_mode_bright_inside
         - input_boolean.bedroom_nightlight
 
-    # - platform: state
-    #   id: lights
-    #   entity_id:
-    #     - light.bedroom_ceiling
-    #     - light.bedroom_left
-    #     - light.bedroom_right
-    #     - light.hallway_upstairs_wall
+    - platform: state
+      id: auto_off
+      entity_id:
+        - binary_sensor.presence_bedroom_occupancy
+      to: "off"
+      for:
+        minutes: 10
 
     - platform: time
       id: reset
-      at: 
+      at:
         - input_datetime.house_reset_settings
         - input_datetime.house_reset_settings_day
 
@@ -75,17 +75,27 @@
                   entity_id: input_boolean.house_mode_away
                   state: "on"
 
-          #       - condition: state
-          #         # when sleeping
-          #         entity_id: input_boolean.house_mode_sleep
-          #         state: "on"
-
           sequence:
             - *turn_off_manual_mode
             - &turn_off # turn off lights
               service: light.turn_off
               target:
                 area_id: "{{ area_id('Sovrummet') }}"
+              data:
+                transition: 5
+
+        - conditions:
+            - condition: trigger
+              id: auto_off
+            - condition: state
+              entity_id:
+                - light.bedroom_ceiling
+              state: "on"
+          sequence:
+            - *turn_off_manual_mode
+            - service: light.turn_off
+              target:
+                entity_id: light.bedroom_ceiling
               data:
                 transition: 5
 

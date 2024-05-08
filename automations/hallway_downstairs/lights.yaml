@@ -120,10 +120,12 @@
                 # turn on lights if
                 conditions:
                   - condition: time
-                    # at specific time in the morning
                     after: input_datetime.time_goodmorning
-                    # but before a specific time in the evening
                     before: input_datetime.time_goodnight
+                  - condition: state
+                    entity_id:
+                      - input_boolean.house_mode_bright_hallway
+                    state: "off"
 
         sequence:
           - &scene_turn_on
