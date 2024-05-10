@@ -49,6 +49,7 @@
         {% if grid_import > 0 and ctek > 0 %}
           {% if ctek_import > 0 %}
             {% set new = (ctek_import * states('sensor.electricity_price_total')|float)|round(2) %}
+            {# new - old_state (cost in SEK) should not change much, updates like every 10th second, for 11kW that means 0.03kWh*electricity price #}
             {% if new > states('sensor.ctek_price_import')|float(0) and (new - states('sensor.ctek_price_import')|float(0) < 1) %}
               {{ new }}
             {% else %}
