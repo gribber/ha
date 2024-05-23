@@ -318,7 +318,7 @@ solar_sso_21090135_yearly_energy:
   source: sensor.ferroamp_xl28_sso_21090135_total_energy
   cycle: yearly
 
-# sso south 45
+# sso west 32
 solar_sso_21090071_hourly_energy:
   unique_id: 460895be-25a0-4d67-84ba-39702722daf8
   source: sensor.ferroamp_xl28_sso_21090071_total_energy
@@ -342,4 +342,111 @@ solar_sso_21090071_monthly_energy:
 solar_sso_21090071_yearly_energy:
   unique_id: 7928aff4-4c87-4417-8b37-17eba91a1881
   source: sensor.ferroamp_xl28_sso_21090071_total_energy
+  cycle: yearly
+
+###
+# per panel production
+###
+# sso east 32
+solar_sso_22010644_panel_hourly_energy:
+  unique_id: 362d5aeb-b80c-459b-8092-66aec273eeae
+  source: sensor.ferroamp_sso_east32_panel_energy
+  cycle: hourly
+
+solar_sso_22010644_panel_daily_energy:
+  unique_id: de14624c-afd9-4c17-a150-2881f48cddb9
+  source: sensor.ferroamp_sso_east32_panel_energy
+  cycle: daily
+
+solar_sso_22010644_panel_weekly_energy:
+  unique_id: 00e06028-419a-4720-9371-81657ce8be24
+  source: sensor.ferroamp_sso_east32_panel_energy
+  cycle: weekly
+
+solar_sso_22010644_panel_monthly_energy:
+  unique_id: 319f6282-8faa-4afd-9cfb-b17c80383b5b
+  source: sensor.ferroamp_sso_east32_panel_energy
+  cycle: monthly
+
+solar_sso_22010644_panel_yearly_energy:
+  unique_id: 555aae3d-fb48-4471-bed3-7aa6ecf4ae3f
+  source: sensor.ferroamp_sso_east32_panel_energy
+  cycle: yearly
+
+# sso south 32
+solar_sso_21090039_panel_hourly_energy:
+  unique_id: caa21d9d-a221-4040-9edc-0f9599142fec
+  source: sensor.ferroamp_sso_south32_panel_energy
+  cycle: hourly
+
+solar_sso_21090039_panel_daily_energy:
+  unique_id: 0784c1ae-eb2f-4651-acad-8d70a923ff84
+  source: sensor.ferroamp_sso_south32_panel_energy
+  cycle: daily
+
+solar_sso_21090039_panel_weekly_energy:
+  unique_id: a1921f08-ade6-45c3-8550-594ba5feaa11
+  source: sensor.ferroamp_sso_south32_panel_energy
+  cycle: weekly
+
+solar_sso_21090039_panel_monthly_energy:
+  unique_id: eb76f39c-e56f-4f6c-91e7-28e2a3b3984f
+  source: sensor.ferroamp_sso_south32_panel_energy
+  cycle: monthly
+
+solar_sso_21090039_panel_yearly_energy:
+  unique_id: 3503e7fc-4788-476a-95bc-d90c3a377939
+  source: sensor.ferroamp_sso_south32_panel_energy
+  cycle: yearly
+
+# sso south 45
+solar_sso_21090135_panel_hourly_energy:
+  unique_id: 540dc829-1f20-43c2-96f2-3af6ef5e4647
+  source: sensor.ferroamp_sso_south45_panel_energy
+  cycle: hourly
+
+solar_sso_21090135_panel_daily_energy:
+  unique_id: 11ba995e-f894-46c8-90f8-7aacd4558742
+  source: sensor.ferroamp_sso_south45_panel_energy
+  cycle: daily
+
+solar_sso_21090135_panel_weekly_energy:
+  unique_id: 6230b439-1528-46ff-87d2-2ec2308ff1fb
+  source: sensor.ferroamp_sso_south45_panel_energy
+  cycle: weekly
+
+solar_sso_21090135_panel_monthly_energy:
+  unique_id: 172741f7-8a09-42d8-bf4b-dea02b1480e6
+  source: sensor.ferroamp_sso_south45_panel_energy
+  cycle: monthly
+
+solar_sso_21090135_panel_yearly_energy:
+  unique_id: 12f27975-2be8-4e80-b021-28777ec94bab
+  source: sensor.ferroamp_sso_south45_panel_energy
+  cycle: yearly
+
+# sso west 32
+solar_sso_21090071_panel_hourly_energy:
+  unique_id: 78328afd-7fc3-4d3b-891d-5bb287b6080a
+  source: sensor.ferroamp_sso_west32_panel_energy
+  cycle: hourly
+
+solar_sso_21090071_panel_daily_energy:
+  unique_id: 531c003c-71b3-4995-a556-b9e2cbedfa0b
+  source: sensor.ferroamp_sso_west32_panel_energy
+  cycle: daily
+
+solar_sso_21090071_panel_weekly_energy:
+  unique_id: 17ebc51b-2d9a-4539-b41a-92c9dfd0409a
+  source: sensor.ferroamp_sso_west32_panel_energy
+  cycle: weekly
+
+solar_sso_21090071_panel_monthly_energy:
+  unique_id: 92fe530a-1871-4355-8d72-2cdbd7e39349
+  source: sensor.ferroamp_sso_west32_panel_energy
+  cycle: monthly
+
+solar_sso_21090071_panel_yearly_energy:
+  unique_id: dd3ab4ac-5140-4a37-88de-aacadf299bc0
+  source: sensor.ferroamp_sso_west32_panel_energy
   cycle: yearly

@@ -192,3 +192,100 @@ main_fuse20_revenue:
 main_fuse25_revenue:
   unique_id: 7aa9aaf6-c4bb-4dce-9ff2-e3410767c614
   source: sensor.fuse25_export_revenue
+
+### per panel revenue calculations
+# east 32
+east32_perpanel_daily_revenue:
+  unique_id: c4277e1f-0b71-4134-9c8b-1ba428c0123a
+  source: sensor.east32_perpanel_production_revenue
+  cycle: daily
+  net_consumption: true
+
+east32_perpanel_monthly_revenue:
+  unique_id: f2ebe530-e43f-4cb7-8aae-a346637050be
+  source: sensor.east32_perpanel_production_revenue
+  cycle: monthly
+  net_consumption: true
+
+east32_perpanel_yearly_revenue:
+  unique_id: 5679f710-97de-4dda-a4ea-872c18b93979
+  source: sensor.east32_perpanel_production_revenue
+  cycle: yearly
+  net_consumption: true
+
+east32_perpanel_revenue:
+  unique_id: b82252cd-cd6d-4a5c-8fb9-771810c888a4
+  source: sensor.east32_perpanel_production_revenue
+  net_consumption: true
+
+# south 32
+south32_perpanel_daily_revenue:
+  unique_id: c4c25569-b34a-4421-9b12-313cb9cb2f94
+  source: sensor.south32_perpanel_production_revenue
+  cycle: daily
+  net_consumption: true
+
+south32_perpanel_monthly_revenue:
+  unique_id: 2c6bed65-5463-47e8-a0a3-9b350282bd62
+  source: sensor.south32_perpanel_production_revenue
+  cycle: monthly
+  net_consumption: true
+
+south32_perpanel_yearly_revenue:
+  unique_id: f516e824-8751-4497-b274-897b8c8d294f
+  source: sensor.south32_perpanel_production_revenue
+  cycle: yearly
+  net_consumption: true
+
+south32_perpanel_revenue:
+  unique_id: e4c19164-4fd0-4048-b638-557405929fb1
+  source: sensor.south32_perpanel_production_revenue
+  net_consumption: true
+
+# south 45
+south45_perpanel_daily_revenue:
+  unique_id: 1ca5bb70-84ea-495e-8f8f-7e254e083713
+  source: sensor.south45_perpanel_production_revenue
+  cycle: daily
+  net_consumption: true
+
+south45_perpanel_monthly_revenue:
+  unique_id: 13975aee-05ff-4e3c-88f7-f0717486a728
+  source: sensor.south45_perpanel_production_revenue
+  cycle: monthly
+  net_consumption: true
+
+south45_perpanel_yearly_revenue:
+  unique_id: caf2363b-8f09-43c5-9d1d-95b64bcb4d3f
+  source: sensor.south45_perpanel_production_revenue
+  cycle: yearly
+  net_consumption: true
+
+south45_perpanel_revenue:
+  unique_id: fd7137a5-7321-409f-af4a-ff5ff013fc4c
+  source: sensor.south45_perpanel_production_revenue
+  net_consumption: true
+
+# west 32
+west32_perpanel_daily_revenue:
+  unique_id: 1bfc8b1f-ddfd-4574-aa58-0aac616d5f08
+  source: sensor.west32_perpanel_production_revenue
+  cycle: daily
+  net_consumption: true
+
+west32_perpanel_monthly_revenue:
+  unique_id: 15c44c45-5d09-4e46-93bd-1caa0501afc9
+  source: sensor.west32_perpanel_production_revenue
+  cycle: monthly
+  net_consumption: true
+
+west32_perpanel_yearly_revenue:
+  unique_id: 667558c2-937d-4eec-a0a9-ea658b35e74b
+  source: sensor.west32_perpanel_production_revenue
+  cycle: yearly
+  net_consumption: true
+
+west32_perpanel_revenue:
+  unique_id: 3cb6a1ce-e678-4fae-ae7e-0328d5e7608b
+  source: sensor.west32_perpanel_production_revenue
+  net_consumption: true
