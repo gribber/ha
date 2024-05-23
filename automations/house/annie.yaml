@@ -19,14 +19,23 @@
     - delay:
         seconds: 1
 
-    - service: notify.castle
+    # - service: notify.castle
+    #   data:
+    #     title: " "
+    #     message: " "
+    #     data:
+    #       photo:
+    #         - url: "https://ha.regerar.se{{ state_attr('image.annie_map', 'entity_picture') }}"
+    #           caption: "Annie: {{states('sensor.am430x_status')}} - {{ states('input_text.annie_last_substatus') if states('sensor.am430x_substatus') == '' else states('sensor.am430x_substatus') }}"
+
+    - service: notify.castle_log
       data:
-        title: " "
-        message: " "
+        title: "Annie: {{states('sensor.am430x_status')}}"
+        message: "{{ states('input_text.annie_last_substatus') if states('sensor.am430x_substatus') == '' else states('sensor.am430x_substatus') }}"
         data:
-          photo:
-            - url: "https://ha.regerar.se{{ state_attr('image.annie_map', 'entity_picture') }}"
-              caption: "Annie: {{states('sensor.am430x_status')}} - {{ states('input_text.annie_last_substatus') if states('sensor.am430x_substatus') == '' else states('sensor.am430x_substatus') }}"
+          location:
+            latitude: "{{state_attr('device_tracker.am430x_gps', 'latitude')}}"
+            longitude: "{{state_attr('device_tracker.am430x_gps', 'longitude')}}"
 
 - alias: "Annie: set last substatus"
   id: 0819562f-9de5-4c95-990f-f44f88e0e381
