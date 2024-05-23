@@ -169,21 +169,28 @@
                       target:
                         entity_id: light.bedroom_right
 
-                - alias: "Big/small bulb press hold"
-                  conditions: "{{ action in ['big-hold', 'small-hold', 'brightness_move_up', 'brightness_move_down'] }}"
-                  sequence:
-                    - *turn_on_manual_mode
-                    - alias: "determen direction"
-                      variables:
-                        step: "{{ 50 if action in ['big-hold', 'brightness_move_up'] else -50 }}"
+                # - alias: "Big/small bulb press hold"
+                #   conditions: "{{ action in ['big-hold', 'small-hold', 'brightness_move_up', 'brightness_move_down'] }}"
+                #   sequence:
+                #     - *turn_on_manual_mode
+                #     - alias: "determen direction"
+                #       variables:
+                #         step: "{{ 50 if action in ['big-hold', 'brightness_move_up'] else -50 }}"
 
-                    - alias: "Change brightness"
-                      service: light.turn_on
+                #     - alias: "Change brightness"
+                #       service: light.turn_on
+                #       target:
+                #         entity_id: light.bedroom_ceiling
+                #       data:
+                #         brightness_step: "{{ step }}"
+                #         transition: 1
+                - alias: "Small bulb press hold"
+                  conditions: "{{ action in ['small-hold', 'brightness_move_down'] }}"
+                  sequence:
+                    - alias: "toggle rabbit lamp"
+                      service: light.toggle
                       target:
-                        entity_id: light.bedroom_ceiling
-                      data:
-                        brightness_step: "{{ step }}"
-                        transition: 1
+                        entity_id: light.rabbit_lamp
 
         - conditions:
             # turn off ambience light
@@ -198,7 +205,9 @@
                   # turn off lights
                   - service: light.turn_off
                     target:
-                      entity_id: light.bedroom_window
+                      entity_id:
+                        - light.bedroom_window
+                        - light.rabbit_lamp
                     data:
                       transition: 5
 
