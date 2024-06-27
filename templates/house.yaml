@@ -38,8 +38,8 @@
     - name: house_solar_energy_self_consumed
       unique_id: 5e5ab337-2b19-4cdd-bf8e-924309bb4fb5
       state: >
-        {% if is_number(states('sensor.ferroamp_xl28_total_solar_energy')) and is_number(states('sensor.cumulative_active_export')) %}
-          {% set new = states('sensor.ferroamp_xl28_total_solar_energy')|float - states('sensor.cumulative_active_export')|float %}
+        {% if is_number(states('sensor.ferroamp_xl28_inverter_energy_produced')) and is_number(states('sensor.ferroamp_xl28_external_energy_produced')) %}
+          {% set new = states('sensor.ferroamp_xl28_inverter_energy_produced')|float - states('sensor.ferroamp_xl28_external_energy_produced')|float %}
           {% set old = states('sensor.house_solar_energy_self_consumed')|float(0) %}
           {% if (new > old) %}
             {{ new }}
@@ -49,6 +49,19 @@
         {% else %}
           None
         {% endif %}
+      # replaced the production sensor below as it turned out to be the sum of each SSO (when one fails, the value will be reduced with the total production of that SSO)
+      # state: >
+      #   {% if is_number(states('sensor.ferroamp_xl28_total_solar_energy')) and is_number(states('sensor.cumulative_active_export')) %}
+      #     {% set new = states('sensor.ferroamp_xl28_total_solar_energy')|float - states('sensor.cumulative_active_export')|float %}
+      #     {% set old = states('sensor.house_solar_energy_self_consumed')|float(0) %}
+      #     {% if (new > old) %}
+      #       {{ new }}
+      #     {% else %}
+      #       {{ old }}
+      #     {% endif %}
+      #   {% else %}
+      #     None
+      #   {% endif %}
       unit_of_measurement: kWh
       device_class: energy
       icon: "mdi:solar-power"

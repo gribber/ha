@@ -2,12 +2,38 @@
     - name: "se_solar_production_estimate"
       unique_id: 5367f3de-be51-4bbf-a22e-a6d3705e0c9b
       state: >
-        {# toppeffekt (från: https://svensksolenergi.se/statistik/) #}
-        {% set total = 2200 %}
+        {# toppeffekt (från: https://svensksolenergi.se/statistik/)  #}
+        {# set total = 2200 #}
+        {% set total = states('sensor.checkwatt_data')|int(default=0)*0.6 %} 
+        {# *0.6 = ~60% av installationerna är övervakade #}
         {# toppeffekt / monitorerad toppeffekt #}
         {% set factor = (total / (state_attr('sensor.checkwatt_data', 'BestReading')/1024/1024))|float(default=0) %}
         {% set prod = (factor * (state_attr('sensor.checkwatt_data', 'LatestReading')/1024/1024))|float(default=0)|round(1) %}
+        {% if (prod > 10000) %}
+        None
+        {% else %}
         {{ prod }}
+        {% endif %}
+      unit_of_measurement: "MW"
+      availability: >
+        {{ not (
+          [ states('sensor.checkwatt_data') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    - name: "checkwatt_bestreading"
+      unique_id: 6d37f4c0-2081-49b2-ad41-e87e8b2544d1
+      state: "{{state_attr('sensor.checkwatt_data', 'BestReading')/1024/1024}}"
+      unit_of_measurement: "MW"
+      availability: >
+        {{ not (
+          [ states('sensor.checkwatt_data') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    - name: "checkwatt_latestreading"
+      unique_id: 832f33e1-53d0-4f5c-88c2-1ff253046b71
+      state: "{{state_attr('sensor.checkwatt_data', 'LatestReading')/1024/1024}}"
       unit_of_measurement: "MW"
       availability: >
         {{ not (

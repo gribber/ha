@@ -1,5 +1,5 @@
 - platform: rest
   unique_id: a4402595-b0aa-4e20-84a9-7c4bd0f80f88
-  resource: "https://regerar.se/bahnhof_price.txt"
+  resource: "https://status.regerar.se/bahnhof_price.txt"
   name: servanet_bahnhof_price
   unit_of_measurement: SEK
