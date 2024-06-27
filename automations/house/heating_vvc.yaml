@@ -74,8 +74,8 @@
             target:
               entity_id: input_boolean.house_vvc
 
-      - conditions: "{{ (states('zone.home')|int > 0 and state_attr('zone.home', 'persons')[0] == 'person.linus') }}"
-        # if i'm the only one at home
+      - conditions: "{{ (states('zone.home')|int > 0 and state_attr('zone.home', 'persons')[0] == 'person.linus' and states('input_boolean.workday_linus') == 'on') }}"
+        # if i'm the only one at home and working
         sequence:
           - choose:
               - conditions:
