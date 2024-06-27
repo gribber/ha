@@ -1,0 +1,39 @@
+- alias: "workday: linus"
+  id: 842ed6ce-287d-4156-8b36-1040f1265f12
+  trace:
+    stored_traces: 10
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id:
+        - binary_sensor.workday_today
+        - binary_sensor.vacation_linus
+
+  condition: []
+  action:
+    - choose:
+        - conditions:
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: binary_sensor.vacation_linus
+                  state: "on"
+                - condition: state
+                  entity_id: binary_sensor.workday_today
+                  state: "off"
+          sequence:
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.workday_linus
+
+      default:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.workday_linus
