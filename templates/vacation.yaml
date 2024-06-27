@@ -1,0 +1,25 @@
+# template that searches a calender for a matching event current day
+- trigger:
+    - platform: time
+      at: "00:01:00"
+
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - event_template_reloaded
+  action:
+    - service: calendar.get_events
+      target:
+        entity_id: calendar.linus
+      data:
+        start_date_time: "{{ now().replace(hour=0, minute=0, second=0) }}"
+        end_date_time: "{{ now().replace(hour=23, minute=59, second=59) }}"
+      response_variable: agenda
+  binary_sensor:
+    - name: "vacation_linus"
+      state: |-
+        {% set search_term = "Semester" %}
+        {{ agenda['calendar.linus'].events 
+          | selectattr('summary', 'search', search_term) | list | count > 0 }}

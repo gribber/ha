@@ -45,3 +45,10 @@ parking_human:
 property_human:
   name: "Person på gården"
   icon: "mdi:human"
+
+workday_linus:
+  name: "Arbetsdag för Linus"
+
+workday_bella:
+  name: "Arbetsdag för Bella"
+
