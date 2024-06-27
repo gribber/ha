@@ -10,22 +10,21 @@
         - sensor.driveway_car_count
         - sensor.driveway_cat_count
         - sensor.driveway_horse_count
-        - sensor.driveway_motorcycle_count
+        - sensor.driveway_bike_count
         - sensor.driveway_person_count
       not_from:
         - "unknown"
         - "unavailable"
         - "none"
 
-
   action:
     - choose:
-      - conditions: "{{ trigger.to_state.state > trigger.from_state.state }}"
+        - conditions: "{{ trigger.to_state.state > trigger.from_state.state }}"
 
-        sequence:
-          - variables:
-              object: "{{ trigger.entity_id.split('_')[1] }}"
-              #inc: "{{ trigger.to_state.state - trigger.from_state.state }}"
-          - service: counter.increment
-            target:
-              entity_id: counter.driveway_{{object}}
+          sequence:
+            - variables:
+                object: "{{ trigger.entity_id.split('_')[1] }}"
+                #inc: "{{ trigger.to_state.state - trigger.from_state.state }}"
+            - service: counter.increment
+              target:
+                entity_id: counter.driveway_{{object}}

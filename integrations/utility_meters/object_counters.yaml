@@ -1,94 +1,107 @@
 driveway_bus_today:
   unique_id: fe3840ed-6aa1-4e57-b42b-36919d4436a5
-  source: counter.driveway_bus
+  source: sensor.driveway_road_bus_count
   cycle: daily
+  delta_values: false
 
 driveway_bus_week:
   unique_id: 79525439-906b-4960-b1b2-eb23565b337e
-  source: counter.driveway_bus
+  source: sensor.driveway_road_bus_count
   cycle: weekly
+  delta_values: false
 
 driveway_bus_month:
   unique_id: adc6b4d0-3405-4bdc-aeec-fb9afb1792dd
-  source: counter.driveway_bus
+  source: sensor.driveway_road_bus_count
   cycle: monthly
-
+  delta_values: false
 
 driveway_car_today:
   unique_id: e0ec224e-0117-4047-a1b6-40a543cf8b32
-  source: counter.driveway_car
+  source: sensor.driveway_road_car_count
   cycle: daily
+  delta_values: false
 
 driveway_car_week:
   unique_id: 5bb9fe97-65ed-49e0-9d16-d4353d53dc75
-  source: counter.driveway_car
+  source: sensor.driveway_road_car_count
   cycle: weekly
+  delta_values: false
 
 driveway_car_month:
   unique_id: 91339aa0-437a-47b0-a488-a7e4d49fc92a
-  source: counter.driveway_car
+  source: sensor.driveway_road_car_count
   cycle: monthly
-
+  delta_values: false
 
 driveway_cat_today:
   unique_id: 91027566-3328-4480-bca0-85d2ac87fd94
-  source: counter.driveway_cat
+  source: sensor.driveway_road_cat_count
   cycle: daily
+  delta_values: false
 
 driveway_cat_week:
   unique_id: 58536768-89d1-44dd-b569-330b74780c1d
-  source: counter.driveway_cat
+  source: sensor.driveway_road_cat_count
   cycle: weekly
+  delta_values: false
 
 driveway_cat_month:
   unique_id: e6a58239-8848-4d18-9efd-4d86767902a4
-  source: counter.driveway_cat
+  source: sensor.driveway_road_cat_count
   cycle: monthly
-
+  delta_values: false
 
 driveway_horse_today:
   unique_id: 1baf049c-66a9-484e-9f25-1c1ffcc0c348
-  source: counter.driveway_horse
+  source: sensor.driveway_road_horse_count
   cycle: daily
+  delta_values: false
 
 driveway_horse_week:
   unique_id: 7519e982-e903-41fe-9ad7-d0160f705975
-  source: counter.driveway_horse
+  source: sensor.driveway_road_horse_count
   cycle: weekly
+  delta_values: false
 
 driveway_horse_month:
   unique_id: f20ee487-24de-4322-9694-317aef13cbae
-  source: counter.driveway_horse
+  source: sensor.driveway_road_horse_count
   cycle: monthly
+  delta_values: false
 
-
-driveway_motorcycle_today:
+driveway_bike_today:
   unique_id: 7288666d-ef7f-44fd-8e4d-3e1240272113
-  source: counter.driveway_motorcycle
+  source: sensor.driveway_road_bike_count
   cycle: daily
+  delta_values: false
 
-driveway_motorcycle_weekly:
+driveway_bike_weekly:
   unique_id: 0096a117-8f8b-4cf3-8e78-e2edca70442e
-  source: counter.driveway_motorcycle
+  source: sensor.driveway_road_bike_count
   cycle: weekly
+  delta_values: false
 
-driveway_motorcycle_monthly:
+driveway_bike_monthly:
   unique_id: e33fd797-5e12-4e6f-ae5d-ece5350b4d4d
-  source: counter.driveway_motorcycle
+  source: sensor.driveway_road_bike_count
   cycle: monthly
-
+  delta_values: false
 
 driveway_person_today:
   unique_id: ad16e92e-b3ea-4c64-96cd-ef65bc0971a3
-  source: counter.driveway_person
+  source: sensor.driveway_road_person_count
   cycle: daily
+  delta_values: false
 
 driveway_person_week:
   unique_id: e8148e03-6b0e-442e-b670-959bebb07691
-  source: counter.driveway_person
+  source: sensor.driveway_road_person_count
   cycle: weekly
+  delta_values: false
 
 driveway_person_month:
   unique_id: 9e2362ea-4b46-4195-b923-1f04e63f4002
-  source: counter.driveway_person
+  source: sensor.driveway_road_person_count
   cycle: monthly
+  delta_values: false
