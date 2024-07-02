@@ -4,6 +4,7 @@ homeassistant:
 
 default_config:
 bluetooth:
+python_script:
 
 # integrations
 #browser_mod: !include integrations/browser_mod.yaml

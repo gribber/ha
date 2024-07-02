@@ -19,6 +19,7 @@
 !mqtt/
 !mqtt/*/
 !packages/
+!python_scripts/
 !scenes/
 !sensors/
 !scripts/
@@ -26,6 +27,7 @@
 !shell_commands/
 !templates/
 !*.yaml
+!*.py
 !*.disabled
 !.gitignore
 !README.md
