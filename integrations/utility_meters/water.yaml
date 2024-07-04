@@ -1,0 +1,18 @@
+water_daily_consumption:
+  unique_id: 0b23e571-11da-4312-ae22-34bf9a9285cc
+  source: sensor.watermeter_water_usage_total
+  cycle: daily
+
+water_monthly_consumption:
+  unique_id: 80f324bd-e1bb-405e-9089-63389a96ef37
+  source: sensor.watermeter_water_usage_total
+  cycle: monthly
+
+water_yearly_consumption:
+  unique_id: 7a0a2acd-8861-4e6f-b43f-6e9c5dbf3307
+  source: sensor.watermeter_water_usage_total
+  cycle: yearly
+
+water_total_consumption:
+  unique_id: e0788a3e-edf4-4a10-9a5a-beaac3b90c2a
+  source: sensor.watermeter_water_usage_total
