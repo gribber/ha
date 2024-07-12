@@ -2,4 +2,4 @@
 #
 ota:
   - platform: esphome
-    password: !secret ota_pass
+    password: "${ota_password}"
