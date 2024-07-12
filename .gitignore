@@ -7,8 +7,8 @@
 !/binary_sensors/
 !/cameras/
 !/command_line/
-#!/esphome/
-#!/esphome/*/
+!/esphome/
+!/esphome/*/
 !/groups/
 !/helpers/
 !/helpers/*/

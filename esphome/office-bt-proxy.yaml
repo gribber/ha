@@ -1,0 +1,13 @@
+substitutions:
+  name: office-bt-proxy
+  description: "Bluetooth proxy"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/m5stamp_c3_bt.yaml
+  btproxy: !include components/bt_proxy.yaml
+
+mqtt: !remove

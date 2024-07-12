@@ -1,0 +1,5 @@
+# Diagnostics
+#
+button:
+  - <<: !include ../buttons/diag_safe_mode.yaml
+  - <<: !include ../buttons/diag_restart.yaml

@@ -1,0 +1,19 @@
+substitutions:
+  name: wardrobe
+  description: "Temperature sensors for culvert"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  1wire: !include components/1wire.yaml
+
+api: !remove
+
+sensor:
+  - platform: dallas_temp
+    address: 0xba3c01e076781e28
+    name: "house hot water supply"
+    update_interval: 10s

@@ -1,0 +1,6 @@
+# restart button
+#
+platform: restart
+name: Restart
+id: button_restart
+entity_category: diagnostic

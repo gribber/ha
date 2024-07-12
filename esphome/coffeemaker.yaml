@@ -1,0 +1,60 @@
+substitutions:
+  name: coffeemaker
+  description: "Measures water tank level and displays a gauge"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+
+api: !remove
+
+# --- time of fligt sensor
+i2c:
+  sda: GPIO4
+  scl: GPIO5
+  scan: true
+  id: bus_a
+  
+sensor:
+  - platform: vl53l0x
+    id: "water_surface"
+    address: 0x29
+    update_interval: 1s
+    long_range: false
+    accuracy_decimals: 3
+    filters: 
+      - clamp: 
+          max_value: 0.229
+          ignore_out_of_range: true
+      - sliding_window_moving_average:
+          window_size: 5
+          send_every: 1
+    on_value: 
+      then:
+        - component.update: water_level
+
+  - platform: template
+    name: "water_level"
+    id: water_level
+    unit_of_measurement: "L"
+    accuracy_decimals: 2
+    lambda: |-
+      const float tank_size = 2.0;
+      const float tank_empty = 225;
+      const float tank_full = 10;
+      float level = (id(water_surface).state * 1000) - tank_full;
+      if (level < 0.00) {
+        level = 0;
+      }
+      float ml_per_mm = tank_size / (tank_empty - tank_full);
+      float amount = tank_size - (ml_per_mm * level);
+      return (amount > 0.0 ? amount : 0.0);
+    filters: 
+      - median: 
+          window_size: 5
+          send_every: 10
+          send_first_at: 5
+

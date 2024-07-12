@@ -1,0 +1,155 @@
+substitutions:
+  name: boiler
+  description: "Temperature sensors for boiler room"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  1wire: !include components/1wire.yaml
+
+api: !remove
+
+sensor:
+  - platform: dallas_temp
+    address: 0x5B0000061502F428
+    name: "Climate acc tank top"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0xE800000615288628
+    name: "Climate heat supply"
+    id: "climate_heat_supply"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x4800000615468828
+    name: "Climate heat return house"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x80000006154FE328
+    name: "Climate heat return garage"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x8F00000615510828
+    name: "Climate wood boiler supply"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0xDD000006155F4F28
+    name: "Climate hot water supply"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x7F3C01D075B61028
+    name: "Climate acc tank mid"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x4F3C01D07550C628
+    name: "Climate acc tank bottom"
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x8C3C01D075421D28
+    name: "Climate heat return"
+    id: "climate_heat_return"
+    update_interval: 30s
+
+  - platform: dallas_temp
+    address: 0x803c01e07685fd28
+    name: "outdoor_ow_west_temperature"
+    accuracy_decimals: 5
+    expire_after: 5min
+    force_update: true
+    update_interval: 30s
+
+
+
+  - platform: template
+    name: "Climate heat deltaT"
+    unit_of_measurement: "°C"
+    device_class: temperature
+    update_interval: 30s
+    id: "climate_heat_deltat"
+    lambda: |-
+      if (id(climate_heat_supply).state >= id(climate_heat_return).state) {
+        return (id(climate_heat_supply).state - id(climate_heat_return).state);
+      } else {
+        return 0;
+      }
+
+  - platform: template
+    name: "Climate heat calculated power"
+    unit_of_measurement: "W"
+    device_class: power
+    update_interval: 30s
+    lambda: |-
+      const float waterflow = 2000.0;
+      float deltat = id(climate_heat_supply).state - id(climate_heat_return).state;
+      //ESP_LOGD("custom", "heat deltat1: %f", deltat);
+      return ((4.18 * waterflow * deltat * 1000.0) / 3600.0);
+
+  - platform: template
+    name: "Boiler notify user"
+    id: "boiler_notify_user"
+
+  - platform: template
+    name: "Boiler notify timer"
+    id: "boiler_notify_timer"
+    
+switch:
+  - platform: gpio
+    pin: GPIO4
+    name: "Boiler hot water circulation"
+    
+  - platform: gpio
+    pin: GPIO5
+    name: "Boiler reminder led 1"
+
+  - platform: gpio
+    pin: GPIO14
+    name: "Boiler reminder led 2"
+
+  - platform: gpio
+    pin: GPIO12
+    name: "Boiler reminder led 3"
+
+  - platform: gpio
+    pin: GPIO13
+    name: "Boiler reminder led 4"
+
+binary_sensor:
+  - platform: gpio
+    id: boiler_button
+    pin: 
+      number: GPIO0
+      mode: INPUT_PULLUP
+    # debounce filters
+    filters:
+      - delayed_on: 50ms
+      - delayed_off: 50ms
+    on_multi_click:
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 400ms
+        then:
+          - sensor.template.publish:
+              id: "boiler_notify_timer"
+              state: 1
+      - timing:
+          - ON for at most 1s
+          - OFF for at most 399ms
+          - ON for at most 1s
+          - OFF for at least 400ms
+        then:
+          - sensor.template.publish:
+              id: "boiler_notify_user"
+              state: !lambda |-
+                if (id(boiler_notify_user).state >= 2) {
+                  return 0;
+                } else {
+                  return id(boiler_notify_user).state++;
+                }
+      - timing:
+          - ON for at least 2s
+        then:
+          - sensor.template.publish:
+              id: "boiler_notify_timer"
+              state: 2

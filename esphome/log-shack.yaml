@@ -1,0 +1,22 @@
+substitutions:
+  name: log-shack
+  description: "Temperature sensors around the log shack"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  1wire: !include components/1wire.yaml
+
+api: !remove
+  
+sensor:
+  - platform: dallas_temp
+    address: 0xfd3c01e076321028
+    name: "outdoor_ow_north_temperature"
+    update_interval: 30s
+    accuracy_decimals: 5
+    expire_after: 5min
+    force_update: true

@@ -1,0 +1,22 @@
+# Wifi signal in percentage
+#
+platform: template
+id: sensor_wifi_signal_percentage
+name: "Wifi Signal Percentage"
+entity_category: diagnostic
+state_class: measurement
+icon: "mdi:wifi"
+unit_of_measurement: "%"
+update_interval: never
+lambda: |-
+  if (id(sensor_wifi_signal).state) {
+    if (id(sensor_wifi_signal).state <= -100 ) {
+      return 0;
+    } else if (id(sensor_wifi_signal).state >= -50) {
+      return 100;
+    } else {
+      return 2 * (id(sensor_wifi_signal).state + 100);
+    }
+  } else {
+    return NAN;
+  }

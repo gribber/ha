@@ -1,0 +1,6 @@
+# Safe mode button
+#
+platform: safe_mode
+name: Safe Mode Boot
+id: button_safe_mode
+entity_category: diagnostic

@@ -1,0 +1,10 @@
+# MQTT settings
+# to remove/disable in a client, use: mqtt: !remove
+#
+mqtt:
+  broker: !secret mqtt_broker
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
+  port: !secret mqtt_port
+  discovery_retain: true
+  topic_prefix: "esphome/${name}"

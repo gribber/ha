@@ -1,0 +1,9 @@
+# common 1-wire settings
+#
+one_wire:
+  - platform: gpio
+    pin: GPIO2
+    id: dallas
+
+button:
+  - <<: !include ../buttons/1wire.yaml

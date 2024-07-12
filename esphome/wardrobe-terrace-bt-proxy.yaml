@@ -1,0 +1,28 @@
+substitutions:
+  name: wardrobe-terrace-bt-proxy
+  description: "Bluetooth proxy"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/m5stamp_c3_bt.yaml
+  btproxy: !include components/bt_proxy.yaml
+
+mqtt: !remove
+
+
+# monitor old style door bell
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: GPIO4
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    filters:
+      - delayed_on: 100ms
+      - delayed_off: 100ms
+    name: "Door bell"

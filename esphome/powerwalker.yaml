@@ -1,0 +1,110 @@
+substitutions:
+  name: "powerwalker"
+  description: "Control of fans for the Powerwalker UPS"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  1wire: !include components/1wire.yaml
+
+api: !remove
+
+sensor:
+  - platform: pulse_counter
+    pin: 
+      number: D5 #GPIO14
+      mode: INPUT_PULLUP
+    unit_of_measurement: 'rpm'
+    name: "Front fan speed"
+    update_interval: 15s
+    accuracy_decimals: 0
+    filters:
+      - multiply: 0.5
+      # max fan speed def: 3000, lna: 2400, ulna: 1600
+      - lambda: |-
+            float MIN_VALUE = 0.0;
+            float MAX_VALUE = 2600.0; 
+            if (MIN_VALUE <= x && x <= MAX_VALUE) return x;
+            else return {};    
+    on_value_range:
+      - above: &fan_ok 400
+        then:
+          - switch.turn_on: front_fail
+          - binary_sensor.template.publish:
+              id: front_fan_fail
+              state: false
+      - below: &fan_fail 100
+        then:
+          - switch.turn_off: front_fail
+          - binary_sensor.template.publish:
+              id: front_fan_fail
+              state: true
+
+  - platform: pulse_counter
+    pin: 
+      number: D6 #GPIO12
+      mode: INPUT_PULLUP
+    unit_of_measurement: 'rpm'
+    name: "Back fan speed"
+    update_interval: 15s
+    accuracy_decimals: 0
+    filters:
+      - multiply: 0.5
+      # max fan speed def: 2000, lna: 1650, ulna: 1200
+      - lambda: |-
+            float MIN_VALUE = 0.0;
+            float MAX_VALUE = 1800.0; 
+            if (MIN_VALUE <= x && x <= MAX_VALUE) return x;
+            else return {};    
+    on_value_range:
+      - above: *fan_ok
+        then:
+          - switch.turn_on: back_fail
+          - binary_sensor.template.publish:
+              id: back_fan_fail
+              state: false
+      - below: *fan_fail
+        then:
+          - switch.turn_off: back_fail
+          - binary_sensor.template.publish:
+              id: back_fan_fail
+              state: true
+
+binary_sensor:
+  - platform: template
+    name: "Front fan failure"
+    id: front_fan_fail
+    device_class: problem
+    lambda: |-
+      if (id(front_fail).state) {
+        return false;
+      } else {
+        return true;
+      }
+
+  - platform: template
+    name: "Back fan failure"
+    id: back_fan_fail
+    device_class: problem
+    lambda: |-
+      if (id(back_fail).state) {
+        return false;
+      } else {
+        return true;
+      }
+
+switch:
+  - platform: gpio
+    pin: D1 #GPIO5
+    id: "front_fail"
+    internal: true
+    restore_mode: ALWAYS_ON
+
+  - platform: gpio
+    pin: D2 #GPIO4
+    id: "back_fail"
+    internal: true
+    restore_mode: ALWAYS_ON

@@ -1,0 +1,15 @@
+substitutions:
+  name: "p1reader"
+  description: "Get all data from the power meter P1 port"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  p1: !include components/p1reader.yaml
+
+api: !remove
+

@@ -1,0 +1,46 @@
+substitutions:
+  name: "am230acx"
+  description: "Connect HQ Automower 230ACX to the network"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+
+api: !remove
+
+# esphome:
+#   includes:
+#     - amgen2.h
+
+uart:
+  id: am
+  tx_pin: 1
+  rx_pin: 3
+  baud_rate: 9600
+  debug:
+    dummy_receiver: true
+    after:
+      bytes: 5
+
+button:
+  - platform: template
+    name: getStatus
+    id: knapp
+    # ...
+    on_press:
+      then:
+        - logger.log: Requesting status
+        - uart.write: [0x0F, 0x01, 0xF1, 0x00, 0x00]
+
+# text_sensor:
+#   - platform: custom
+#     lambda: |-
+#       auto response = new AMGen2(id(am));
+#       App.register_component(response);
+#       return {response};
+#     text_sensors:
+#       name: "Response"

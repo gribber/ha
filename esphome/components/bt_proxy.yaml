@@ -1,0 +1,7 @@
+# BT Proxy settings
+#
+esp32_ble_tracker:
+  id: ble_tracker
+
+bluetooth_proxy:
+  active: true

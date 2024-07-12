@@ -1,0 +1,5 @@
+# OTA, Over-the-air settings
+#
+ota:
+  - platform: esphome
+    password: !secret ota_pass

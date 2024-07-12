@@ -1,0 +1,10 @@
+# Adds a button to scan 1-wire bus for all devices
+#
+platform: template
+name: Scan 1-wire bus
+entity_category: diagnostic
+on_press:
+  then:
+    - lambda: |-
+        id(dallas).search();
+        id(dallas).dump_config();

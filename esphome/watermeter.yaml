@@ -1,0 +1,16 @@
+substitutions:
+  name: watermeter
+  description: "Measures pulses from the water meter using a inductive proximity sensor"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  1wire: !include components/1wire.yaml
+
+api: !remove
+
+sensor:
+  - <<: !include sensors/pulse_meter_water.yaml

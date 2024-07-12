@@ -1,0 +1,23 @@
+substitutions:
+  name: laundry
+  description: "Temperature sensors for secondary freezer and fridge"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+  1wire: !include components/1wire.yaml
+
+api: !remove
+
+sensor:
+  - platform: dallas_temp
+    address: 0x3a3c01e076a1d828
+    name: "freezer_temperature"
+    update_interval: 30s
+    accuracy_decimals: 2
+    expire_after: 5min
+    force_update: true
+    

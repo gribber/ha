@@ -1,0 +1,18 @@
+# Count pulses usung a proximity sensor on the water meter
+#
+platform: pulse_meter
+pin: D7
+name: "Water usage current"
+id: water_usage
+unit_of_measurement: "L/min"
+accuracy_decimals: 1
+device_class: volume_flow_rate
+timeout: 60s
+total:
+  name: "Water usage total"
+  unit_of_measurement: "m³"
+  accuracy_decimals: 3
+  device_class: water
+  state_class: total_increasing
+  filters:
+    - multiply: 0.001

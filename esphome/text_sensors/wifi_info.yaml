@@ -1,0 +1,14 @@
+# Sensors for common network information
+#
+platform: wifi_info
+ip_address:
+  name: "IP Address"
+  icon: mdi:ip-network
+mac_address:
+  name: "MAC Address"
+ssid:
+  name: "SSID"
+  icon: mdi:wifi-settings
+bssid:
+  name: "BSSID"
+  icon: mdi:identifier

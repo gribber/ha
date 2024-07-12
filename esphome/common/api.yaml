@@ -1,0 +1,6 @@
+# Enable Home Assistant API
+# to remove/disable in a client, use: api: !remove
+#
+api:
+  encryption:
+    key: "${encryption_key}"

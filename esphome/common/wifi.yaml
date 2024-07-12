@@ -1,0 +1,17 @@
+# Wifi setup including sensors
+#
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${name}"
+    password: !secret ap_pass
+
+sensor:
+  - <<: !include ../sensors/wifi_signal_percentage.yaml
+  - <<: !include ../sensors/wifi_signal.yaml
+
+text_sensor:
+  - <<: !include ../text_sensors/wifi_info.yaml

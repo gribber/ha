@@ -1,0 +1,5 @@
+# ESPhome name and description
+#
+esphome:
+  name: "${name}"
+  comment: "${description}"

@@ -1,0 +1,13 @@
+# Wifi signal in dBm
+#
+platform: wifi_signal
+id: sensor_wifi_signal
+name: "Wifi Signal"
+entity_category: diagnostic
+state_class: measurement
+disabled_by_default: false
+update_interval: 300s
+accuracy_decimals: 0
+on_value:
+  then:
+    - component.update: sensor_wifi_signal_percentage
