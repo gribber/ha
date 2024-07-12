@@ -75,3 +75,31 @@
     # default:
     #     action
 
+- alias: "Vac-it Ralph - disable map when not running"
+  id: e7961fc1-6cee-4ffe-936c-8c49fc49642b
+  trace:
+    stored_traces: 10
+  mode: restart
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id: vacuum.vac_it_ralph
+
+  condition: []
+
+  action:
+    - service: >
+        {% if states('vacuum.vac_it_ralph') in ["unavailable", "unknown", "docked"] %}
+          camera.turn_off
+        {% else %}
+          camera.turn_on
+        {% endif %}
+      target:
+        entity_id: camera.xiaomi_cloud_map_extractor
