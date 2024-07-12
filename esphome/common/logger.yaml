@@ -1,3 +1,5 @@
-# Enable logging
+# Enable logging, disable over serial (logs shown over mqtt och api), also required for some stuff
+#
 logger:
   level: ${log_level}
+  baud_rate: 0
