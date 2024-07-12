@@ -5,11 +5,7 @@
       entity_id: binary_sensor.motion_driveway_occupancy
       from: "off"
       to: "on"
-  # condition:
-  #   condition: state
-  #   entity_id:
-  #     - light.parkering_och_uppfart
-  #   state: "on"
+
   action:
     - alias: "when motion detected"
       choose:
