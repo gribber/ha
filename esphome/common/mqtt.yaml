@@ -8,3 +8,4 @@ mqtt:
   port: !secret mqtt_port
   discovery_retain: true
   topic_prefix: "esphome/${name}"
+  discovery_unique_id_generator: mac
