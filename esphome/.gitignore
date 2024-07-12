@@ -9,3 +9,4 @@
 **/src/
 **/platformio.ini
 /secrets.yaml
+/tmp_*.yaml
