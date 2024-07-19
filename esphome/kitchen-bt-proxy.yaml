@@ -11,3 +11,13 @@ packages:
   btproxy: !include components/bt_proxy.yaml
 
 mqtt: !remove
+
+ble_client:
+  - mac_address: 01:02:03:04:19:44
+    id: anova_ble
+
+climate:
+  - platform: anova
+    name: "Anova Precision Cooker"
+    ble_client_id: anova_ble
+    unit_of_measurement: c
