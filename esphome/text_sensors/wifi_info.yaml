@@ -11,4 +11,8 @@ ssid:
   icon: mdi:wifi-settings
 bssid:
   name: "BSSID"
+  id: wifi_bssid
   icon: mdi:identifier
+  on_value:
+    then:
+      - component.update: wifi_access_point

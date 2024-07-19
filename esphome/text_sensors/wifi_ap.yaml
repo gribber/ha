@@ -1,0 +1,26 @@
+# Sensor that provides the name of current access point
+#
+platform: template
+name: "Wifi Access Point"
+icon: "mdi:access-point"
+id: wifi_access_point
+entity_category: diagnostic
+update_interval: never
+lambda: |-
+  if (id(wifi_bssid).state != "") {
+    if (id(wifi_bssid).state == "B4:FB:E4:4A:2D:10") {
+      return {"ap-kitchen"};
+    } else if (id(wifi_bssid).state == "FC:EC:DA:89:A4:84") {
+      return {"ap-office"};
+    } else if (id(wifi_bssid).state == "9C:05:D6:F3:7F:01") {
+      return {"ap-garage-s"};
+    } else if (id(wifi_bssid).state == "68:D7:9A:0B:DD:6A") {
+      return {"ap-garage-n"};
+    } else if (id(wifi_bssid).state == "78:8A:20:B6:6F:EE") {
+      return {"ap-office"};
+    } else {
+      return {"Unknown AP"};
+    }
+  } else {
+    return {"Unknown"};
+  }
