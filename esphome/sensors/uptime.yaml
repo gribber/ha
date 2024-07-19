@@ -1,0 +1,7 @@
+# sensor exposing last boot time
+#
+platform: uptime
+id: sensor_last_boot_time
+name: "Last boot time"
+type: timestamp
+entity_category: diagnostic

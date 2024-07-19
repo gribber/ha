@@ -1,0 +1,7 @@
+# create a sensor with last boot time
+#
+time:
+  - <<: !include ../time/sntp.yaml
+
+sensor:
+  - <<: !include ../sensors/uptime.yaml

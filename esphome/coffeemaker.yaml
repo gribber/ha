@@ -17,7 +17,7 @@ i2c:
   scl: GPIO5
   scan: true
   id: bus_a
-  
+
 sensor:
   - platform: vl53l0x
     id: "water_surface"
@@ -57,4 +57,9 @@ sensor:
           window_size: 5
           send_every: 10
           send_first_at: 5
+
+  - <<: !include sensors/show_time.yaml
+
+button:
+  - <<: !include buttons/check_time.yaml
 
