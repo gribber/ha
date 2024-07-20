@@ -10,7 +10,7 @@ lambda: |-
   if (id(wifi_bssid).state != "") {
     if (id(wifi_bssid).state == "B4:FB:E4:4A:2D:10") {
       return {"ap-kitchen"};
-    } else if (id(wifi_bssid).state == "FC:EC:DA:89:A4:84") {
+    } else if (id(wifi_bssid).state == "FC:EC:DA:8A:A4:84") {
       return {"ap-office"};
     } else if (id(wifi_bssid).state == "9C:05:D6:F3:7F:01") {
       return {"ap-garage-s"};
