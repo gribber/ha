@@ -1,6 +1,3 @@
 platform: sntp
 id: time_sntp
 timezone: "Europe/Stockholm"
-on_time_sync:
-  then:
-    - logger.log: "Synchronized system clock"
