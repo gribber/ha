@@ -9,8 +9,8 @@
     # - sensor.outdoor_west_temperature
     # - sensor.motion_driveway_temperature
     # - sensor.motion_barn_temperature
-    - sensor.outdoor_ow_west_temperature
-    - sensor.outdoor_ow_north_temperature
+    - sensor.boiler_outdoor_ow_west_temperature
+    - sensor.log_shack_outdoor_ow_north_temperature
 
 - platform: min_max
   name: outdoor_median
