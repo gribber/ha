@@ -57,9 +57,3 @@ sensor:
           window_size: 5
           send_every: 10
           send_first_at: 5
-
-  - <<: !include sensors/show_time.yaml
-
-button:
-  - <<: !include buttons/check_time.yaml
-
