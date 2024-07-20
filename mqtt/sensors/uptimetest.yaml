@@ -1,0 +1,11 @@
+- name: "uptimetest_mqtt"
+  unique_id: 58022b82-f607-4c94-94bf-79517c1fd68a
+  state_topic: "esphome/uptimetest/sensor/last_boot_time/state"
+  device_class: timestamp
+  value_template: "{{ as_datetime(value) }}"
+  # device:
+  #   name: "uptimetest"
+  #   identifiers:
+  #     - "DC:4F:22:66:0E:A8"
+  #   connections:
+  #     - connections: [["mac", "DC:4F:22:66:0E:A8"]]
