@@ -69,16 +69,6 @@ sensor:
     lambda: |-
       const float tank_size = 2.0;
       return (id(water_level).state / tank_size) * 100;
-    # on_value:
-    #   then:
-    #     - light.turn_on:
-    #         id: water_level_light
-    #         effect: "Level with colors"
-    #         # color_brightness: 21%
-    #     - light.control:
-    #         id: water_level_light
-    #         brightness : 20%
-    #         color_brightness: 20%
 
 light:
   - platform: neopixelbus
@@ -101,12 +91,24 @@ light:
           name: "Level with colors"
           update_interval: 1s
           lambda: |-
+            // esphome::Color colors[] = {
+            //   Color(255,51,0,0),
+            //   Color(255,102,0,0),
+            //   Color(255,153,0,0),
+            //   Color(255,204,0,0),
+            //   Color(255,255,0,0),
+            //   Color(255,255,0,0),
+            //   Color(204,255,0,0),
+            //   Color(153,255,0,0),
+            //   Color(102,255,0,0),
+            //   Color(51,255,0,0),
+            // };
             esphome::Color colors[] = {
+              Color(255,0,0,0),
               Color(255,51,0,0),
               Color(255,102,0,0),
               Color(255,153,0,0),
               Color(255,204,0,0),
-              Color(255,255,0,0),
               Color(255,255,0,0),
               Color(204,255,0,0),
               Color(153,255,0,0),
