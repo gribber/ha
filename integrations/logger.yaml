@@ -13,6 +13,8 @@ logs:
   #homeassistant.components.shell_command: debug
   #command_line:
   #homeassistant.components.command_line: debug
+  #mqtt:
+  #homeassistant.components.mqtt: debug
 filters:
   homeassistant.components.forecast_solar:
     - "error 429"

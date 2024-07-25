@@ -14,13 +14,13 @@ logger:
 
 api: !remove
 
-sensor:
-  - platform: template
-    id: sensor_uptime_static_test
-    name: "Uptime static test"
-    device_class: timestamp
-    entity_category: diagnostic
-    accuracy_decimals: 0
-    update_interval: never
-    lambda: |-
-      return 1721497243;
+# sensor:
+#   - platform: template
+#     id: sensor_uptime_static_test
+#     name: "Uptime static test"
+#     device_class: timestamp
+#     entity_category: diagnostic
+#     accuracy_decimals: 0
+#     update_interval: 10s
+#     lambda: |-
+#       return 1721497243;
