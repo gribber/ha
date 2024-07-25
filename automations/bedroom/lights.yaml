@@ -87,17 +87,20 @@
         - conditions:
             - condition: trigger
               id: auto_off
-            - condition: state
-              entity_id:
-                - light.bedroom_ceiling
-              state: "on"
           sequence:
-            - *turn_off_manual_mode
-            - service: light.turn_off
-              target:
-                entity_id: light.bedroom_ceiling
-              data:
-                transition: 5
+            - choose:
+                - conditions:
+                    - condition: state
+                      entity_id:
+                        - light.bedroom_ceiling
+                      state: "on"
+                  sequence:
+                    - *turn_off_manual_mode
+                    - service: light.turn_off
+                      target:
+                        entity_id: light.bedroom_ceiling
+                      data:
+                        transition: 5
 
         - conditions:
             # when a remote button is pressed
