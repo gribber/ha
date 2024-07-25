@@ -1,0 +1,31 @@
+- alias: "Kitchen: Coffee water level meter"
+  id: 20fa1fcc-eae1-4428-9e2b-cfea2619e154
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+
+    - platform: state
+      entity_id: sensor.coffee_maker_state
+
+  condition: []
+
+  action:
+    - choose:
+        conditions:
+          - condition: state
+            entity_id: sensor.coffee_maker_state
+            state: "off"
+
+        sequence:
+          - service: light.turn_off
+            target:
+              entity_id: light.coffeemaker_water_level_light
+
+      default:
+        - service: light.turn_on
+          target:
+            entity_id: light.coffeemaker_water_level_light
