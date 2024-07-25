@@ -57,3 +57,68 @@ sensor:
           window_size: 5
           send_every: 10
           send_first_at: 5
+    on_value: 
+      then:
+        - component.update: water_level_percentage
+
+  - platform: template
+    id: water_level_percentage
+    name: "water_level_percentage"
+    unit_of_measurement: '%'
+    accuracy_decimals: 0
+    lambda: |-
+      const float tank_size = 2.0;
+      return (id(water_level).state / tank_size) * 100;
+    # on_value:
+    #   then:
+    #     - light.turn_on:
+    #         id: water_level_light
+    #         effect: "Level with colors"
+    #         # color_brightness: 21%
+    #     - light.control:
+    #         id: water_level_light
+    #         brightness : 20%
+    #         color_brightness: 20%
+
+light:
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2812
+    pin: GPIO3
+    num_leds: 10
+    id: water_level_light
+    name: "Water level light"
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      then:
+        - light.control:
+            id: water_level_light
+            brightness : 20%
+            color_brightness: 20%
+            effect: "Level with colors"
+    effects:
+      - addressable_lambda:
+          name: "Level with colors"
+          update_interval: 1s
+          lambda: |-
+            esphome::Color colors[] = {
+              Color(255,51,0,0),
+              Color(255,102,0,0),
+              Color(255,153,0,0),
+              Color(255,204,0,0),
+              Color(255,255,0,0),
+              Color(255,255,0,0),
+              Color(204,255,0,0),
+              Color(153,255,0,0),
+              Color(102,255,0,0),
+              Color(51,255,0,0),
+            };
+            int plevel = floor(id(water_level_percentage).state/10);
+            for (int i = 0; i < it.size(); i++) {
+              if (i < plevel) {
+                it[i] = colors[i];
+              } else {
+                it[i] = esphome::Color::BLACK;
+              }
+            }
+
