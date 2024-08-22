@@ -28,7 +28,7 @@
         - &morning_end "08:00:00"
         - &lunch_start "10:45:00"
         - &lunch_end "11:30:00"
-        - &dinner_start "16:30:00"
+        - &dinner_start "16:00:00"
         - &dinner_end "18:00:00"
 
   condition: []
@@ -74,7 +74,7 @@
             target:
               entity_id: input_boolean.house_vvc
 
-      - conditions: "{{ (states('zone.home')|int > 0 and state_attr('zone.home', 'persons')[0] == 'person.linus' and states('input_boolean.workday_linus') == 'on') }}"
+      - conditions: "{{ (states('zone.home')|int(0) == 1 and state_attr('zone.home', 'persons')[0] == 'person.linus' and states('input_boolean.workday_linus') == 'on') }}"
         # if i'm the only one at home and working
         sequence:
           - choose:
