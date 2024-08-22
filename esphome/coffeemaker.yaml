@@ -43,8 +43,8 @@ sensor:
     accuracy_decimals: 2
     lambda: |-
       const float tank_size = 2.0;
-      const float tank_empty = 225;
-      const float tank_full = 10;
+      const float tank_empty = 235;
+      const float tank_full = 27;
       float level = (id(water_surface).state * 1000) - tank_full;
       if (level < 0.00) {
         level = 0;
