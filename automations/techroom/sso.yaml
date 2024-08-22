@@ -7,10 +7,12 @@
   trigger:
     - platform: state
       entity_id:
+        - sensor.ferroamp_xl28_sso_east_32_faultcode
         - sensor.ferroamp_xl28_sso_22010644_faultcode
         - sensor.ferroamp_xl28_sso_21090039_faultcode
         - sensor.ferroamp_xl28_sso_21090135_faultcode
         - sensor.ferroamp_xl28_sso_21090071_faultcode
+        - sensor.ferroamp_xl28_sso_west_32_faultcode
       not_from:
         - "none"
         - "unknown"

@@ -39,11 +39,11 @@
     - name: ferroamp_sso_east32_efficiency
       unique_id: 9bdf3976-9bcc-49a7-930b-798302c8499b
       state: >
-        {{ (states('sensor.ferroamp_xl28_sso_22010644_pv_string_power')|int(0) / 4150 * 100)|round(1) }}
+        {{ (states('sensor.ferroamp_xl28_sso_east_32_pv_string_power')|int(0) / 4150 * 100)|round(1) }}
       unit_of_measurement: "%"
       availability: >
         {{ not (
-          [ states('sensor.ferroamp_xl28_sso_22010644_pv_string_power') ] 
+          [ states('sensor.ferroamp_xl28_sso_east_32_pv_string_power') ] 
           | select('equalto', ['unknown', 'unavailable', 'none']) 
           | list) }}
 
@@ -72,11 +72,11 @@
     - name: ferroamp_sso_west32_efficiency
       unique_id: 8019b82b-d2af-47bb-bb9b-fe58e1aa47fb
       state: >
-        {{ (states('sensor.ferroamp_xl28_sso_21090071_pv_string_power')|int(0) / 4150 * 100)|round(1) }}
+        {{ (states('sensor.ferroamp_xl28_sso_west_32_pv_string_power')|int(0) / 4150 * 100)|round(1) }}
       unit_of_measurement: "%"
       availability: >
         {{ not (
-          [ states('sensor.ferroamp_xl28_sso_21090071_pv_string_power') ] 
+          [ states('sensor.ferroamp_xl28_sso_west_32_pv_string_power') ] 
           | select('equalto', ['unknown', 'unavailable', 'none']) 
           | list) }}
 
@@ -84,11 +84,11 @@
     - name: ferroamp_sso_east32_panel_energy
       unique_id: 4789a8a1-f0ef-4fdc-bda2-befa25b33710
       state: >
-        {{ (states('sensor.ferroamp_xl28_sso_22010644_total_energy')|float(0) / 10) }}
+        {{ (states('sensor.ferroamp_xl28_sso_east_32_total_energy')|float(0) / 10) }}
       unit_of_measurement: "kWh"
       availability: >
         {{ not (
-          [ states('sensor.ferroamp_xl28_sso_22010644_total_energy') ] 
+          [ states('sensor.ferroamp_xl28_sso_east_32_total_energy') ] 
           | select('equalto', ['unknown', 'unavailable', 'none']) 
           | list) }}
 
@@ -117,10 +117,10 @@
     - name: ferroamp_sso_west32_panel_energy
       unique_id: 2b12291a-cd10-4eaa-9d78-3ab632748a6d
       state: >
-        {{ (states('sensor.ferroamp_xl28_sso_21090071_total_energy')|float(0) / 10) }}
+        {{ (states('sensor.ferroamp_xl28_sso_west_32_total_energy')|float(0) / 10) }}
       unit_of_measurement: "kWh"
       availability: >
         {{ not (
-          [ states('sensor.ferroamp_xl28_sso_21090071_total_energy') ] 
+          [ states('sensor.ferroamp_xl28_sso_west_32_total_energy') ] 
           | select('equalto', ['unknown', 'unavailable', 'none']) 
           | list) }}

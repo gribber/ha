@@ -129,14 +129,14 @@
       unique_id: f32c4a82-5256-4e4b-9c45-a78f942d8c07
       unit_of_measurement: SEK
       state: >
-        {% if is_number(states('sensor.solar_sso_22010644_panel_hourly_energy')) and is_number(states('sensor.electricity_price_without_vat')) %}
-          {{ (states('sensor.solar_sso_22010644_panel_hourly_energy')|float(0) * states('sensor.electricity_price_without_vat')|float(0)) }}
+        {% if is_number(states('sensor.solar_sso_east_32_panel_hourly_energy')) and is_number(states('sensor.electricity_price_without_vat')) %}
+          {{ (states('sensor.solar_sso_east_32_panel_hourly_energy')|float(0) * states('sensor.electricity_price_without_vat')|float(0)) }}
         {% else %}
           None
         {% endif %}
       availability: >
         {{ not (
-          [ states('sensor.solar_sso_22010644_panel_hourly_energy'), states('sensor.electricity_price_without_vat') ]
+          [ states('sensor.solar_sso_east_32_panel_hourly_energy'), states('sensor.electricity_price_without_vat') ]
           | select('equalto', ['unknown', 'unavailable', 'none'])
           | list) }}
 
@@ -174,13 +174,13 @@
       unique_id: 5932af7f-8537-4194-a8f5-e8669c075b92
       unit_of_measurement: SEK
       state: >
-        {% if is_number(states('sensor.solar_sso_21090071_panel_hourly_energy')) and is_number(states('sensor.electricity_price_without_vat')) %}
-          {{ (states('sensor.solar_sso_21090071_panel_hourly_energy')|float(0) * states('sensor.electricity_price_without_vat')|float(0)) }}
+        {% if is_number(states('sensor.solar_sso_west_32_panel_hourly_energy')) and is_number(states('sensor.electricity_price_without_vat')) %}
+          {{ (states('sensor.solar_sso_west_32_panel_hourly_energy')|float(0) * states('sensor.electricity_price_without_vat')|float(0)) }}
         {% else %}
           None
         {% endif %}
       availability: >
         {{ not (
-          [ states('sensor.solar_sso_21090071_panel_hourly_energy'), states('sensor.electricity_price_without_vat') ]
+          [ states('sensor.solar_sso_west_32_panel_hourly_energy'), states('sensor.electricity_price_without_vat') ]
           | select('equalto', ['unknown', 'unavailable', 'none'])
           | list) }}
