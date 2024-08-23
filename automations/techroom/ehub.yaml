@@ -29,7 +29,6 @@
                 {% set x = ('0x'+e)|int(base=16, default=0) %}
                 {% set v = 1 %}
                 {% set f = namespace(ecodes=[])%}
-                x (hex of state): {{x}}
                 {% for i in range(0,100) %}
                   {% set v = (2**i) %}
                   {% if x|bitwise_and(v) == v %}
