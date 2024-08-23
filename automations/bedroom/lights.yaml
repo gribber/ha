@@ -335,6 +335,13 @@
           target:
             entity_id: >
               {% set filter = 'light.bedroom_window' if states('input_boolean.bedroom_nightlight') == 'on' else '' %}
-              {{ area_entities('bedroom') | select('search', 'light.') | reject('in', filter) | list }}
+              {{  
+                expand(area_entities('bedroom')
+                | select('match', 'light.'))
+                | selectattr('state', 'eq', 'on')
+                | map(attribute='entity_id')
+                | reject('in', filter)
+                | list
+              }}
           data:
             transition: 5
