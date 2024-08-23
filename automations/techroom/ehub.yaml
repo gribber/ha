@@ -23,7 +23,7 @@
         sequence:
           - service: notify.castle_log
             data:
-              title: Ferroamp
+              title: Ferroamp ehub
               message: >
                 {% set e = trigger.to_state.state|string %}
                 {% set x = ('0x'+e)|int(base=16, default=0) %}
@@ -40,6 +40,6 @@
     default:
       - service: notify.castle_log
         data:
-          title: Ferroamp
+          title: Ferroamp ehub
           message: >
             {{trigger.to_state.name}} rapporterar state '0'

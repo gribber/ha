@@ -30,7 +30,7 @@
         sequence:
           - service: notify.castle_log
             data:
-              title: Ferroamp
+              title: Ferroamp SSO
               message: >
                 {% set f = namespace(errors=[]) %}
                 {% for a in trigger.to_state.attributes|reject('in', ['icon', 'friendly_name']) %}
@@ -41,6 +41,6 @@
     default:
       - service: notify.castle_log
         data:
-          title: Ferroamp
+          title: Ferroamp SSO
           message: >
             {{trigger.to_state.name}} rapporterar normalt läge igen
