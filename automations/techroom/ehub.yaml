@@ -35,7 +35,7 @@
                     {% set f.ecodes = f.ecodes + [i+1] %}
                   {% endif %}
                 {% endfor %}
-                {{trigger.to_state.name}}: {{trigger.to_state.state}} ({{f.ecodes}})
+                {{trigger.to_state.name}}: {{trigger.to_state.state}} (codes: {{f.ecodes}})
 
     default:
       - service: notify.castle_log
