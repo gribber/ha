@@ -2,4 +2,5 @@
 #
 esphome:
   name: "${name}"
+  friendly_name: "${name}"
   comment: "${description}"
