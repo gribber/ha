@@ -1,0 +1,36 @@
+- sensor:
+    - name: "washer_state"
+      unique_id: cdad20f0-6a29-4e79-ab4b-ba7c334f2f8d
+      state: >
+        {% set p = states('sensor.emporia_circuit_6_power')|int %}
+        {% if (p < 10) %}
+          off
+        {% elif (p < 20) %}
+          idle
+        {% elif (p > 150) and (p < 450) %}
+          centrifuge
+        {% else %}
+          washing
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.emporia_circuit_6_power') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    - name: "dryer_state"
+      unique_id: 61dd8ccb-6052-4892-85d5-e6532ca59e87
+      state: >
+        {% set p = states('sensor.emporia_circuit_7_power')|int %}
+        {% if (p < 10) %}
+          off
+        {% elif (p < 200) %}
+          idle
+        {% else %}
+          drying
+        {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.emporia_circuit_7_power') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
