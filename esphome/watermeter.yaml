@@ -10,7 +10,7 @@ packages:
   board: !include boards/wemos_d1_mini.yaml
   1wire: !include components/1wire.yaml
 
-api: !remove
+mqtt: !remove
 
 sensor:
   - <<: !include sensors/pulse_meter_water.yaml

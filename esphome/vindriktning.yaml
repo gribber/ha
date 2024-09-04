@@ -9,7 +9,7 @@ packages:
   <<: !include_dir_named common
   board: !include boards/wemos_d1_mini.yaml
 
-api: !remove
+mqtt: !remove
 
 uart:
   rx_pin: D2

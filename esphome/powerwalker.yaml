@@ -8,9 +8,8 @@ substitutions:
 packages:
   <<: !include_dir_named common
   board: !include boards/wemos_d1_mini.yaml
-  1wire: !include components/1wire.yaml
 
-api: !remove
+mqtt: !remove
 
 sensor:
   - platform: pulse_counter
