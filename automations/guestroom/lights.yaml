@@ -32,7 +32,8 @@
             service: homeassistant.turn_off
             target:
               entity_id:
-                - switch.lidl_plug
+                - light.guestroom_plug
+                - light.blue_mushroom_lamp
             # data:
             #   transition: 5
 
@@ -53,10 +54,10 @@
             service: homeassistant.turn_on
             target:
               entity_id:
-                - switch.lidl_plug
+                - light.guestroom_plug
+                - light.blue_mushroom_lamp
             # data:
             #   transition: 5
 
     default:
       - *turn_off
- 

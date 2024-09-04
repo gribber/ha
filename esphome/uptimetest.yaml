@@ -9,10 +9,13 @@ packages:
   <<: !include_dir_named common
   board: !include boards/wemos_d1_mini.yaml
 
+esphome:
+  friendly_name: ${name}
+
 logger:
   baud_rate: 115200
 
-api: !remove
+mqtt: !remove
 
 # sensor:
 #   - platform: template
