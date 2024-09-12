@@ -235,7 +235,7 @@
       device_class: monetary
       unit_of_measurement: "SEK/kWh"
       state: >
-        {{ 'none' if (states('sensor.ctc_elspot_integer')|int == 32767 or states('sensor.ctc_elspot_decimals')|float == 3.2767) else (states('sensor.ctc_elspot_integer')|int(0) + states('sensor.ctc_elspot_decimals')|float(0)) }}
+        {{ none if (states('sensor.ctc_elspot_integer')|int == 32767 or states('sensor.ctc_elspot_decimals')|float == 3.2767) else (states('sensor.ctc_elspot_integer')|int(0) + states('sensor.ctc_elspot_decimals')|float(0)) }}
       availability: >
         {{ not (
           [ states('sensor.ctc_elspot_integer'), states('sensor.ctc_elspot_decimals') ] 
@@ -282,6 +282,11 @@
         {% else %}
           100
         {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.heatpump_circuit_daily_energy_for_hs'), states('sensor.heatpump_daily_energy') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
 
 - sensor:
     - name: heatpump_hw_daily_share
@@ -293,3 +298,8 @@
         {% else %}
           100
         {% endif %}
+      availability: >
+        {{ not (
+          [ states('sensor.heatpump_circuit_daily_energy_for_hw'), states('sensor.heatpump_daily_energy') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
