@@ -9,6 +9,13 @@ sensors:
           area: parkering_och_uppfart
           filter:
             domain: light
+        entities:
+          - entity_id: sensor.dummy
+            unique_id: 532ae0b1-3a85-4157-b35a-f3bd3b3a1977
+            name: "greenhouse_light"
+            fixed:
+              power: "{{ 3.6 if states('light.greenhouse_plug') == 'on' else  0.05 }}"
+
       - create_group: "outdoor ambience"
         unique_id: 4dbfacbd-7fc4-40a6-a4e6-26e385db0f12
         include:
@@ -146,13 +153,43 @@ sensors:
     fixed:
       power: "{{states('sensor.techups_power_tmp')}}"
 
+  - create_group: "other electronics"
+    unique_id: d29ed6b5-87a7-4566-80e8-427f9fe25e3a
+    entities:
+      - create_group: iot
+        unique_id: 19d957e6-b2e3-4dda-87d8-828bb268b6df
+        entities:
+          - entity_id: sensor.dummy
+            unique_id: f326ff36-5371-4528-a07d-59794336249b
+            name: "all_esp_devices"
+            fixed:
+              power: >
+                {% set esppower = 2 %}
+                {% set espdevices = set(integration_entities('esphome')
+                      |map('device_id')
+                      |reject('none'))
+                  |select('is_device_attr', 'manufacturer', 'Espressif')
+                  |map('device_attr','name')
+                  |list|count
+                %}
+                {{espdevices*esppower}}
+      - entity_id: sensor.dummy
+        unique_id: c39ecefd-0d0d-47b5-9fcb-fb581d0f8b5b
+        name: "conservatory_tv"
+        fixed:
+          power: "{{ 1 if states('media_player.uterummet') == 'unavailable' else  63 }}"
+
   - create_group: "smart speakers"
     unique_id: f883310e-e09c-4d1c-8ef7-b2e83b530324
     entities:
       - entity_id: media_player.hobbyroom_speaker
       - entity_id: media_player.kitchen_display
+        fixed:
+          power: >
+            {{ 0 if states('media_player.kitchen_display') == 'unavailable' else 3 }}
       - entity_id: media_player.vardagsrummet_speaker
       - entity_id: media_player.sovrummet_speaker
+      - entity_id: media_player.marshall_speaker
 
   - create_group: "environment and air quality"
     unique_id: f5f210d6-1608-467e-b272-a7b0a83ae6b2
