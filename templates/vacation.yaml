@@ -20,6 +20,9 @@
   binary_sensor:
     - name: "vacation_linus"
       state: |-
-        {% set search_term = "Semester" %}
+        {% set search_term = ['semester', 'Semester'] %}
         {{ agenda['calendar.linus'].events 
-          | selectattr('summary', 'search', search_term) | list | count > 0 }}
+          | selectattr('summary', 'in', search_term) | list | count > 0 }}
+      # {% set search_term = "Semester" %}
+      # {{ agenda['calendar.linus'].events
+      #   | selectattr('summary', 'search', search_term) | list | count > 0 }}
