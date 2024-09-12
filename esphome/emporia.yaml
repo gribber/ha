@@ -9,7 +9,7 @@ packages:
   <<: !include_dir_named common
   board: !include boards/esp32dev.yaml
 
-api: !remove
+mqtt: !remove
 
 external_components:
   - source: github://emporia-vue-local/esphome@dev
