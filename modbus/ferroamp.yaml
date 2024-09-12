@@ -1,0 +1,42 @@
+- name: "ferroamp"
+  type: tcp
+  host: !secret fa_host
+  port: !secret fa_port
+  delay: 1
+
+  binary_sensors:
+    # system grid status
+    - name: "fa_limit_import_system_value"
+      unique_id: 08e4bbc7-5c5f-4df4-a0fc-36913544ee53
+      address: 8000
+      slave: 1
+      input_type: input
+
+    - name: "fa_limit_export_system_value"
+      unique_id: b0038b12-867c-4c9d-9422-9cf6ac92abb0
+      address: 8010
+      slave: 1
+      input_type: input
+
+  sensors:
+    - name: "fa_import_threshold_system_value"
+      unique_id: f34fccfe-a72d-43e0-884c-72f436128aaa
+      address: 8002
+      slave: 1
+      data_type: float32
+      input_type: input
+      swap: word
+      precision: 0
+      unit_of_measurement: W
+      device_class: power
+
+    - name: "fa_export_threshold_system_value"
+      unique_id: a64672c7-5e35-4343-a0b2-4cdd171f9b70
+      address: 8012
+      slave: 1
+      data_type: float32
+      input_type: input
+      swap: word
+      precision: 0
+      unit_of_measurement: W
+      device_class: power

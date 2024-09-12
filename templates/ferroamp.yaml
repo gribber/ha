@@ -124,3 +124,37 @@
           [ states('sensor.ferroamp_xl28_sso_west_32_total_energy') ] 
           | select('equalto', ['unknown', 'unavailable', 'none']) 
           | list) }}
+
+    - name: "ferroamp_xl28_efficiency_loss_power"
+      unique_id: 27f9b31d-3c32-4c60-8c93-c4d211c87713
+      state: >
+        {% set solar = states('sensor.ferroamp_xl28_solar_power')|float(default=0) %}
+        {% set inverter = states('sensor.ferroamp_xl28_inverter_power_active')|float(default=0) %}
+        {% set loss = (solar + inverter) | round(0) %}
+        {{ loss if (solar > 0 and loss > 0) else 0 }}
+      unit_of_measurement: W
+      device_class: power
+      icon: "mdi:flash"
+      availability: >
+        {{ not (
+          [ states('sensor.ferroamp_xl28_solar_power'), states('sensor.ferroamp_xl28_inverter_power_active') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
+    # test to see if inverter consumption (EnergyHub Inverter Power, Active) with
+    # positive value (no solar production) matches "EnergyHub Inverter Energy Consumed"
+    # Sum calculated with reimann integral
+    # - name: "ferroamp_xl28_inverter_consumption_power"
+    #   unique_id: d8a61232-40e3-4529-a06d-5ff9acbef788
+    #   state: >
+    #     {% set solar = states('sensor.ferroamp_xl28_solar_power')|float(default=0) %}
+    #     {% set inverter = states('sensor.ferroamp_xl28_inverter_power_active')|float(default=0)|round(0) %}
+    #     {{ inverter if (solar == 0 and inverter > 0) else 0 }}
+    #   unit_of_measurement: W
+    #   device_class: power
+    #   icon: "mdi:flash"
+    #   availability: >
+    #     {{ not (
+    #       [ states('sensor.ferroamp_xl28_solar_power'), states('sensor.ferroamp_xl28_inverter_power_active') ]
+    #       | select('in', ['unknown', 'unavailable', 'none'])
+    #       | list) }}

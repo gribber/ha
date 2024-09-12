@@ -4,7 +4,7 @@
       unit_of_measurement: W
       device_class: power
       state: >
-        {% set export = states('sensor.momentary_active_export')|float * 1000 %}
+        {% set export = states('sensor.momentary_active_export')|float(default=0) * 1000 %}
         {% if export > 14000 %}
           {{ export - 14000 }}
         {% else %}
@@ -21,7 +21,7 @@
       unit_of_measurement: W
       device_class: power
       state: >
-        {% set export = states('sensor.momentary_active_export')|float * 1000 %}
+        {% set export = states('sensor.momentary_active_export')|float(default=0) * 1000 %}
         {% if export > 14000 %}
           14000.0{{ range(1, 99) | random }}
         {% else %}

@@ -1,0 +1,30 @@
+# main fuses
+- platform: integration
+  unique_id: cb571d20-4f62-47a9-ae9e-70616cac1a1f
+  name: reimann_fuse20_energy
+  method: left
+  source: sensor.export_power_below_20a
+  unit_prefix: k
+
+- platform: integration
+  unique_id: fd0358b4-df67-426a-a84d-4eaaf1bcd03b
+  name: reimann_fuse25_energy
+  method: left
+  source: sensor.export_power_above_20a
+  unit_prefix: k
+
+# ferroamp production efficency loss
+- platform: integration
+  unique_id: eadabddc-ac88-4408-a572-7372e8cd0b11
+  name: reimann_ferroamp_xl28_efficiency_loss_energy
+  method: left
+  source: sensor.ferroamp_xl28_efficiency_loss_power
+  unit_prefix: k
+
+  # test using sensor.ferroamp_xl28_consumption_power (templates/ferroamp.yaml)
+# - platform: integration
+#   unique_id: ee18bdd5-e33f-4230-9751-fe0906a7e608
+#   name: reimann_ferroamp_xl28_consumption_energy
+#   method: left
+#   source: sensor.ferroamp_xl28_inverter_consumption_power
+#   unit_prefix: k
