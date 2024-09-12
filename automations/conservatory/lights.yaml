@@ -1,0 +1,62 @@
+- alias: "Conservatory: lights"
+  id: eaf0b151-07e3-4af2-9a95-e493122a915e
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type:
+        - automation_reloaded
+        - scene_reloaded
+
+    - platform: state
+      entity_id:
+        - input_boolean.house_mode_bright_inside
+
+    - platform: time
+      at:
+        - input_datetime.time_goodmorning
+        - input_datetime.time_goodnight
+
+  action:
+    choose:
+      - conditions:
+          - condition: state
+            # when there is daylight
+            entity_id:
+              - input_boolean.house_mode_bright_inside
+            state: "on"
+
+        sequence:
+          - &turn_off # turn off lights
+            service: light.turn_off
+            target:
+              entity_id:
+                - light.conservatory_ceiling
+            data:
+              transition: 5
+
+      - conditions:
+          - condition: time
+            # at specific time in the morning
+            after: input_datetime.time_goodmorning
+            # but before a specific time in the evening
+            before: input_datetime.time_goodnight
+
+          - condition: state
+            # and only if light is off
+            entity_id: light.conservatory_ceiling
+            state: "off"
+
+        sequence:
+          - &scene_turn_on
+            service: light.turn_on
+            target:
+              entity_id:
+                - light.conservatory_ceiling
+            data:
+              transition: 5
+              brightness: 120
+
+    default:
+      - *turn_off
