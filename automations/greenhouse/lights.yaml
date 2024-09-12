@@ -26,12 +26,10 @@
           - service: homeassistant.turn_on
             target:
               entity_id:
-                - switch.poop_plug
-
+                - light.greenhouse_plug
 
     default:
       - service: homeassistant.turn_off
         target:
           entity_id:
-            - switch.poop_plug
- 
+            - light.greenhouse_plug

@@ -8,7 +8,7 @@
     - platform: state
       entity_id:
         - binary_sensor.wardrobe_terrace_bt_proxy_door_bell
-        - binary_sensor.front_door_occupancy
+        - binary_sensor.front_door_doorbell_ding
       from: "off"
       to: "on"
 
