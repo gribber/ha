@@ -1,0 +1,15 @@
+- binary_sensor:
+    name: "tech monitors"
+    unique_id: 36566c81-b2cc-43c9-ab5e-2bdf7522a779
+    command: !secret cmd_techpi_monitor_state
+    device_class: "running"
+    payload_on: "On"
+    payload_off: "Off"
+
+- binary_sensor:
+    name: "tech ambience sound"
+    unique_id: 703c14cf-22d4-4dbc-8040-bd4cf5126baa
+    command: !secret cmd_techpi_borg_state
+    device_class: sound
+    payload_on: "on"
+    payload_off: "off"
