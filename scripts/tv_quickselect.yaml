@@ -1,0 +1,15 @@
+start_tv4_play:
+  alias: "Starta TV4 Play på shield"
+  sequence:
+    - action: media_player.select_source
+      data:
+        source: SHIELD
+      target:
+        entity_id: media_player.home_theater
+
+    - action: media_player.select_source
+      target:
+        entity_id:
+          - media_player.android_tv_10_5_50_73
+      data:
+        source: TV4 Play
