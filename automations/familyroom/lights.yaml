@@ -18,8 +18,28 @@
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
+    - platform: state
+      entity_id:
+        - sensor.family_room_remote_action
+      id: remote
+
   action:
     choose:
+      - conditions:
+          - condition: trigger
+            id: remote
+        sequence:
+          - variables:
+              action: "{{ trigger.to_state.state }}"
+
+          - choose:
+              - conditions: "{{ action in ['on'] }}"
+                sequence:
+                  - service: light.toggle
+                    data:
+                      entity_id:
+                        - light.family_room_ceiling
+
       - conditions:
           - condition: state
             # when there is daylight

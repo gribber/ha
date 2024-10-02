@@ -35,6 +35,7 @@
       id: remote
       entity_id:
         - sensor.kitchen_remote_action
+        - sensor.kitchen_remote_2_action
 
     - platform: state
       id: senile
@@ -92,7 +93,7 @@
 
           - choose:
               - alias: "big pressed"
-                conditions: "{{ action in ['on'] }}"
+                conditions: "{{ action in ['big-press', 'on', 'brightness_up_click'] }}"
                 sequence:
                   - service: light.toggle
                     target:
@@ -100,17 +101,23 @@
                         - light.kitchen_table
 
               - alias: "small pressed"
-                conditions: "{{ action in ['off'] }}"
+                conditions: "{{ action in ['small-press', 'off', 'brightness_down_click'] }}"
                 sequence:
                   - service: light.toggle
                     target:
                       entity_id: light.kitchen_island
-              - alias: "right pressed"
-                conditions: "{{ action in ['arrow_left_click'] }}"
+              - alias: "left pressed"
+                conditions: "{{ action in ['left-press', 'arrow_left_click'] }}"
                 sequence:
                   - service: light.toggle
                     target:
                       entity_id: light.kitchen_bench
+              - alias: "right pressed"
+                conditions: "{{ action in ['right-press', 'arrow_right_click'] }}"
+                sequence:
+                  - service: light.toggle
+                    target:
+                      entity_id: light.conservatory_ceiling
 
       - conditions:
           - condition: trigger
