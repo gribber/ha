@@ -1,0 +1,35 @@
+- alias: "Water meter: flow"
+  id: 191c227f-0822-4457-b917-539d9345eb48
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - sensor.watermeter_water_usage_current
+      above: 0
+      for:
+        minutes: 15
+      id: flow_15
+
+  variables:
+    data: &notify_data
+      importance: high
+      ttl: 0
+      #persistent: true
+      tag: water_leak
+      sticky: true
+      visibility: public
+
+  action:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: flow_15
+          sequence:
+            - service: notify.family
+              data_template:
+                title: "Vattenflöde!"
+                message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')}}L/min)"
+                data: *notify_data
+            - service: notify.castle
+              data:
+                title: "Vattenflöde!"
+                message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')}}L/min)"
