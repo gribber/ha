@@ -118,6 +118,16 @@ sensors:
           - entity_id: switch.laundry_room_channel_1
             fixed:
               power: "{{ states('sensor.laundry_room_channel_1_power') }}"
+      - create_group: "guest room"
+        unique_id: ea2b447c-7db5-40a7-83da-fee01c43d9e6
+        include:
+          area: gastrum
+          filter:
+            domain: light
+        entities:
+          - entity_id: light.guestroom_plug
+            fixed:
+              power: "{{ 4.8 if states('light.guestroom_plug') == 'on' else  0.3 }}"
 
   - create_group: "garage lights"
     unique_id: 765c1684-143e-43da-80b6-8f0ca239db38
@@ -173,6 +183,22 @@ sensors:
                   |list|count
                 %}
                 {{espdevices*esppower}}
+
+          - entity_id: lock.front_door
+            unique_id: 1a373da1-a228-462a-bb64-bb38c1667a8a
+            name: "yale_doorman_entrence"
+            fixed:
+              power: 1.2
+
+      - create_group: cctv
+        unique_id: 9b62a699-654a-41ce-bf71-1e4ad24b81e3
+        entities:
+          - entity_id: sensor.dummy
+            unique_id: 75629e69-b000-4271-adc6-46aa14679916
+            name: "e1-zoom"
+            fixed:
+              power: 3.6
+
       - entity_id: sensor.dummy
         unique_id: c39ecefd-0d0d-47b5-9fcb-fb581d0f8b5b
         name: "conservatory_tv"
@@ -189,7 +215,11 @@ sensors:
             {{ 0 if states('media_player.kitchen_display') == 'unavailable' else 3 }}
       - entity_id: media_player.vardagsrummet_speaker
       - entity_id: media_player.sovrummet_speaker
+        fixed:
+          power: "{{ 0 if states('media_player.sovrummet_speaker') == 'unavailable' else 2.3 }}"
       - entity_id: media_player.marshall_speaker
+        fixed:
+          power: "{{ 2.2 if states('media_player.marshall_speaker') in ['unavailable', 'off'] else 5.5 }}"
 
   - create_group: "environment and air quality"
     unique_id: f5f210d6-1608-467e-b272-a7b0a83ae6b2
