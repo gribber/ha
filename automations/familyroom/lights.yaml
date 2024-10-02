@@ -23,6 +23,15 @@
         - sensor.family_room_remote_action
       id: remote
 
+    - platform: state
+      id: senile
+      entity_id:
+        - binary_sensor.motion_front_occupancy
+      from: "on"
+      to: "off"
+      for:
+        minutes: 10
+
   action:
     choose:
       - conditions:
@@ -39,6 +48,16 @@
                     data:
                       entity_id:
                         - light.family_room_ceiling
+
+      - conditions:
+          # when no movement is detected for a fair amount of time, consider the room empty and that 'someone' forgot to turn off the lights
+          - condition: trigger
+            id: senile
+        sequence:
+          # turn off all lights
+          - service: light.turn_off
+            entity_id:
+              - light.family_room_ceiling
 
       - conditions:
           - condition: state
