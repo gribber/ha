@@ -40,6 +40,7 @@ sensor:
     name: "water_level"
     id: water_level
     unit_of_measurement: "L"
+    state_class: measurement
     accuracy_decimals: 2
     lambda: |-
       const float tank_size = 2.0;
