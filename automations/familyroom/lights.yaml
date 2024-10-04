@@ -26,11 +26,11 @@
     - platform: state
       id: senile
       entity_id:
-        - binary_sensor.motion_front_occupancy
+        - binary_sensor.motion_familyroom_occupancy
       from: "on"
       to: "off"
       for:
-        minutes: 10
+        minutes: "{{ states('input_number.family_room_timeout')|int }}"
 
   action:
     choose:
