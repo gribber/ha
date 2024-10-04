@@ -8,7 +8,7 @@
           states.binary_sensor
             |selectattr('attributes.device_class', 'eq', 'door')
             |rejectattr('entity_id', 'search', ignore)
-            |selectattr('state', 'eq', 'on')
+            |selectattr('state', 'in', ['on', 'unavailable'])
             |map(attribute='entity_id')
             |list
             |count
@@ -30,9 +30,18 @@
             {% set ns.doors = ns.doors + [door+":"+state_attr(door, 'friendly_name')] %}
           {% endfor %}
           {{ns.doors}}
-
-      availability: >
-        {{ not (
-          [ states('sensor.coffee_plug_power') ] 
-          | select('in', ['unknown', 'unavailable', 'none']) 
-          | list) }}
+        unavailable: >
+          {% set ignore = '(niro_|_bsh_|rat_trap|mailbox)' %}
+          {% set doors = 
+            states.binary_sensor
+              |selectattr('attributes.device_class', 'eq', 'door')
+              |rejectattr('entity_id', 'search', ignore)
+              |selectattr('state', 'eq', 'unavailable')
+              |map(attribute='entity_id')
+              |list 
+          %}
+          {%- set ns = namespace(doors=[]) -%}
+          {% for door in doors %}
+            {% set ns.doors = ns.doors + [door+":"+state_attr(door, 'friendly_name')] %}
+          {% endfor %}
+          {{ns.doors}}
