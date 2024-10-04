@@ -10,7 +10,7 @@ packages:
   board: !include boards/wemos_d1_mini.yaml
   1wire: !include components/1wire.yaml
 
-api: !remove
+mqtt: !remove
 
 sensor:
   - platform: dallas_temp
@@ -56,9 +56,9 @@ sensor:
     address: 0x803c01e07685fd28
     name: "outdoor_ow_west_temperature"
     accuracy_decimals: 5
-    expire_after: 5min
-    force_update: true
-    update_interval: 30s
+    #expire_after: 5min
+    #force_update: true
+    #update_interval: 30s
 
 
 
