@@ -24,7 +24,7 @@
       from: "on"
       to: "off"
       for:
-        seconds: 60
+        minutes: "{{ states('input_number.hallway_downstairs_timeout')|int }}"
 
   condition: []
 
