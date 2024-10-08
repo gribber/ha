@@ -5,10 +5,15 @@
   unique_id: 753230da-a7d4-4290-a4a1-5c7d9438de3e
   entity_id: sensor.hobbyroom_outlet_channel_1_power_tmp
   filters:
+    - filter: outlier
+      window_size: 10
+      radius: 6.0
+    - filter: lowpass
+      time_constant: 10
     - filter: time_simple_moving_average
       window_size: "00:01"
       precision: 0
-      
+
 - platform: filter
   name: "hobbyroom_outlet_channel_2_power"
   unique_id: d338b76c-8adb-4e4d-8790-e5159c927741
@@ -26,4 +31,3 @@
     - filter: time_simple_moving_average
       window_size: "00:01"
       precision: 0
-
