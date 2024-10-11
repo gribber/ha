@@ -9,12 +9,6 @@ sensors:
           area: parkering_och_uppfart
           filter:
             domain: light
-        entities:
-          - entity_id: sensor.dummy
-            unique_id: 532ae0b1-3a85-4157-b35a-f3bd3b3a1977
-            name: "greenhouse_light"
-            fixed:
-              power: "{{ 3.6 if states('light.greenhouse_plug') == 'on' else  0.05 }}"
 
       - create_group: "outdoor ambience"
         unique_id: 4dbfacbd-7fc4-40a6-a4e6-26e385db0f12
@@ -22,6 +16,11 @@ sensors:
           area: dekoration_ute
           filter:
             domain: light
+        entities:
+          - entity_id: light.greenhouse_plug
+            standby_power: 0.23
+            fixed:
+              power: 3.2
 
   - create_group: "indoor lights"
     unique_id: 0259ae80-3fd3-40fe-9cf9-1857f2e28fc0
@@ -46,6 +45,11 @@ sensors:
           area: kitchen
           filter:
             domain: light
+        entities:
+          - entity_id: light.kitchen_sink
+            standby_power: 0.38
+            fixed:
+              power: 22.34
       - create_group: "family room"
         unique_id: 49d8f20c-79f0-4a4a-a83f-618ef66c7a83
         include:
@@ -204,6 +208,20 @@ sensors:
         name: "conservatory_tv"
         fixed:
           power: "{{ 1 if states('media_player.uterummet') == 'unavailable' else  63 }}"
+
+      - create_group: robots
+        unique_id: e70e5ad9-8aa2-4a96-a2b8-6c26089f5021
+        entities:
+          - entity_id: vacuum.vac_it_ralph
+            standby_power: 0.39
+            fixed:
+              states_power:
+                docked: "{{ states('sensor.vacuum_upstairs_plug_power')|int(0)+0.39 }}"
+          - entity_id: vacuum.zucky_stardust
+            standby_power: 0.39
+            fixed:
+              states_power:
+                docked: "{{ states('sensor.vacuum_downstairs_plug_power')|int(0)+0.39 }}"
 
   - create_group: "smart speakers"
     unique_id: f883310e-e09c-4d1c-8ef7-b2e83b530324
