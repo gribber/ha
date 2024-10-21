@@ -1,2 +1,5 @@
 sensor.cat_flap_catflapdual_battery_level:
   unit_of_measurement: "%"
+
+sensor.ha_db_size:
+  state_class: measurement
