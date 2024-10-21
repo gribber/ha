@@ -1,0 +1,60 @@
+# Stuff to get size of addons into HA
+#
+# following bash script is added to crontab:
+# */5 * * * *     /path/to/addon_sizes.sh    > /usr/share/hassio/homeassistant/addon_sizes.json 2>/dev/null
+#
+# #!/bin/bash
+# #
+# FIRST=1
+# echo -n "{"
+# du -ms /usr/share/hassio/addons/data/* | while read L; do
+#     if [ $FIRST == "1" ]; then
+#         FIRST=0
+#     else
+#         echo -n ", "
+#     fi
+#     SIZE=$(echo $L | awk '{print $1}')
+#     ADDON=$(basename $(echo $L | awk '{print $2}'))
+#     echo -n "\"$ADDON\":\"$SIZE\""
+# done
+# echo "}"
+
+- sensor:
+    name: "45df7312_zigbee2mqtt_size"
+    unique_id: d93b66fb-90ec-4535-9acc-50ca1de9f040
+    command: "cat addon_sizes.json"
+    unit_of_measurement: MB
+    state_class: measurement
+    value_template: "{{ value_json['45df7312_zigbee2mqtt'] }}"
+
+- sensor:
+    name: "5c53de3b_esphome_size"
+    unique_id: 7d00f0f3-018d-42ca-aea3-a97e812fd55b
+    command: "cat addon_sizes.json"
+    unit_of_measurement: MB
+    state_class: measurement
+    value_template: "{{ value_json['5c53de3b_esphome'] }}"
+
+- sensor:
+    name: "a0d7b954_influxdb_size"
+    unique_id: 61e403d2-aa47-4c61-b396-cc335e7b42cd
+    command: "cat addon_sizes.json"
+    unit_of_measurement: MB
+    state_class: measurement
+    value_template: "{{ value_json['a0d7b954_influxdb'] }}"
+
+- sensor:
+    name: "a0d7b954_vscode_size"
+    unique_id: 14b55818-33fd-41db-aa97-1bc4d86638b2
+    command: "cat addon_sizes.json"
+    unit_of_measurement: MB
+    state_class: measurement
+    value_template: "{{ value_json['a0d7b954_vscode'] }}"
+
+- sensor:
+    name: "core_mariadb_size"
+    unique_id: be75020f-020e-4f6e-8df0-df3558aa9fce
+    command: "cat addon_sizes.json"
+    unit_of_measurement: MB
+    state_class: measurement
+    value_template: "{{ value_json['core_mariadb'] }}"
