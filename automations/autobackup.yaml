@@ -48,7 +48,7 @@
     data:
       name: "DailyBackup: {{ now().strftime('%a, %Y-%m-%d') }}"
       keep_days: 7
-      #location: /mounts/backup
+      location: backup
 
 - alias: "AutoBackup: Weekly Backup"
   id: a3f0c772-b3c1-4a71-a7ca-0e246c1b5df7
@@ -66,4 +66,4 @@
       # store backup for a month
       # i.e. backup each week and store for 4 weeks
       keep_days: 28
-      #location: /mounts/backup
+      location: backup
