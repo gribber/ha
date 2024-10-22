@@ -1,29 +1,29 @@
 - alias: "Kitchen: lights"
   id: 12efc75c-0603-4bd2-91d9-3cffa6159a82
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_bright_inside
 
-    - platform: state
+    - trigger: state
       id: movement
       entity_id:
         - input_boolean.kitchen_movement
 
-    - platform: time
+    - trigger: time
       at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
-    - platform: state
+    - trigger: state
       id: nightaway
       entity_id:
         - input_boolean.house_mode_away
@@ -31,13 +31,13 @@
       from: "off"
       to: "on"
 
-    - platform: state
+    - trigger: state
       id: remote
       entity_id:
         - sensor.kitchen_remote_action
         - sensor.kitchen_remote_2_action
 
-    - platform: state
+    - trigger: state
       id: senile
       entity_id:
         - binary_sensor.motion_kitchen_occupancy
@@ -46,7 +46,7 @@
       for:
         minutes: 10
 
-  action:
+  actions:
     choose:
       - conditions:
           - condition: trigger
@@ -55,14 +55,14 @@
           - choose:
               - conditions: '{{ states("input_boolean.kitchen_movement") == "on" }}'
                 sequence:
-                  - service: light.turn_on
+                  - action: light.turn_on
                     target:
                       entity_id: light.kitchen_sink
                     data:
                       brightness: 255
                       #transition: 1
             default:
-              - service: light.turn_off
+              - action: light.turn_off
                 target:
                   entity_id: light.kitchen_sink
                 data:
@@ -74,7 +74,7 @@
             id: senile
         sequence:
           # turn off all lights
-          - service: light.turn_off
+          - action: light.turn_off
             entity_id:
               - light.kitchen_island
               - light.kitchen_table
@@ -95,27 +95,37 @@
               - alias: "big pressed"
                 conditions: "{{ action in ['big-press', 'on', 'brightness_up_click'] }}"
                 sequence:
-                  - service: light.toggle
-                    target:
-                      entity_id:
-                        - light.kitchen_table
+                  - choose:
+                      - conditions: "{{ states('light.kitchen_table') == 'off' }}"
+                        sequence:
+                          - action: light.turn_on
+                            target:
+                              entity_id:
+                                - light.kitchen_table
+                            data:
+                              brightness: 255
+                    default:
+                      - action: light.turn_off
+                        target:
+                          entity_id:
+                            - light.kitchen_table
 
               - alias: "small pressed"
                 conditions: "{{ action in ['small-press', 'off', 'brightness_down_click'] }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.kitchen_island
               - alias: "left pressed"
                 conditions: "{{ action in ['left-press', 'arrow_left_click'] }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.kitchen_bench
               - alias: "right pressed"
                 conditions: "{{ action in ['right-press', 'arrow_right_click'] }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.conservatory_ceiling
 
@@ -124,7 +134,7 @@
             # when night/away mode is active
             id: nightaway
         sequence:
-          - service: light.turn_off
+          - action: light.turn_off
             # turn of regular lights
             target:
               entity_id:
@@ -141,7 +151,7 @@
 
         sequence:
           - &turn_off # turn off lights
-            service: light.turn_off
+            action: light.turn_off
             target:
               entity_id:
                 - light.kitchen_lamp
@@ -165,7 +175,7 @@
 
         sequence:
           - &scene_turn_on
-            service: scene.turn_on
+            action: scene.turn_on
             target:
               entity_id:
                 - scene.kitchen_ambience_lights_cozy
