@@ -1,39 +1,41 @@
 input_boolean:
   rat_trap_1_armed:
+    name: "Råttfälla 1 aktiv"
   rat_trap_2_armed:
+    name: "Råttfälla 2 aktiv"
   rat_trap_3_armed:
+    name: "Råttfälla 3 aktiv"
 
 counter:
   rat_trap:
     name: "Rat trap kill count"
 
-          
 automation:
   - alias: "Rat trap"
     id: "6fb0de3f-e185-4a95-ab77-ca3215f6dac1"
-    trigger:
-      platform: state
+    triggers:
+      trigger: state
       entity_id:
-#        - binary_sensor.rat_trap_1
+        #        - binary_sensor.rat_trap_1
         - binary_sensor.rat_trap_2_contact
         - binary_sensor.rat_trap_3_contact
       from: "off"
       to: "on"
-    
-    condition:
+
+    conditions:
       condition: template
       value_template: >
-        {% set trap = trigger.entity_id.split('.')[1] %}
+        {% set trap = trigger.entity_id.split('.')[1].replace('_contact', '') %}
         {{ is_state('input_boolean.'+trap+'_armed', 'on') }}
 
-    action:
-      - service: counter.increment
+    actions:
+      - action: counter.increment
         entity_id:
           - counter.rat_trap
-      - service: input_boolean.turn_off
+      - action: input_boolean.turn_off
         data_template:
-          entity_id: "input_boolean.{{ trigger.entity_id.split('.')[1] }}_armed"
-      - service: notify.family
+          entity_id: "input_boolean.{{ trigger.entity_id.split('.')[1].replace('_contact', '') }}_armed"
+      - action: notify.family
         data_template:
           title: "Råttfångarn"
           message: >
@@ -46,4 +48,3 @@ automation:
           data:
             tag: rat_trap
             sticky: true
-
