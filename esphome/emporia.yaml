@@ -52,8 +52,10 @@ i2c:
   sda: 21
   scl: 22
   scan: false
-  frequency: 200kHz  # recommended range is 50-200kHz
+  #frequency: 200kHz  # recommended range is 50-200kHz
   id: i2c_a
+  frequency: 400kHz  # recommended range is 50-200kHz
+  timeout: 1ms
 
 time:
   - platform: sntp
@@ -77,6 +79,9 @@ time:
   - &abs
     # take the absolute value of the value
     lambda: 'return abs(x);'
+  - &interference
+    # count low values as 0
+    lambda: 'if (x < 5) return 0; else return x;'
 
 
 sensor:
@@ -134,13 +139,13 @@ sensor:
           id: phase_c_power
           filters: [*pos]
       # Pay close attention to set the phase_id for each breaker by matching it to the phase/leg it connects to in the panel
-      - { phase_id: phase_a, input: "1", power: { id: cir1, filters: [ *pos ] } }
-      - { phase_id: phase_b, input: "2", power: { id: cir2, filters: [ *pos ] } }
-      - { phase_id: phase_c, input: "3", power: { id: cir3, filters: [ *pos ] } }
-      - { phase_id: phase_c, input: "4", power: { id: cir4, filters: [ *pos ] } }
-      - { phase_id: phase_b, input: "5", power: { id: cir5, filters: [ *pos ] } }
-      - { phase_id: phase_b, input: "6", power: { id: cir6, filters: [ *pos ] } }
-      - { phase_id: phase_c, input: "7", power: { id: cir7, filters: [ *pos ] } }
+      - { phase_id: phase_a, input: "1", power: { id: cir1, filters: [ *pos, *interference ] } }
+      - { phase_id: phase_b, input: "2", power: { id: cir2, filters: [ *pos, *interference ] } }
+      - { phase_id: phase_c, input: "3", power: { id: cir3, filters: [ *pos, *interference ] } }
+      - { phase_id: phase_c, input: "4", power: { id: cir4, filters: [ *pos, *interference ] } }
+      - { phase_id: phase_b, input: "5", power: { id: cir5, filters: [ *pos, *interference ] } }
+      - { phase_id: phase_b, input: "6", power: { id: cir6, filters: [ *pos, *interference ] } }
+      - { phase_id: phase_c, input: "7", power: { id: cir7, filters: [ *pos, *interference ] } }
       # - { phase_id: phase_b, input: "8", power: { id: cir8, filters: [ *pos ] } }
       # - { phase_id: phase_c, input: "9", power: { id: cir9, filters: [ *pos ] } }
       # - { phase_id: phase_a, input: "10", power: { id: cir10, filters: [ *pos ] } }
@@ -161,13 +166,13 @@ sensor:
   # - { platform: copy, name: "Phase C Power", source_id: phase_c_power, filters: *throttle_avg }
   # - { platform: copy, name: "Total Power", source_id: total_power, filters: *throttle_avg }
   # - { platform: copy, name: "Balance Power", source_id: balance_power, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 1 Power", source_id: cir1, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 2 Power", source_id: cir2, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 3 Power", source_id: cir3, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 4 Power", source_id: cir4, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 5 Power", source_id: cir5, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 6 Power", source_id: cir6, filters: *throttle_avg }
-  - { platform: copy, name: "Circuit 7 Power", source_id: cir7, filters: *throttle_avg }
+  - { platform: copy, name: "Circuit 1 Power", source_id: cir1, filters: [ *throttle_avg, *interference ] }
+  - { platform: copy, name: "Circuit 2 Power", source_id: cir2, filters: [ *throttle_avg, *interference ] }
+  - { platform: copy, name: "Circuit 3 Power", source_id: cir3, filters: [ *throttle_avg, *interference ] }
+  - { platform: copy, name: "Circuit 4 Power", source_id: cir4, filters: [ *throttle_avg, *interference ] }
+  - { platform: copy, name: "Circuit 5 Power", source_id: cir5, filters: [ *throttle_avg, *interference ] }
+  - { platform: copy, name: "Circuit 6 Power", source_id: cir6, filters: [ *throttle_avg, *interference ] }
+  - { platform: copy, name: "Circuit 7 Power", source_id: cir7, filters: [ *throttle_avg, *interference ] }
   # - { platform: copy, name: "Circuit 8 Power", source_id: cir8, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 9 Power", source_id: cir9, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 10 Power", source_id: cir10, filters: *throttle_avg }
@@ -177,7 +182,7 @@ sensor:
   # - { platform: copy, name: "Circuit 14 Power", source_id: cir14, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 15 Power", source_id: cir15, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 16 Power", source_id: cir16, filters: *throttle_avg }
-  - { platform: copy, name: "Stove Power", source_id: stove_power, filters: *throttle_avg }
+  - { platform: copy, name: "Stove Power", source_id: stove_power, filters: [ *throttle_avg, *interference ] }
 
   - platform: template
     lambda: return id(phase_a_power).state + id(phase_b_power).state + id(phase_c_power).state;
