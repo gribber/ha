@@ -1,35 +1,35 @@
 - alias: "Hallway downstairs: lights"
   id: 55d4084a-e61b-4e2e-acaf-edc15146b8c8
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_bright_hallway
 
-    - platform: time
+    - trigger: time
       at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
-    - platform: state
+    - trigger: state
       id: movement
       entity_id:
         - input_boolean.hallway_downstairs_movement
 
-    - platform: state
+    - trigger: state
       id: media
       entity_id:
         - media_player.shield_cinema
       to: "playing"
 
-  action:
+  actions:
     choose:
       - conditions:
           - condition: state
@@ -64,26 +64,26 @@
                       - input_boolean.house_mode_sleep
                     state: "off"
 
-                  - condition: time
-                    before: "23:00"
-                    after: "06:00"
-
                 sequence:
                   - choose:
                       - conditions:
-                          - condition: state
-                            entity_id:
-                              - media_player.shield_cinema
-                            state: "playing"
+                          - or:
+                              - condition: state
+                                entity_id:
+                                  - media_player.shield_cinema
+                                state: "playing"
+                              - condition: time
+                                after: "23:00"
+                                before: "06:00"
                         sequence:
-                          - service: light.turn_on
+                          - action: light.turn_on
                             target:
                               entity_id: light.hallen
                             data:
                               brightness: 60
                               transition: 1
                     default:
-                      - service: light.turn_on
+                      - action: light.turn_on
                         target:
                           entity_id: light.hallen
                         data:
@@ -91,7 +91,7 @@
                           transition: 1
 
             default:
-              - service: light.turn_off
+              - action: light.turn_off
                 target:
                   entity_id: light.hallen
                 data:
@@ -106,7 +106,7 @@
 
         sequence:
           - &turn_off # turn off lights
-            service: light.turn_off
+            action: light.turn_off
             target:
               entity_id:
                 - light.hallway_downstairs_bench
@@ -129,7 +129,7 @@
 
         sequence:
           - &scene_turn_on
-            service: scene.turn_on
+            action: scene.turn_on
             target:
               entity_id:
                 - scene.hallway_downstairs_ambience_lights_cozy

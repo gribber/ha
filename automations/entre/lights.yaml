@@ -1,32 +1,32 @@
 - alias: "Entre: lights"
   id: 2467611a-12d7-4a8d-8650-e18e25e5082b
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_daylight
         - input_boolean.house_mode_outside_work
 
-    - platform: state
+    - trigger: state
       id: movement
       entity_id: input_boolean.front_movement
       from: "off"
       to: "on"
 
-    - platform: state
+    - trigger: state
       id: movement_off
       entity_id: input_boolean.front_movement
       from: "on"
       to: "off"
 
-  action:
+  actions:
     choose:
       - alias: "activate outdoor work mode"
         conditions:
@@ -38,12 +38,11 @@
 
         sequence:
           - alias: "activate outside work scene"
-            service: scene.turn_on
+            action: scene.turn_on
             target:
               entity_id: scene.outdoor_work_entre
             data:
               transition: 2
-
 
       - conditions:
           - condition: trigger
@@ -57,13 +56,11 @@
 
         sequence:
           # illuminate for a while and return to previous mode
-          - service: scene.turn_on
+          - action: scene.turn_on
             target:
               entity_id: scene.outdoor_entre_movement
             data:
               transition: 2
-          
-
 
       - conditions:
           condition: state
@@ -72,17 +69,15 @@
             - input_boolean.house_mode_daylight
           state: "off"
         sequence:
-          - service: scene.turn_on
+          - action: scene.turn_on
             target:
               entity_id: scene.outdoor_entre_lights_default
             data:
               transition: 5
 
-
     default:
-      - service: light.turn_off
+      - action: light.turn_off
         target:
           entity_id: light.entre
         data:
           transition: 5
-
