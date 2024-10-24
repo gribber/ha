@@ -1,0 +1,44 @@
+- alias: "Laundry room: Washer"
+  id: 72a747af-989c-4843-9a35-10793047c0fe
+  triggers:
+    - trigger: state
+      entity_id: sensor.washer_state
+      to: "off"
+      not_from:
+        - "unavailable"
+        - "unknown"
+      for:
+        seconds: 30
+
+  conditions: []
+
+  actions:
+    - action: notify.family
+      data:
+        title: "Tvättmaskinen"
+        message: "Tvätten är klar"
+        data:
+          tag: laundry
+
+- alias: "Laundry room: Dryer"
+  id: ed556d71-7706-408f-9223-fda6f14d3768
+  triggers:
+    - trigger: state
+      entity_id: sensor.dryer_state
+      to: "off"
+      from: "drying"
+      # not_from:
+      #   - "unavailable"
+      #   - "unknown"
+      for:
+        seconds: 30
+
+  conditions: []
+
+  actions:
+    - action: notify.family
+      data:
+        title: "Torktumlaren"
+        message: "Tvätten är torr"
+        data:
+          tag: laundry
