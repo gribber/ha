@@ -1,0 +1,46 @@
+fa_apply_import_settings:
+  sequence:
+    - action: modbus.write_register
+      data:
+        slave: 1
+        hub: fa
+        value: 1
+        address: 8006
+
+fa_enable_import_limit:
+  sequence:
+    - action: modbus.write_register
+      # enable import limit
+      data:
+        slave: 1
+        hub: fa
+        value: 1
+        address: 8000
+    - action: modbus.write_register
+      # set import limit
+      data:
+        slave: 1
+        hub: fa
+        value: >
+          {% set limit = states('input_number.import_limit') | float(0) %}
+          {% set packed_value = pack(limit, ">f") %}
+          {% set high_word = '0x%x' % unpack(packed_value, ">H", offset=2) | abs %}
+          {% set low_word = '0x%04x' %unpack(packed_value, ">H") | abs %}
+          [{{high_word}}, {{low_word}}]
+        address: 8002
+    - action: modbus.write_register
+      # apply/save settings
+      data:
+        slave: 1
+        hub: fa
+        value: 1
+        address: 8006
+
+fa_apply_export_settings:
+  sequence:
+    - action: modbus.write_register
+      data:
+        slave: 1
+        hub: fa
+        value: 1
+        address: 8016
