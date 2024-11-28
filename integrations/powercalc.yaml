@@ -213,13 +213,13 @@ sensors:
         unique_id: e70e5ad9-8aa2-4a96-a2b8-6c26089f5021
         entities:
           - entity_id: vacuum.vac_it_ralph
-            standby_power: 0.39
-            fixed:
-              power: "{{ states('sensor.vacuum_upstairs_plug_power')|int(0)+0.39 }}"
+            power_sensor_id: sensor.vacuum_upstairs_plug_power
+            force_energy_sensor_creation: true
+            #power: "{{ states('sensor.vacuum_upstairs_plug_power')|int(0)+0.39 }}"
           - entity_id: vacuum.zucky_stardust
-            standby_power: 0.86
-            fixed:
-              power: "{{ states('sensor.vacuum_downstairs_plug_power')|int(0)+0.86 }}"
+            power_sensor_id: sensor.vacuum_downstairs_plug_power
+            force_energy_sensor_creation: true
+            #  power: "{{ states('sensor.vacuum_downstairs_plug_power')|int(0)+0.86 }}"
 
   - create_group: "smart speakers"
     unique_id: f883310e-e09c-4d1c-8ef7-b2e83b530324
