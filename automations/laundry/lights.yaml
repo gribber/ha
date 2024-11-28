@@ -3,16 +3,16 @@
   trace:
     stored_traces: 25
 
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       id: movement
       entity_id:
         - input_boolean.laundryroom_movement
@@ -24,9 +24,9 @@
     #   from: "off"
     #   to: "on"
 
-  condition: []
+  conditions: []
 
-  action:
+  actions:
     choose:
       - conditions:
           - condition: trigger
@@ -44,22 +44,22 @@
                 sequence:
                   - &turn_on_ceiling
                     alias: "turn on the lights"
-                    service: switch.turn_on
+                    action: switch.turn_on
                     target:
                       entity_id: switch.laundry_room_channel_1
                   - &turn_on_bench
                     alias: "turn on bench light"
-                    service: light.turn_on
+                    action: light.turn_on
                     target:
                       entity_id: light.laundry_room_bench
                     data:
-                      brightness: 50
+                      brightness: 120
                       transition: 1
 
             default:
               - &turn_off
                 alias: "turn off the lights"
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target:
                   entity_id:
                     - switch.laundry_room_channel_1
