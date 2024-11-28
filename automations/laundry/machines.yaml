@@ -4,11 +4,12 @@
     - trigger: state
       entity_id: sensor.washer_state
       to: "off"
-      not_from:
-        - "unavailable"
-        - "unknown"
+      from: "washing"
+      # not_from:
+      #   - "unavailable"
+      #   - "unknown"
       for:
-        seconds: 30
+        seconds: 60
 
   conditions: []
 
