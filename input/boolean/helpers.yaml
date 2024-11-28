@@ -52,3 +52,5 @@ workday_linus:
 workday_bella:
   name: "Arbetsdag för Bella"
 
+ev_allow_grid:
+  name: "Använd nät"

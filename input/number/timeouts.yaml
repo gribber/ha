@@ -5,6 +5,13 @@ family_room_timeout:
   unit_of_measurement: "min"
   icon: "mdi:clock"
 
+kitchen_timeout:
+  name: "Timeout kök"
+  min: 1
+  max: 30
+  unit_of_measurement: "min"
+  icon: "mdi:clock"
+
 hallway_downstairs_timeout:
   name: "Timeout hallen nere"
   min: 3

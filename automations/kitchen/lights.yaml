@@ -40,11 +40,11 @@
     - trigger: state
       id: senile
       entity_id:
-        - binary_sensor.motion_kitchen_occupancy
+        - input_boolean.kitchen_movement
       from: "on"
       to: "off"
       for:
-        minutes: 10
+        minutes: "{{ states('input_number.kitchen_timeout')|int }}"
 
   actions:
     choose:

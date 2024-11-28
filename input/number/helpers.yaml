@@ -78,3 +78,10 @@ water_price:
   step: 0.01
   mode: box
   icon: "mdi:water"
+
+ev_max_grid_current:
+  name: "Max ström från nät"
+  min: 6
+  max: 16
+  step: 1
+  icon: "mdi:current-ac"

@@ -59,10 +59,10 @@
                       - input_boolean.house_mode_bright_hallway
                     state: "off"
 
-                  - condition: state
-                    entity_id:
-                      - input_boolean.house_mode_sleep
-                    state: "off"
+                  # - condition: state
+                  #   entity_id:
+                  #     - input_boolean.house_mode_sleep
+                  #   state: "off"
 
                 sequence:
                   - choose:
