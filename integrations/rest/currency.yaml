@@ -1,13 +1,17 @@
 - resource: https://api.riksbank.se/swea/v1/Observations/Latest/sekeurpmi
+  scan_interval: 7200
   sensor:
     - name: "Currency SEK per EUR"
       unique_id: ab2bf79f-1dc5-43c5-ac19-06a281c956fa
       unit_of_measurement: "SEK"
+      state_class: measurement
       value_template: "{{ value_json.value }}"
 
 - resource: https://api.riksbank.se/swea/v1/Observations/Latest/SEKUSDPMI
+  scan_interval: 7200
   sensor:
     - name: "Currency SEK per USD"
       unique_id: 94a1df82-c952-436e-b6c1-d3525a204bbe
       unit_of_measurement: "SEK"
+      state_class: measurement
       value_template: "{{ value_json.value }}"

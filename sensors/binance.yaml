@@ -1,0 +1,7 @@
+- platform: binance
+  decimals: 8
+  symbols:
+    - BTCEUR
+    - ETHEUR
+    - XRPEUR
+    - DOGEEUR
