@@ -1,0 +1,66 @@
+# this automation is supposed to take care of all ambience lights inside
+# looping each area on each floor and looking for lights with the ambience label
+# excluding areas with a switch set and turned on with the name input_boolean.noauto_<areaid>
+#
+- alias: "House: ambience lights"
+  id: 8d47c436-0dd0-4db2-a25c-9c020717e11a
+  mode: queued
+  triggers:
+    - trigger: event
+      event_type:
+        - automation_reloaded
+
+    - trigger: state
+      entity_id:
+        - input_boolean.house_mode_bright_inside
+        - input_boolean.house_mode_bright_hallway
+
+    - trigger: time
+      at:
+        - input_datetime.time_goodmorning
+        - input_datetime.time_goodnight
+
+  variables:
+    to_state: >
+      {% if today_at(states('input_datetime.time_goodmorning')) < now() and today_at(states('input_datetime.time_goodnight')) > now() %}
+        {% if 'on' in [states('input_boolean.house_mode_bright_inside'), states('input_boolean.house_mode_bright_hallway')] %}
+          off
+        {% else %}
+          on
+        {% endif %}
+      {% else %}
+        on
+      {% endif %}
+    from_state: "{{ 'off' if to_state == 'on' else 'on' }}"
+    labels: >
+      {% if states('input_boolean.house_mode_bright_inside') == "on" and states('input_boolean.house_mode_bright_hallway') == "off" %}
+        ['ambience']
+      {% elif states('input_boolean.house_mode_bright_inside') == "off" and states('input_boolean.house_mode_bright_hallway') == "on" %}
+        ['ambience_extra']
+      {% else %}
+        ['ambience', 'ambience_extra']
+      {% endif %}
+
+  actions:
+    - action: light.turn_{{to_state}}
+      data:
+        transition: 5
+      target:
+        entity_id: >
+          {% set floors = ['nere', 'uppe'] %}
+          {% set ns = namespace(e=[], l=[]) %}
+          {% for l in labels %}
+            {% set ns.l = ns.l + label_entities(l) %}
+          {% endfor %}
+          {% for floor in floors %}
+            {% for area in floor_areas(floor) %}
+              {%- if states('input_boolean.noauto_'+area) == 'unknown' or states('input_boolean.noauto_'+area) == "on" %}
+                {% for entity in set(area_entities(area)).intersection(ns.l
+                  | select('match', 'light.'))
+                  | select('is_state', from_state) %}
+                  {% set ns.e = ns.e + [entity] -%}
+                {% endfor %}
+              {%- endif -%}
+            {% endfor %}
+          {% endfor %}
+          {{ns.e}}
