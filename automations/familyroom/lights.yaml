@@ -78,6 +78,22 @@
                         data:
                           brightness: 255
                           transition: 1
+              - conditions: "{{ action in ['off'] }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ states('light.julgranen') == 'off' }}"
+                        sequence:
+                          - action: light.turn_on
+                            target:
+                              entity_id:
+                                - light.julgranen
+                            # data:
+                            #   brightness: 255
+                    default:
+                      - action: light.turn_off
+                        target:
+                          entity_id:
+                            - light.julgranen
 
       - conditions:
           # when no movement is detected for a fair amount of time, consider the room empty and that 'someone' forgot to turn off the lights
