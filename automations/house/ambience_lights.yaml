@@ -21,28 +21,39 @@
         - input_datetime.time_goodnight
 
   variables:
-    to_state: >
+    # to_state: >
+    #   {% if today_at(states('input_datetime.time_goodmorning')) < now() and today_at(states('input_datetime.time_goodnight')) > now() %}
+    #     {% if 'on' in [states('input_boolean.house_mode_bright_inside'), states('input_boolean.house_mode_bright_hallway')] %}
+    #       off
+    #     {% else %}
+    #       on
+    #     {% endif %}
+    #   {% else %}
+    #     on
+    #   {% endif %}
+    # from_state: "{{ 'off' if to_state == 'on' else 'on' }}"
+    labels_on: >
+      {% set l = [] %}
       {% if today_at(states('input_datetime.time_goodmorning')) < now() and today_at(states('input_datetime.time_goodnight')) > now() %}
-        {% if 'on' in [states('input_boolean.house_mode_bright_inside'), states('input_boolean.house_mode_bright_hallway')] %}
-          off
-        {% else %}
-          on
+        {% if states('input_boolean.house_mode_bright_inside') == "off" %}
+          {% set l = l + ['ambience'] %}
         {% endif %}
-      {% else %}
-        on
+        {% if states('input_boolean.house_mode_bright_hallway') == "off" %}
+          {% set l = l + ['ambience_extra'] %}
+        {% endif %}
       {% endif %}
-    from_state: "{{ 'off' if to_state == 'on' else 'on' }}"
-    labels: >
-      {% if states('input_boolean.house_mode_bright_inside') == "on" and states('input_boolean.house_mode_bright_hallway') == "off" %}
-        ['ambience']
-      {% elif states('input_boolean.house_mode_bright_inside') == "off" and states('input_boolean.house_mode_bright_hallway') == "on" %}
-        ['ambience_extra']
-      {% else %}
-        ['ambience', 'ambience_extra']
-      {% endif %}
+      {{l}}
+    labels_off: >
+      {% set all_labels = ['ambience', 'ambience_extra']%}
+      {{ set(all_labels).difference(labels_on)|list }}
 
   actions:
-    - action: light.turn_{{to_state}}
+    - variables:
+        labels: "{{ labels_on }}"
+        to_state: "on"
+        from_state: "off"
+    - &activate
+      action: light.turn_{{to_state}}
       data:
         transition: 5
       target:
@@ -54,7 +65,7 @@
           {% endfor %}
           {% for floor in floors %}
             {% for area in floor_areas(floor) %}
-              {%- if states('input_boolean.noauto_'+area) == 'unknown' or states('input_boolean.noauto_'+area) == "on" %}
+              {%- if states('input_boolean.noauto_'+area) == 'unknown' or states('input_boolean.noauto_'+area) == "off" %}
                 {% for entity in set(area_entities(area)).intersection(ns.l
                   | select('match', 'light.'))
                   | select('is_state', from_state) %}
@@ -64,3 +75,8 @@
             {% endfor %}
           {% endfor %}
           {{ns.e}}
+    - variables:
+        labels: "{{ labels_off }}"
+        to_state: "off"
+        from_state: "on"
+    - *activate
