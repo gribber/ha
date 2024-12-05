@@ -1,5 +1,5 @@
-# this automation is supposed to take care of all ambience lights inside
-# looping each area on each floor and looking for lights with the ambience label
+# this automation is supposed to take care of all ambience lights inside the house
+# looping each area on each floor and looking for lights with defined ambience labels
 # excluding areas with a switch set and turned on with the name input_boolean.noauto_<areaid>
 #
 - alias: "House: ambience lights"
@@ -21,30 +21,23 @@
         - input_datetime.time_goodnight
 
   variables:
-    # to_state: >
-    #   {% if today_at(states('input_datetime.time_goodmorning')) < now() and today_at(states('input_datetime.time_goodnight')) > now() %}
-    #     {% if 'on' in [states('input_boolean.house_mode_bright_inside'), states('input_boolean.house_mode_bright_hallway')] %}
-    #       off
-    #     {% else %}
-    #       on
-    #     {% endif %}
-    #   {% else %}
-    #     on
-    #   {% endif %}
-    # from_state: "{{ 'off' if to_state == 'on' else 'on' }}"
     labels_on: >
       {% set l = [] %}
       {% if today_at(states('input_datetime.time_goodmorning')) < now() and today_at(states('input_datetime.time_goodnight')) > now() %}
         {% if states('input_boolean.house_mode_bright_inside') == "off" %}
-          {% set l = l + ['ambience'] %}
+          {% set l = l + ['ambience', 'ambience_night'] %}
         {% endif %}
         {% if states('input_boolean.house_mode_bright_hallway') == "off" %}
           {% set l = l + ['ambience_extra'] %}
         {% endif %}
+      {% else %}
+        {% if states('input_boolean.house_mode_bright_inside') == "off" %}
+          {% set l = l + ['ambience_night'] %}
+        {% endif %}
       {% endif %}
       {{l}}
     labels_off: >
-      {% set all_labels = ['ambience', 'ambience_extra']%}
+      {% set all_labels = ['ambience', 'ambience_extra', 'ambience_night']%}
       {{ set(all_labels).difference(labels_on)|list }}
 
   actions:
