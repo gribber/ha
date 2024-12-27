@@ -1,7 +1,7 @@
 ralph_clean_room:
   alias: "Ralph clean specific room"
   sequence:
-    - service: xiaomi_miio.vacuum_clean_segment
+    - action: xiaomi_miio.vacuum_clean_segment
       target:
         entity_id: vacuum.vac_it_ralph
       data:

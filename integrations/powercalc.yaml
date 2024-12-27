@@ -56,6 +56,11 @@ sensors:
           area: allrum
           filter:
             domain: light
+        entities:
+          - entity_id: light.julgranen
+            standby_power: 2.13
+            fixed:
+              power: 26
       - create_group: "bathroom"
         unique_id: 8555a54f-b7e2-47b0-b85d-d89ce3d8287f
         include:

@@ -1,0 +1,27 @@
+- alias: Notify when CTC releases new software
+  id: 4729a25a-8eef-421d-8460-b932bc27d4ce
+  triggers:
+    trigger: state
+    entity_id: sensor.ctc_software_version
+    not_from:
+      - "none"
+      - "unknown"
+      - "unavailable"
+      - "null"
+    not_to:
+      - "none"
+      - "unknown"
+      - "unavailable"
+      - "null"
+
+  actions:
+    - choose:
+        - conditions: >
+            {% set ignore = ['unknown', 'unavailable', 'none', '', null] %}
+            {{ trigger.from_state.state not in ignore and trigger.to_state.state not in ignore and trigger.to_state.state != trigger.from_state.state }}
+          sequence:
+            - action: notify.castle_log
+              data:
+                title: CTC
+                message: >
+                  CTC har släppt en ny mjukvaruversion: {{trigger.to_state.state}} (gamla: {{trigger.from_state.state}})

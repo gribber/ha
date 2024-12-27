@@ -1,0 +1,4 @@
+- platform: rest
+  unique_id: 4db33785-09db-48ad-9fc5-414d7c1bff8d
+  resource: "https://status.regerar.se/ctc_software_version.txt"
+  name: ctc_software_version

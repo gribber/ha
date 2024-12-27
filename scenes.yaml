@@ -1,0 +1,22 @@
+- id: '1733381485228'
+  name: New scene
+  entities:
+    light.bedroom_ceiling:
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - brightness
+      effect:
+      color_mode:
+      brightness:
+      friendly_name: bedroom_ceiling
+      supported_features: 44
+      state: 'off'
+  metadata:
+    light.bedroom_ceiling:
+      entity_only: true

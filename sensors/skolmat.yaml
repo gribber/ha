@@ -1,6 +1,3 @@
 - platform: skolmat
-  #name: "tallnas_forskola"
   name: "timradalens_forskola"
-  #url: "https://skolmaten.se/about/rss/tallnas-forskola/"
-  #url: "https://skolmaten.se/tallnas-forskola/rss/weeks/"
   url: "https://skolmaten.se/timradalens-forskola/rss/weeks/"

@@ -1,6 +1,10 @@
 - platform: binance
   decimals: 8
   symbols:
+    - BTCUSDT
+    - ETHUSDT
+    - XRPUSDT
+    - DOGEUSDT
     - BTCEUR
     - ETHEUR
     - XRPEUR
