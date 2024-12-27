@@ -149,11 +149,17 @@
                 - alias: "Small bulb pressed"
                   conditions: "{{ action in ['small-press', 'off', 'brightness_down_click'] }}"
                   sequence:
-                    - alias: "toggle window lamp"
-                      service: light.toggle
+                    - alias: "toggle ambience lights"
+                      action: light.toggle
                       target:
-                        entity_id: light.bedroom_window
-
+                        entity_id: >
+                          {{ 
+                            expand(area_entities("bedroom") 
+                            | select('match', 'light')) 
+                            | selectattr('entity_id', 'in', label_entities('ambience')) 
+                            | map(attribute='entity_id')
+                            | list 
+                          }}
                 - alias: "Left pressed"
                   conditions: "{{ action in ['left-press', 'arrow_left_click'] }}"
                   sequence:
@@ -168,7 +174,7 @@
                   sequence:
                     - *turn_on_manual_mode
                     - alias: "toggle right bed lamp"
-                      service: light.toggle
+                      action: light.toggle
                       target:
                         entity_id: light.bedroom_right
 
@@ -190,11 +196,11 @@
                 - alias: "Small bulb press hold"
                   conditions: "{{ action in ['small-hold', 'brightness_move_down'] }}"
                   sequence:
-                    - alias: "toggle rabbit lamp"
-                      service: light.toggle
+                    - alias: "turn off ambience"
+                      action: light.turn_off
                       target:
-                        entity_id: light.rabbit_lamp
-
+                        area_id: bedroom
+                        label_id: ambience
         - conditions:
             # turn off ambience light
             - condition: trigger
@@ -206,11 +212,10 @@
                 conditions: "{{ states('input_boolean.bedroom_nightlight') == 'off' }}"
                 sequence:
                   # turn off lights
-                  - service: light.turn_off
+                  - action: light.turn_off
                     target:
-                      entity_id:
-                        - light.bedroom_window
-                        - light.rabbit_lamp
+                      area_id: bedroom
+                      label_id: ambience
                     data:
                       transition: 5
 
