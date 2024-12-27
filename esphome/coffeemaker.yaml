@@ -92,6 +92,7 @@ light:
           name: "Level with colors"
           update_interval: 1s
           lambda: |-
+            static uint16_t lastcolor = 0;
             // esphome::Color colors[] = {
             //   Color(255,51,0,0),
             //   Color(255,102,0,0),
@@ -119,9 +120,33 @@ light:
             int plevel = floor(id(water_level_percentage).state/10);
             for (int i = 0; i < it.size(); i++) {
               if (i < plevel) {
+                //ESP_LOGD("custom", "color %d plevel %d", i, plevel);
                 it[i] = colors[i];
               } else {
                 it[i] = esphome::Color::BLACK;
               }
             }
+            
+            if (plevel == 0) {
+              //ESP_LOGD("custom", "plevel: %d level: %f lastcolor: %d", plevel, id(water_level).state, lastcolor);
+              if (id(water_level).state < 0.15 && lastcolor == 1) {
+                //ESP_LOGD("custom", "setting to black");
+                it[0] = esphome::Color::BLACK;
+                lastcolor = 0;
+              } else {
+                //ESP_LOGD("custom", "setting to color");
+                it[0] = colors[0];
+                lastcolor = 1;
+              }
+            }
 
+# interval:
+#   - interval: 500ms
+#     then:
+#       - if:
+#           condition:
+#             - lambda: 'return (id(water_level).state < 0.15);'
+#           then:
+#             - light.toggle:
+#                 id: water_level_light
+#                 transition_length: 0s
