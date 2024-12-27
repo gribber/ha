@@ -1,0 +1,5 @@
+"sensor.binance_ticker_*usdt":
+  unit_of_measurement: '$'
+
+"sensor.binance_ticker_*eur":
+  unit_of_measurement: '€'
