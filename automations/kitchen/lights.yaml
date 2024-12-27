@@ -9,19 +9,19 @@
         - automation_reloaded
         - scene_reloaded
 
-    - trigger: state
-      entity_id:
-        - input_boolean.house_mode_bright_inside
+    # - trigger: state
+    #   entity_id:
+    #     - input_boolean.house_mode_bright_inside
 
     - trigger: state
       id: movement
       entity_id:
         - input_boolean.kitchen_movement
 
-    - trigger: time
-      at:
-        - input_datetime.time_goodmorning
-        - input_datetime.time_goodnight
+    # - trigger: time
+    #   at:
+    #     - input_datetime.time_goodmorning
+    #     - input_datetime.time_goodnight
 
     - trigger: state
       id: nightaway
@@ -142,46 +142,52 @@
                 - light.kitchen_table
                 - light.kitchen_island
 
-      - conditions:
-          - condition: state
-            # when there is daylight
-            entity_id:
-              - input_boolean.house_mode_bright_inside
-            state: "on"
+      # - conditions:
+      #     - condition: state
+      #       # when there is daylight
+      #       entity_id:
+      #         - input_boolean.house_mode_bright_inside
+      #       state: "on"
 
-        sequence:
-          - &turn_off # turn off lights
-            action: light.turn_off
-            target:
-              entity_id:
-                - light.kitchen_lamp
-                - light.kitchen_window_1
-                - light.rice_lamp
-                - light.kitchen_bench
-            data:
-              transition: 5
+      #   sequence:
+      #     - &turn_off # turn off lights
+      #       action: light.turn_off
+      #       target:
+      #         entity_id:
+      #           - light.kitchen_lamp
+      #           - light.kitchen_window_1
+      #           - light.rice_lamp
+      #           - light.kitchen_bench
+      #       data:
+      #         transition: 5
 
-      - conditions:
-          - condition: or
-            conditions:
-              - condition: and
-                # turn on lights if
-                conditions:
-                  - condition: time
-                    # at specific time in the morning
-                    after: input_datetime.time_goodmorning
-                    # but before a specific time in the evening
-                    before: input_datetime.time_goodnight
+      # - conditions:
+      #     - condition: or
+      #       conditions:
+      #         - condition: and
+      #           # turn on lights if
+      #           conditions:
+      #             - condition: time
+      #               # at specific time in the morning
+      #               after: input_datetime.time_goodmorning
+      #               # but before a specific time in the evening
+      #               before: input_datetime.time_goodnight
 
-        sequence:
-          - &scene_turn_on
-            action: scene.turn_on
-            target:
-              entity_id:
-                - scene.kitchen_ambience_lights_cozy
-                - scene.kitchen_window_lights_cozy
-            data:
-              transition: 5
+      #   sequence:
+      #     - &scene_turn_on
+      #       action: scene.turn_on
+      #       target:
+      #         entity_id:
+      #           - scene.kitchen_ambience_lights_cozy
+      #           - scene.kitchen_window_lights_cozy
+      #       data:
+      #         transition: 5
 
     default:
-      - *turn_off
+      - action: light.turn_off
+        target:
+          entity_id:
+            - light.kitchen_table
+            - light.kitchen_island
+        data:
+          transition: 5
