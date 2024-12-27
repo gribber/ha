@@ -1,0 +1,13 @@
+- alias: "frigate: improve contrast"
+  id: 01e2891c-1639-4188-9b6e-6f85a5fe3ef8
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: time
+    at:
+      - "02:35"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: frigate/restart
+        payload: justdoit
