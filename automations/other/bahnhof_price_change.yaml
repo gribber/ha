@@ -1,7 +1,7 @@
 - alias: Notify when Bahnhof changes the price
   id: 3383e3b4-bbfe-4542-94f8-879e188762f3
-  trigger:
-    platform: state
+  triggers:
+    trigger: state
     entity_id: sensor.servanet_bahnhof_price
     not_from:
       - "none"
@@ -20,7 +20,7 @@
             {% set ignore = ['unknown', 'unavailable', 'none', '', null] %}
             {{ trigger.from_state.state not in ignore and trigger.to_state.state not in ignore and trigger.to_state.state != trigger.from_state.state }}
           sequence:
-            - service: notify.castle_log
+            - action: notify.castle_log
               data:
                 title: Bahnhof
                 message: >
