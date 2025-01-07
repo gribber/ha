@@ -49,6 +49,7 @@
       action: light.turn_{{to_state}}
       data:
         transition: 5
+        # profile: relax
       target:
         entity_id: >
           {% set floors = ['nere', 'uppe'] %}
