@@ -68,10 +68,15 @@
                   - choose:
                       - conditions:
                           - or:
-                              - condition: state
-                                entity_id:
-                                  - media_player.shield_cinema
-                                state: "playing"
+                              - and:
+                                  - condition: state
+                                    entity_id:
+                                      - media_player.shield_cinema
+                                    state: "playing"
+                                  - condition: time
+                                    after: "20:00"
+                                    before: "06:00"
+
                               - condition: time
                                 after: "23:00"
                                 before: "06:00"

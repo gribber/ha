@@ -1,6 +1,6 @@
 - alias: "Family room: lights"
   id: 8b53f10d-df56-421e-9e89-08cb39f16c7d
-  trigger:
+  triggers:
     - trigger: homeassistant
       event: start
 
@@ -18,9 +18,15 @@
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
+    # - trigger: state
+    #   entity_id:
+    #     - sensor.family_room_remote_action
+    #   id: remote
+
+    # test of new event based trigger
     - trigger: state
-      entity_id:
-        - sensor.family_room_remote_action
+      entity_id: event.family_room_remote_action
+      not_from: unavailable
       id: remote
 
     - trigger: state
@@ -32,14 +38,15 @@
       for:
         minutes: "{{ states('input_number.family_room_timeout')|int }}"
 
-  action:
+  actions:
     choose:
       - conditions:
           - condition: trigger
             id: remote
         sequence:
           - variables:
-              action: "{{ trigger.to_state.state }}"
+              #action: "{{ trigger.to_state.state }}"
+              action: "{{ trigger.to_state.attributes.event_type }}"
 
           - choose:
               - conditions: "{{ action in ['on'] }}"

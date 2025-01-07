@@ -3,34 +3,31 @@
   trace:
     stored_traces: 25
 
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
-      id: remote
+    - trigger: state
       entity_id:
-        - sensor.bedroom_remote_right_action
-        - sensor.bedroom_remote_left_action
-        - sensor.bedroom_remote_wall_action
-      from:
-        - "none"
-        - "None"
-        - ""
+        - event.bedroom_remote_right_action
+        - event.bedroom_remote_left_action
+        - event.bedroom_remote_wall_action
+      not_from: unavailable
+      id: remote
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
         - input_boolean.house_mode_bright_inside
         - input_boolean.bedroom_nightlight
 
-    - platform: state
+    - trigger: state
       id: auto_off
       entity_id:
         - binary_sensor.presence_bedroom_occupancy
@@ -38,22 +35,22 @@
       for:
         minutes: 10
 
-    - platform: time
+    - trigger: time
       id: reset
       at:
         - input_datetime.house_reset_settings
         - input_datetime.house_reset_settings_day
 
-    - platform: time
+    - trigger: time
       id: wakeup
       at: input_datetime.wakeup_time
 
-    - platform: time
+    - trigger: time
       id: goodnight
       at:
         - input_datetime.time_goodnight
 
-  action:
+  actions:
     - choose:
         - conditions:
             # reset manual mode at defined time
@@ -62,7 +59,7 @@
 
           sequence:
             - &turn_off_manual_mode # reset manual mode
-              service: input_boolean.turn_off
+              action: input_boolean.turn_off
               target:
                 entity_id: input_boolean.bedroom_manual_mode
 
@@ -78,7 +75,7 @@
           sequence:
             - *turn_off_manual_mode
             - &turn_off # turn off lights
-              service: light.turn_off
+              action: light.turn_off
               target:
                 area_id: "{{ area_id('Sovrummet') }}"
               data:
@@ -96,7 +93,7 @@
                       state: "on"
                   sequence:
                     - *turn_off_manual_mode
-                    - service: light.turn_off
+                    - action: light.turn_off
                       target:
                         entity_id: light.bedroom_ceiling
                       data:
@@ -109,8 +106,7 @@
 
           sequence:
             - variables:
-                #action: "{{ trigger.event.data.event }}"
-                action: "{{ trigger.to_state.state }}"
+                action: "{{ trigger.to_state.attributes.event_type }}"
 
             - alias: "Remote buttons"
               choose:
@@ -127,7 +123,7 @@
 
                           sequence:
                             - alias: "turn on ceiling light"
-                              service: light.turn_on
+                              action: light.turn_on
                               target:
                                 entity_id: light.bedroom_ceiling
                               data:
@@ -135,14 +131,14 @@
 
                             - &turn_on_manual_mode
                               alias: "Turn on manual mode"
-                              service: input_boolean.turn_on
+                              action: input_boolean.turn_on
                               target:
                                 entity_id: input_boolean.bedroom_manual_mode
 
                       default:
                         - *turn_off_manual_mode
                         - alias: "turn off ceiling light"
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: light.bedroom_ceiling
 
@@ -165,7 +161,7 @@
                   sequence:
                     - *turn_on_manual_mode
                     - alias: "toggle left bed lamp"
-                      service: light.toggle
+                      action: light.toggle
                       target:
                         entity_id: light.bedroom_left
 
@@ -261,7 +257,7 @@
 
           sequence:
             - *turn_on_manual_mode
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: light.bedroom_ceiling
               data:
@@ -312,7 +308,7 @@
 
           sequence:
             - &scene_turn_on
-              service: scene.turn_on
+              action: scene.turn_on
               target:
                 entity_id:
                   - scene.bedroom_ambience_lights_cozy
@@ -336,7 +332,7 @@
               default: []
 
       default:
-        - service: light.turn_off
+        - action: light.turn_off
           target:
             entity_id: >
               {% set filter = 'light.bedroom_window' if states('input_boolean.bedroom_nightlight') == 'on' else '' %}

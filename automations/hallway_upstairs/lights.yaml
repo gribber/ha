@@ -1,25 +1,25 @@
 - alias: "Hallway upstairs: lights"
   id: 009d2374-2031-4d2d-b19d-349a5ac5c52f
   mode: queued
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_bright_inside
 
-    - platform: time
+    - trigger: time
       at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
-    - platform: state
+    - trigger: state
       id: "no_movement"
       entity_id:
         - binary_sensor.motion_hallway_upstairs_occupancy
@@ -28,7 +28,7 @@
       for:
         minutes: "{{ states('input_number.hallway_upstairs_timeout')|int }}"
 
-    - platform: state
+    - trigger: state
       id: night_or_away
       entity_id:
         - input_boolean.house_mode_sleep
@@ -36,19 +36,24 @@
       from: "off"
       to: "on"
 
-    - platform: state
+    # - platform: state
+    #   id: remote
+    #   entity_id:
+    #     - sensor.remote_hallway_upstairs_1_action
+    - trigger: state
+      entity_id: event.remote_hallway_upstairs_1_action
+      not_from: unavailable
       id: remote
-      entity_id:
-        - sensor.remote_hallway_upstairs_1_action
 
-  action:
+  actions:
     choose:
       - conditions:
           - condition: trigger
             id: remote
         sequence:
           - variables:
-              action: "{{ trigger.to_state.state }}"
+              #action: "{{ trigger.to_state.state }}"
+              action: "{{ trigger.to_state.attributes.event_type }}"
 
           - choose:
               - alias: "on pressed"
@@ -57,14 +62,14 @@
                   - choose:
                       - conditions: "{{ states('light.hallway_upstairs_2') == 'off' }}"
                         sequence:
-                          - service: light.turn_on
+                          - action: light.turn_on
                             target:
                               entity_id:
                                 - light.hallway_upstairs_2
                             data:
                               brightness: 255
                     default:
-                      - service: light.turn_off
+                      - action: light.turn_off
                         target:
                           entity_id:
                             - light.hallway_upstairs_2
@@ -75,14 +80,14 @@
                   - choose:
                       - conditions: "{{ states('light.hallway_upstairs_1') == 'off' }}"
                         sequence:
-                          - service: light.turn_on
+                          - action: light.turn_on
                             target:
                               entity_id:
                                 - light.hallway_upstairs_1
                             data:
                               brightness: 255
                     default:
-                      - service: light.turn_off
+                      - action: light.turn_off
                         target:
                           entity_id:
                             - light.hallway_upstairs_1
@@ -94,7 +99,7 @@
               - "night_or_away"
         sequence:
           - &turn_off_ceiling
-            service: light.turn_off
+            action: light.turn_off
             target:
               entity_id:
                 - light.hallway_upstairs_1
@@ -111,7 +116,7 @@
 
         sequence:
           - &turn_off_window # turn off lights
-            service: light.turn_off
+            action: light.turn_off
             target:
               entity_id:
                 - light.hallway_upstairs_window
@@ -132,7 +137,7 @@
 
         sequence:
           - &scene_turn_on
-            service: scene.turn_on
+            action: scene.turn_on
             target:
               entity_id:
                 - scene.hallway_upstairs_window_lights_cozy

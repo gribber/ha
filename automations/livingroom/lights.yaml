@@ -1,24 +1,28 @@
 - alias: "Livingroom: lights"
   id: 426174fb-2fc8-41e3-8e92-62f37ef26c54
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_bright_inside
 
-    - platform: state
+    # - platform: state
+    #   id: remote
+    #   entity_id:
+    #     - sensor.livingroom_remote_action
+    - trigger: state
+      entity_id: event.livingroom_remote_action
+      not_from: unavailable
       id: remote
-      entity_id:
-        - sensor.livingroom_remote_action
 
-    - platform: state
+    - trigger: state
       id: night_or_away
       entity_id:
         - input_boolean.house_mode_sleep
@@ -26,12 +30,12 @@
       from: "off"
       to: "on"
 
-    - platform: time
+    - trigger: time
       at:
         - input_datetime.time_goodmorning
         - input_datetime.time_goodnight
 
-  action:
+  actions:
     choose:
       - conditions:
           - condition: trigger
@@ -39,30 +43,31 @@
 
         sequence:
           - variables:
-              action: "{{ trigger.to_state.state }}"
+              #action: "{{ trigger.to_state.state }}"
+              action: "{{ trigger.to_state.attributes.event_type }}"
 
           - choose:
               - conditions: "{{ action == 'on' }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.livingroom_front_1
 
               - conditions: "{{ action == 'off' }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.livingroom_back_3
 
               - conditions: "{{ action == 'brightness_move_up' }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.vardagsrum_framre
 
               - conditions: "{{ action == 'brightness_move_down' }}"
                 sequence:
-                  - service: light.toggle
+                  - action: light.toggle
                     target:
                       entity_id: light.vardagsrum_bakre
 
@@ -75,7 +80,7 @@
             # when night mode is active
             id: night_or_away
         sequence:
-          - service: light.turn_off
+          - action: light.turn_off
             # turn of regular lights
             target:
               entity_id:
@@ -102,7 +107,7 @@
 
         sequence:
           - &scene_turn_on
-            service: scene.turn_on
+            action: scene.turn_on
             target:
               entity_id:
                 - scene.livingroom_ambience_lights_cozy
@@ -119,7 +124,7 @@
 
         sequence:
           - &turn_off # turn off lights
-            service: light.turn_off
+            action: light.turn_off
             target:
               entity_id:
                 - light.floor_lamp
