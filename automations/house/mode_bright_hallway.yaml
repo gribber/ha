@@ -9,7 +9,7 @@
     - platform: numeric_state
       id: lightlevel_day
       entity_id:
-        - sensor.motion_hallway_downstairs_illuminance_lux
+        - sensor.motion_hallway_downstairs_illuminance
       above: input_number.lightlevel_limit_hallway
       for:
         minutes: 5
@@ -17,7 +17,7 @@
     - platform: numeric_state
       id: lightlevel_night
       entity_id:
-        - sensor.motion_hallway_downstairs_illuminance_lux
+        - sensor.motion_hallway_downstairs_illuminance
       below: input_number.lightlevel_limit_hallway
       for:
         minutes: 5
@@ -33,7 +33,7 @@
       - conditions:
           - condition: numeric_state
             entity_id:
-              - sensor.motion_hallway_downstairs_illuminance_lux
+              - sensor.motion_hallway_downstairs_illuminance
             above: input_number.lightlevel_limit_hallway
 
         sequence:

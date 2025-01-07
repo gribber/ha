@@ -4,9 +4,9 @@
   type: mean
   round_digits: 0
   entity_ids:
-    - sensor.motion_front_illuminance_lux
-    - sensor.motion_driveway_illuminance_lux
-    - sensor.motion_barn_illuminance_lux
+    - sensor.motion_front_illuminance
+    - sensor.motion_driveway_illuminance
+    - sensor.motion_barn_illuminance
 
 - platform: min_max
   unique_id: ee470db9-b4fd-4d96-ba6e-58530ee3e73c
@@ -14,9 +14,9 @@
   type: median
   round_digits: 0
   entity_ids:
-    - sensor.motion_front_illuminance_lux
-    - sensor.motion_driveway_illuminance_lux
-    - sensor.motion_barn_illuminance_lux
+    - sensor.motion_front_illuminance
+    - sensor.motion_driveway_illuminance
+    - sensor.motion_barn_illuminance
 
 - platform: min_max
   unique_id: 192421cf-0a72-4c33-b0f6-75b87666ecee
@@ -24,6 +24,6 @@
   type: min
   round_digits: 0
   entity_ids:
-    - sensor.motion_front_illuminance_lux
-    - sensor.motion_driveway_illuminance_lux
-    - sensor.motion_barn_illuminance_lux
+    - sensor.motion_front_illuminance
+    - sensor.motion_driveway_illuminance
+    - sensor.motion_barn_illuminance
