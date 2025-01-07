@@ -31,11 +31,17 @@
       from: "off"
       to: "on"
 
+    # - trigger: state
+    #   id: remote
+    #   entity_id:
+    #     - sensor.kitchen_remote_action
+    #     - sensor.kitchen_remote_2_action
     - trigger: state
-      id: remote
       entity_id:
-        - sensor.kitchen_remote_action
-        - sensor.kitchen_remote_2_action
+        - event.kitchen_remote_action
+        - event.kitchen_remote_2_action
+      not_from: unavailable
+      id: remote
 
     - trigger: state
       id: senile
@@ -85,7 +91,8 @@
 
         sequence:
           - variables:
-              action: "{{ trigger.to_state.state }}"
+              #action: "{{ trigger.to_state.state }}"
+              action: "{{ trigger.to_state.attributes.event_type }}"
 
           # - service: system_log.write
           #   data:
