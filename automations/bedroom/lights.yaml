@@ -195,8 +195,14 @@
                     - alias: "turn off ambience"
                       action: light.turn_off
                       target:
-                        area_id: bedroom
-                        label_id: ambience
+                        entity_id: >
+                          {{ 
+                            expand(area_entities("bedroom") 
+                            | select('match', 'light')) 
+                            | selectattr('entity_id', 'in', label_entities('ambience')) 
+                            | map(attribute='entity_id')
+                            | list 
+                          }}
         - conditions:
             # turn off ambience light
             - condition: trigger
