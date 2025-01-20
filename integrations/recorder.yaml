@@ -34,6 +34,10 @@ exclude:
     - sensor.yearly_energy
     - sensor.ups_status_date
     - sensor.ups_status_data
+    # some out of control sensors
+    - sensor.a1_03919c441400788_wi_fi_signal
+    - sensor.hatree_estimated_current
+    - media_player.shield_cinema
   entity_globs:
     # time sensor
     - sensor.time*
@@ -44,3 +48,9 @@ exclude:
     - sensor.*_tmp
     # exclude z2m last seen sensors
     - sensor.*_last_seen
+    # utility counter
+    - sensor.*_perpanel_*_revenue
+    - sensor.solar_sso_*_energy
+    - sensor.*_weekey_energy
+    - sensor.*_monthly_energy
+    - sensor.*_yearly_energy
