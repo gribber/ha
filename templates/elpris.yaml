@@ -83,11 +83,11 @@
       unique_id: 9a5889dd-7649-464c-b340-b55154bdd2c1
       state: >
         {% set total = (states('sensor.electricity_price_total')|float(default=0) * ((states('sensor.ferroamp_xl28_consumption_power')|int(default=0) / 1000) - states('sensor.momentary_active_import')|float)) %}
-        {{ total | round(3) if total >= 0 else 0 }}
+        {{ total | round(3) if total >= 0 and states('sensor.ferroamp_xl28_solar_power')|int > 0 else 0 }}
       unit_of_measurement: "SEK/h"
       state_class: measurement
       availability: >
         {{ not (
-          [ states('sensor.electricity_price_total'), states('sensor.ferroamp_xl28_consumption_power'), states('sensor.momentary_active_import') ] 
+          [ states('sensor.electricity_price_total'), states('sensor.ferroamp_xl28_consumption_power'), states('sensor.momentary_active_import'), states('sensor.ferroamp_xl28_solar_power') ] 
           | select('in', ['unknown', 'unavailable', 'none']) 
           | list) }}
