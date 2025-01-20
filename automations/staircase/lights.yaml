@@ -1,0 +1,62 @@
+- alias: "staircase: lights"
+  id: b735976f-ca85-42bb-a5eb-6cd714297d7b
+  triggers:
+    - trigger: event
+      event_type:
+        - automation_reloaded
+
+    - trigger: state
+      entity_id:
+        - binary_sensor.motion_staircase_occupancy
+      from: "off"
+      to: "on"
+
+    - trigger: state
+      id: nomotion
+      entity_id:
+        - binary_sensor.motion_staircase_occupancy
+      from: "on"
+      to: "off"
+      for:
+        seconds: 180
+
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id:
+                - binary_sensor.motion_staircase_occupancy
+              state: "on"
+
+            # we are home
+            - condition: state
+              entity_id:
+                - input_boolean.house_mode_away
+              state: "off"
+
+            # it's during night and the lights are usually off
+            - condition: time
+              before: input_datetime.time_goodmorning
+              after: input_datetime.time_goodnight
+
+          sequence:
+            - action: light.turn_on
+              target:
+                entity_id: light.staircase
+              data:
+                brightness: 20
+
+        - conditions:
+            # no motion detected
+            - condition: trigger
+              id: nomotion
+
+            # and time is still within usually dark hours
+            - condition: time
+              before: input_datetime.time_goodmorning
+              after: input_datetime.time_goodnight
+
+          sequence:
+            - action: light.turn_off
+              target:
+                entity_id: light.staircase
