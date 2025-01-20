@@ -1,4 +1,5 @@
 - platform: binance
+  # update_interval: 300
   decimals: 8
   symbols:
     - BTCUSDT

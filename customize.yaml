@@ -3,3 +3,8 @@ sensor.cat_flap_catflapdual_battery_level:
 
 sensor.ha_db_size:
   state_class: measurement
+
+sensor.bermuda_global_total_device_count:
+  state_class: measurement
+sensor.bermuda_global_visible_device_count:
+  state_class: measurement
