@@ -3,12 +3,12 @@
   trace:
     stored_traces: 10
 
-  trigger:
-    - platform: time
+  triggers:
+    - trigger: time
       id: start_upstairs
       at: input_datetime.time_vacuum_upstairs
 
-    - platform: template
+    - trigger: template
       id: start_upstairs_notif
       value_template: "{{ now().strftime('%H:%M:%S') == (state_attr('input_datetime.time_vacuum_upstairs', 'timestamp')|as_datetime - timedelta(minutes=15)).strftime('%H:%M:%S') }}"
       # until offset for time trigger is supported: https://github.com/home-assistant/core/pull/56838
@@ -18,7 +18,7 @@
   variables:
     anchors:
       - &notif_phone
-        service: notify.family
+        action: notify.family
         data:
           title: "Vac-it Ralph"
           message: "Dags för städning om 15min!"
@@ -26,7 +26,7 @@
             tag: vacuum_ralph
             timeout: 900
 
-  action:
+  actions:
     choose:
       - alias: "if we got guests at home"
         conditions:
@@ -67,7 +67,7 @@
                 conditions: "{{ trigger == 'start_upstairs' }}"
                 sequence:
                   alias: "start to clean"
-                  service: vacuum.start
+                  action: vacuum.start
                   target:
                     entity_id:
                       - vacuum.vac_it_ralph
@@ -81,21 +81,21 @@
     stored_traces: 10
   mode: restart
 
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id: vacuum.vac_it_ralph
 
   condition: []
 
-  action:
-    - service: >
+  actions:
+    - action: >
         {% if states('vacuum.vac_it_ralph') in ["unavailable", "unknown", "docked"] %}
           camera.turn_off
         {% else %}
@@ -103,3 +103,23 @@
         {% endif %}
       target:
         entity_id: camera.xiaomi_cloud_map_extractor
+
+- alias: "Vac-it Ralph - notify on error"
+  id: 69b93815-b673-4bff-8e86-68c9586c12f9
+  trace:
+    stored_traces: 10
+
+  triggers:
+    - trigger: state
+      entity_id:
+        - vacuum.vac_it_ralph
+      not_from: unavailable
+      to: error
+
+  actions:
+    - action: notify.family
+      data:
+        title: "Vac-it Ralph"
+        message: "Error: {{state_attr('vacuum.vac_it_ralph', 'error')}}"
+        data:
+          tag: vacuum_ralph
