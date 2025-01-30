@@ -4,9 +4,6 @@
     stored_traces: 25
 
   triggers:
-    - trigger: homeassistant
-      event: start
-
     - trigger: event
       event_type:
         - automation_reloaded
@@ -53,35 +50,6 @@
   actions:
     - choose:
         - conditions:
-            # reset manual mode at defined time
-            - condition: trigger
-              id: "reset"
-
-          sequence:
-            - &turn_off_manual_mode # reset manual mode
-              action: input_boolean.turn_off
-              target:
-                entity_id: input_boolean.bedroom_manual_mode
-
-        - conditions:
-            # when house mode changes
-            - condition: or
-              conditions:
-                - condition: state
-                  # when away
-                  entity_id: input_boolean.house_mode_away
-                  state: "on"
-
-          sequence:
-            - *turn_off_manual_mode
-            - &turn_off # turn off lights
-              action: light.turn_off
-              target:
-                area_id: "{{ area_id('Sovrummet') }}"
-              data:
-                transition: 5
-
-        - conditions:
             - condition: trigger
               id: auto_off
           sequence:
@@ -92,7 +60,6 @@
                         - light.bedroom_ceiling
                       state: "on"
                   sequence:
-                    - *turn_off_manual_mode
                     - action: light.turn_off
                       target:
                         entity_id: light.bedroom_ceiling
@@ -129,14 +96,7 @@
                               data:
                                 brightness: 255
 
-                            - &turn_on_manual_mode
-                              alias: "Turn on manual mode"
-                              action: input_boolean.turn_on
-                              target:
-                                entity_id: input_boolean.bedroom_manual_mode
-
                       default:
-                        - *turn_off_manual_mode
                         - alias: "turn off ceiling light"
                           action: light.turn_off
                           target:
@@ -159,7 +119,6 @@
                 - alias: "Left pressed"
                   conditions: "{{ action in ['left-press', 'arrow_left_click'] }}"
                   sequence:
-                    - *turn_on_manual_mode
                     - alias: "toggle left bed lamp"
                       action: light.toggle
                       target:
@@ -168,27 +127,11 @@
                 - alias: "Right pressed"
                   conditions: "{{ action in ['right-press', 'arrow_right_click'] }}"
                   sequence:
-                    - *turn_on_manual_mode
                     - alias: "toggle right bed lamp"
                       action: light.toggle
                       target:
                         entity_id: light.bedroom_right
 
-                # - alias: "Big/small bulb press hold"
-                #   conditions: "{{ action in ['big-hold', 'small-hold', 'brightness_move_up', 'brightness_move_down'] }}"
-                #   sequence:
-                #     - *turn_on_manual_mode
-                #     - alias: "determen direction"
-                #       variables:
-                #         step: "{{ 50 if action in ['big-hold', 'brightness_move_up'] else -50 }}"
-
-                #     - alias: "Change brightness"
-                #       service: light.turn_on
-                #       target:
-                #         entity_id: light.bedroom_ceiling
-                #       data:
-                #         brightness_step: "{{ step }}"
-                #         transition: 1
                 - alias: "Small bulb press hold"
                   conditions: "{{ action in ['small-hold', 'brightness_move_down'] }}"
                   sequence:
@@ -220,135 +163,3 @@
                       label_id: ambience
                     data:
                       transition: 5
-
-        - conditions:
-            # wakeup light
-            - condition: trigger
-              # when triggered by time
-              id: "wakeup"
-            - condition: state
-              # and is enabled
-              entity_id:
-                - input_boolean.wakeup_enabled
-              state: "on"
-            - condition: state
-              # and we are home
-              entity_id:
-                - group.family
-              state: "home"
-            - condition: state
-              # and manual mode is off
-              entity_id:
-                - input_boolean.bedroom_manual_mode
-              state: "off"
-            - condition: or
-              conditions:
-                - condition: and
-                  # on workdays
-                  conditions:
-                    - condition: state
-                      entity_id:
-                        - input_boolean.wakeup_offwork
-                      state: "off"
-                    - condition: state
-                      entity_id:
-                        - input_boolean.house_mode_workday
-                      state: "on"
-
-                - condition: state
-                  # or every day
-                  entity_id:
-                    - input_boolean.wakeup_offwork
-                  state: "on"
-
-          sequence:
-            - *turn_on_manual_mode
-            - action: light.turn_on
-              target:
-                entity_id: light.bedroom_ceiling
-              data:
-                transition: 1800
-                brightness: 255
-
-        - conditions:
-            # do nothing when manual mode is on (automations below this)
-            - condition: state
-              entity_id: input_boolean.bedroom_manual_mode
-              state: "on"
-
-          sequence: []
-
-        - conditions:
-            # turn on bedside lights if
-            - condition: state
-              # if it's dark inside
-              entity_id:
-                - input_boolean.house_mode_bright_inside
-              state: "off"
-            - condition: state
-              # and we are not sleeping
-              entity_id:
-                - input_boolean.house_mode_sleep
-              state: "off"
-            - condition: state
-              # and we are home
-              entity_id:
-                - input_boolean.house_mode_away
-              state: "off"
-            - condition: and
-              # and both lamps are off (manual mode isnt triggered if only brighness is changed on a lamp already turned on, fixfix)
-              conditions:
-                - condition: state
-                  entity_id:
-                    - light.bedroom_left
-                  state: "off"
-                - condition: state
-                  entity_id:
-                    - light.bedroom_right
-                  state: "off"
-            - condition: time
-              # after lunch
-              after: "12:00:00"
-              # but before a specific time in the evening
-              before: input_datetime.time_goodnight
-
-          sequence:
-            - &scene_turn_on
-              action: scene.turn_on
-              target:
-                entity_id:
-                  - scene.bedroom_ambience_lights_cozy
-              data:
-                transition: 5
-
-        - conditions:
-            # manual action detected
-            - condition: trigger
-              # one of the lights changed state
-              id: "lights"
-
-          sequence:
-            - choose:
-                conditions:
-                  "{{ trigger.to_state.context.user_id != None }}"
-                  # and it was by a user
-                sequence:
-                  - *turn_on_manual_mode
-
-              default: []
-
-      default:
-        - action: light.turn_off
-          target:
-            entity_id: >
-              {% set filter = 'light.bedroom_window' if states('input_boolean.bedroom_nightlight') == 'on' else '' %}
-              {{  
-                expand(area_entities('bedroom')
-                | select('match', 'light.'))
-                | selectattr('state', 'eq', 'on')
-                | map(attribute='entity_id')
-                | reject('in', filter)
-                | list
-              }}
-          data:
-            transition: 5
