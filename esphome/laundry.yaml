@@ -18,6 +18,11 @@ sensor:
     name: "freezer_temperature"
     update_interval: 30s
     accuracy_decimals: 2
+  - platform: dallas_temp
+    address: 0xf23cffe076639b28
+    name: "fridge_temperature"
+    update_interval: 30s
+    accuracy_decimals: 2
     # options below requires mqtt
     #expire_after: 5min
     #force_update: true
