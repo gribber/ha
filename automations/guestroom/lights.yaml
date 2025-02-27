@@ -1,0 +1,67 @@
+- alias: "Guestroom: lights"
+  id: 16c47581-b4c4-4e37-8063-212582316df1
+  triggers:
+    - trigger: event
+      event_type:
+        - automation_reloaded
+
+    - trigger: state
+      entity_id: event.guestroom_remote_action
+      not_from: unavailable
+      id: remote
+
+  conditions: []
+
+  actions:
+    choose:
+      - conditions:
+          - condition: trigger
+            id: "remote"
+
+        sequence:
+          - variables:
+              action: "{{ trigger.to_state.attributes.event_type }}"
+
+          - choose:
+              - conditions: "{{ action == 'toggle' }}"
+                sequence:
+                  - action: light.toggle
+                    target:
+                      entity_id: light.guestroom_ceiling
+
+              - conditions: "{{ action == 'hold' }}"
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.guestroom_ceiling
+                    data:
+                      brightness: 255
+                      rgb_color: [255, 227, 165]
+                      #hs_color: 41.333, 35.294
+                      #xy_color: 0.4042, 0.3902
+
+              - conditions: "{{ action == 'arrow_left_click' }}"
+                sequence:
+                  - action: input_select.select_previous
+                    target:
+                      entity_id: input_select.rgb_lo
+                    data:
+                      cycle: true
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.guestroom_ceiling
+                    data:
+                      rgb_color: "{{ states('input_select.rgb_lo').split(':')[1] }}"
+
+              - conditions: "{{ action == 'arrow_right_click' }}"
+                sequence:
+                  - action: input_select.select_next
+                    target:
+                      entity_id: input_select.rgb_lo
+                    data:
+                      cycle: true
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.guestroom_ceiling
+                    data:
+                      rgb_color: "{{ states('input_select.rgb_lo').split(':')[1] }}"
