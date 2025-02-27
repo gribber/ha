@@ -1,3 +1,4 @@
 - platform: skolmat
   name: "timradalens_forskola"
-  url: "https://skolmaten.se/timradalens-forskola/rss/weeks/"
+  #url: "https://skolmaten.se/timradalens-forskola/rss/weeks/"
+  url: "https://skolmaten.se/menu/4b072a25-d49b-45ff-addc-57b10ab20dd8?school=3f9ba0da-38cc-4e00-8612-35fa627a78cc"
