@@ -52,5 +52,5 @@ exclude:
     - sensor.*_perpanel_*_revenue
     - sensor.solar_sso_*_energy
     - sensor.*_weekey_energy
-    - sensor.*_monthly_energy
+    # - sensor.*_monthly_energy
     - sensor.*_yearly_energy
