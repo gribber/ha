@@ -29,6 +29,18 @@
                     target:
                       entity_id: light.guestroom_ceiling
 
+              - conditions: "{{ action == 'brightness_up_click' }}"
+                sequence:
+                  - action: light.toggle
+                    target:
+                      entity_id: light.guestroom_plug
+
+              - conditions: "{{ action == 'brightness_down_click' }}"
+                sequence:
+                  - action: light.toggle
+                    target:
+                      entity_id: light.rabbit_lamp
+
               - conditions: "{{ action == 'hold' }}"
                 sequence:
                   - action: light.turn_on
