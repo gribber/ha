@@ -37,6 +37,7 @@
 .storage
 .cloud
 .google.token
+/esphome/archive
 
 # ensure ignore
 secrets.yaml
