@@ -4,15 +4,15 @@
   trace:
     stored_traces: 25
 
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_away
         - input_boolean.house_mode_sleep
@@ -20,7 +20,7 @@
         - input_number.electricity_price_level
         - input_boolean.house_vvc_preheat
 
-    - platform: time
+    - trigger: time
       at:
         - &time_start "06:00:00"
         - &time_stop "21:00:00"
@@ -33,7 +33,7 @@
 
   condition: []
 
-  action:
+  actions:
     choose:
       - conditions:
           - alias: "when house mode is set to"
@@ -50,7 +50,19 @@
         sequence:
           - &turn_off_vvc
             alias: "turn off vvc"
-            service: input_boolean.turn_off
+            action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.house_vvc
+
+      - conditions:
+          - alias: "when preheat is active"
+            condition: state
+            entity_id: input_boolean.house_vvc_preheat
+            state: "on"
+        sequence:
+          - &turn_on_vvc
+            alias: "turn on vvc"
+            action: input_boolean.turn_on
             target:
               entity_id: input_boolean.house_vvc
 
@@ -62,19 +74,7 @@
         sequence:
           - *turn_off_vvc
 
-      - conditions:
-          - alias: "when preheat is active"
-            condition: state
-            entity_id: input_boolean.house_vvc_preheat
-            state: "on"
-        sequence:
-          - &turn_on_vvc
-            alias: "turn on vvc"
-            service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.house_vvc
-
-      - conditions: "{{ (states('zone.home')|int(0) == 1 and state_attr('zone.home', 'persons')[0] == 'person.linus' and states('input_boolean.workday_linus') == 'on') }}"
+      - conditions: "{{ (states('zone.home')|int(0) == 1 and state_attr('zone.home', 'persons')[0] == 'person.linus' and states('input_boolean.workday_linus') == 'on') and states('input_number.electricity_price_level')|float(3) > 2 }}"
         # if i'm the only one at home and working
         sequence:
           - choose:
@@ -109,15 +109,15 @@
 - alias: "House: vvc switch"
   id: b755328d-ad0c-4f7f-94e4-50d583e06639
   mode: queued
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_vvc
         - input_boolean.house_vvc_block
@@ -126,7 +126,7 @@
         #- input_number.vvc_start
         - input_number.vvc_diff
 
-    - platform: numeric_state
+    - trigger: numeric_state
       id: vvc_start
       entity_id:
         - sensor.wardrobe_house_hot_water_supply
@@ -136,15 +136,15 @@
         {% set offset = states('input_number.vvc_stop')|float(0) - states('input_number.vvc_diff')|float(0) %}
         {{ states('sensor.wardrobe_house_hot_water_supply')|float(0) - offset }}
 
-    - platform: numeric_state
+    - trigger: numeric_state
       id: vvc_stop
       entity_id:
         - sensor.wardrobe_house_hot_water_supply
       above: input_number.vvc_stop
 
-  condition: []
+  conditions: []
 
-  action:
+  actions:
     choose:
       - conditions:
           - alias: "if block switch is active"
@@ -155,7 +155,7 @@
 
         sequence:
           alias: "always turn off vvc"
-          service: switch.turn_off
+          action: switch.turn_off
           target:
             entity_id: switch.vvc_pump
 
@@ -181,12 +181,12 @@
                       - sensor.wardrobe_house_hot_water_supply
                     below: input_number.vvc_stop
                 sequence:
-                  service: switch.turn_on
+                  action: switch.turn_on
                   target:
                     entity_id: switch.vvc_pump
             default:
               - &turn_off_pump
-                service: switch.turn_off
+                action: switch.turn_off
                 target:
                   entity_id: switch.vvc_pump
 
@@ -195,22 +195,22 @@
 
 - alias: "House: vvc preheat"
   id: d7bb04cd-922f-4515-8eba-90c59f2e37c8
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_vvc_preheat
       from: "off"
       to: "on"
       for: &preheat "00:10:00"
 
-  action:
-    - service: input_boolean.turn_off
+  actions:
+    - action: input_boolean.turn_off
       target:
         entity_id: input_boolean.house_vvc_preheat

@@ -4,61 +4,33 @@
     stored_traces: 25
   mode: single
 
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - sensor.nordpool_se2
 
-  action:
-    - choose:
-      - conditions:
-          - condition: numeric_state
-            entity_id:
-              - sensor.nordpool_se2
-            above: 2.5
-        sequence:
-          - service: input_number.set_value
-            target:
-              entity_id: input_number.electricity_price_level
-            data:
-              value: 5
+  actions:
+    - action: input_number.set_value
+      target:
+        entity_id: input_number.electricity_price_level
+      data:
+        value: >
+          {% set s = states('sensor.nordpool_se2') %}
 
-      - conditions:
-          - condition: numeric_state
-            entity_id:
-              - sensor.nordpool_se2
-            above: 1.5
-        sequence:
-          - service: input_number.set_value
-            target:
-              entity_id: input_number.electricity_price_level
-            data:
-              value: 4
-
-      - conditions:
-          - condition: numeric_state
-            entity_id:
-              - sensor.nordpool_se2
-            above: 0.5
-        sequence:
-          - service: input_number.set_value
-            target:
-              entity_id: input_number.electricity_price_level
-            data:
-              value: 3
-
-      default:
-        - service: input_number.set_value
-          target:
-            entity_id: input_number.electricity_price_level
-          data:
-            value: 2
-
-
+          {% if s > 2.5 %} {% set p = 5 %}
+          {% elif s > 1.5 %} {% set p = 4 %}
+          {% elif s > 0.5 %} {% set p = 3 %}
+          {% elif s >= 0 %} {% set p = 2 %}
+          {% elif s < 0 %} {% set p = 1 %}
+          {% endif %}
+          {% if states('sensor.momentary_active_export')|float > 1 and p <= 2 %}
+            {% set p = p - 1 %}
+          {% endif %}
+          {{p}}
