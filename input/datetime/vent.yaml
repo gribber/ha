@@ -1,0 +1,9 @@
+bedroom_vent_on:
+  name: "Tid att starta ventilation"
+  has_date: false
+  has_time: yes
+
+bedroom_vent_off:
+  name: "Tid att stänga ventilation"
+  has_date: false
+  has_time: yes

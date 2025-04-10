@@ -1,0 +1,54 @@
+- alias: "bedroom: air cleaner"
+  id: 02d47a86-cef3-435a-8471-c07e0b0fb8a3
+  mode: queued
+  triggers:
+    - trigger: homeassistant
+      event: start
+
+    - trigger: event
+      event_type:
+        - automation_reloaded
+
+    - trigger: state
+      entity_id:
+        - input_boolean.house_mode_away
+        - input_datetime.bedroom_vent_on
+        - input_datetime.bedroom_vent_off
+
+    - trigger: time
+      at:
+        - input_datetime.bedroom_vent_on
+        - input_datetime.bedroom_vent_off
+
+  actions:
+    choose:
+      - conditions:
+          - condition: time
+            before: input_datetime.bedroom_vent_off
+            after: input_datetime.bedroom_vent_on
+        sequence:
+          - action: fan.set_percentage
+            target:
+              entity_id: fan.livingroom_starkvind
+            data:
+              percentage: &speed 55
+
+      - conditions:
+          - condition: state
+            entity_id:
+              - input_boolean.house_mode_away
+            state: "on"
+
+        sequence:
+          - action: fan.set_percentage
+            target:
+              entity_id: fan.livingroom_starkvind
+            data:
+              percentage: *speed
+
+    default:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.livingroom_starkvind
+        data:
+          percentage: 11
