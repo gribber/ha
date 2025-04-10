@@ -1,7 +1,7 @@
 - resource_template: >
     {% set start = (now().timestamp() - now().weekday()*86400) | int | timestamp_custom("%Y-%m-%d") %}
     {% set end = (strptime(start, '%Y-%m-%d') + timedelta(days=6)).date() %}
-    http://10.5.70.201:9926/api/groups/mealplans?start_date={{start}}&end_date={{end}}
+    http://10.5.70.201:9926/api/households/mealplans?start_date={{start}}&end_date={{end}}
   method: GET
   headers:
     Authorization: !secret mealie_token
