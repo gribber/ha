@@ -8,3 +8,6 @@ sensor.bermuda_global_total_device_count:
   state_class: measurement
 sensor.bermuda_global_visible_device_count:
   state_class: measurement
+
+sensor.outdoor_min_moving_average:
+  device_class: temperature
