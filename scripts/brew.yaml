@@ -1,0 +1,21 @@
+brew_coffee_240:
+  alias: "Kaffe 240ml"
+  sequence:
+    - action: select.select_option
+      target:
+        entity_id: select.d49e55bd2ef1_product
+      data:
+        option: "Coffee"
+    - action: select.select_option
+      target:
+        entity_id: select.d49e55bd2ef1_temperature
+      data:
+        option: "High"
+    - action: number.set_value
+      target:
+        entity_id: number.d49e55bd2ef1_water_amount
+      data:
+        value: 240
+    - action: button.press
+      target:
+        entity_id: button.d49e55bd2ef1_make
