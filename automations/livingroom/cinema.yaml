@@ -13,7 +13,7 @@
           - condition: state
             entity_id:
               - media_player.home_theater
-            state: 
+            state:
               - "on"
               - "playing"
         sequence:
@@ -24,5 +24,60 @@
             data:
               title: Hemmabion
               message: "Stängde av då ingen är hemma"
+
+    default: []
+
+- alias: "livingroom: turn off window lights when watching tv"
+  id: f70a86c9-a93f-41c0-96c7-d89108586cf0
+  mode: queued
+  triggers:
+    - trigger: state
+      entity_id:
+        - media_player.home_theater
+        - input_boolean.house_mode_bright_inside
+    - trigger: state
+      entity_id: media_player.android_tv_10_5_50_73
+      #to: "playing"
+
+  actions:
+    choose:
+      - conditions:
+          - condition: state
+            entity_id: media_player.home_theater
+            state: "on"
+          - condition: state
+            entity_id: media_player.android_tv_10_5_50_73
+            state: "playing"
+          # - condition: state
+          #   entity_id: media_player.home_theater
+          #   attribute: source
+          #   state: "SHIELD"
+          # - condition: state
+          #   entity_id: media_player.android_tv_10_5_50_73
+          #   attribute: app_name
+          #   state_not: "Android TV Launcher"
+          - condition: state
+            entity_id: input_boolean.house_mode_bright_inside
+            state: "off"
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id: light.livingroom_window_1
+            data:
+              transition: 5
+
+      - conditions:
+          - condition: state
+            entity_id: input_boolean.house_mode_bright_inside
+            state: "off"
+          - condition: time
+            before: input_datetime.time_goodnight
+            after: input_datetime.time_goodmorning_weekend
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.livingroom_window_1
+            data:
+              transition: 5
 
     default: []
