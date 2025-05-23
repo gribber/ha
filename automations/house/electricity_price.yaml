@@ -22,7 +22,7 @@
         entity_id: input_number.electricity_price_level
       data:
         value: >
-          {% set s = states('sensor.nordpool_se2') %}
+          {% set s = states('sensor.nordpool_se2')|float %}
 
           {% if s > 2.5 %} {% set p = 5 %}
           {% elif s > 1.5 %} {% set p = 4 %}
