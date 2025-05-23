@@ -1,4 +1,17 @@
 - sensor:
+    - name: current_estimated_pv_prediction
+      unique_id: f145184b-2a4a-445f-b476-11a5de22b95a
+      state: >
+        {% set solar_area = 104 %}
+        {% set efficiency = 0.21 %}
+        {{ (states('sensor.gw3000a_solar_radiation')|float * solar_area * efficiency)|round(0) }}
+      unit_of_measurement: W
+      availability: >
+        {{ not (
+          [ states('sensor.gw3000a_solar_radiation') ] 
+          | select('in', ['unknown', 'unavailable', 'none']) 
+          | list) }}
+
     - name: "se_solar_production_estimate"
       unique_id: 5367f3de-be51-4bbf-a22e-a6d3705e0c9b
       state: >
