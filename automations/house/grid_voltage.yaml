@@ -1,0 +1,35 @@
+- alias: "grid: voltage"
+  id: 5bc946bf-8ab1-4791-bb9b-dbcebf2282dd
+  triggers:
+    - trigger: numeric_state
+      entity_id:
+        - sensor.voltage_phase_1
+        - sensor.voltage_phase_2
+        - sensor.voltage_phase_3
+      below: 200
+      id: low_voltage
+
+  variables:
+    data: &notify_data
+      importance: high
+      ttl: 0
+      #persistent: true
+      tag: grid
+      sticky: true
+      visibility: public
+
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: low_voltage
+          sequence:
+            - action: notify.family
+              data_template:
+                title: "Nätanslutning!"
+                message: "Spänningen på {{ trigger.entity_id }} är {{ trigger.to_state.state }}V"
+                data: *notify_data
+            - action: notify.castle
+              data:
+                title: "Nätanslutning!"
+                message: "Spänningen på {{ trigger.entity_id }} är {{ trigger.to_state.state }}V"

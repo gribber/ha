@@ -1,0 +1,28 @@
+- alias: "krisinformation: notify"
+  id: 867a2339-c168-4721-8dff-627547df2e02
+  triggers:
+    - trigger: state
+      entity_id:
+        - sensor.krisinformation_vasternorrlands_lan
+      id: kris
+      not_to: "0"
+
+  variables:
+    data: &notify_data
+      importance: high
+      ttl: 0
+      #persistent: true
+      tag: kris
+      sticky: true
+      visibility: public
+
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: kris
+          sequence:
+            - action: notify.castle
+              data:
+                title: "{{ state_attr('sensor.krisinformation_vasternorrlands_lan', 'alerts')[0]['alerts'] }}"
+                message: "[{{ state_attr('sensor.krisinformation_vasternorrlands_lan', 'alerts')[0]['severity'] }}] {{ state_attr('sensor.krisinformation_vasternorrlands_lan', 'alerts')[0]['description'] }}"

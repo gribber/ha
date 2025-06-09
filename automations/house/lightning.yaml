@@ -1,0 +1,35 @@
+- alias: "lightning: notify"
+  id: 2d6264bb-66c5-45c5-9749-ad22b6eec0f5
+  triggers:
+    - trigger: state
+      entity_id:
+        - sensor.blitzortung_lightning_counter
+      id: lightning
+      not_to: "0"
+
+  variables:
+    data: &notify_data
+      importance: high
+      ttl: 0
+      #persistent: true
+      tag: lightning
+      sticky: true
+      visibility: public
+
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: lightning
+            - condition: numeric_state
+              entity_id: sensor.blitzortung_lightning_distance
+              below: 3
+          sequence:
+            - action: notify.castle
+              data:
+                title: "Blixtnedslag"
+                message: >
+                  {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+                  {% set degree = states('sensor.blitzortung_lightning_azimuth')|float %}
+                  {% set dir = direction[((degree+11.25)/22.5)|int] %}
+                  "Blixtnerslag {{ states('sensor.blitzortung_lightning_distance')}}km åt {{dir}}"

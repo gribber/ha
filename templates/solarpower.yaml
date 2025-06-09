@@ -1,6 +1,7 @@
 - sensor:
     - name: current_estimated_pv_prediction
       unique_id: f145184b-2a4a-445f-b476-11a5de22b95a
+      device_class: power
       state: >
         {% set solar_area = 104 %}
         {% set efficiency = 0.21 %}
