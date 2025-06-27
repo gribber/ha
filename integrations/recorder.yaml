@@ -20,6 +20,7 @@ include:
     - person
     - sensor
     - vacuum
+    - lawn_mower
     - fan
     - zone
 exclude:
