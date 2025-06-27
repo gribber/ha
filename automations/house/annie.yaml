@@ -53,3 +53,39 @@
       entity_id: input_text.annie_last_substatus
     data:
       value: "{{ trigger.from_state.state }}"
+
+- alias: "Annie: park when wet"
+  id: 00520d65-1bb5-425b-8743-ee58d488653e
+  trace:
+    stored_traces: 10
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.gw3000a_rain_state_piezo
+      from: "off"
+      to: "on"
+
+  actions:
+    - action: button.press
+      data: {}
+      target:
+        entity_id: button.am430x_eod
+
+- alias: "Annie: resume mowing when dry"
+  id: f248b77a-854a-4099-9485-b816045b90fa
+  trace:
+    stored_traces: 10
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.gw3000a_rain_state_piezo
+      from: "on"
+      to: "off"
+      for:
+        minutes: 60
+
+  actions:
+    - action: button.press
+      data: {}
+      target:
+        entity_id: button.am430x_auto
