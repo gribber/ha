@@ -2,7 +2,7 @@
   name: family
   services:
     - service: mobile_app_kb2003
-    - service: mobile_app_isabells_iphone
+    - service: mobile_app_isabells_iphone_16_pro
 
 - platform: telegram
   name: castle

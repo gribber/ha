@@ -261,3 +261,19 @@ sensors:
               '9' : 35.8
             } %}
             {{ map[states('sensor.livingroom_starkvind_fan_speed')] if is_number(states('sensor.livingroom_starkvind_fan_speed')) else 0 }}
+      - entity_id: fan.bedroom_starkvind
+        fixed:
+          power: >
+            {% set map = {
+              '0' : 0,
+              '1' : 2.0,
+              '2' : 2.8,
+              '3' : 4.8,
+              '4' : 7.6,
+              '5' : 11.9,
+              '6' : 17.8,
+              '7' : 26.3,
+              '8' : 30.6,
+              '9' : 35.8
+            } %}
+            {{ map[states('sensor.bedroom_starkvind_fan_speed')] if is_number(states('sensor.bedroom_starkvind_fan_speed')) else 0 }}
