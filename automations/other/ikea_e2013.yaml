@@ -1,0 +1,23 @@
+# this is a test/hack/work around to keep the ikea parasoll devices not dropping out
+# https://github.com/Koenkk/zigbee2mqtt/issues/22579#issuecomment-3193915157
+#
+- alias: "E2013: press identify to keep alive"
+  id: 47f449a4-9745-4d9f-b9ca-80b681f42fad
+  trace:
+    stored_traces: 10
+
+  triggers:
+    - trigger: time_pattern
+      minutes: "/10"
+
+  conditions: []
+
+  actions:
+    - action: button.press
+      target:
+        entity_id:
+          - button.conservatory_slidewindow_1_identify
+          - button.conservatory_slidewindow_2_identify
+          - button.conservatory_slidewindow_3_identify
+          - button.conservatory_ext_door_identify
+          - button.terrace_slidewindows_identify

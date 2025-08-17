@@ -42,4 +42,4 @@
           - action: notify.castle
             data:
               title: "Växthuset"
-              message: 'Dags att stänga dörren (temperatur: {{ states("sensor.greenhougw3000a_wh31_ch1_temperaturese_temperature")|float(0) }}C)'
+              message: 'Dags att stänga dörren (temperatur: {{ states("sensor.gw3000a_wh31_ch1_temperature")|float(1) }}C)'

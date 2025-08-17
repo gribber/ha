@@ -29,7 +29,7 @@
         sequence:
           - action: fan.set_percentage
             target:
-              entity_id: fan.livingroom_starkvind
+              entity_id: fan.bedroom_starkvind
             data:
               percentage: &speed 55
 
@@ -42,13 +42,13 @@
         sequence:
           - action: fan.set_percentage
             target:
-              entity_id: fan.livingroom_starkvind
+              entity_id: fan.bedroom_starkvind
             data:
               percentage: *speed
 
     default:
       - action: fan.set_percentage
         target:
-          entity_id: fan.livingroom_starkvind
+          entity_id: fan.bedroom_starkvind
         data:
           percentage: 11

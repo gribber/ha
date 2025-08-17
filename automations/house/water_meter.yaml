@@ -1,7 +1,7 @@
 - alias: "Water meter: flow"
   id: 191c227f-0822-4457-b917-539d9345eb48
-  trigger:
-    - platform: numeric_state
+  triggers:
+    - trigger: numeric_state
       entity_id:
         - sensor.watermeter_water_usage_current
       above: 0
@@ -18,18 +18,18 @@
       sticky: true
       visibility: public
 
-  action:
+  actions:
     - choose:
         - conditions:
             - condition: trigger
               id: flow_15
           sequence:
-            - service: notify.family
+            - action: notify.family
               data_template:
                 title: "Vattenflöde!"
-                message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')}}L/min)"
+                message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')|round(2)}}L/min)"
                 data: *notify_data
-            - service: notify.castle
+            - action: notify.castle
               data:
                 title: "Vattenflöde!"
-                message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')}}L/min)"
+                message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')|round(2)}}L/min)"

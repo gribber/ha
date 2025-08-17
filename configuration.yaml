@@ -20,7 +20,7 @@ logger: !include integrations/logger.yaml
 notify: !include integrations/notify.yaml
 powercalc: !include integrations/powercalc.yaml
 recorder: !include integrations/recorder.yaml
-telegram_bot: !include integrations/telegram_bot.yaml
+#telegram_bot: !include integrations/telegram_bot.yaml
 tts: !include integrations/tts.yaml
 
 # deprecated
