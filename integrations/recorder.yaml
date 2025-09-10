@@ -12,6 +12,7 @@ include:
     - input_boolean
     - input_number
     - input_text
+    - input_select
     - light
     - lock
     - number

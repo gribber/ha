@@ -1,14 +1,6 @@
 - alias: "Kitchen: lights"
   id: 12efc75c-0603-4bd2-91d9-3cffa6159a82
   triggers:
-    - trigger: homeassistant
-      event: start
-
-    - trigger: event
-      event_type:
-        - automation_reloaded
-        - scene_reloaded
-
     # - trigger: state
     #   entity_id:
     #     - input_boolean.house_mode_bright_inside
