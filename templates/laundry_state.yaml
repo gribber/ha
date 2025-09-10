@@ -5,10 +5,12 @@
         {% set p = states('sensor.emporia_circuit_6_power')|int %}
         {% if (p < 10) %}
           off
-        {% elif (p < 20) %}
+        {% elif (p < 30) %}
           idle
+        {% elif (p <= 150) %}
+          rinsing
         {% elif (p > 150) and (p < 450) %}
-          centrifuge
+          centrifugate
         {% else %}
           washing
         {% endif %}

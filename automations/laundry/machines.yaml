@@ -1,15 +1,162 @@
-- alias: "Laundry room: Washer"
+- alias: "Laundry room: Update washer state"
+  id: 498fd292-2419-447b-9dec-36d9cbf81a65
+  triggers:
+    - trigger: state
+      id: "centrifugate"
+      entity_id: sensor.washer_state
+      to: "centrifugate"
+      for:
+        seconds: 10
+
+    # - trigger: state
+    #   id: "rinsing_from_running"
+    #   entity_id: sensor.washer_state
+    #   from:
+    #     - "washing"
+    #     - "centrifugate"
+    #     - "idle"
+    #   to: "rinsing"
+    #   for:
+    #     seconds: 15
+
+    # - trigger: state
+    #   id: "rinsing_from_off"
+    #   entity_id: sensor.washer_state
+    #   from:
+    #     - "off"
+    #     - "idle"
+    #   to: "rinsing"
+    #   for:
+    #     seconds: 15
+
+    - trigger: state
+      id: "rinsing"
+      entity_id: sensor.washer_state
+      from:
+        - "off"
+        - "idle"
+        - "centrifugate"
+        - "washing"
+      to: "rinsing"
+      for:
+        seconds: 10
+
+    - trigger: state
+      id: "off"
+      entity_id: sensor.washer_state
+      # from:
+      #   - "centrifugate"
+      #   - "rinsing"
+      #   - "idle"
+      to: "off"
+      for:
+        seconds: 60
+
+    - trigger: state
+      id: "washing"
+      entity_id: sensor.washer_state
+      # from:
+      #   - "centrifugate"
+      #   - "rinsing"
+      to: "washing"
+      for:
+        seconds: 10
+
+  conditions: []
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: "washing"
+          sequence:
+            - action: input_select.select_option
+              target:
+                entity_id: input_select.washer_state
+              data:
+                option: "washing"
+
+        - conditions:
+            - condition: trigger
+              id: "centrifugate"
+          sequence:
+            - action: input_select.select_option
+              target:
+                entity_id: input_select.washer_state
+              data:
+                option: "centrifugate"
+
+        - conditions:
+            - condition: trigger
+              id: "off"
+            - condition: state
+              entity_id: input_select.washer_state
+              state:
+                - "rinsing"
+                - "centrifugate"
+          sequence:
+            - action: input_select.select_option
+              target:
+                entity_id: input_select.washer_state
+              data:
+                option: "off"
+
+        - conditions:
+            - condition: trigger
+              # id: "rinsing_from_running"
+              id: "rinsing"
+            # - condition: state
+            #   entity_id: input_select.washer_state
+            #   state:
+            #     - "centrifugate"
+            #     - "washing"
+            #     - "idle"
+          sequence:
+            - action: input_select.select_option
+              target:
+                entity_id: input_select.washer_state
+              data:
+                option: "rinsing"
+
+        # - conditions:
+        #     - condition: trigger
+        #       id: "rinsing_from_off"
+        #     - condition: state
+        #       entity_id: input_select.washer_state
+        #       state:
+        #         - "off"
+        #   sequence:
+        #     - action: input_select.select_option
+        #       target:
+        #         entity_id: input_select.washer_state
+        #       data:
+        #         option: "rinsing"
+
+        - conditions:
+            - condition: state
+              entity_id: sensor.washer_state
+              state: "washing"
+          sequence:
+            - action: input_select.select_option
+              target:
+                entity_id: input_select.washer_state
+              data:
+                option: "washing"
+
+- alias: "Laundry room: Washer notification"
   id: 72a747af-989c-4843-9a35-10793047c0fe
   triggers:
     - trigger: state
-      entity_id: sensor.washer_state
+      entity_id: input_select.washer_state
       to: "off"
-      from: "washing"
+      from:
+        - "centrifugate"
+        - "washing"
+        - "rinsing"
       # not_from:
       #   - "unavailable"
       #   - "unknown"
-      for:
-        seconds: 60
+      # for:
+      #   seconds: 60
 
   conditions: []
 

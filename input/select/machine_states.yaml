@@ -1,0 +1,7 @@
+washer_state:
+  options:
+    - "off"
+    - "idle"
+    - "rinsing"
+    - "washing"
+    - "centrifugate"
