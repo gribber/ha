@@ -1,0 +1,17 @@
+- platform: history_stats
+  name: "Solar hours today"
+  unique_id: 43dc6cf5-4f76-4401-b651-639724578228
+  entity_id: binary_sensor.solar_hour
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: "Solar hours this week"
+  unique_id: 6bdafb8d-c0ff-4810-a92c-a73163d5760f
+  entity_id: binary_sensor.solar_hour
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=now().weekday()) }}"
+  end: "{{ now() }}"

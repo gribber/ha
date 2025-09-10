@@ -1,0 +1,4 @@
+- binary_sensor:
+    - name: solar_hour
+      unique_id: e8e9c96e-ba8a-49c8-80cb-3c0c9241282e
+      state: "{{ 'on' if states('sensor.gw3000a_solar_radiation')|int >= 120 else 'off' }}"

@@ -1,0 +1,9 @@
+solar_hours_montly:
+  unique_id: 10ff77ac-6e44-407d-828d-22d37c50de24
+  source: sensor.solar_hours_today
+  cycle: monthly
+
+solar_hours_yearly:
+  unique_id: c2c0dde0-e140-4100-a951-17e60381c7f0
+  source: sensor.solar_hours_today
+  cycle: yearly
