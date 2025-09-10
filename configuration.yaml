@@ -26,7 +26,9 @@ tts: !include integrations/tts.yaml
 # deprecated
 #google: !include integrations/google.yaml
 #spotify: !include integrations/spotify.yaml
-
+# automations from the gui
+automation ui: !include automations.yaml
+# automations from files
 automation: !include_dir_merge_list automations/
 binary_sensor: !include_dir_merge_list binary_sensors/
 camera: !include_dir_merge_list cameras/
