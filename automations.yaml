@@ -1,32 +1,41 @@
-- id: '1637061926166'
-  alias: testa fjärr
+- id: '1757328007039'
+  alias: frigate - notify if person is detected while away
   description: ''
-  trigger:
-  - platform: event
-    event_type: deconz_event
-    event_data:
-      id:
-      - tradfri_on_off_button
-      - tradfri_remote_control
-  condition: []
-  action:
-  - service: light.toggle
-    target:
-      entity_id: light.floor_lamp
-  mode: single
-- id: '1637062014733'
-  alias: testalite
+  use_blueprint:
+    path: SgtBatten/Stable.yaml
+    input:
+      camera:
+      - camera.parking
+      - camera.parking_barn
+      - camera.parking_house
+      - camera.front
+      - camera.barn
+      notify_device: 938aeedf6c9e5d0fe2eb8aea06f762b1
+      review_severity:
+      - alert
+      - detection
+      master_condition:
+      - condition: state
+        entity_id: input_boolean.house_mode_away
+        state: 'on'
+      labels:
+      - person
+      message: A {{label}} was detected on the {{camera_name}} camera.
+      notify_group: group.family
+- id: '1757500899941'
+  alias: frigate - horse detected on the yard
   description: ''
-  trigger:
-  - platform: event
-    event_type: deconz_event
-    event_data:
-      id: tradfri_remote_control
-  condition: []
-  action:
-  - service: light.toggle
-    target:
-      entity_id: light.floor_lamp
-    data:
-      flash: short
-  mode: single
+  use_blueprint:
+    path: SgtBatten/Stable.yaml
+    input:
+      icon: mdi:horse
+      camera:
+      - camera.barn
+      - camera.front
+      - camera.parking
+      - camera.parking_barn
+      - camera.parking_house
+      notify_device: 938aeedf6c9e5d0fe2eb8aea06f762b1
+      labels:
+      - horse
+      message: A {{label}} was detected on the {{camera_name}} camera.
