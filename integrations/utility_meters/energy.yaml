@@ -1,4 +1,9 @@
 # ctek ev charger hourly usage to calculate the cost
+ctek_qh_energy:
+  unique_id: 416907d2-3855-4575-9a49-b02ffc50c5e4
+  source: sensor.ctek_energy
+  cycle: quarter-hourly
+
 ctek_hourly_energy:
   unique_id: 1a8c608a-a339-4512-acc8-72fd4ea5a755
   source: sensor.ctek_energy
@@ -106,6 +111,16 @@ solar_self_consumption_cost:
   source: sensor.solar_self_consumption_price
 
 # main fuse calculations
+main_fuse_qh_energy_fuse20:
+  unique_id: 2bdfd650-04dc-4761-9418-7229c6dd6b91
+  source: sensor.reimann_fuse20_energy
+  cycle: quarter-hourly
+
+main_fuse_qh_energy_fuse25:
+  unique_id: 617575fe-77f1-4dc9-8ad4-cc0e43423192
+  source: sensor.reimann_fuse25_energy
+  cycle: quarter-hourly
+
 main_fuse_hourly_energy_fuse20:
   unique_id: 135b616f-d8a3-4568-8ea9-be86593b4f47
   source: sensor.reimann_fuse20_energy

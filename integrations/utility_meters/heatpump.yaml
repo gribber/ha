@@ -1,4 +1,9 @@
 # heatpump meters
+heatpump_qh_energy:
+  unique_id: 569156da-58f1-4abb-bb84-4e3862008e43
+  source: sensor.heatpump_energy
+  cycle: quarter-hourly
+
 heatpump_hourly_energy:
   unique_id: e2f4e2c5-e528-4df3-bfa2-cd9eae5de15c
   source: sensor.heatpump_energy

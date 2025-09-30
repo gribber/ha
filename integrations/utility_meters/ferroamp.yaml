@@ -1,4 +1,9 @@
 # grid import
+grid_qh_energy:
+  unique_id: 9250b5f2-7894-4665-aba3-fcc386b66014
+  source: sensor.cumulative_active_import
+  cycle: quarter-hourly
+
 grid_hourly_energy:
   unique_id: f1a08d52-ce82-46ca-89e8-56ae2efd6784
   source: sensor.cumulative_active_import
@@ -25,6 +30,11 @@ grid_yearly_energy:
   cycle: yearly
 
 # grid export
+grid_qh_energy_export:
+  unique_id: d8c6433c-c041-4a67-84be-8ba5a99bf325
+  source: sensor.cumulative_active_export
+  cycle: quarter-hourly
+
 grid_hourly_energy_export:
   unique_id: 1974df76-7441-434b-a273-adde60e108bb
   source: sensor.cumulative_active_export
@@ -51,6 +61,11 @@ grid_yearly_energy_export:
   cycle: yearly
 
 # ferroamp grid export
+fa_grid_qh_energy_export:
+  unique_id: f1c4389e-9b8c-46ec-826f-3a5bc8645aea
+  source: sensor.ferroamp_xl28_external_energy_produced
+  cycle: quarter-hourly
+
 fa_grid_hourly_energy_export:
   unique_id: ec5e343b-a63a-4a4f-86fc-d5525c290604
   source: sensor.ferroamp_xl28_external_energy_produced
@@ -77,6 +92,11 @@ fa_grid_yearly_energy_export:
   cycle: yearly
 
 # ferroamp grid import
+fa_grid_qh_energy_import:
+  unique_id: eadbb002-7c40-4944-80f0-5d9353b2008c
+  source: sensor.ferroamp_xl28_external_energy_consumed
+  cycle: quarter-hourly
+
 fa_grid_hourly_energy_import:
   unique_id: 1de2418e-f2d0-4e3b-88e0-9a681573686e
   source: sensor.ferroamp_xl28_external_energy_consumed
@@ -103,6 +123,11 @@ fa_grid_yearly_energy_import:
   cycle: yearly
 
 # solar production
+solar_qh_energy:
+  unique_id: 10711a0b-34bb-41f9-bf82-e38997b5e46c
+  source: sensor.ferroamp_xl28_total_solar_energy
+  cycle: quarter-hourly
+
 solar_hourly_energy:
   unique_id: b05d3aa6-f90f-41fd-ac52-812e3a18ba06
   source: sensor.ferroamp_xl28_total_solar_energy
@@ -129,6 +154,11 @@ solar_yearly_energy:
   cycle: yearly
 
 # solar inverter production
+solar_inverter_qh_energy:
+  unique_id: 96a4611d-8765-444f-8262-3fd64f41b316
+  source: sensor.ferroamp_xl28_inverter_energy_produced
+  cycle: quarter-hourly
+
 solar_inverter_hourly_energy:
   unique_id: 524e84c9-1ff7-4226-9bdc-672572ab30c4
   source: sensor.ferroamp_xl28_inverter_energy_produced
@@ -155,6 +185,11 @@ solar_inverter_yearly_energy:
   cycle: yearly
 
 # solar energy self consumption (inverter prod - fa export)
+solar_self_consumption_qh_energy:
+  unique_id: d8b41236-3c7a-4c77-945d-a2d20376b280
+  source: sensor.ferroamp_xl28_solar_energy_self_consumed
+  cycle: quarter-hourly
+
 solar_self_consumption_hourly_energy:
   unique_id: 453cc001-682e-4264-9874-8a27819654ca
   source: sensor.ferroamp_xl28_solar_energy_self_consumed
@@ -185,6 +220,11 @@ solar_self_consumption_energy:
   source: sensor.ferroamp_xl28_solar_energy_self_consumed
 
 # solar energy self consumption (solar prod - meter export) using meter instead of fa export numbers which using another measurement method
+solar_meter_self_consumption_qh_energy:
+  unique_id: dfd5fc5b-ea38-473c-a82f-b01a149d8e27
+  source: sensor.house_solar_energy_self_consumed
+  cycle: quarter-hourly
+
 solar_meter_self_consumption_hourly_energy:
   unique_id: f8f3ee05-81e7-4a1a-a052-3da85252431b
   source: sensor.house_solar_energy_self_consumed
@@ -215,6 +255,11 @@ solar_meter_self_consumption_energy:
   source: sensor.house_solar_energy_self_consumed
 
 # house consumption
+house_consumption_qh_energy:
+  unique_id: d81a79fa-7a49-426e-96aa-9580d22e5863
+  source: sensor.ferroamp_xl28_load_energy_consumed
+  cycle: quarter-hourly
+
 house_consumption_hourly_energy:
   unique_id: 11dfd68d-6a68-4d4c-818d-136d5e8bf273
   source: sensor.ferroamp_xl28_load_energy_consumed
@@ -241,6 +286,11 @@ house_consumption_yearly_energy:
   cycle: yearly
 
 # sso east 32
+solar_sso_east_32_qh_energy:
+  unique_id: dd3909ef-0e82-4e56-a976-17e456367fe3
+  source: sensor.ferroamp_xl28_sso_east_32_total_energy
+  cycle: quarter-hourly
+
 solar_sso_east_32_hourly_energy:
   unique_id: 0357ea20-6632-46ce-9d9d-33927a3b1722
   source: sensor.ferroamp_xl28_sso_east_32_total_energy
@@ -267,6 +317,11 @@ solar_sso_east_32_yearly_energy:
   cycle: yearly
 
 # sso south 32
+solar_sso_21090039_qh_energy:
+  unique_id: d283b66f-786d-4105-a8df-519c214bd622
+  source: sensor.ferroamp_xl28_sso_21090039_total_energy
+  cycle: quarter-hourly
+
 solar_sso_21090039_hourly_energy:
   unique_id: acf97c29-a520-44b4-9eca-53aa56f88e0b
   source: sensor.ferroamp_xl28_sso_21090039_total_energy
@@ -293,6 +348,11 @@ solar_sso_21090039_yearly_energy:
   cycle: yearly
 
 # sso south 45
+solar_sso_21090135_qh_energy:
+  unique_id: af338631-50a2-46f0-805e-c0ff6b8613eb
+  source: sensor.ferroamp_xl28_sso_21090135_total_energy
+  cycle: quarter-hourly
+
 solar_sso_21090135_hourly_energy:
   unique_id: 6c3a3d52-8934-45f7-abc3-fcb8cd0295db
   source: sensor.ferroamp_xl28_sso_21090135_total_energy
@@ -319,6 +379,11 @@ solar_sso_21090135_yearly_energy:
   cycle: yearly
 
 # sso west 32
+solar_sso_west_32_qh_energy:
+  unique_id: 01e17e0b-3365-4405-b3ee-7029a1d2cb89
+  source: sensor.ferroamp_xl28_sso_west_32_total_energy
+  cycle: quarter-hourly
+
 solar_sso_west_32_hourly_energy:
   unique_id: 460895be-25a0-4d67-84ba-39702722daf8
   source: sensor.ferroamp_xl28_sso_west_32_total_energy
@@ -348,6 +413,11 @@ solar_sso_west_32_yearly_energy:
 # per panel production
 ###
 # sso east 32
+solar_sso_east_32_panel_qh_energy:
+  unique_id: d2f455e4-2a6c-4038-bc5d-a6f01f522eb1
+  source: sensor.ferroamp_sso_east32_panel_energy
+  cycle: quarter-hourly
+
 solar_sso_east_32_panel_hourly_energy:
   unique_id: 362d5aeb-b80c-459b-8092-66aec273eeae
   source: sensor.ferroamp_sso_east32_panel_energy
@@ -374,6 +444,11 @@ solar_sso_east_32_panel_yearly_energy:
   cycle: yearly
 
 # sso south 32
+solar_sso_21090039_panel_qh_energy:
+  unique_id: 478688af-8005-4912-8014-6703f2283832
+  source: sensor.ferroamp_sso_south32_panel_energy
+  cycle: quarter-hourly
+
 solar_sso_21090039_panel_hourly_energy:
   unique_id: caa21d9d-a221-4040-9edc-0f9599142fec
   source: sensor.ferroamp_sso_south32_panel_energy
@@ -400,6 +475,11 @@ solar_sso_21090039_panel_yearly_energy:
   cycle: yearly
 
 # sso south 45
+solar_sso_21090135_panel_qh_energy:
+  unique_id: d320b872-1a8e-461c-b5bb-497490645dc3
+  source: sensor.ferroamp_sso_south45_panel_energy
+  cycle: quarter-hourly
+
 solar_sso_21090135_panel_hourly_energy:
   unique_id: 540dc829-1f20-43c2-96f2-3af6ef5e4647
   source: sensor.ferroamp_sso_south45_panel_energy
@@ -426,6 +506,11 @@ solar_sso_21090135_panel_yearly_energy:
   cycle: yearly
 
 # sso west 32
+solar_sso_west_32_panel_qh_energy:
+  unique_id: 82f6ce9f-fd8f-4d85-bc31-c8a42178221b
+  source: sensor.ferroamp_sso_west32_panel_energy
+  cycle: quarter-hourly
+
 solar_sso_west_32_panel_hourly_energy:
   unique_id: 78328afd-7fc3-4d3b-891d-5bb287b6080a
   source: sensor.ferroamp_sso_west32_panel_energy
