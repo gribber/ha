@@ -1,0 +1,299 @@
+- trigger:
+    - trigger: time_pattern
+      minutes: "/15"
+
+    - trigger: homeassistant
+      event: start
+
+    - trigger: event
+      event_type:
+        - my_event_template_reloaded
+
+    - trigger: state
+      entity_id:
+        - sensor.nord_pool_se1_current_price
+
+  action:
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHVN6J6ZSQQDX6JBG5RB2Y
+        date: "{{ now().date() }}"
+      response_variable: today_price
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHVN6J6ZSQQDX6JBG5RB2Y
+        date: "{{ now().date() + timedelta(days=1) }}"
+      response_variable: tomorrow_price
+  sensor:
+    - name: nordpool_se1
+      unique_id: 5d8769c0-f075-42bd-b45c-d2207d6b5eda
+      icon: mdi:cash
+      unit_of_measurement: "SEK/kWh"
+      state_class: measurement
+      device_class: monetary
+      state: >
+        {{ states('sensor.nord_pool_se1_current_price')|float }}
+      attributes:
+        region: SE1
+        tomorrow_valid: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {%- if (tomorrow_price is mapping) %}
+            {%- if tomorrow_price[region] | list | count > 0 -%}
+              {{ true | bool }}
+            {%- else %}
+              {{ false | bool }}
+            {%- endif %}
+          {%- else %}
+            {{ false | bool }}
+          {%- endif %}
+        raw_today: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if today_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in today_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %}
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+        raw_tomorrow: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if tomorrow_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in tomorrow_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %} 
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+
+- trigger:
+    - trigger: time_pattern
+      minutes: "/15"
+
+    - trigger: homeassistant
+      event: start
+
+    - trigger: event
+      event_type:
+        - my_event_template_reloaded
+
+    - trigger: state
+      entity_id:
+        - sensor.nord_pool_se2_current_price
+
+  action:
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHV71DBHJPVWP3MSMPKXV6
+        date: "{{ now().date() }}"
+      response_variable: today_price
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHV71DBHJPVWP3MSMPKXV6
+        date: "{{ now().date() + timedelta(days=1) }}"
+      response_variable: tomorrow_price
+  sensor:
+    - name: nordpool_se2
+      unique_id: b67e2b16-4bbd-4194-be98-2c4e610af8b1
+      icon: mdi:cash
+      unit_of_measurement: "SEK/kWh"
+      state_class: measurement
+      device_class: monetary
+      state: >
+        {{ states('sensor.nord_pool_se2_current_price')|float }}
+      attributes:
+        region: SE2
+        tomorrow_valid: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {%- if (tomorrow_price is mapping) %}
+            {%- if tomorrow_price[region] | list | count > 0 -%}
+              {{ true | bool }}
+            {%- else %}
+              {{ false | bool }}
+            {%- endif %}
+          {%- else %}
+            {{ false | bool }}
+          {%- endif %}
+        raw_today: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if today_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in today_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %}
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+        raw_tomorrow: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if tomorrow_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in tomorrow_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %} 
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+
+- trigger:
+    - trigger: time_pattern
+      minutes: "/15"
+
+    - trigger: homeassistant
+      event: start
+
+    - trigger: event
+      event_type:
+        - my_event_template_reloaded
+
+    - trigger: state
+      entity_id:
+        - sensor.nord_pool_se3_current_price
+
+  action:
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHW1E9N1WFFPHVFWQ1C6QT
+        date: "{{ now().date() }}"
+      response_variable: today_price
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHW1E9N1WFFPHVFWQ1C6QT
+        date: "{{ now().date() + timedelta(days=1) }}"
+      response_variable: tomorrow_price
+  sensor:
+    - name: nordpool_se3
+      unique_id: 0510d4a0-8604-4a69-9f1a-a326e5758625
+      icon: mdi:cash
+      unit_of_measurement: "SEK/kWh"
+      state_class: measurement
+      device_class: monetary
+      state: >
+        {{ states('sensor.nord_pool_se3_current_price')|float }}
+      attributes:
+        region: SE3
+        tomorrow_valid: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {%- if (tomorrow_price is mapping) %}
+            {%- if tomorrow_price[region] | list | count > 0 -%}
+              {{ true | bool }}
+            {%- else %}
+              {{ false | bool }}
+            {%- endif %}
+          {%- else %}
+            {{ false | bool }}
+          {%- endif %}
+        raw_today: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if today_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in today_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %}
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+        raw_tomorrow: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if tomorrow_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in tomorrow_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %} 
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+
+- trigger:
+    - trigger: time_pattern
+      minutes: "/15"
+
+    - trigger: homeassistant
+      event: start
+
+    - trigger: event
+      event_type:
+        - my_event_template_reloaded
+
+    - trigger: state
+      entity_id:
+        - sensor.nord_pool_se4_current_price
+
+  action:
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHWBY6GKD4V0GEKJS9REE0
+        date: "{{ now().date() }}"
+      response_variable: today_price
+    - action: nordpool.get_prices_for_date
+      data:
+        config_entry: 01K6HHWBY6GKD4V0GEKJS9REE0
+        date: "{{ now().date() + timedelta(days=1) }}"
+      response_variable: tomorrow_price
+  sensor:
+    - name: nordpool_se4
+      unique_id: 40957455-d0d4-47e9-a928-a09392fafcee
+      icon: mdi:cash
+      unit_of_measurement: "SEK/kWh"
+      state_class: measurement
+      device_class: monetary
+      state: >
+        {{ states('sensor.nord_pool_se4_current_price')|float }}
+      attributes:
+        region: SE4
+        tomorrow_valid: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {%- if (tomorrow_price is mapping) %}
+            {%- if tomorrow_price[region] | list | count > 0 -%}
+              {{ true | bool }}
+            {%- else %}
+              {{ false | bool }}
+            {%- endif %}
+          {%- else %}
+            {{ false | bool }}
+          {%- endif %}
+        raw_today: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if today_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in today_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %}
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
+        raw_tomorrow: >
+          {%- set region = (this.attributes.get('region') | string) -%}
+          {% if tomorrow_price is mapping %}
+            {% set data = namespace(prices=[]) %}
+            {% for state in tomorrow_price[region] %}
+              {% set local_start = as_datetime(state.start).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set local_end = as_datetime(state.end).astimezone().strftime('%Y-%m-%d %H:%M:%S') %}
+              {% set data.prices = data.prices + [{'start':local_start, 'end':local_end, 'value': ((state.price/1000 )) | round(3, default=0)}] %}
+            {% endfor %} 
+            {{data.prices}}
+          {% else %}
+            []
+          {% endif %}
