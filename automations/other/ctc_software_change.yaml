@@ -25,3 +25,8 @@
                 title: CTC
                 message: >
                   CTC har släppt en ny mjukvaruversion: {{trigger.to_state.state}} (gamla: {{trigger.from_state.state}})
+            - action: notify.mobile_app_kb2003
+              data:
+                title: "CTC"
+                message: >
+                  CTC har släppt en ny mjukvaruversion: {{trigger.to_state.state}} (gamla: {{trigger.from_state.state}})

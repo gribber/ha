@@ -25,3 +25,8 @@
                 title: Bahnhof
                 message: >
                   Priset har ändrats från {{trigger.from_state.state}}kr till {{trigger.to_state.state}}kr
+            - action: notify.mobile_app_kb2003
+              data:
+                title: "Bahnhof"
+                message: >
+                  Priset har ändrats från {{trigger.from_state.state}}kr till {{trigger.to_state.state}}kr

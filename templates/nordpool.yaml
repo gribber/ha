@@ -9,9 +9,9 @@
       event_type:
         - my_event_template_reloaded
 
-    - trigger: state
-      entity_id:
-        - sensor.nord_pool_se1_current_price
+    # - trigger: state
+    #   entity_id:
+    #     - sensor.nord_pool_se1_current_price
 
   action:
     - action: nordpool.get_prices_for_date
@@ -84,9 +84,9 @@
       event_type:
         - my_event_template_reloaded
 
-    - trigger: state
-      entity_id:
-        - sensor.nord_pool_se2_current_price
+    # - trigger: state
+    #   entity_id:
+    #     - sensor.nord_pool_se2_current_price
 
   action:
     - action: nordpool.get_prices_for_date
@@ -159,9 +159,9 @@
       event_type:
         - my_event_template_reloaded
 
-    - trigger: state
-      entity_id:
-        - sensor.nord_pool_se3_current_price
+    # - trigger: state
+    #   entity_id:
+    #     - sensor.nord_pool_se3_current_price
 
   action:
     - action: nordpool.get_prices_for_date
@@ -234,9 +234,9 @@
       event_type:
         - my_event_template_reloaded
 
-    - trigger: state
-      entity_id:
-        - sensor.nord_pool_se4_current_price
+    # - trigger: state
+    #   entity_id:
+    #     - sensor.nord_pool_se4_current_price
 
   action:
     - action: nordpool.get_prices_for_date

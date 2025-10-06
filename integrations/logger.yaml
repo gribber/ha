@@ -3,6 +3,8 @@ logs:
   # modbus
   homeassistant.components.modbus: error
   pymodbus.client: error
+  #ocpp
+  ocpp: error
   # august
   # homeassistant.components.august: debug
   # yalexs: debug

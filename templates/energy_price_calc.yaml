@@ -29,7 +29,7 @@
       unique_id: 9ca16c17-d5a7-45dc-a922-7e83e60bcc2b
       unit_of_measurement: SEK
       state: >
-        {{ (states('sensor.qh_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
+        {{ (states('sensor.ctek_qh_energy')|float * states('sensor.electricity_price_total')|float)|round(2) }}
       availability: >
         {{ not (
           [ states('sensor.ctek_qh_energy'), states('sensor.electricity_price_total') ]
