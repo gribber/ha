@@ -4,33 +4,25 @@
     stored_traces: 25
   mode: single
 
-  trigger:
-    - platform: state
+  triggers:
+    - trigger: state
       entity_id:
         - binary_sensor.wardrobe_terrace_bt_proxy_door_bell
         - binary_sensor.front_door_doorbell_ding
       from: "off"
       to: "on"
 
-  variables:
-    anchors:
-      - &notif_phone
-        service: notify.family
-        data:
-          title: "Dörrklockan"
-          message: "Det ringer på dörrklockan!"
-          data:
-            tag: door_bell
-            timeout: 900
-
   action:
-    choose:
-      conditions:
-        - condition: state
-          entity_id: input_boolean.house_mode_away
-          state: "off"
-      sequence:
-        - *notif_phone
-
-    default:
-      - *notif_phone
+    - service: camera.snapshot
+      data:
+        filename: /config/www/images/doorbell_last_image.jpg
+      target:
+        entity_id: camera.front
+    - action: notify.family
+      data:
+        title: "Dörrklockan"
+        message: "Det ringer på dörrklockan!"
+        data:
+          image: "/local/images/doorbell_last_image.jpg"
+          tag: door_bell
+          timeout: 900
