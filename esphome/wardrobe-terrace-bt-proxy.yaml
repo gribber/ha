@@ -18,10 +18,11 @@ binary_sensor:
   - platform: gpio
     pin: 
       number: GPIO4
-      inverted: true
+      inverted: false
       mode:
         input: true
-        pullup: true
+        pullup: false
+        pulldown: true
     filters:
       - delayed_on: 100ms
       - delayed_off: 100ms
