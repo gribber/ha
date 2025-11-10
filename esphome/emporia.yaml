@@ -146,15 +146,15 @@ sensor:
       - { phase_id: phase_b, input: "5", power: { id: cir5, filters: [ *pos, *interference ] } }
       - { phase_id: phase_b, input: "6", power: { id: cir6, filters: [ *pos, *interference ] } }
       - { phase_id: phase_c, input: "7", power: { id: cir7, filters: [ *pos, *interference ] } }
-      # - { phase_id: phase_b, input: "8", power: { id: cir8, filters: [ *pos ] } }
-      # - { phase_id: phase_c, input: "9", power: { id: cir9, filters: [ *pos ] } }
+      #- { phase_id: phase_b, input: "8", power: { id: cir8, filters: [ *pos, *interference ] } }
+      # - { phase_id: phase_b, input: "9", power: { id: cir9, filters: [ *pos, *interference ] } }
       # - { phase_id: phase_a, input: "10", power: { id: cir10, filters: [ *pos ] } }
       # - { phase_id: phase_b, input: "11", power: { id: cir11, filters: [ *pos ] } }
       # - { phase_id: phase_c, input: "12", power: { id: cir12, filters: [ *pos ] } }
       # - { phase_id: phase_a, input: "13", power: { id: cir13, filters: [ *pos ] } }
       # - { phase_id: phase_b, input: "14", power: { id: cir14, filters: [ *pos ] } }
       # - { phase_id: phase_c, input: "15", power: { id: cir15, filters: [ *pos ] } }
-      # - { phase_id: phase_a, input: "16", power: { id: cir16, filters: [ *pos ] } }
+      - { phase_id: phase_b, input: "16", power: { id: cir16, filters: [ *pos, *interference ] } }
     on_update:
       then:
         - component.update: stove_power
@@ -173,15 +173,15 @@ sensor:
   - { platform: copy, name: "Circuit 5 Power", source_id: cir5, filters: [ *throttle_avg, *interference ] }
   - { platform: copy, name: "Circuit 6 Power", source_id: cir6, filters: [ *throttle_avg, *interference ] }
   - { platform: copy, name: "Circuit 7 Power", source_id: cir7, filters: [ *throttle_avg, *interference ] }
-  # - { platform: copy, name: "Circuit 8 Power", source_id: cir8, filters: *throttle_avg }
-  # - { platform: copy, name: "Circuit 9 Power", source_id: cir9, filters: *throttle_avg }
+  #- { platform: copy, name: "Circuit 8 Power", source_id: cir8, filters: [ *throttle_avg, *interference ] }
+  # - { platform: copy, name: "Circuit 9 Power", source_id: cir9, filters: *throttle_avg, *interference }
   # - { platform: copy, name: "Circuit 10 Power", source_id: cir10, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 11 Power", source_id: cir11, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 12 Power", source_id: cir12, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 13 Power", source_id: cir13, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 14 Power", source_id: cir14, filters: *throttle_avg }
   # - { platform: copy, name: "Circuit 15 Power", source_id: cir15, filters: *throttle_avg }
-  # - { platform: copy, name: "Circuit 16 Power", source_id: cir16, filters: *throttle_avg }
+  - { platform: copy, name: "Circuit 16 Power", source_id: cir16, filters: [ *throttle_avg, *interference ] }
   - { platform: copy, name: "Stove Power", source_id: stove_power, filters: [ *throttle_avg, *interference ] }
 
   - platform: template
@@ -252,7 +252,7 @@ sensor:
   - { power_id: cir5, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 5 Daily Energy", filters: *throttle_time }
   - { power_id: cir6, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 6 Daily Energy", filters: *throttle_time }
   - { power_id: cir7, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 7 Daily Energy", filters: *throttle_time }
-  # - { power_id: cir8, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 8 Daily Energy", filters: *throttle_time }
+  #- { power_id: cir8, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 8 Daily Energy", filters: *throttle_time }
   # - { power_id: cir9, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 9 Daily Energy", filters: *throttle_time }
   # - { power_id: cir10, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 10 Daily Energy", filters: *throttle_time }
   # - { power_id: cir11, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 11 Daily Energy", filters: *throttle_time }
@@ -260,4 +260,4 @@ sensor:
   # - { power_id: cir13, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 13 Daily Energy", filters: *throttle_time }
   # - { power_id: cir14, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 14 Daily Energy", filters: *throttle_time }
   # - { power_id: cir15, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 15 Daily Energy", filters: *throttle_time }
-  # - { power_id: cir16, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 16 Daily Energy", filters: *throttle_time }
+  - { power_id: cir16, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "Circuit 16 Daily Energy", filters: *throttle_time }
