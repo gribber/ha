@@ -1,0 +1,23 @@
+- sensor:
+    - name: "Unavailable devices"
+      unique_id: db97aa67-8754-4885-9192-55d787a6b63b
+      state: " {{ this.attributes.get('devices', []) | count }}"
+      icon: >
+        {% set count = this.attributes.get('devices', []) | count %}
+        {{ 'mdi:numeric-9-plus-circle' if count > 9 else ('mdi:numeric-' ~ count ~ '-circle') }}
+      attributes:
+        devices: >
+          {% set devices = states
+            | map(attribute='entity_id')
+            | map('device_id')
+            | select()
+            | unique
+          %}
+          {% set ns = namespace(unavailable=[]) %}
+          {% for d in devices %}
+            {% set u = device_entities(d) | select('has_value') | list | count %}
+            {% if device_entities(d) | count > 0 and u == 0 %}
+              {% set ns.unavailable = ns.unavailable + [device_attr(d, 'name_by_user') or device_attr(d, 'name')]  %}
+            {% endif %}
+          {% endfor %} 
+          {{ ns.unavailable }}
