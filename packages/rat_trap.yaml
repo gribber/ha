@@ -16,7 +16,6 @@ automation:
     triggers:
       trigger: state
       entity_id:
-        #        - binary_sensor.rat_trap_1
         - binary_sensor.rat_trap_2_contact
         - binary_sensor.rat_trap_3_contact
       from: "off"
@@ -40,7 +39,6 @@ automation:
           title: "Råttfångarn"
           message: >
             {% set mapper =  {
-              'binary_sensor.rat_trap_1' : 'krypgrunden',
               'binary_sensor.rat_trap_2_contact' : 'garderoben nere',
               'binary_sensor.rat_trap_3_contact' : 'väggen uppe'
             } %}
