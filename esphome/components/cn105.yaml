@@ -1,17 +1,8 @@
-# External component reference
 external_components:
   - source: github://echavet/MitsubishiCN105ESPHome
 
-# Uart settings
 uart:
   id: HP_UART
   baud_rate: 2400
   tx_pin: GPIO32
   rx_pin: GPIO26
-
-# Climate entity configuration
-climate:
-  - platform: cn105
-    id: hp
-    name: "Hallway upstairs"
-    update_interval: 2s # update interval can be adjusted after a first run and logs monitoring

@@ -12,3 +12,8 @@ packages:
 
 mqtt: !remove
 
+climate:
+  - platform: cn105
+    id: hp
+    name: "Hallway upstairs"
+    update_interval: 2s
