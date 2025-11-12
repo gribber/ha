@@ -2,10 +2,6 @@
 external_components:
   - source: github://echavet/MitsubishiCN105ESPHome
 
-# Default logging level
-logger:
-  level: INFO
-
 # Uart settings
 uart:
   id: HP_UART
