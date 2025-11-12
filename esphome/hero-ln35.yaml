@@ -1,0 +1,14 @@
+substitutions:
+  name: hero-ln35
+  description: "Mitsubishi Hero 2.0 LN35"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/m5stack_atom.yaml
+  cn105: !include components/cn105.yaml
+
+mqtt: !remove
+
