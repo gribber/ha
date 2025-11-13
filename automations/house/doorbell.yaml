@@ -18,6 +18,8 @@
         filename: /config/www/images/doorbell_last_image.jpg
       target:
         entity_id: camera.front
+    - delay:
+        seconds: 3
     - action: notify.family
       data:
         title: "Dörrklockan"
