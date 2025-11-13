@@ -56,3 +56,4 @@ exclude:
     - sensor.*_weekey_energy
     # - sensor.*_monthly_energy
     - sensor.*_yearly_energy
+    - "*.wled_*"
