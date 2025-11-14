@@ -1,0 +1,87 @@
+ {% set filter = 'light.bedroom_window' if
+    states('input_boolean.bedroom_nightlight') == 'on' else '' %} 
+{{
+  area_entities('bedroom') 
+  | select('search', 'light.') 
+  | rejectattr('state', 'eq', 'on')
+  | reject('in', filter)
+  | list 
+}}
+
+{{  
+  expand(area_entities('bedroom') | select('match', 'light'))
+  | selectattr('state', 'eq', 'off')
+  | map(attribute='entity_id')
+  | list
+}}
+
+antal lampor som inte är ambience som är påslagna i specifikt rum:
+{{
+  expand(area_entities("kitchen") 
+  | select('match', 'light.')) 
+  | selectattr('state', 'eq', 'on') 
+  | rejectattr('entity_id', 'in', label_entities('ambience')) | list | count > 0
+}}
+samma fast annat sätt
+{{
+  expand(set(area_entities("kitchen")).difference(label_entities('ambience')) 
+    | select('match', 'light.')) 
+  | selectattr('state', 'eq', 'on') 
+  | list | count > 0
+}}
+
+alla ambience i ett rum som är påslagna och inte har attributet auto=off
+{{
+  expand(set(label_entities('ambience')).intersection(area_entities('gastrum')))
+  | rejectattr('attributes.auto', 'eq', 'off')
+  | map(attribute="entity_id")
+  | select('is_state', 'on')
+  |list
+
+}}
+
+alla ambience i ett rum som är påslagna:
+{{
+  set(area_entities('gastrum')).intersection(label_entities('ambience'))
+  | select('is_state', 'on')
+  | list
+
+}}
+
+{{state_attr('light.guestroom_plug', 'auto')}}
+
+
+{{
+expand(state_attr('sensor.indoor_lights_power', 'entities'))
+    | selectattr('attributes.source_entity', 'defined') 
+    | map(attribute='attributes.source_entity')
+    |list
+    |select('is_state', 'on')
+    |list
+}}
+
+{# Create a list of lights with specified label(s) on specified floor(s) and doesn't have a input_boolean.noauto_<area> turned on (and also print each floor and area for debug) #}
+{% set floors = ['nere', 'uppe'] %}
+{% set ns = namespace(e=[], l=[]) %}
+{% set labels = ['ambience', 'ambience_extra'] %}
+{%- for l in labels -%}
+  {%- set ns.l = ns.l + label_entities(l) -%}
+{%- endfor -%}
+
+{% for floor in floors %}
+Floor: {{ floor -}}
+  {% for area in floor_areas(floor) %}
+    Area: {{ area }}
+    {%- if states('input_boolean.noauto_'+area) == 'unknown' or states('input_boolean.noauto_'+area) == "off" %}
+      {%- for entity in set(area_entities(area)).intersection(ns.l
+        | select('match', 'light.'))
+        | select('is_state', 'off') %}
+        Entity: {{ entity -}}
+        {% set ns.e = ns.e + [entity] -%}
+      {% endfor %}
+    {%- else %}
+        Automationer för {{ area_name(area) }} är avslagna
+    {%- endif -%}
+  {% endfor %}
+{% endfor %}
+list: {{ns.e}}
