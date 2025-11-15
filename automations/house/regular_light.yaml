@@ -1,0 +1,44 @@
+# this automation will turn off all regular lights when leaving home
+#
+- alias: "House: turn off regular lights when leaving home"
+  id: 6c8dfb91-1a87-4e2f-95ac-3cec0e23c83a
+  mode: queued
+  triggers:
+    - trigger: event
+      event_type:
+        - automation_reloaded
+
+    - trigger: state
+      entity_id: zone.home
+
+  variables:
+    lights_left_on: >
+      {% set floors = ['nere', 'uppe'] %}
+      {% set ns = namespace(e=[], l=[]) %}
+      {% set labels = ['ambience', 'ambience_extra', 'ambience_night', 'ambience_always_on'] %}
+      {% for l in labels %}
+        {% set ns.l = ns.l + label_entities(l) %}
+      {% endfor %}
+
+      {% for floor in floors %}
+        {% for area in floor_areas(floor) %}
+          {% for entity in set(area_entities(area)).difference(ns.l)
+            | select('match', 'light.')
+            | select('is_state', 'on') %}
+            {% set ns.e = ns.e + [entity] %}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+      {{ns.e}}
+
+  conditions: "{{ lights_left_on | count > 0 and states('zone.home')|int == 0 }}"
+
+  actions:
+    - action: notify.castle
+      data:
+        title: "Alzheimers"
+        message: "Stängde av {{ lights_left_on | count }} lampor som inte släckts"
+
+    - action: light.turn_off
+      target:
+        entity_id: "{{ lights_left_on }}"
