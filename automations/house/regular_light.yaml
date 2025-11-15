@@ -13,8 +13,12 @@
 
   variables:
     lights_left_on: >
+      {# floors to include #}
       {% set floors = ['nere', 'uppe'] %}
-      {% set ns = namespace(e=[], l=[]) %}
+      {% set ns = namespace(e=[], l=[], i=[]) %}
+      {# entities to ignore #}
+      {% set ns.i = ['light.conservatory_ceiling', 'light.kitchen_sink']%}
+      {# labels to exclude #}
       {% set labels = ['ambience', 'ambience_extra', 'ambience_night', 'ambience_always_on'] %}
       {% for l in labels %}
         {% set ns.l = ns.l + label_entities(l) %}
@@ -24,7 +28,8 @@
         {% for area in floor_areas(floor) %}
           {% for entity in set(area_entities(area)).difference(ns.l)
             | select('match', 'light.')
-            | select('is_state', 'on') %}
+            | select('is_state', 'on')
+            | reject('in', ns.i) %}
             {% set ns.e = ns.e + [entity] %}
           {% endfor %}
         {% endfor %}
