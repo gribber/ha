@@ -9,4 +9,4 @@ Also using more helpers for better structure and easier handling of states and u
 Configuration should be seen as is in a continues rolling update, some parts will have a different 
 structure than the rest and older parts may or may not be updated accordingly
 
-Got lots of ideas and inspiration from [Thomas Lovén](https://github.com/thomasloven) and [Frenck](https://github.com/frenck)
+Lots of inspiration from many people, non mention, non forgotten :-)
