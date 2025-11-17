@@ -10,6 +10,9 @@
 
     - trigger: state
       entity_id: zone.home
+      to: "0"
+      for:
+        minutes: 5
 
   variables:
     lights_left_on: >
