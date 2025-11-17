@@ -1,6 +1,7 @@
 external_components:
   - source: github://echavet/MitsubishiCN105ESPHome
 
+# settings/pins below for m5stack atom lite
 uart:
   id: HP_UART
   baud_rate: 2400
