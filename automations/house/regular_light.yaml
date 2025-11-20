@@ -43,10 +43,12 @@
 
   actions:
     - action: notify.castle
-      data:
+      data_template:
         title: "Alzheimers"
-        message: "Stängde av {{ lights_left_on | count }} lampor som inte släckts"
-
+        message:
+          "Stängde av {{ lights_left_on | count }} lampor som inte släckts.
+          {{ lights_left_on | join(', ')}}
+          "
     - action: light.turn_off
       target:
         entity_id: "{{ lights_left_on }}"

@@ -1,0 +1,41 @@
+substitutions:
+  name: "frequency"
+  description: "Monitor line frequency"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+
+esphome:
+  friendly_name: ${name}
+
+mqtt: !remove
+
+output:
+  - platform: esp8266_pwm
+    id: pwm_output
+    pin: GPIO04
+    frequency: 50 Hz
+
+servo:
+  - id: my_servo
+    output: pwm_output
+
+number:
+  - platform: template
+    name: Servo Control
+    min_value: 49.8
+    initial_value: 50
+    max_value: 50.2
+    step: 0.01
+    optimistic: true
+    set_action:
+      then:
+        - servo.write:
+            id: my_servo
+            level: !lambda |-
+                float correction = -0.04;
+                return ((x-50) * 5.0)*-1;

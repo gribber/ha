@@ -1,0 +1,84 @@
+substitutions:
+  name: livingroom-ir
+  description: "Send IR remote codes to candles and equipment"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/m5stamp_atoms3lite.yaml
+
+mqtt: !remove
+
+# Output that blinks the LED
+output:
+  - platform: template
+    id: status_output
+    type: binary
+    write_action:
+    - if:
+        condition:
+          lambda: return (state);
+        then:
+          - light.turn_on:
+              id: led
+              brightness: 70%
+              red: 100%
+              green: 0%
+              blue: 0%
+        else:
+          - light.turn_off: led
+
+remote_transmitter:
+  pin: GPIO4
+  carrier_duty_percent: 50%
+
+light:
+  # Enable status LED
+  - platform: status_led
+    output: status_output
+    name: "Status Led"
+    internal: True
+
+  #G35=RGB WS2812C-2020
+  - platform: esp32_rmt_led_strip
+    rgb_order: GRB
+    pin: 35
+    num_leds: 4
+    # RMT 0 channels will be occupied by IR
+    rmt_channel: 1
+    chipset: ws2812
+    id: led
+    name: "Led"
+
+binary_sensor:
+  - platform: gpio
+    name: Button
+    pin:
+      number: GPIO41
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    filters:
+      - delayed_off: 10ms
+    on_press:
+      then:
+        - logger.log: Button Pressed
+
+
+button:
+  - platform: template
+    name: "Ljus på"
+    on_press:
+      remote_transmitter.transmit_nec:
+        address: 0xFD02
+        command: 0xFF00
+
+  - platform: template
+    name: "Ljus av"
+    on_press:
+      remote_transmitter.transmit_nec:
+        address: 0xFD02
+        command: 0xFE01

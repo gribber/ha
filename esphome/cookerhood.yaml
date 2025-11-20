@@ -1,0 +1,45 @@
+substitutions:
+  name: cookerhood
+  description: "Fan control of the cooker hood"
+  encryption_key: !secret api_key
+  ota_password: !secret ota_pass
+  log_level: DEBUG
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wemos_d1_mini.yaml
+
+mqtt: !remove
+
+
+output:
+  - platform: ac_dimmer
+    id: robotdyn
+    gate_pin: D0
+    zero_cross_pin:
+      number: D2
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+    min_power: 0.5
+
+fan:
+  - platform: speed
+      output: robotdyn
+      name: "Cooker hood"
+      speed_count: 4
+
+  - platform: esp8266_pwm
+    pin: D1
+    frequency: 1000 Hz
+    id: pwm_output
+    
+light:
+#   - platform: monochromatic
+#     output: robotdyn
+#     name: Robotdyn dimmer
+
+  - platform: monochromatic
+    output: pwm_output
+    name: "pwm test"
