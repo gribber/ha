@@ -1,104 +1,101 @@
 - alias: "House: outdoor lights"
   id: 628f6bc0-9b4a-461f-878f-92b8de65fa7d
+  trace:
+    stored_traces: 10
   mode: queued
-  trigger:
-    - platform: homeassistant
+  triggers:
+    - trigger: homeassistant
       event: start
 
-    - platform: event
+    - trigger: event
       event_type:
         - automation_reloaded
         - scene_reloaded
 
-    - platform: state
+    - trigger: state
       entity_id:
         - input_boolean.house_mode_outside_work
 
-    - platform: state
+    - trigger: state
       id: daylight
       entity_id:
         - input_boolean.house_mode_daylight
 
-    - platform: state
-      id: movement
+    - trigger: state
+      id: movement_on
       entity_id: group.motion_parking
-      from: 
-        - "on"
+      from:
         - "off"
-      to: 
+      to:
         - "on"
-        - "off"
 
-  action:
+    - trigger: state
+      id: movement_off
+      entity_id: group.motion_parking
+      from:
+        - "on"
+      to:
+        - "off"
+      for:
+        minutes: 5
+
+  actions:
     choose:
-      - alias: "activate outdoor work mode"
-        conditions:
-          - alias: "when outside work mode is on"
-            condition: state
+      # work mode / all lights should be turned on
+      - conditions:
+          - condition: state
             entity_id:
               - input_boolean.house_mode_outside_work
             state: "on"
-
         sequence:
-          - alias: "activate outside work scene"
-            service: scene.turn_on
+          - action: scene.turn_on
             target:
               entity_id: scene.outdoor_work
             data:
               transition: 2
 
-      - alias: "activate outdoor lights"
-        conditions:
-          - alias: "when triggered"
-            condition: trigger
+      # when it gets dark (daylight helper turns off)
+      - conditions:
+          - condition: trigger
             id: daylight
-          - alias: "and it turned off"
-            condition: state
+          - condition: state
             entity_id: input_boolean.house_mode_daylight
             state: "off"
-
         sequence:
-          - alias: "turn on lights"
-            service: scene.turn_on
+          - action: scene.turn_on
             target:
               entity_id: scene.outdoor_lights_default
             data:
               transition: 5
 
+      # if there is no daylight
       - conditions:
-        - alias: "if daylight is off"
-          condition: state
-          entity_id:
-            - input_boolean.house_mode_daylight
-          state: "off"
-
+          - condition: state
+            entity_id: input_boolean.house_mode_daylight
+            state: "off"
         sequence:
           - choose:
-            - conditions:
-                - alias: "movement is on"
-                  condition: state
-                  entity_id:
-                    - group.motion_parking
-                  state: "on"
-              sequence:
-                - alias: "turn on movement mode"
-                  service: scene.turn_on
-                  target:
-                    entity_id: scene.outdoor_parking_movement
-                  data:
-                    transition: 2
+              # turn on lights when movement is detected
+              - conditions:
+                  - condition: trigger
+                    id: movement_on
+                sequence:
+                  - action: scene.turn_on
+                    target:
+                      entity_id: scene.outdoor_parking_movement
+                    data:
+                      transition: 2
+            # if no movement, return to default
             default:
-              - alias: "turn on default mode"
-                service: scene.turn_on
+              - action: scene.turn_on
                 target:
                   entity_id: scene.outdoor_parking_default
                 data:
                   transition: 5
 
     default:
-      - service: light.turn_off
+      - action: light.turn_off
         target:
           entity_id: light.utomhuslampor
         data:
           transition: 5
-
