@@ -1,0 +1,17 @@
+- alias: "bathroom downstairs: oralb"
+  id: e9718f2f-33ae-4efc-8779-8d45d1403ab5
+  mode: single
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: numeric_state
+    entity_id: sensor.genius_x_a362_battery
+    below: 20
+
+  conditions: []
+
+  actions:
+    - action: notify.mobile_app_kb2003
+      data:
+        title: "Oral B"
+        message: "Dags att ladda tandborsten ({{ states('sensor.genius_x_a362_battery') }}%)"
