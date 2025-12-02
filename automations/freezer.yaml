@@ -4,7 +4,6 @@
     - trigger: numeric_state
       entity_id:
         - sensor.laundry_freezer_temperature
-        - sensor.garage_freezer_temperature
       above: -15
       for:
         minutes: 1
@@ -14,8 +13,7 @@
         title: "Frysen"
         message: >
           {% set mapper =  {
-            'sensor.laundry_freezer_temperature' : 'frysen i tvättstugan',
-            'sensor.garage_freezer_temperature' : 'frysen i garaget'
+            'sensor.laundry_freezer_temperature' : 'frysen i tvättstugan'
           } %}
           "För hög temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
         data:
@@ -28,7 +26,6 @@
     - trigger: numeric_state
       entity_id:
         - sensor.laundry_freezer_temperature
-        - sensor.garage_freezer_temperature
       above: -10
       for:
         minutes: 1
@@ -43,8 +40,7 @@
               title: "Frysen kritisk!"
               message: >
                 {% set mapper =  {
-                  'sensor.laundry_freezer_temperature' : 'frysen i tvättstugan',
-                  'sensor.garage_freezer_temperature' : 'frysen i garaget'
+                  'sensor.laundry_freezer_temperature' : 'frysen i tvättstugan'
                 } %}
                 "Kritisk temperatur i {{ mapper[trigger.entity_id] }}! ({{ trigger.to_state.state }}C)"
               data:
