@@ -54,3 +54,6 @@ workday_bella:
 
 ev_allow_grid:
   name: "Använd nät"
+
+christmas_lights:
+  name: "Julbelysning aktiv"

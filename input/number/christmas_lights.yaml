@@ -1,0 +1,80 @@
+christmas_light_fir_tree_outside:
+  # Ekvip 16.1m, 160led varm/kall, 1.2W
+  name: "Julgran ute"
+  min: 1
+  max: 3
+  step: 0.1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_tree_north:
+  # Ekvip 16.1m, 160led varm, 2.4W
+  name: "Träd norr ute"
+  min: 1
+  max: 3
+  step: 0.1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_icedrops_east:
+  # Ekvip 3m, 100led, varm, 2.5W
+  name: "Julbelysning utanför burspråk"
+  min: 1
+  max: 3
+  step: 0.1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_icedrops_conservatory:
+  # K&CO istapp, 360led, 1950K, 6W
+  name: "Julbelysning uterum"
+  min: 1
+  max: 10
+  step: 1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_icedrops_shed:
+  # K&CO istapp, 360led, 1950K, 6W
+  name: "Julbelysning vedbod"
+  min: 1
+  max: 10
+  step: 1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_garage_outside:
+  # K&CO garage, 2000led, 9W
+  name: "Julbelysning garage"
+  min: 1
+  max: 10
+  step: 1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_garage_window:
+  # färgade leds
+  name: "Julbelysning garagefönster"
+  min: 1
+  max: 10
+  step: 1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_glass_ball1:
+  # Glaskula med led
+  name: "Julbelysning glaskula kontor"
+  min: 1
+  max: 3
+  step: 0.1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights
+
+christmas_light_glass_ball2:
+  # Glaskula med led
+  name: "Julbelysning glaskula lo"
+  min: 1
+  max: 3
+  step: 0.1
+  unit_of_measurement: "W"
+  icon: mdi:string-lights

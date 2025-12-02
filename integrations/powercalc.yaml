@@ -1,4 +1,5 @@
-enable_autodiscovery: true
+discovery:
+  enabled: true
 sensors:
   - create_group: "outdoor lights"
     unique_id: 28782826-4b21-44d0-8105-60e6b9338bd2
@@ -277,3 +278,15 @@ sensors:
               '9' : 35.8
             } %}
             {{ map[states('sensor.bedroom_starkvind_fan_speed')] if is_number(states('sensor.bedroom_starkvind_fan_speed')) else 0 }}
+
+  - create_group: "christmas_lights"
+    unique_id: 6bcd8ca2-f910-4f42-8dc9-6e551dce5017
+    entities:
+      - entity_id: input_boolean.christmas_lights
+        fixed:
+          power: >
+            {{ states.input_number
+            | selectattr('entity_id', 'search', 'christmas_light_')
+            | map(attribute='state')
+            | map('float', 0)
+            | sum if states('input_boolean.christmas_lights') == "on" else 0 }}
