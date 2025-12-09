@@ -1,0 +1,55 @@
+- alias: Notify when charging session ends
+  id: 973d5c70-8c8e-4e4d-842d-c2665a165e64
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: state
+    entity_id: sensor.charger_status_connector
+    from:
+      - "Charging"
+    to:
+      - "SuspendedEV"
+      - "Available"
+
+  conditions: []
+
+  actions:
+    - action: notify.send_message
+      data:
+        entity_id: notify.telegram_castle
+        title: Laddning slutförd
+        message: >
+          Laddade {{ states('sensor.charger_energy_session')|round(1) }}kWh för {{ states('sensor.ctek_session_cost_import')|round(0, "ceil", 0) }}kr.
+    - action: notify.family
+      data:
+        title: "Laddning slutförd"
+        message: >
+          Laddade {{ states('sensor.charger_energy_session')|round(1) }}kWh för {{ states('sensor.ctek_session_cost_import')|round(0, "ceil", 0) }}kr.
+    - action: utility_meter.calibrate
+      target:
+        entity_id: sensor.ctek_session_cost_import
+      data:
+        value: 0
+
+- alias: Summarize EV charging at end of month
+  id: fcfb6f7e-3da4-4f33-91ad-8113115a85b4
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: time
+    at: "23:59:59"
+
+  conditions: "{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}"
+
+  actions:
+    - action: notify.send_message
+      data:
+        entity_id: notify.telegram_castle
+        title: "EV laddning"
+        message: >
+          Det är laddat {{ states('sensor.ctek_monthly_energy')|round(1) }}kWh för {{ states('sensor.ctek_monthly_cost_import')|round(0, "ceil", 0) }}kr den här månaden.
+    - action: notify.family
+      data:
+        title: "Ev laddning"
+        message: >
+          Det är laddat {{ states('sensor.ctek_monthly_energy')|round(1) }}kWh för {{ states('sensor.ctek_monthly_cost_import')|round(0, "ceil", 0) }}kr den här månaden.
