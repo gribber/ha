@@ -21,8 +21,9 @@
     choose:
       - conditions: "{{ trigger.to_state.state|int > 0 }}"
         sequence:
-          - service: notify.castle_log
+          - service: notify.send_message
             data:
+              entity_id: notify.telegram_castle_log
               title: Ferroamp ehub
               message: >
                 {% set e = trigger.to_state.state|string %}
@@ -38,8 +39,9 @@
                 {{trigger.to_state.name}}: {{trigger.to_state.state}} (codes: {{f.ecodes}})
 
     default:
-      - service: notify.castle_log
+      - service: notify.send_message
         data:
+          entity_id: notify.telegram_castle_log
           title: Ferroamp ehub
           message: >
             {{trigger.to_state.name}} rapporterar state '0'

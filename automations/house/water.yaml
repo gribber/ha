@@ -18,7 +18,7 @@
       to: "on"
 
   variables:
-    data: &notify_data 
+    data: &notify_data
       importance: high
       ttl: 0
       #persistent: true
@@ -69,7 +69,8 @@
             title: "Vattenläcka!"
             message: "{{msg}}"
             data: *notify_data
-        - service: notify.castle
+        - service: notify.send_message
           data:
+            entity_id: notify.telegram_castle
             title: "Vattenläcka!"
             message: "{{msg}}"

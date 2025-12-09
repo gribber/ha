@@ -11,3 +11,10 @@ sensor.bermuda_global_visible_device_count:
 
 sensor.outdoor_min_moving_average:
   device_class: temperature
+
+sensor.gw3000a_daily_rain_piezo:
+  state_class: total_increasing
+sensor.gw3000a_monthly_rain_piezo:
+  state_class: total_increasing
+sensor.gw3000a_yearly_rain_piezo:
+  state_class: total_increasing

@@ -29,7 +29,8 @@
                 title: "Vattenflöde!"
                 message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')|round(2)}}L/min)"
                 data: *notify_data
-            - action: notify.castle
+            - action: notify.send_message
               data:
+                entity_id: notify.telegram_castle
                 title: "Vattenflöde!"
                 message: "Vatten har runnit i över 15min (flöde {{states('sensor.watermeter_water_usage_current')|round(2)}}L/min)"

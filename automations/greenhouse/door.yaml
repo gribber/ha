@@ -39,7 +39,8 @@
           #   data:
           #     title: "Växthuset"
           #     message: 'Dags att stänga dörren (temperatur: {{ states("sensor.greenhouse_temperature")|float(0) }}C)'
-          - action: notify.castle
+          - action: notify.send_message
             data:
+              entity_id: notify.telegram_castle
               title: "Växthuset"
               message: 'Dags att stänga dörren (temperatur: {{ states("sensor.gw3000a_wh31_ch1_temperature")|float(1) }}C)'

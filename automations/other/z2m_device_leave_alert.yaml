@@ -4,7 +4,7 @@
   id: 71e990e2-1f77-4985-9b7b-76dc9750d17a
   trace:
     stored_traces: 10
-  
+
   trigger:
     - platform: mqtt
       topic: zigbee2mqtt/bridge/event
@@ -28,7 +28,8 @@
         - condition: template
           value_template: "{{ wait.trigger is none }}"
       then:
-        - service: notify.castle
+        - service: notify.send_message
           data:
+            entity_id: notify.telegram_castle
             title: Zigbee2MQTT
             message: "{{ now().strftime('%H:%M:%S') }} - Z2M tappade kontakten med {{ trigger.payload_json.data.friendly_name }}."

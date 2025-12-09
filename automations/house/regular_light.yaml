@@ -42,8 +42,9 @@
   conditions: "{{ lights_left_on | count > 0 and states('zone.home')|int == 0 }}"
 
   actions:
-    - action: notify.castle
+    - action: notify.send_message
       data_template:
+        entity_id: notify.telegram_castle
         title: "Alzheimers"
         message:
           "Stängde av {{ lights_left_on | count }} lampor som inte släckts.

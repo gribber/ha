@@ -22,7 +22,8 @@
             - condition: trigger
               id: kris
           sequence:
-            - action: notify.castle
+            - action: notify.send_message
               data:
+                entity_id: notify.telegram_castle
                 title: "{{ state_attr('sensor.krisinformation_vasternorrlands_lan', 'alerts')[0]['alerts'] }}"
                 message: "[{{ state_attr('sensor.krisinformation_vasternorrlands_lan', 'alerts')[0]['severity'] }}] {{ state_attr('sensor.krisinformation_vasternorrlands_lan', 'alerts')[0]['description'] }}"

@@ -25,8 +25,9 @@
               entity_id: sensor.blitzortung_lightning_distance
               below: 3
           sequence:
-            - action: notify.castle
+            - action: notify.send_message
               data:
+                entity_id: notify.telegram_castle
                 title: "Blixtnedslag"
                 message: >
                   {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}

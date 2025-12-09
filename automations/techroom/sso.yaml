@@ -28,8 +28,9 @@
     choose:
       - conditions: "{{ trigger.to_state.state|int > 0 }}"
         sequence:
-          - service: notify.castle_log
+          - service: notify.send_message
             data:
+              entity_id: notify.telegram_castle_log
               title: Ferroamp SSO
               message: >
                 {% set f = namespace(errors=[]) %}
@@ -39,8 +40,9 @@
                 {{trigger.to_state.name}} rapporterar felkod: {{trigger.to_state.state}} ({{f.errors|join('| ')}})
 
     default:
-      - service: notify.castle_log
+      - service: notify.send_message
         data:
+          entity_id: notify.telegram_castle_log
           title: Ferroamp SSO
           message: >
             {{trigger.to_state.name}} rapporterar normalt läge igen

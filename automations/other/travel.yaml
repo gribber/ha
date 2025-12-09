@@ -34,12 +34,14 @@
             arrival: >
               {% set t = states(sensor)|int %}
               {{ (now().timestamp() + (t*60)) | timestamp_custom('%H:%M') }}
-        - service: notify.castle_log
+        - service: notify.send_message
           data:
+            entity_id: notify.telegram_castle_log
             title: "Resa"
             message: "{{person}} {{event}} {{zone}} (kommer vara hemma ungefär {{arrival}})"
       else:
-        - service: notify.castle_log
+        - service: notify.send_message
           data:
+            entity_id: notify.telegram_castle_log
             title: "Resa"
             message: "{{person}} {{event}} {{zone}}"

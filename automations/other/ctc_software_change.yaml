@@ -20,8 +20,9 @@
             {% set ignore = ['unknown', 'unavailable', 'none', '', null] %}
             {{ trigger.from_state.state not in ignore and trigger.to_state.state not in ignore and trigger.to_state.state != trigger.from_state.state }}
           sequence:
-            - action: notify.castle_log
+            - action: notify.send_message
               data:
+                entity_id: notify.telegram_castle
                 title: CTC
                 message: >
                   CTC har släppt en ny mjukvaruversion: {{trigger.to_state.state}} (gamla: {{trigger.from_state.state}})

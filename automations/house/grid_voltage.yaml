@@ -29,7 +29,8 @@
                 title: "Nätanslutning!"
                 message: "Spänningen på {{ trigger.entity_id }} är {{ trigger.to_state.state }}V"
                 data: *notify_data
-            - action: notify.castle
+            - action: notify.send_message
               data:
+                entity_id: notify.telegram_castle
                 title: "Nätanslutning!"
                 message: "Spänningen på {{ trigger.entity_id }} är {{ trigger.to_state.state }}V"

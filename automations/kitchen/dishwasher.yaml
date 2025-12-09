@@ -8,7 +8,7 @@
       id: "start"
       entity_id:
         - sensor.012050386564014027_bsh_common_status_operationstate
-      from: 
+      from:
         - "BSH.Common.EnumType.OperationState.Ready"
         - "BSH.Common.EnumType.OperationState.DelayedStart"
       to: "BSH.Common.EnumType.OperationState.Run"
@@ -20,12 +20,11 @@
       from: "BSH.Common.EnumType.OperationState.Run"
       to: "BSH.Common.EnumType.OperationState.Finished"
 
-
   action:
     choose:
       - conditions:
-        - condition: trigger
-          id: "start"
+          - condition: trigger
+            id: "start"
 
         sequence:
           - service: input_number.set_value
@@ -34,11 +33,10 @@
             data:
               value: "{{ states('sensor.shelly_dishwasher_energy')|float(0) }}"
 
-
       - conditions:
-        - condition: trigger
-          id: "finished"
-          
+          - condition: trigger
+            id: "finished"
+
         sequence:
           - variables:
               consumption: "{{ (states('sensor.shelly_dishwasher_energy')|float(0) - states('input_number.dishwasher_start')|float(0))|round(2) }}"
@@ -50,11 +48,11 @@
           #     data:
           #       tag: dishwasher
 
-          - service: notify.castle
+          - service: notify.send_message
             data:
+              entity_id: notify.telegram_castle
               title: "Diskmaskinen"
               message: "Disken klar! (förbrukning: {{consumption}}kWh)"
-
 
 - alias: "Dishwasher: intelligent start"
   id: c2d665a4-53ca-4456-ae99-be0a6a37dc8e
@@ -77,15 +75,15 @@
     choose:
       - conditions:
           and:
-          - condition: state
-            entity_id:
-              - binary_sensor.012050386564014027_bsh_common_status_remotecontrolstartallowed
-            state: "on"
+            - condition: state
+              entity_id:
+                - binary_sensor.012050386564014027_bsh_common_status_remotecontrolstartallowed
+              state: "on"
 
-            
         sequence:
-          - service: notify.castle
+          - service: notify.send_message
             data:
+              entity_id: notify.telegram_castle
               title: Diskmaskinen
               message: >
                 Kommer starta diskmaskinen {{ as_timestamp(states('sensor.el_next_cheapest_hour'))|timestamp_custom('%d/%m %H:%M') }}

@@ -85,6 +85,10 @@ ctek_yearly_cost_import:
   source: sensor.ctek_price_import
   cycle: yearly
 
+ctek_session_cost_import:
+  unique_id: 7ec759f4-be21-40bf-a439-266e3757c0b6
+  source: sensor.ctek_price_import
+
 # solar self consumption
 solar_self_consumption_daily_cost:
   unique_id: 48b43ae0-b4b6-4925-9f06-f390e3a7f598

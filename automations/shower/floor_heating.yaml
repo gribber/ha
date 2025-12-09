@@ -14,8 +14,9 @@
               entity_id: input_number.electricity_price_level
               above: 3
           sequence:
-            - service: notify.castle_log
+            - service: notify.send_message
               data:
+                entity_id: notify.telegram_castle_log
                 title: "Duschen"
                 message: "Någon har duschat, men för dyr el för att starta golvvärmen!"
             - service: switch.turn_off
@@ -29,8 +30,9 @@
             state: "off"
 
           sequence:
-            - service: notify.castle_log
+            - service: notify.send_message
               data:
+                entity_id: notify.telegram_castle_log
                 title: "Duschen"
                 message: "Någon har duschat, startar golvvärmen (derivat: {{trigger.to_state.state}})"
             - service: switch.turn_on
@@ -100,8 +102,9 @@
                   state: "on"
 
         sequence:
-          - service: notify.castle_log
+          - service: notify.send_message
             data:
+              entity_id: notify.telegram_castle_log
               title: "Duschen"
               message: "Stängde av golvvärmen nu efter {{ (now().timestamp() - states.switch.laundry_room_channel_2.last_changed.timestamp())|timestamp_custom('%-Ht%-Mm', false) }} (trigger: {{trigger.id}})"
           - service: switch.turn_off
