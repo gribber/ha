@@ -48,8 +48,6 @@ alla ambience i ett rum som är påslagna:
 
 }}
 
-{{state_attr('light.guestroom_plug', 'auto')}}
-
 
 {{
 expand(state_attr('sensor.indoor_lights_power', 'entities'))
@@ -85,3 +83,17 @@ Floor: {{ floor -}}
   {% endfor %}
 {% endfor %}
 list: {{ns.e}}
+
+
+{# list all lights turned on in a specific area that hasn't any ambience label set #}
+{{
+expand(area_entities("allrum") 
+  | select('match', 'light.')) 
+  | selectattr('state', 'eq', 'on') 
+  | rejectattr('entity_id', 'in', labels() | select('match', 'ambience') | map('label_entities') | sum(start=[])) 
+  | map(attribute="entity_id")
+  | list 
+}}
+
+# return true/false if today the last day of month
+{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}
