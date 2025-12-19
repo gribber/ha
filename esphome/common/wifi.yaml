@@ -3,7 +3,8 @@
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_pass
-
+  min_auth_mode: WPA2
+  
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "${name}"
