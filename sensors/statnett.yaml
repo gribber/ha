@@ -1,4 +1,5 @@
 - platform: influxdb
+  host: !secret influx_host
   username: !secret influx_user
   password: !secret influx_pass
   database: !secret influx_grid_db
@@ -10,7 +11,7 @@
       where: '"zone" = ''SE'''
       group_function: last
       field: "nuclear"
-      
+
     - name: statnett_prod_se_wind
       unique_id: 31e09ebe-f58e-493e-8ac4-01b60eac5d44
       unit_of_measurement: MW
@@ -18,4 +19,3 @@
       where: '"zone" = ''SE'''
       group_function: last
       field: "wind"
-
