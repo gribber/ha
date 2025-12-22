@@ -38,6 +38,8 @@
 .storage
 .cloud
 .google.token
+.ssh
+.vscode
 /esphome/archive
 
 # ensure ignore
