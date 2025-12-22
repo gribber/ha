@@ -97,3 +97,12 @@ expand(area_entities("allrum")
 
 # return true/false if today the last day of month
 {{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}
+
+# list entities by domain
+{% set x = ['unknown', 'unavailable'] %}
+{%- for d, es in states | groupby('domain') %}
+- {{ d }}: ({{ es | rejectattr('state', 'in', x) | list | count }})
+  {% for i in es if i.state not in x -%}
+    > {{i.name}}: *{{i.state}}*
+  {% endfor %}
+{%- endfor %}
