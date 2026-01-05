@@ -24,6 +24,11 @@ include:
     - lawn_mower
     - fan
     - zone
+  entities:
+    - sensor.emporia_stove_daily_energy
+  entity_globs:
+    - sensor.emporia_circuit_*_daily_energy
+
 exclude:
   event_types:
     - call_service
@@ -58,6 +63,6 @@ exclude:
     - sensor.*_daily_energy
     - sensor.*_weekey_energy
     # - sensor.*_monthly_energy
-    - sensor.*_yearly_energy
+    # - sensor.*_yearly_energy
     # exclude wled sensors
     - "*.wled_*"
