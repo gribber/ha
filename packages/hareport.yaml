@@ -9,7 +9,7 @@ rest_command:
     url: !secret ha_report_url
     method: POST
     content_type: "application/x-www-form-urlencoded"
-    payload: "u={{ user }}&v={{ states.sensor.current_ha_version.state }}"
+    payload: "u={{ user }}&v={{ states('sensor.current_ha_version') }}"
     verify_ssl: true
 
 automation:
