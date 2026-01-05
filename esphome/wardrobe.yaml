@@ -17,3 +17,141 @@ sensor:
     address: 0xba3c01e076781e28
     name: "house hot water supply"
     update_interval: 10s
+
+  - platform: dallas_temp
+    address: 0x583cffe076793a28
+    name: "house floor heat supply"
+    id: supply
+    update_interval: 30s
+
+  - platform: dallas_temp
+    address: 0x153c01e07692a428
+    name: "house floor heat return 1" # kitchen north
+    id: ret_1
+    update_interval: 30s
+    on_value:
+      then:
+        - component.update: ret_1_delta
+
+  - platform: template
+    name: "house floor heat return 1 delta"
+    device_class: "temperature"
+    unit_of_measurement: "°C"
+    id: ret_1_delta
+    update_interval: never
+    lambda: |-
+      if (id(supply).state >= id(ret_1).state) {
+        return (id(supply).state - id(ret_1).state);
+      } else {
+        return 0;
+      }
+
+  - platform: dallas_temp
+    address: 0x463c01e076040b28
+    name: "house floor heat return 2" # kitchen south
+    update_interval: 30s
+    id: ret_2
+    on_value:
+      then:
+        - component.update: ret_2_delta
+
+  - platform: template
+    name: "house floor heat return 2 delta"
+    device_class: "temperature"
+    unit_of_measurement: "°C"
+    id: ret_2_delta
+    update_interval: never
+    lambda: |-
+      if (id(supply).state >= id(ret_2).state) {
+        return (id(supply).state - id(ret_2).state);
+      } else {
+        return 0;
+      }
+
+  - platform: dallas_temp
+    address: 0x123c01e0762b6b28
+    name: "house floor heat return 3" # family room
+    update_interval: 30s
+    id: ret_3
+    on_value:
+      then:
+        - component.update: ret_3_delta
+
+  - platform: template
+    name: "house floor heat return 3 delta"
+    device_class: "temperature"
+    unit_of_measurement: "°C"
+    id: ret_3_delta
+    update_interval: never
+    lambda: |-
+      if (id(supply).state >= id(ret_3).state) {
+        return (id(supply).state - id(ret_3).state);
+      } else {
+        return 0;
+      }
+
+  - platform: dallas_temp
+    address: 0x783c01e07685f628 
+    name: "house floor heat return 4" # bathroom
+    update_interval: 30s
+    id: ret_4
+    on_value:
+      then:
+        - component.update: ret_4_delta
+
+  - platform: template
+    name: "house floor heat return 4 delta"
+    device_class: "temperature"
+    unit_of_measurement: "°C"
+    id: ret_4_delta
+    update_interval: never
+    lambda: |-
+      if (id(supply).state >= id(ret_4).state) {
+        return (id(supply).state - id(ret_4).state);
+      } else {
+        return 0;
+      }
+
+  - platform: dallas_temp
+    address: 0xbd3c01e076717f28
+    name: "house floor heat return 5" # livingroom
+    update_interval: 30s
+    id: ret_5
+    on_value:
+      then:
+        - component.update: ret_5_delta
+
+  - platform: template
+    name: "house floor heat return 5 delta"
+    device_class: "temperature"
+    unit_of_measurement: "°C"
+    id: ret_5_delta
+    update_interval: never
+    lambda: |-
+      if (id(supply).state >= id(ret_5).state) {
+        return (id(supply).state - id(ret_5).state);
+      } else {
+        return 0;
+      }
+
+  - platform: dallas_temp
+    address: 0x9a3c01e076804728
+    name: "house floor heat return 6" # hallway downstairs
+    update_interval: 30s
+    id: ret_6
+    on_value:
+      then:
+        - component.update: ret_6_delta
+
+  - platform: template
+    name: "house floor heat return 6 delta"
+    device_class: "temperature"
+    unit_of_measurement: "°C"
+    id: ret_6_delta
+    update_interval: never
+    lambda: |-
+      if (id(supply).state >= id(ret_6).state) {
+        return (id(supply).state - id(ret_6).state);
+      } else {
+        return 0;
+      }
