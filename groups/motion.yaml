@@ -9,3 +9,9 @@ motion_parking:
   entities:
     - input_boolean.driveway_movement
     - input_boolean.barn_movement
+
+motion_family_room:
+  name: "Rörelse i allrummet"
+  entities:
+    - binary_sensor.myggspray_wrlss_mtn_sensor_occupancy
+    - binary_sensor.motion_familyroom_occupancy
