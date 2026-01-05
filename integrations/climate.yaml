@@ -18,3 +18,12 @@
   min_temp: 7
   max_temp: 30
   target_temp_step: 1
+
+- platform: generic_thermostat
+  unique_id: e079f887-0bcf-4605-908b-3fdec153ac19
+  name: "Techroom heater"
+  heater: switch.techroom_heater_plug
+  target_sensor: sensor.techroom_temperature
+  min_temp: 7
+  max_temp: 20
+  target_temp_step: 1
