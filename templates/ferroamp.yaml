@@ -134,6 +134,7 @@
         {{ loss if (solar > 0 and loss > 0) else 0 }}
       unit_of_measurement: W
       device_class: power
+      state_class: measurement
       icon: "mdi:flash"
       availability: >
         {{ not (
