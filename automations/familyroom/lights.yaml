@@ -32,7 +32,8 @@
     - trigger: state
       id: senile
       entity_id:
-        - binary_sensor.motion_familyroom_occupancy
+        - group.motion_family_room
+        # - binary_sensor.motion_familyroom_occupancy
       from: "on"
       to: "off"
       for:
