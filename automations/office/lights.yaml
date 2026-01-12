@@ -1,0 +1,91 @@
+- alias: "Office: lights"
+  id: dfe0fae7-6299-4437-a20f-2f372ff1c703
+  trace:
+    stored_traces: 10
+
+  triggers:
+    - trigger: state
+      entity_id:
+        - event.office_remote_button_1
+        - event.office_remote_button_2
+      not_from: unavailable
+      id: remote
+
+    - trigger: state
+      entity_id:
+        - input_boolean.house_mode_away
+        - input_boolean.house_mode_sleep
+
+    - trigger: state
+      id: auto_off
+      entity_id:
+        - binary_sensor.motion_office_occupancy
+      to: "off"
+      for:
+        minutes: 60
+
+  # for some reason I got two events (duplicate) for each button press (from ikea bilresa matter remote), ignoring second one
+  conditions: "{{ (trigger.to_state.last_changed - trigger.from_state.last_changed) > timedelta(seconds = 0.1) }}"
+
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: auto_off
+          sequence:
+            - choose:
+                - conditions:
+                    - condition: state
+                      entity_id:
+                        - light.office_ceiling_1
+                      state: "on"
+                  sequence:
+                    - action: light.turn_off
+                      target:
+                        entity_id: light.office_ceiling_1
+                      data:
+                        transition: 5
+
+        - conditions:
+            - condition: trigger
+              id: "remote"
+
+          sequence:
+            - variables:
+                button: "{{ trigger.entity_id.split('.')[1] }}"
+                action: "{{ trigger.to_state.attributes.event_type }}"
+
+            - alias: "Remote buttons"
+              choose:
+                - alias: "Upper button pressed once"
+                  conditions: "{{ button == 'office_remote_button_1' and action == 'multi_press_1' }}"
+                  sequence:
+                    - choose:
+                        - conditions:
+                            - alias: "if ceiling light is off"
+                              condition: state
+                              entity_id:
+                                - light.office_ceiling_1
+                              state: "off"
+
+                          sequence:
+                            - alias: "turn on ceiling light"
+                              action: light.turn_on
+                              target:
+                                entity_id: light.office_ceiling_1
+                              data:
+                                brightness: 255
+
+                      default:
+                        - alias: "turn off ceiling light"
+                          action: light.turn_off
+                          target:
+                            entity_id: light.office_ceiling_1
+
+                - alias: "Lower button pressed once"
+                  conditions: "{{ button == 'office_remote_button_2' and action == 'multi_press_1' }}"
+                  sequence:
+                    - alias: "toggle ambience lights"
+                      action: light.toggle
+                      target:
+                        entity_id: light.office_led_strip
