@@ -1,4 +1,8 @@
-- sensor:
+- trigger:
+    - platform: time_pattern
+      minutes: "10"
+      hours: "*"
+  sensor:
     - name: "Unavailable devices"
       unique_id: db97aa67-8754-4885-9192-55d787a6b63b
       state: " {{ this.attributes.get('devices', []) | count }}"
