@@ -1,0 +1,17 @@
+all_door_sensors:
+  name: "Alla dörrsensorer"
+  entities:
+    - binary_sensor.myggbett_door_window_sensor_door
+    - binary_sensor.garage_port_contact
+    - binary_sensor.boiler_room_door_contact
+    - binary_sensor.conservatory_door_contact
+    - binary_sensor.conservatory_ext_door_contact
+    - binary_sensor.terrace_door_contact
+    - binary_sensor.garage_door_contact
+    - binary_sensor.greenhouse_door_contact
+    - binary_sensor.terrace_slidewindows_contact
+    - binary_sensor.conservatory_slidewindow_3_contact
+    - binary_sensor.conservatory_slidewindow_2_contact
+    - binary_sensor.conservatory_slidewindow_1_contact
+    - binary_sensor.front_door_door
+    - binary_sensor.l7010e1_door

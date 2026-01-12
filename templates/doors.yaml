@@ -1,47 +1,34 @@
-- sensor:
+- trigger:
+    - platform: template
+      value_template: >
+        {{ expand('binary_sensor.all_doors_group') | map(attribute='state') | join('') }}
+    - platform: time_pattern
+      minutes: "/5"
+    - platform: event
+      event_type: event_template_reloaded
+  action:
+    - variables:
+        ignore: '(niro_|_bsh_|rat_trap|mailbox)'
+        all_door_ids: >
+          {{ states.binary_sensor 
+            | selectattr('attributes.device_class', 'defined')
+            | selectattr('attributes.device_class', 'eq', 'door')
+            | rejectattr('entity_id', 'search', ignore)
+            | map(attribute='entity_id')
+            | list }}
+        open_list: "{{ all_door_ids | select('is_state', 'on') | list }}"
+        unavailable_list: "{{ all_door_ids | reject('is_state', 'on') | reject('is_state', 'off') | list }}"
+  sensor:
     - name: "open_doors"
       unique_id: 4c98083a-2616-4919-bb57-ce989e86df56
-      # until variables are supported in templates, state and attribute code are duplicated below
-      state: >
-        {% set ignore = '(niro_|_bsh_|rat_trap|mailbox)' %}
-        {% set doors = 
-          states.binary_sensor
-            |selectattr('attributes.device_class', 'eq', 'door')
-            |rejectattr('entity_id', 'search', ignore)
-            |selectattr('state', 'in', ['on', 'unavailable', 'unknown'])
-            |map(attribute='entity_id')
-            |list
-            |count
-        %}
-        {{doors}}
+      state: "{{ (open_list | count) + (unavailable_list | count) }}"
       attributes:
-        open: >
-          {% set ignore = '(niro_|_bsh_|rat_trap|mailbox)' %}
-          {% set doors = 
-            states.binary_sensor
-              |selectattr('attributes.device_class', 'eq', 'door')
-              |rejectattr('entity_id', 'search', ignore)
-              |selectattr('state', 'eq', 'on')
-              |map(attribute='entity_id')
-              |list 
-          %}
-          {%- set ns = namespace(doors=[]) -%}
-          {% for door in doors %}
-            {% set ns.doors = ns.doors + [door+":"+state_attr(door, 'friendly_name')] %}
-          {% endfor %}
-          {{ns.doors}}
-        unavailable: >
-          {% set ignore = '(niro_|_bsh_|rat_trap|mailbox)' %}
-          {% set doors = 
-            states.binary_sensor
-              |selectattr('attributes.device_class', 'eq', 'door')
-              |rejectattr('entity_id', 'search', ignore)
-              |selectattr('state', 'in', ['unavailable', 'unknown'])
-              |map(attribute='entity_id')
-              |list 
-          %}
-          {%- set ns = namespace(doors=[]) -%}
-          {% for door in doors %}
-            {% set ns.doors = ns.doors + [door+":"+state_attr(door, 'friendly_name')] %}
-          {% endfor %}
-          {{ns.doors}}
+        open: "{{ open_list }}"
+        unavailable: "{{ unavailable_list }}"
+        details: >
+          {% set open_names = open_list | map('state_attr', 'friendly_name') | list %}
+          {% set unav_names = unavailable_list | map('state_attr', 'friendly_name') | list %}
+          {{ {
+            "open": open_names,
+            "unavailable": unav_names if unav_names[0] != None else unavailable_list
+          } }}
