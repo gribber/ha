@@ -1,7 +1,4 @@
 - trigger:
-    - platform: template
-      value_template: >
-        {{ expand('binary_sensor.all_doors_group') | map(attribute='state') | join('') }}
     - platform: time_pattern
       minutes: "/5"
     - platform: event
