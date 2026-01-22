@@ -122,5 +122,10 @@
           - select.heatpump_circuit_monthly_energy
           - select.heatpump_circuit_yearly_energy
           - select.heatpump_circuit_energy
+          - select.heatpump_thermal_daily_energy
+          - select.heatpump_thermal_weekly_energy
+          - select.heatpump_thermal_monthly_energy
+          - select.heatpump_thermal_yearly_energy
+          - select.heatpump_thermal_energy
       data:
         option: "{{ 'for_hw' if is_state('sensor.ctc_status', '5') else 'for_hs' }}"

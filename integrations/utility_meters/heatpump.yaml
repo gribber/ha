@@ -63,3 +63,44 @@ heatpump_circuit_energy:
   tariffs:
     - for_hs
     - for_hw
+
+
+# sensors for heatpump thermal output energy
+heatpump_thermal_daily_energy:
+  unique_id: 38a9325c-6a25-4100-b629-fcc8288ed311
+  source: sensor.reimann_heatpump_thermal_energy
+  cycle: daily
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_thermal_weekly_energy:
+  unique_id: f1efbe47-a77a-4305-8cbb-a78f913f1f4a
+  source: sensor.reimann_heatpump_thermal_energy
+  cycle: weekly
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_thermal_monthly_energy:
+  unique_id: a8f2a268-c4b1-49ad-9a98-2ba893ca8166
+  source: sensor.reimann_heatpump_thermal_energy
+  cycle: monthly
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_thermal_yearly_energy:
+  unique_id: 17631475-b3f6-48cb-a639-808f28474d2c
+  source: sensor.reimann_heatpump_thermal_energy
+  cycle: yearly
+  tariffs:
+    - for_hs
+    - for_hw
+
+heatpump_thermal_energy:
+  unique_id: 9e556005-16ef-478b-ab6f-a8d685b2c590
+  source: sensor.reimann_heatpump_thermal_energy
+  tariffs:
+    - for_hs
+    - for_hw

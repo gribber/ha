@@ -28,3 +28,10 @@
 #   method: left
 #   source: sensor.ferroamp_xl28_inverter_consumption_power
 #   unit_prefix: k
+
+- platform: integration
+  unique_id: 7634490e-77f0-4648-9448-3c24b7be7258
+  name: reimann_heatpump_thermal_energy
+  method: left
+  source: sensor.heatpump_thermal_power
+  unit_prefix: k
