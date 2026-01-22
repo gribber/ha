@@ -14,10 +14,10 @@ lambda: |-
       return {"ap-office"};
     } else if (id(wifi_bssid).state == "9C:05:D6:F3:7F:01") {
       return {"ap-garage-s"};
-    } else if (id(wifi_bssid).state == "68:D7:9A:0B:DD:6A") {
+    } else if (id(wifi_bssid).state == "68:D7:9A:0C:DD:6A") {
       return {"ap-garage-n"};
     } else if (id(wifi_bssid).state == "78:8A:20:B6:6F:EE") {
-      return {"ap-office"};
+      return {"ap-solarfarm"};
     } else {
       return {"Unknown AP"};
     }
