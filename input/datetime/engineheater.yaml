@@ -1,0 +1,4 @@
+eh_departure_time:
+  name: "Departure time"
+  has_date: false
+  has_time: yes

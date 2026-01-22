@@ -1,0 +1,41 @@
+- sensor:
+  - name: eh_forecast_temperature
+    unique_id: 2b259b91-5072-4eac-8b5d-b66fc1c06f91
+    device_class: temperature
+    unit_of_measurement: "°C"
+    state: "{{ states('sensor.outdoor_min_moving_average') }}"
+    availability: >
+      {{ not (
+        [ states('sensor.outdoor_min_moving_average') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
+        | list) }}
+
+  - name: eh_temp_adjusted_time
+    unique_id: 5aefb9b3-5c14-4091-b668-fac2ec81f83b
+    unit_of_measurement: min
+    icon: mdi:timer-play
+    state: >-
+      {% set temp = states('sensor.eh_forecast_temperature')|int(0) %}
+      {% if temp <= -15 %} {% set t = 1 %}
+      {% elif temp > 5 %} {% set t = 20 %}
+      {% else %} {% set t = (15 + temp) %}
+      {% endif %}
+      {{ (states('input_number.eh_max_runtime')|round(0)/(t**0.3))|int }}
+    availability: >
+      {{ not (
+        [ states('sensor.eh_forecast_temperature'), states('input_number.eh_max_runtime') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
+        | list) }}
+
+  - name: eh_departure_time_with_offset
+    unique_id: 42671053-d76a-4b2e-9e47-a057ca0deee6
+    device_class: timestamp
+    state: >
+      {% set current = today_at(states('input_datetime.eh_departure_time')) %}
+      {% set add_min = states('input_number.eh_delay') | int %}
+      {{ (current + timedelta(minutes = add_min)) }}
+    availability: >
+      {{ not (
+        [ states('input_datetime.eh_departure_time'), states('input_number.eh_delay') ] 
+        | select('equalto', ['unknown', 'unavailable', 'none']) 
+        | list) }}

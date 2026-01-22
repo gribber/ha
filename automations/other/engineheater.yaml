@@ -1,0 +1,61 @@
+- alias: "Engine heater: activate"
+  id: 93bf09da-1503-432c-9797-95212c42c55b
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: template
+    value_template: >
+      {% set departure_time = today_at(states('input_datetime.eh_departure_time')) %}
+      {% set offset_mins = states('sensor.eh_temp_adjusted_time') | float(0) %}
+      {% set start_time = departure_time - timedelta(minutes=offset_mins) %}
+      {{ start_time <= now() < departure_time }}
+
+  conditions: 
+    - condition: state
+      entity_id: switch.ctek_outlet
+      state: "off"
+    - condition: state
+      entity_id: input_boolean.eh_enabled
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.eh_skip_next
+      state: "off"
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.eh_worksdays_only
+          state: 'off'
+        - condition: and
+          conditions:
+            - condition: state
+              entity_id: input_boolean.workday_linus
+              state: 'on'
+            - condition: state
+              entity_id: input_boolean.eh_worksdays_only
+              state: 'on'
+
+  actions:
+    - action: homeassistant.turn_on
+      target:
+        entity_id: switch.ctek_outlet
+
+
+- alias: "Engine heater: deactivate"
+  id: 3a15c5d2-74f0-42a7-8899-7a4ee34ab026
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: time
+    at: sensor.eh_departure_time_with_offset
+
+  conditions:
+    - condition: state
+      entity_id: input_boolean.eh_enabled
+      state: "on"
+
+  actions:
+    - action: homeassistant.turn_off
+      target:
+        entity_id: 
+          - switch.ctek_outlet
+          - input_boolean.eh_skip_next

@@ -1,0 +1,8 @@
+eh_enabled:
+  name: "Engine heater enabled"
+
+eh_skip_next:
+  name: "Skip next run"
+
+eh_worksdays_only:
+  name: "Workdays only"

@@ -1,0 +1,15 @@
+eh_max_runtime:
+  name: "Maximun time to run"
+  icon: mdi:timer-edit
+  min: 30
+  max: 240
+  step: 10
+  unit_of_measurement: "min"
+
+eh_delay:
+  name: Keep on after departure time
+  icon: mdi:timer-plus
+  min: 0
+  max: 59
+  step: 1
+  unit_of_measurement: min
