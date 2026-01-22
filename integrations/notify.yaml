@@ -5,9 +5,9 @@
     - service: mobile_app_isabells_iphone_16_pro
 
 - platform: telegram
-  name: castle
+  name: telegram_castle
   chat_id: !secret telegram_id_castle
 
 - platform: telegram
-  name: castle_log
+  name: telegram_castle_log
   chat_id: !secret telegram_id_castle_log
