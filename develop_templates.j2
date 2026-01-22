@@ -106,3 +106,9 @@ expand(area_entities("allrum")
     > {{i.name}}: *{{i.state}}*
   {% endfor %}
 {%- endfor %}
+
+# get all matching areas
+{{ labels() | select('match', 'ambience') | list  }}
+
+# get a list of all entities from matching areas
+{{ labels() | select('match', 'ambience') | map('label_entities') | sum(start=[]) }}
