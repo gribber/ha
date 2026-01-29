@@ -1,19 +1,10 @@
 - alias: "Kitchen: lights"
   id: 12efc75c-0603-4bd2-91d9-3cffa6159a82
   triggers:
-    # - trigger: state
-    #   entity_id:
-    #     - input_boolean.house_mode_bright_inside
-
     - trigger: state
       id: movement
       entity_id:
         - input_boolean.kitchen_movement
-
-    # - trigger: time
-    #   at:
-    #     - input_datetime.time_goodmorning
-    #     - input_datetime.time_goodnight
 
     - trigger: state
       id: nightaway
@@ -23,11 +14,6 @@
       from: "off"
       to: "on"
 
-    # - trigger: state
-    #   id: remote
-    #   entity_id:
-    #     - sensor.kitchen_remote_action
-    #     - sensor.kitchen_remote_2_action
     - trigger: state
       entity_id:
         - event.kitchen_remote_action
@@ -127,6 +113,27 @@
                   - action: light.toggle
                     target:
                       entity_id: light.conservatory_ceiling
+              - alias: "big hold"
+                conditions: "{{ action in ['brightness_move_up', 'brightness_up_hold'] }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ state_attr('light.kitchen_table', 'brightness') in [none, 255] }}"
+                        sequence:
+                          - action: light.turn_on
+                            target:
+                              entity_id:
+                                - light.kitchen_table
+                            data:
+                              brightness: 156
+                              transition: 1
+                    default:
+                      - action: light.turn_on
+                        target:
+                          entity_id:
+                            - light.kitchen_table
+                        data:
+                          brightness: 255
+                          transition: 1
 
       - conditions:
           - condition: trigger

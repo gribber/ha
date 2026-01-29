@@ -65,14 +65,14 @@
                             - alias: "if ceiling light is off"
                               condition: state
                               entity_id:
-                                - light.office_ceiling_1
+                                - light.office_ceiling
                               state: "off"
 
                           sequence:
                             - alias: "turn on ceiling light"
                               action: light.turn_on
                               target:
-                                entity_id: light.office_ceiling_1
+                                entity_id: light.office_ceiling
                               data:
                                 brightness: 255
 
@@ -80,7 +80,7 @@
                         - alias: "turn off ceiling light"
                           action: light.turn_off
                           target:
-                            entity_id: light.office_ceiling_1
+                            entity_id: light.office_ceiling
 
                 - alias: "Lower button pressed once"
                   conditions: "{{ button == 'office_remote_button_2' and action == 'multi_press_1' }}"

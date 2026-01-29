@@ -10,10 +10,34 @@
       not_from: unavailable
       id: remote
 
+    - trigger: state
+      id: auto_off
+      entity_id: binary_sensor.motion_lo_occupancy
+      to: "off"
+      for:
+        minutes: 60
+
   conditions: []
 
   actions:
     choose:
+      - conditions:
+          - condition: trigger
+            id: auto_off
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: state
+                    entity_id:
+                      - light.guestroom_ceiling
+                    state: "on"
+                sequence:
+                  - action: light.turn_off
+                    target:
+                      entity_id: light.guestroom_ceiling
+                    data:
+                      transition: 5
+
       - conditions:
           - condition: trigger
             id: "remote"

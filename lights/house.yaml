@@ -14,3 +14,10 @@
     - light.livingroom_back_3
     - light.livingroom_back_4
     - light.bedroom_ceiling
+
+- platform: group
+  name: office_ceiling
+  unique_id: 8711d46d-691d-469f-98ac-83a2e9461975
+  entities:
+    - light.office_ceiling_1
+    - light.office_ceiling_2
