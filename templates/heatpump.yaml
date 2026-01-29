@@ -318,22 +318,18 @@
         {% set delta_t = t_flow - t_return %}
         
         {# map PWM % to flow rate (m³/h) at 2m head #}
-        {# aprox values based on UPMXL 25-125 curve at 2m head #}
-        {% if pwm >= 100 %}
-          {% set flow_m3h = 5.2 %}
+        {# aprox values based on UPMXL 25-125 curve at 2m head (+ Accounts for internal resistance) #}
+        {% if pwm >= 95 %}
+          {% set flow_m3h = 2.2 %}
         {% elif pwm >= 90 %}
-          {% set flow_m3h = 4.1 %}
-        {% elif pwm >= 80 %}
-          {% set flow_m3h = 3.5 %}
-        {% elif pwm >= 70 %}
-          {% set flow_m3h = 2.9 %}
-        {% elif pwm >= 60 %}
-          {% set flow_m3h = 2.3 %}
-        {% elif pwm >= 50 %}
           {% set flow_m3h = 1.8 %}
-        {% elif pwm >= 40 %}
-          {% set flow_m3h = 1.3 %}
-        {% elif pwm >= 30 %}
+        {% elif pwm >= 80 %}
+          {% set flow_m3h = 1.5 %}
+        {% elif pwm >= 70 %}
+          {% set flow_m3h = 1.2 %}
+        {% elif pwm >= 60 %}
+          {% set flow_m3h = 1.0 %}
+        {% elif pwm >= 50 %}
           {% set flow_m3h = 0.8 %}
         {% else %}
           {% set flow_m3h = 0.0 %}
