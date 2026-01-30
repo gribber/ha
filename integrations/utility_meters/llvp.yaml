@@ -1,0 +1,9 @@
+llvp_circuit_energy:
+  unique_id: f185a797-e28e-4187-b154-2b6cfcbe3dd0
+  source: sensor.emporia_circuit_16_daily_energy
+  tariffs:
+    - for_heating
+    - for_cooling
+    - for_defrost
+    - for_preheat
+    - for_standby

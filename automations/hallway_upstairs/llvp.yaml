@@ -1,0 +1,44 @@
+- alias: "LLVP: select circuit for utility meters"
+  id: eedf0e49-2b31-4702-86ec-dbd07b762b21
+  mode: queued
+
+  trigger:
+    - platform: homeassistant
+      event: start
+
+    - platform: event
+      event_type: automation_reloaded
+
+    - platform: state
+      id: hvac_action
+      entity_id: climate.hero_ln35_hallway_upstairs
+      attribute: hvac_action
+
+    - platform: state
+      id: hvac_sub_mode
+      entity_id: sensor.hero_ln35_sub_mode
+
+  condition: []
+
+  action:
+    - service: select.select_option
+      target:
+        entity_id:
+          - select.llvp_circuit_energy
+      data:
+        option: >-
+          {%- if states('sensor.hero_ln35_sub_mode') == 'NORMAL' -%}
+            {%- if state_attr('climate.hero_ln35_hallway_upstairs', 'hvac_action') == 'heating' -%}
+              for_heating
+            {%- elif state_attr('climate.hero_ln35_hallway_upstairs', 'hvac_action') == 'cooling' -%}
+              for_cooling
+            {%- else -%} {# only idle? #}
+              for_standby
+            {%- endif -%}
+          {%- elif states('sensor.hero_ln35_sub_mode') == 'PREHEAT' -%}
+            for_preheat
+          {%- elif states('sensor.hero_ln35_sub_mode') == 'DEFROST' -%}
+            for_defrost
+          {%- else -%} {# only STANDBY? #}
+            for_standby
+          {%- endif -%}
