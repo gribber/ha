@@ -1,7 +1,7 @@
 all_door_sensors:
   name: "Alla dörrsensorer"
   entities:
-    - binary_sensor.myggbett_door_window_sensor_door
+    - binary_sensor.closet_upstairs_door_contact
     - binary_sensor.garage_port_contact
     - binary_sensor.boiler_room_door_contact
     - binary_sensor.conservatory_door_contact
