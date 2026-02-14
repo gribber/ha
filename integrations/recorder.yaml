@@ -60,7 +60,7 @@ exclude:
     - sensor.*_qh_energy
     - sensor.solar_sso_*_energy
     - sensor.*_hourly_energy
-    - sensor.*_daily_energy
+    # - sensor.*_daily_energy
     - sensor.*_weekey_energy
     # - sensor.*_monthly_energy
     # - sensor.*_yearly_energy
