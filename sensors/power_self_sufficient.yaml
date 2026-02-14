@@ -2,7 +2,7 @@
   name: "Power self sufficient"
   unique_id: 0258d230-b226-4e00-a9d5-257ea6471c8e
   entity_id: sensor.momentary_active_import
-  state: "0"
+  state: "0.000"
   type: time
   start: "{{ now().replace(hour=0, minute=0, second=0) }}"
   end: "{{ now() }}"
