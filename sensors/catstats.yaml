@@ -8,8 +8,8 @@
     end: "{{ now() }}"
 
 - platform: history_stats
-  name: "Leon outside today"
-  entity_id: binary_sensor.pet_leon
+  name: "Pelle outside today"
+  entity_id: binary_sensor.pet_pelle
   <<: *duration_today
 
 - platform: history_stats
@@ -22,6 +22,6 @@
     end: "{{ now() }}"
 
 - platform: history_stats
-  name: "Leon exits today"
-  entity_id: binary_sensor.pet_leon
+  name: "Pelle exits today"
+  entity_id: binary_sensor.pet_pelle
   <<: *exits_today

@@ -1,9 +1,9 @@
 #host: a0d7b954-influxdb
-host: !secret influx_host
-port: 8086
-database: !secret influx_db
-username: !secret influx_user
-password: !secret influx_pass
+# host: !secret influx_host
+# port: 8086
+# database: !secret influx_db
+# username: !secret influx_user
+# password: !secret influx_pass
 max_retries: 3
 default_measurement: state
 include:

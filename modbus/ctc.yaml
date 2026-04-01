@@ -314,11 +314,31 @@
       precision: 1
       # varmvattenkapacitet i % (filtreras av template)
 
-    # - name: "ctc_radiator_pump_setting"
-    #   unit_of_measurement: "%"
-    #   address: 61570
-    #   slave: 1
+#--
+    - name: "ctc_radiator_pump_setting"
+      unique_id: 9560c448-4ed5-4f4c-8c21-8fcf534b1631
+      unit_of_measurement: "%"
+      address: 61570
+      slave: 1
+      scale: 1
+      precision: 1
 
+    - name: "ctc_radiator_pump_1"
+      unique_id: 95505d35-7a8e-4910-be4c-2b53cdd0bb3c
+      unit_of_measurement: "%"
+      address: 62304
+      slave: 1
+      scale: 1
+      precision: 1
+
+    - name: "ctc_radiator_pump_2"
+      unique_id: d4d17301-dba6-4319-9a17-9ad051722ff6
+      unit_of_measurement: "%"
+      address: 62305
+      slave: 1
+      scale: 1
+      precision: 1
+#--
     - name: "ctc_hp_charge_pump"
       unique_id: 726b4e2b-1630-44cb-8aee-ee5ee8c0c9f8
       unit_of_measurement: "%"

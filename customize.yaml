@@ -9,6 +9,13 @@ sensor.bermuda_global_total_device_count:
 sensor.bermuda_global_visible_device_count:
   state_class: measurement
 
+sensor.vasternorrlands_lan_vasternorrlandslan_st1_sundsvallbirsta_sundsbruk_ikea_diesel:
+  state_class: measurement
+  unit_of_measurement: "SEK"
+sensor.vasternorrlands_lan_vasternorrlandslan_st1_sundsvallbirsta_sundsbruk_ikea_95:
+  state_class: measurement
+  unit_of_measurement: "SEK"
+
 sensor.outdoor_min_moving_average:
   device_class: temperature
 

@@ -1,0 +1,32 @@
+- alias: "kitchen: plants"
+  id: 0f41e2f5-61f1-4d73-977f-e2d6ef9f1751
+  trace:
+    stored_traces: 10
+
+  triggers:
+    - trigger: numeric_state
+      id: water
+      entity_id: sensor.plant_sensor_b0bf_moisture
+      below: 25
+      for:
+        hours: 2
+
+    - trigger: numeric_state
+      id: nutrition
+      entity_id: sensor.plant_sensor_b0bf_conductivity
+      below: 100
+      for:
+        hours: 2
+
+  action:
+    - variables:
+        msg: >
+          {% if trigger.id == 'water' %}
+            Dags att vattna pesiljan
+          {% else %}
+            Dags att ge näring till persiljan
+          {% endif %}
+    - service: notify.family
+      data:
+        title: "Persiljan"
+        message: "{{ msg }}"

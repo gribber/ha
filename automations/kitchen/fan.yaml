@@ -1,0 +1,33 @@
+- alias: "Kitchen: fan"
+  id: 15690a5b-48b3-41de-9b31-c104cf123ade
+  triggers:
+
+    - trigger: event
+      event_type:
+        - automation_reloaded
+
+    - trigger: state
+      entity_id: event.kitchen_fan_remote_action
+      not_from: unavailable
+      id: remote
+
+  actions:
+    choose:
+      - conditions:
+          - condition: trigger
+            id: remote
+        sequence:
+          - variables:
+              action: "{{ trigger.to_state.attributes.event_type }}"
+          - choose:
+              - conditions: "{{ action in ['on'] }}"
+                sequence:
+                  - action: homeassistant.turn_on
+                    target:
+                      entity_id: switch.kitchen_fan_plug
+              - conditions: "{{ action in ['off'] }}"
+                sequence:
+                  - action: homeassistant.turn_off
+                    target:
+                      entity_id: switch.kitchen_fan_plug
+
