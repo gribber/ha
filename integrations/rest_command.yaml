@@ -1,0 +1,6 @@
+update_ev_log:
+  url: !secret ev_report_url
+  method: POST
+  content_type: "application/x-www-form-urlencoded"
+  verify_ssl: true
+  payload: "sek={{ states('sensor.ev_charging_cost') }}&kwh={{ states('sensor.ctek_monthly_cost_import')|round(0, 'ceil', 0) }}&date={{ now().strftime('%Y-%m-%d') }}"

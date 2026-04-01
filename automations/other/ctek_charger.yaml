@@ -42,14 +42,20 @@
   conditions: "{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}"
 
   actions:
+    - variables:
+        ev_url: !secret ev_site_url
     - action: notify.send_message
       data:
         entity_id: notify.telegram_castle
         title: "EV laddning"
         message: >
           Det är laddat {{ states('sensor.ctek_monthly_energy')|round(1) }}kWh för {{ states('sensor.ctek_monthly_cost_import')|round(0, "ceil", 0) }}kr den här månaden.
+          {{ ev_url }}
     - action: notify.family
       data:
         title: "Ev laddning"
         message: >
           Det är laddat {{ states('sensor.ctek_monthly_energy')|round(1) }}kWh för {{ states('sensor.ctek_monthly_cost_import')|round(0, "ceil", 0) }}kr den här månaden.
+          {{ ev_url }}
+    - action: rest_command.update_ev_log
+      data: {}
