@@ -92,6 +92,7 @@ i2c:
 
 sensor:
   - platform: emporia_vue
+    variant: vue2
     i2c_id: i2c_a
     phases:
       - id: phase_a  # Verify that this specific phase/leg is connected to correct input wire color on device listed below
