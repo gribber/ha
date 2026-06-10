@@ -1,0 +1,23 @@
+- alias: "Plex - New media added"
+  id: d5fba72a-f1ff-4ce6-b234-1cf30b0760ce
+  trace:
+    stored_traces: 10
+
+  triggers:
+    - trigger: state
+      entity_id: sensor.filmnet_library_movies
+      id: movie
+    # - trigger: state
+    #   entity_id: sensor.plex_library_music
+    #   id: album
+    - trigger: state
+      entity_id: sensor.filmnet_library_tv_shows
+      id: episode
+
+  actions:
+    - action: notify.send_message
+      target:
+        entity_id: notify.kb2003
+      data:
+        title: "New {{ trigger.id }} added"
+        message: "{{ trigger.to_state.attributes.last_added_item }}"

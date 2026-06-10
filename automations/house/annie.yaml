@@ -19,9 +19,8 @@
     - delay:
         seconds: 1
 
-    - service: notify.send_message
+    - action: notify.telegram_castle
       data:
-        entity_id: notify.telegram_castle
         title: "Annie: {{states('sensor.am430x_status')}}"
         message: "{{ states('input_text.annie_last_substatus') if states('sensor.am430x_substatus') == '' else states('sensor.am430x_substatus') }}"
         data:

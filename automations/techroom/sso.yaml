@@ -5,39 +5,58 @@
     stored_traces: 10
 
   trigger:
+    # - platform: state
+    #   entity_id:
+    #     - sensor.ferroamp_xl28_sso_east_32_faultcode
+    #     - sensor.ferroamp_xl28_sso_22010644_faultcode
+    #     - sensor.ferroamp_xl28_sso_21090039_faultcode
+    #     - sensor.ferroamp_xl28_sso_21090135_faultcode
+    #     - sensor.ferroamp_xl28_sso_21090071_faultcode
+    #     - sensor.ferroamp_xl28_sso_west_32_faultcode
+    #   not_from:
+    #     - "none"
+    #     - "unknown"
+    #     - "unavailable"
+    #     - "400"
+    #   not_to:
+    #     - "none"
+    #     - "unknown"
+    #     - "unavailable"
+    #     - "400"
+    #   # 400 = powerlimiting (if only one code reported), to exclude cloud effects and export limits
     - platform: state
       entity_id:
-        - sensor.ferroamp_xl28_sso_east_32_faultcode
-        - sensor.ferroamp_xl28_sso_22010644_faultcode
-        - sensor.ferroamp_xl28_sso_21090039_faultcode
-        - sensor.ferroamp_xl28_sso_21090135_faultcode
-        - sensor.ferroamp_xl28_sso_21090071_faultcode
-        - sensor.ferroamp_xl28_sso_west_32_faultcode
+        - sensor.ferroamp_xl28_sso_21090039_fault_state # south 32
+        - sensor.ferroamp_xl28_sso_21090135_fault_state # south 45
+        - sensor.ferroamp_xl28_sso_23100697_fault_state # east 32
+        - sensor.ferroamp_xl28_sso_23051744_fault_state # west 32
       not_from:
-        - "none"
-        - "unknown"
-        - "unavailable"
-        - "400"
+        - "PowerLimiting"
       not_to:
-        - "none"
-        - "unknown"
-        - "unavailable"
-        - "400"
-      # 400 = powerlimiting (if only one code reported), to exclude cloud effects and export limits
+        - "PowerLimiting"
+
   action:
     choose:
-      - conditions: "{{ trigger.to_state.state|int > 0 }}"
+      # - conditions: "{{ trigger.to_state.state|int > 0 }}"
+      #   sequence:
+      #     - service: notify.send_message
+      #       data:
+      #         entity_id: notify.telegram_castle_log
+      #         title: Ferroamp SSO
+      #         message: >
+      #           {% set f = namespace(errors=[]) %}
+      #           {% for a in trigger.to_state.attributes|reject('in', ['icon', 'friendly_name']) %}
+      #               {% set f.errors = f.errors + [trigger.to_state.attributes[a]] %}
+      #           {% endfor %}
+      #           {{trigger.to_state.name}} rapporterar felkod: {{trigger.to_state.state}} ({{f.errors|join('| ')}})
+      - conditions: "{{ trigger.to_state.state != 'Ok' }}"
         sequence:
           - service: notify.send_message
             data:
               entity_id: notify.telegram_castle_log
               title: Ferroamp SSO
               message: >
-                {% set f = namespace(errors=[]) %}
-                {% for a in trigger.to_state.attributes|reject('in', ['icon', 'friendly_name']) %}
-                    {% set f.errors = f.errors + [trigger.to_state.attributes[a]] %}
-                {% endfor %}
-                {{trigger.to_state.name}} rapporterar felkod: {{trigger.to_state.state}} ({{f.errors|join('| ')}})
+                {{ trigger.to_state.name }} rapporterar felkod: {{ trigger.to_state.state }}
 
     default:
       - service: notify.send_message

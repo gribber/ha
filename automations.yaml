@@ -22,7 +22,7 @@
         - person
       message: A {{label}} was detected on the {{camera_name}} camera.
       notify_group: notify.family
-      base_url: !secret base_url
+      base_url: "{{ states('input_text.base_url') }}"
 - id: "1757500899941"
   alias: frigate - horse detected on the yard
   description: ""

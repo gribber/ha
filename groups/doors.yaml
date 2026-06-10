@@ -5,7 +5,7 @@ all_door_sensors:
     - binary_sensor.garage_port_contact
     - binary_sensor.boiler_room_door_contact
     - binary_sensor.conservatory_door_contact
-    - binary_sensor.conservatory_ext_door_contact
+    - binary_sensor.uterum_nere_conservatory_ext_door_door
     - binary_sensor.terrace_door_contact
     - binary_sensor.garage_door_contact
     - binary_sensor.greenhouse_door_contact
