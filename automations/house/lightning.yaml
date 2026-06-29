@@ -31,6 +31,7 @@
                 title: "Blixtnedslag"
                 message: >
                   {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+                  {% set direction = ['nord','nord-nordöst','nordöst','öst-nordöst','öst','öst-sydöst','sydöst','syd-sydöst','syd','syd-sydväst','sydväst','väst-sydväst','väst','väst-nordväst','nordväst','nord-nordväst','nord'] %}
                   {% set degree = states('sensor.blitzortung_lightning_azimuth')|float %}
                   {% set dir = direction[((degree+11.25)/22.5)|int] %}
-                  "Blixtnerslag {{ states('sensor.blitzortung_lightning_distance')}}km åt {{dir}}"
+                  Blixtnerslag {{ states('sensor.blitzortung_lightning_distance')}}km åt {{dir}}
