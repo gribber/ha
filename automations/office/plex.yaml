@@ -7,12 +7,30 @@
     - trigger: state
       entity_id: sensor.filmnet_library_movies
       id: movie
-    # - trigger: state
-    #   entity_id: sensor.plex_library_music
-    #   id: album
+      not_from:
+        - "unknown"
+        - "unavailable"
+      not_to:
+        - "unknown"
+        - "unavailable"
+    - trigger: state
+      entity_id: sensor.filmnet_library_music
+      id: album
+      not_from:
+        - "unknown"
+        - "unavailable"
+      not_to:
+        - "unknown"
+        - "unavailable"
     - trigger: state
       entity_id: sensor.filmnet_library_tv_shows
       id: episode
+      not_from:
+        - "unknown"
+        - "unavailable"
+      not_to:
+        - "unknown"
+        - "unavailable"
 
   actions:
     - action: notify.send_message
