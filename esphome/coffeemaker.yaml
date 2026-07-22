@@ -45,6 +45,8 @@ sensor:
     unit_of_measurement: "L"
     state_class: measurement
     accuracy_decimals: 2
+    filters:
+      - throttle: 10s
     lambda: |-
       const float tank_size = 2.0;
       const float tank_empty = 235.0;
@@ -66,6 +68,8 @@ sensor:
     name: "water_level_percentage"
     unit_of_measurement: '%'
     accuracy_decimals: 0
+    filters:
+      - throttle: 30s
     lambda: |-
       const float tank_size = 2.0;
       float pct = (id(water_level).state / tank_size) * 100.0;
