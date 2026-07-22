@@ -27,7 +27,7 @@ sensor:
     accuracy_decimals: 3
     filters: 
       - clamp: 
-          max_value: 0.235
+          max_value: 0.235 # was 0.229
           ignore_out_of_range: true
       # Exponential Moving Average smooths out drift instantly without lagging updates.
       # send_every: 1 ensures real-time reporting every second.
