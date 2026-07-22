@@ -128,6 +128,6 @@ light:
             }
 
             // Low level override: Keep 1 solid Red LED visible down to >5% level
-            if (plevel == 0 && id(water_level).state > 0.05) {
+            if (plevel == 0 && id(water_level).state > 0.15) {
               it[0] = colors[0];
             }
