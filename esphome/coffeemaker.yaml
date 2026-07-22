@@ -132,7 +132,7 @@ light:
             if (plevel == 0) {
               if (id(water_level).state > 0.15 && lastcolor == 1) {
                 it[0] = esphome::Color::BLACK;
-              } else {}
+              } else {
                 it[0] = colors[0];
               }
             }
