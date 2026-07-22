@@ -27,7 +27,7 @@ sensor:
     accuracy_decimals: 3
     filters: 
       - clamp: 
-          max_value: 0.229
+          max_value: 0.235
           ignore_out_of_range: true
       # Exponential Moving Average smooths out drift instantly without lagging updates.
       # send_every: 1 ensures real-time reporting every second.
@@ -51,7 +51,7 @@ sensor:
       const float tank_size = 2.0; // tank size in liters
       const float tank_empty = 235.0; // distance to empty tank
       const float tank_full = 38.0;   // distance to full tank
-      
+
       float level = (id(water_surface).state * 1000.0) - tank_full;
       if (level < 0.0) {
         level = 0.0;
