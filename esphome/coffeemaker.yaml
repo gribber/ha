@@ -116,22 +116,6 @@ light:
               esphome::Color(0, 255, 0)      // LED 9: Pure Green
             };
             
-            // Perceptually balanced linear gradient from LED 0 (Red) to LED 9 (Green)
-            /*
-            static const esphome::Color colors[10] = {
-              esphome::Color(255,   0, 0),   // 0: Pure Red
-              esphome::Color(255,  28, 0),   // 1: Red-Orange
-              esphome::Color(255,  56, 0),   // 2: Deep Orange
-              esphome::Color(255,  85, 0),   // 3: Orange
-              esphome::Color(255, 140, 0),   // 4: Yellow-Orange
-              esphome::Color(220, 200, 0),   // 5: Yellow
-              esphome::Color(140, 220, 0),   // 6: Lime
-              esphome::Color( 70, 240, 0),   // 7: Light Green
-              esphome::Color( 25, 250, 0),   // 8: Medium Green
-              esphome::Color(  0, 255, 0)    // 9: Pure Green
-            };
-            */
-            
             float pct = id(water_level_percentage).state;
             if (std::isnan(pct)) return;
 
