@@ -109,12 +109,12 @@ light:
 
             for (int i = 0; i < it.size(); i++) {
               if (i < plevel) {
-                // Hue scale: 0.0 (Red) to ~0.33 (Green)
-                // Spreads colors properly without washing out the lowest green channels
-                float hue = (120.0f / 360.0f / (it.size() - 1)) * i;
+                // Hue scale: 0.0 (Red) to 120.0 (Green) in HSV degrees
+                // Spread across the 10 LEDs (0° to 120°)
+                float hue = (120.0f / (it.size() - 1)) * i;
                 
-                // Convert HSV (Hue, Saturation, Value) directly into ESPHome Color
-                it[i] = esphome::ColorUtil::hsv_to_atc(hue, 1.0f, 1.0f);
+                // Native ESPHome HSV-to-RGB conversion
+                it[i] = esphome::Color::from_hsv(hue, 255, 255);
               } else {
                 it[i] = esphome::Color::BLACK;
               }
