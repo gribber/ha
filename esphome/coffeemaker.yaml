@@ -99,9 +99,10 @@ light:
             for (int i = 0; i < it.size(); i++) {
               if (i < plevel) {
                 // Hue scale: 0° (Red) to 120° (Green) stretched over 10 LEDs
-                // Modifying hue calculation prevents color-crushing at low brightness
                 float hue = (120.0f / (it.size() - 1)) * i; 
-                it[i] = esphome::ColorUtil::hsv_to_rgb(hue, 1.0f, 1.0f);
+                float r, g, b;
+                esphome::hsv_to_rgb(hue, 1.0f, 1.0f, r, g, b);
+                it[i] = esphome::Color(r * 255, g * 255, b * 255);
               } else {
                 it[i] = esphome::Color::BLACK;
               }
