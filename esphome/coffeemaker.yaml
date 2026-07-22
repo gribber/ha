@@ -99,22 +99,29 @@ light:
           name: "Level with colors"
           update_interval: 200ms
           lambda: |-
-            // Get current percentage safely
+            // Static color array calibrated to compensate for LED dimming
+            static const esphome::Color colors[10] = {
+              esphome::Color(255, 0, 0),     // LED 0: Pure Red
+              esphome::Color(255, 65, 0),    // LED 1: Red-Orange (Boosted Green)
+              esphome::Color(255, 130, 0),   // LED 2: Orange (Boosted Green)
+              esphome::Color(255, 180, 0),   // LED 3: Yellow-Orange
+              esphome::Color(255, 230, 0),   // LED 4: Yellow
+              esphome::Color(200, 255, 0),   // LED 5: Lime-Yellow
+              esphome::Color(130, 255, 0),   // LED 6: Lime-Green
+              esphome::Color(70, 255, 0),    // LED 7: Light Green
+              esphome::Color(30, 255, 0),    // LED 8: Green
+              esphome::Color(0, 255, 0)      // LED 9: Pure Green
+            };
+
             float pct = id(water_level_percentage).state;
             if (std::isnan(pct)) return;
 
-            // Map percentage (0-100%) to 0-10 active LEDs
             int plevel = floor(pct / 10.0f);
             if (plevel > 10) plevel = 10;
 
             for (int i = 0; i < it.size(); i++) {
               if (i < plevel) {
-                // Hue scale: 0.0 (Red) to 120.0 (Green) in HSV degrees
-                // Spread across the 10 LEDs (0° to 120°)
-                float hue = (120.0f / (it.size() - 1)) * i;
-                
-                // Native ESPHome HSV-to-RGB conversion
-                it[i] = esphome::Color::from_hsv(hue, 255, 255);
+                it[i] = colors[i];
               } else {
                 it[i] = esphome::Color::BLACK;
               }
@@ -122,5 +129,5 @@ light:
 
             // Low level override: Keep 1 solid Red LED visible down to >5% level
             if (plevel == 0 && id(water_level).state > 0.05) {
-              it[0] = esphome::Color(255, 0, 0);
+              it[0] = colors[0];
             }
