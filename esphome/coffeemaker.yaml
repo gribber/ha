@@ -86,33 +86,41 @@ light:
     id: water_level_light
     name: "Water level light"
     restore_mode: RESTORE_DEFAULT_OFF
+    default_transition_length: 0s
     on_turn_on:
       then:
         - light.control:
             id: water_level_light
-            brightness: 20%
-            color_brightness: 20%
+            # brightness: 20%
+            # color_brightness: 20%
             effect: "Level with colors"
     effects:
       - addressable_lambda:
           name: "Level with colors"
-          update_interval: 1s
+          update_interval: 200ms
           lambda: |-
-            int plevel = floor(id(water_level_percentage).state / 10.0);
+            // Get current percentage safely
+            float pct = id(water_level_percentage).state;
+            if (std::isnan(pct)) return;
+
+            // Map percentage (0-100%) to 0-10 active LEDs
+            int plevel = floor(pct / 10.0f);
+            if (plevel > 10) plevel = 10;
 
             for (int i = 0; i < it.size(); i++) {
               if (i < plevel) {
-                // Hue scale: 0° (Red) to 120° (Green) stretched over 10 LEDs
-                float hue = (120.0f / (it.size() - 1)) * i; 
-                float r, g, b;
-                esphome::hsv_to_rgb(hue, 1.0f, 1.0f, r, g, b);
-                it[i] = esphome::Color(r * 255, g * 255, b * 255);
+                // Hue scale: 0.0 (Red) to ~0.33 (Green)
+                // Spreads colors properly without washing out the lowest green channels
+                float hue = (120.0f / 360.0f / (it.size() - 1)) * i;
+                
+                // Convert HSV (Hue, Saturation, Value) directly into ESPHome Color
+                it[i] = esphome::ColorUtil::hsv_to_atc(hue, 1.0f, 1.0f);
               } else {
                 it[i] = esphome::Color::BLACK;
               }
             }
 
-            // Blinking/low level override logic
-            if (plevel == 0 && id(water_level).state >= 0.15) {
-              it[0] = esphome::Color(255, 0, 0); // Solid Red for lowest bracket
+            // Low level override: Keep 1 solid Red LED visible down to >5% level
+            if (plevel == 0 && id(water_level).state > 0.05) {
+              it[0] = esphome::Color(255, 0, 0);
             }
