@@ -48,9 +48,10 @@ sensor:
     filters:
       - throttle: 10s
     lambda: |-
-      const float tank_size = 2.0;
-      const float tank_empty = 235.0;
-      const float tank_full = 38.0;
+      const float tank_size = 2.0; // tank size in liters
+      const float tank_empty = 235.0; // distance to empty tank
+      const float tank_full = 38.0;   // distance to full tank
+      
       float level = (id(water_surface).state * 1000.0) - tank_full;
       if (level < 0.0) {
         level = 0.0;
@@ -58,7 +59,6 @@ sensor:
       float ml_per_mm = tank_size / (tank_empty - tank_full);
       float amount = tank_size - (ml_per_mm * level);
       return (amount > 0.0 ? amount : 0.0);
-    # Removed the 'send_every: 10' median filter so LED updates aren't held back by 10s
     on_value: 
       then:
         - component.update: water_level_percentage
@@ -87,6 +87,7 @@ light:
     name: "Water level light"
     restore_mode: RESTORE_DEFAULT_OFF
     default_transition_length: 0s
+    # change the default 1.8 gamma correction which fucked up the colors when lowering brightness
     gamma_correct: 1.0
     on_turn_on:
       then:
@@ -100,8 +101,7 @@ light:
           update_interval: 200ms
           lambda: |-
             static uint16_t lastcolor = 0;
-            // Static color array calibrated to compensate for LED dimming
-            
+            // color array with some correction
             static const esphome::Color colors[10] = {
               esphome::Color(255, 0, 0),     // LED 0: Pure Red
               esphome::Color(255, 65, 0),    // LED 1: Red-Orange (Boosted Green)
@@ -129,7 +129,7 @@ light:
               }
             }
 
-            // Low level override: Keep 1 solid Red LED visible down to >5% level
+            // flash last led when waterlevel is low
             if (plevel == 0) {
               if (id(water_level).state > 0.15 && lastcolor == 1) {
                 it[0] = esphome::Color::BLACK;
