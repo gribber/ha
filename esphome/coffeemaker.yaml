@@ -92,8 +92,7 @@ light:
       then:
         - light.control:
             id: water_level_light
-            # brightness: 20%
-            # color_brightness: 20%
+            brightness: 5%
             effect: "Level with colors"
     effects:
       - addressable_lambda:
