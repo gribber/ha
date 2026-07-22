@@ -50,7 +50,7 @@ sensor:
     lambda: |-
       const float tank_size = 2.0;
       const float tank_empty = 235.0;
-      const float tank_full = 27.0;
+      const float tank_full = 35.0;
       float level = (id(water_surface).state * 1000.0) - tank_full;
       if (level < 0.0) {
         level = 0.0;
@@ -99,6 +99,7 @@ light:
           name: "Level with colors"
           update_interval: 200ms
           lambda: |-
+            static uint16_t lastcolor = 0;
             // Static color array calibrated to compensate for LED dimming
             static const esphome::Color colors[10] = {
               esphome::Color(255, 0, 0),     // LED 0: Pure Red
@@ -128,6 +129,10 @@ light:
             }
 
             // Low level override: Keep 1 solid Red LED visible down to >5% level
-            if (plevel == 0 && id(water_level).state > 0.15) {
-              it[0] = colors[0];
+            if (plevel == 0) {
+              if (id(water_level).state > 0.15 && lastcolor == 1) {
+                it[0] = esphome::Color::BLACK;
+              } else {}
+                it[0] = colors[0];
+              }
             }
