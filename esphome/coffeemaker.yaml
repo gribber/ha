@@ -87,6 +87,7 @@ light:
     name: "Water level light"
     restore_mode: RESTORE_DEFAULT_OFF
     default_transition_length: 0s
+    gamma_correct: 1.0
     on_turn_on:
       then:
         - light.control:
