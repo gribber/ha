@@ -101,20 +101,32 @@ light:
           update_interval: 200ms
           lambda: |-
             static uint16_t lastcolor = 0;
-            // Static color array calibrated to compensate for LED dimming
+            # // Static color array calibrated to compensate for LED dimming
+            # static const esphome::Color colors[10] = {
+            #   esphome::Color(255, 0, 0),     // LED 0: Pure Red
+            #   esphome::Color(255, 65, 0),    // LED 1: Red-Orange (Boosted Green)
+            #   esphome::Color(255, 130, 0),   // LED 2: Orange (Boosted Green)
+            #   esphome::Color(255, 180, 0),   // LED 3: Yellow-Orange
+            #   esphome::Color(255, 230, 0),   // LED 4: Yellow
+            #   esphome::Color(200, 255, 0),   // LED 5: Lime-Yellow
+            #   esphome::Color(130, 255, 0),   // LED 6: Lime-Green
+            #   esphome::Color(70, 255, 0),    // LED 7: Light Green
+            #   esphome::Color(30, 255, 0),    // LED 8: Green
+            #   esphome::Color(0, 255, 0)      // LED 9: Pure Green
+            # };
+            // Perceptually balanced linear gradient from LED 0 (Red) to LED 9 (Green)
             static const esphome::Color colors[10] = {
-              esphome::Color(255, 0, 0),     // LED 0: Pure Red
-              esphome::Color(255, 65, 0),    // LED 1: Red-Orange (Boosted Green)
-              esphome::Color(255, 130, 0),   // LED 2: Orange (Boosted Green)
-              esphome::Color(255, 180, 0),   // LED 3: Yellow-Orange
-              esphome::Color(255, 230, 0),   // LED 4: Yellow
-              esphome::Color(200, 255, 0),   // LED 5: Lime-Yellow
-              esphome::Color(130, 255, 0),   // LED 6: Lime-Green
-              esphome::Color(70, 255, 0),    // LED 7: Light Green
-              esphome::Color(30, 255, 0),    // LED 8: Green
-              esphome::Color(0, 255, 0)      // LED 9: Pure Green
+              esphome::Color(255,   0, 0),   // 0: Pure Red
+              esphome::Color(255,  28, 0),   // 1: Red-Orange
+              esphome::Color(255,  56, 0),   // 2: Deep Orange
+              esphome::Color(255,  85, 0),   // 3: Orange
+              esphome::Color(255, 140, 0),   // 4: Yellow-Orange
+              esphome::Color(220, 200, 0),   // 5: Yellow
+              esphome::Color(140, 220, 0),   // 6: Lime
+              esphome::Color( 70, 240, 0),   // 7: Light Green
+              esphome::Color( 25, 250, 0),   // 8: Medium Green
+              esphome::Color(  0, 255, 0)    // 9: Pure Green
             };
-
             float pct = id(water_level_percentage).state;
             if (std::isnan(pct)) return;
 
