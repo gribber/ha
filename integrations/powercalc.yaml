@@ -148,6 +148,14 @@ sensors:
           area: garage
           filter:
             domain: light
+        entities:
+          - entity_id: switch.garage_garage_bench
+            fixed:
+              power: "{{ states('sensor.garage_garage_bench_power') }}"
+          - entity_id: switch.garage_garage_ceiling
+            fixed:
+              power: "{{ states('sensor.garage_garage_ceiling_power') }}"
+
       - create_group: "techroom"
         unique_id: e226b01a-fd61-4828-bea8-f9a4cb1da3d7
         include:
