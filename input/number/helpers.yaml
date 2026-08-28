@@ -46,6 +46,7 @@ sun_elevation_limit:
 
 mailbox_deliveries:
   name: "Antal postleveranser"
+  step: 1
   min: 0
   max: 10
 

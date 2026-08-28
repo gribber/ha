@@ -1,0 +1,4 @@
+ev_charge_complete_time:
+  name: "Tid laddningen skall vara klar"
+  has_date: false
+  has_time: yes
