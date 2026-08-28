@@ -12,7 +12,8 @@ python_script:
 climate: !include integrations/climate.yaml
 ffmpeg: !include integrations/ffmpeg.yaml
 frontend: !include integrations/frontend.yaml
-http: !include integrations/http.yaml
+# moved to gui
+#http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
 google_assistant: !include integrations/google_assistant.yaml
 #home_connect_alt: !include integrations/home_connect_alt.yaml
