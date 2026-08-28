@@ -1,0 +1,64 @@
+- sensor:
+    - name: "EV Optimal Charge Start Time"
+      unique_id: ev_optimal_charge_start_time
+      device_class: timestamp
+      state: >
+        {# 1. Get required charging blocks (each block = 15 minutes) #}
+        {% set raw_time = states('sensor.kona_estimated_station_charge_duration') | float(0) %}
+        {% set blocks_needed = (((raw_time / 15) | round(method='ceil')) * 15 / 15) | int %}
+        {% set blocks_needed = max(1, blocks_needed) %}
+
+        {# 2. Merge today and tomorrow price arrays #}
+        {% set today_prices = state_attr('sensor.nordpool_se2', 'raw_today') or [] %}
+        {% set tomorrow_prices = state_attr('sensor.nordpool_se2', 'raw_tomorrow') or [] %}
+        {% set all_prices = today_prices + tomorrow_prices %}
+
+        {# 3. Determine dynamic deadline if limit toggle is active #}
+        {% set limit_enabled = is_state('input_boolean.ev_charge_before_time', 'on') %}
+        {% set time_target = states('input_datetime.ev_charge_complete_time') %}
+        
+        {% set target_today = today_at(time_target) | as_local %}
+        {% if now() > target_today %}
+          {% set deadline = target_today + timedelta(days=1) %}
+        {% else %}
+          {% set deadline = target_today %}
+        {% endif %}
+
+        {# 4. Scan arrays natively to find the cheapest continuous window #}
+        {% set result = namespace(best_start=none, min_avg=999999) %}
+        {% set total_slots = all_prices | length %}
+        
+        {% if total_slots >= blocks_needed %}
+          {% for i in range(0, total_slots - blocks_needed + 1) %}
+            
+            {% set first_slot = all_prices[i] %}
+            {% set last_slot = all_prices[i + blocks_needed - 1] %}
+            
+            {% set start_dt = as_datetime(first_slot.start) | as_local %}
+            {% set end_dt = as_datetime(last_slot.end) | as_local %}
+            
+            {# Validate window constraints: Must start in the future, and end before deadline #}
+            {% set is_future = start_dt > now() %}
+            {% set respect_deadline = not limit_enabled or (end_dt <= deadline) %}
+            
+            {% if is_future and respect_deadline %}
+              {# Calculate individual clean window sum to avoid rolling corruption #}
+              {% set current_sum = namespace(total=0.0) %}
+              {% for j in range(0, blocks_needed) %}
+                {% set current_sum.total = current_sum.total + (all_prices[i + j].value | float) %}
+              {% endfor %}
+              
+              {% set avg_price = current_sum.total / blocks_needed %}
+              
+              {# Keep track of the lowest average price sequence #}
+              {% if avg_price < result.min_avg %}
+                {% set result.min_avg = avg_price %}
+                {% set result.best_start = start_dt %}
+              {% endif %}
+            {% endif %}
+            
+          {% endfor %}
+        {% endif %}
+
+        {# 5. Output final result as a valid ISO string timestamp #}
+        {{ result.best_start.isoformat() if result.best_start is not none else none }}
