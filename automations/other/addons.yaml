@@ -1,0 +1,20 @@
+- alias: "System: Dynamic Add-on Crash Monitor"
+  trace:
+    stored_traces: 10
+
+  description: "Triggers on Supervisor health events automatically"
+  mode: parallel
+  triggers:
+    - trigger: event
+      event_type: supervisor_event
+      event_data:
+        action: health
+  conditions:
+    # Filter only for unhealthy/failed events, ignoring clean manual stops
+    # - condition: template
+    #   value_template: "{{ trigger.event.data.data.status == 'unhealthy' or trigger.event.data.data.state == 'failed' }}"
+  actions:
+    - action: notify.telegram_castle_log
+      data:
+        title: "🚨 Add-on Failed"
+        message: "Add-on {{ trigger.event.data.data.name }} changed status to an unstable state. (status: {{ trigger.event.data.data.status }}, state: {{ trigger.event.data.data.state }})"
