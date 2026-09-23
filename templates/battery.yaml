@@ -1,0 +1,25 @@
+- sensor:
+    - name: "Pet Door Battery Percentage"
+      unique_id: a52607ef-1f6a-47cb-aa1c-0836f92f3863
+      #device_id: 4fbfc9152c8c2245d94ffd0325913c91 # does not work, why oh why!?
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+      # icon: mdi:battery
+      state: >
+        {% set v = state_attr('sensor.pet_door_pet_flap_pet_door_battery_level', 'voltage') | float(0) %}
+        {% if v <= 0 %}
+          unknown
+        {% elif v >= 5.3 %}
+          100
+        {% elif v <= 4.0 %}
+          0
+        {% else %}
+          {% set pct = ((v - 4.0) / 1.3) * 100 %}
+          {{ ([0, [100, pct | round(1)] | min] | max) }}
+        {% endif %}
+      attributes:
+        voltage: >
+          {{ state_attr('sensor.pet_door_pet_flap_pet_door_battery_level', 'voltage') | float(0) | round(2) }}
+        voltage_per_battery: >
+          {{ (state_attr('sensor.pet_door_pet_flap_pet_door_battery_level', 'voltage') | float(0) / 4) | round(2) }}

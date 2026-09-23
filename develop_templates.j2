@@ -112,3 +112,21 @@ expand(area_entities("allrum")
 
 # get a list of all entities from matching areas
 {{ labels() | select('match', 'ambience') | map('label_entities') | sum(start=[]) }}
+
+
+# highlight background shaddow for a card if a light is on in that area (area dynamicly extracted and light labels (ambience*) filtered)
+        {% set exclude_labels = labels() | select('match', '^(ambience_|ambience$)') | list %} 
+        {% set areas = [ area_id(config.entity) ] %}
+
+        {% set area_entities_list = areas | map('area_entities') | sum(start=[]) | select('match', 'light') | list %}
+        {% set excluded_entities = exclude_labels | map('label_entities') | sum(start=[]) %}
+
+        {% if expand(area_entities_list) 
+          | selectattr('state', 'eq', 'on') 
+          | rejectattr('entity_id', 'in', excluded_entities) 
+          | list | count > 0 
+        %}
+          ha-card {
+            box-shadow: 0px 0px 9px 1px #DAA520;
+          }
+        {% endif %}

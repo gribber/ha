@@ -1,5 +1,5 @@
-sensor.cat_flap_catflapdual_battery_level:
-  unit_of_measurement: "%"
+# sensor.cat_flap_catflapdual_battery_level:
+#   unit_of_measurement: "%"
 
 sensor.ha_db_size:
   state_class: measurement
@@ -25,3 +25,8 @@ sensor.gw3000a_monthly_rain_piezo:
   state_class: total_increasing
 sensor.gw3000a_yearly_rain_piezo:
   state_class: total_increasing
+
+
+# tie entity to device id (test, does not work)
+sensor.pet_door_battery_percentage:
+  device_id: 4fbfc9152c8c2245d94ffd0325913c91

@@ -371,4 +371,4 @@
       state: >
         {{ (states('sensor.heatpump_thermal_daily_energy_for_hw')|float / states('sensor.heatpump_circuit_daily_energy_for_hw')|float) | round(1)}}
       availability: >
-        {{ has_value('sensor.heatpump_thermal_daily_energy_for_hw') and has_value('sensor.heatpump_circuit_daily_energy_for_hw') }}
+        {{ has_value('sensor.heatpump_thermal_daily_energy_for_hw') and states('sensor.heatpump_thermal_daily_energy_for_hw')|float > 0 and has_value('sensor.heatpump_circuit_daily_energy_for_hw') and states('sensor.heatpump_circuit_daily_energy_for_hw')|float > 0 }}
