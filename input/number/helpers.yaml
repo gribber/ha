@@ -86,3 +86,11 @@ ev_max_grid_current:
   max: 16
   step: 1
   icon: "mdi:current-ac"
+
+litterbox_visits:
+  name: "Kattlådebesök"
+  min: 0
+  max: 30
+  step: 1
+  mode: box
+  icon: "mdi:cat"
