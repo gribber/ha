@@ -67,6 +67,7 @@
                               entity_id:
                                 - light.hallway_upstairs_2
                             data:
+                              color_temp_kelvin: 2700
                               brightness: 255
                     default:
                       - action: light.turn_off
@@ -85,6 +86,7 @@
                               entity_id:
                                 - light.hallway_upstairs_1
                             data:
+                              color_temp_kelvin: 2700
                               brightness: 255
                     default:
                       - action: light.turn_off
