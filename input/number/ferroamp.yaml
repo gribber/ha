@@ -1,0 +1,4 @@
+import_limit:
+  min: -18000
+  max: 18000
+  mode: box
