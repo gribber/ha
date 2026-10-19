@@ -62,10 +62,10 @@
       for:
         minutes: &timeout 120
 
-    - platform: state
-      id: motion
-      entity_id:
-        - binary_sensor.motion_bathroom_upstairs_occupancy
+    # - platform: state
+    #   id: motion
+    #   entity_id:
+    #     - binary_sensor.motion_bathroom_upstairs_occupancy
 
     - platform: time_pattern
       id: time
@@ -81,7 +81,7 @@
               conditions:
                 - condition: trigger
                   id:
-                    - motion
+                    # - motion
                     - time
                 - condition: state
                   entity_id:
