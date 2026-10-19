@@ -1,4 +1,4 @@
-- alias: "bathroom downstairs: litterbox"
+- alias: "bathroom downstairs: litterbox motion"
   id: 727453fd-3200-4e32-8559-444d5d4fa5f0
   mode: single
   trace:
@@ -6,11 +6,15 @@
   triggers:
     trigger: state
     entity_id: binary_sensor.motion_litterbox_occupancy
-    from: "off"
-    to: "on"
+    from: "on"
+    to: "off"
 
-  conditions: []
-    # litterbox should be closed
+  conditions:
+    - condition: state
+      entity_id: binary_sensor.litterbox_door
+      state: "off"
+      for:
+        minutes: 2  # cooldown for the motion sensor is 90s
 
   actions:
     - action: input_number.increment
@@ -19,5 +23,70 @@
 
     - action: notify.mobile_app_kb2003
       data:
-        title: "Kattskit"
-        message: "Besök på skithuset (besök: {{ states('input_number.litterbox_visits') }})"
+        title: "Kattlådan"
+        message: "En katt har besökt skithuset (besök: {{ states('input_number.litterbox_visits')|int }})"
+
+    - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id: input_number.litterbox_visits
+            above: 10
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id: switch.donetick_things_litterbox_full
+
+    # if visits > 10, create chore
+
+- alias: "bathroom downstairs: litterbox lid"
+  id: 54b71a54-7a02-4d84-aebd-f4d81d14f7f9
+  mode: single
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: state
+    entity_id: binary_sensor.litterbox_door
+    from: "on"
+    to: "off"
+
+  conditions: []
+
+  actions:
+    - action: input_number.set_value
+      target:
+        entity_id: input_number.litterbox_visits
+      data:
+        value: 0
+
+    - action: switch.turn_off
+      target:
+        entity_id: switch.donetick_things_litterbox_full
+
+    - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id: zone.home
+            above: 1
+        sequence:
+          - action: donetick.complete_task
+            data:
+              completed_by: 2
+              task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
+
+      - conditions:
+          - condition: numeric_state
+            entity_id: zone.home
+            state: 1
+        sequence:
+          - choose:
+              - conditions: "{{ states('person.linus') == 'home' }}"
+                sequence:
+                  - action: donetick.complete_task
+                    data:
+                      completed_by: 1
+                      task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
+                default:
+                  - action: donetick.complete_task
+                    data:
+                      completed_by: 2
+                      task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
