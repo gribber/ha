@@ -1,0 +1,25 @@
+- alias: "Infomentor: schedule reminder"
+  id: 637a8e87-092a-48c1-847b-a6d61ca809f4
+  trace:
+    stored_traces: 10
+  triggers:
+    trigger: time
+    at: "21:00"
+
+  conditions:
+    - condition: state
+      entity_id: sensor.infomentor_nordin_granskog_lo_tomorrow_schedule
+      state: "Preschool"
+    - condition: template
+      value_template: >-
+        {{ state_attr('sensor.infomentor_nordin_granskog_lo_tomorrow_schedule', 'tomorrow_time_registrations') 
+          | selectattr('status', 'eq', 'pending')
+          | list 
+          | count > 0 
+        }}
+
+  actions:
+    - action: notify.family
+      data:
+        title: "Infomentor"
+        message: "Tiden är inte registrerad för Lo i morgon"
