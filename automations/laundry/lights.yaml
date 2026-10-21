@@ -17,54 +17,10 @@
       entity_id:
         - input_boolean.laundryroom_movement
 
-    # - platform: state
-    #   id: button
-    #   entity_id:
-    #     - binary_sensor.laundry_room_channel_1_input
-    #   from: "off"
-    #   to: "on"
-
   conditions: []
 
   actions:
     choose:
-      - conditions:
-          - condition: trigger
-            id: "button"
-
-        sequence:
-          - choose:
-              - conditions:
-                  - alias: "if ceiling light is off"
-                    condition: state
-                    entity_id:
-                      - switch.laundry_room_channel_1
-                    state: "off"
-
-                sequence:
-                  - &turn_on_ceiling
-                    alias: "turn on the lights"
-                    action: switch.turn_on
-                    target:
-                      entity_id: switch.laundry_room_channel_1
-                  - &turn_on_bench
-                    alias: "turn on bench light"
-                    action: light.turn_on
-                    target:
-                      entity_id: light.laundry_room_bench
-                    data:
-                      brightness: 120
-                      transition: 1
-
-            default:
-              - &turn_off
-                alias: "turn off the lights"
-                action: homeassistant.turn_off
-                target:
-                  entity_id:
-                    - switch.laundry_room_channel_1
-                    - light.laundry_room_bench
-
       - conditions:
           - alias: "turn on lights when entering the room"
             condition: and
@@ -88,11 +44,28 @@
                     before: "22:00:00"
 
                 sequence:
-                  - *turn_on_ceiling
-                  - *turn_on_bench
+                  - &turn_on_ceiling
+                    alias: "turn on the lights"
+                    action: switch.turn_on
+                    target:
+                      entity_id: switch.laundry_room_channel_1
+                  - &turn_on_bench
+                    alias: "turn on bench light"
+                    action: light.turn_on
+                    target:
+                      entity_id: light.laundry_room_bench
+                    data:
+                      brightness: 120
+                      transition: 1
 
             default:
               - *turn_on_bench
 
     default:
-      - *turn_off
+      - &turn_off
+        alias: "turn off the lights"
+        action: homeassistant.turn_off
+        target:
+          entity_id:
+            - switch.laundry_room_channel_1
+            - light.laundry_room_bench
