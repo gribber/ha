@@ -28,15 +28,20 @@
 
     - choose:
       - conditions:
-          - condition: numeric_state
+          - condition: state
             entity_id: input_number.litterbox_visits
-            above: 10
+            state: "10"
         sequence:
           - action: switch.turn_on
             target:
               entity_id: switch.donetick_things_litterbox_full
+          # - action: donetick.update_task
+          #   data:
+          #     force_unarchive: false
+          #     task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
+          #     due_date: '{{ utcnow().isoformat() }}'
 
-    # if visits > 10, create chore
+
 
 - alias: "bathroom downstairs: litterbox lid"
   id: 54b71a54-7a02-4d84-aebd-f4d81d14f7f9
@@ -52,15 +57,13 @@
   conditions: []
 
   actions:
+    - variables:
+        task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
     - action: input_number.set_value
       target:
         entity_id: input_number.litterbox_visits
       data:
         value: 0
-
-    - action: switch.turn_off
-      target:
-        entity_id: switch.donetick_things_litterbox_full
 
     - choose:
       - conditions:
@@ -71,12 +74,12 @@
           - action: donetick.complete_task
             data:
               completed_by: 2
-              task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
+              task_id: "{{ task_id }}"
 
       - conditions:
-          - condition: numeric_state
+          - condition: state
             entity_id: zone.home
-            state: 1
+            state: "1"
         sequence:
           - choose:
               - conditions: "{{ states('person.linus') == 'home' }}"
@@ -84,9 +87,20 @@
                   - action: donetick.complete_task
                     data:
                       completed_by: 1
-                      task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
-                default:
-                  - action: donetick.complete_task
-                    data:
-                      completed_by: 2
-                      task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
+                      task_id: "{{ task_id }}"
+            default:
+              - action: donetick.complete_task
+                data:
+                  completed_by: 2
+                  task_id: "{{ task_id }}"
+
+    # make chore visable to ha again
+    - action: donetick.update_task
+      data:
+        task_id: "{{ task_id }}"
+        force_unarchive: true
+
+    # # turned on as complete action in chore
+    # - action: switch.turn_off
+    #   target:
+    #     entity_id: switch.donetick_things_litterbox_full
