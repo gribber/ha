@@ -17,20 +17,26 @@
         minutes: 2  # cooldown for the motion sensor is 90s
 
   actions:
-    - action: input_number.increment
+    # - action: input_number.increment
+    #   target:
+    #     entity_id: input_number.litterbox_visits
+    - action: counter.increment
       target:
-        entity_id: input_number.litterbox_visits
+        entity_id: counter.litterbox_visits
 
     - action: notify.mobile_app_kb2003
       data:
         title: "Kattlådan"
-        message: "En katt har besökt skithuset (besök: {{ states('input_number.litterbox_visits')|int }})"
+        message: "En katt har besökt skithuset (besök: {{ states('counter.litterbox_visits') }})"
 
     - choose:
       - conditions:
+          # - condition: state
+          #   entity_id: input_number.litterbox_visits
+          #   state: "10"
           - condition: state
-            entity_id: input_number.litterbox_visits
-            state: "10"
+            entity_id: counter.litterbox_visits
+            state: "6"
         sequence:
           - action: switch.turn_on
             target:
@@ -59,11 +65,16 @@
   actions:
     - variables:
         task_id: "{{ state_attr('sensor.donetick_chores_tom_kattladan', 'task_id') }}"
-    - action: input_number.set_value
+    # - action: input_number.set_value
+    #   target:
+    #     entity_id: input_number.litterbox_visits
+    #   data:
+    #     value: 0
+    - action: counter.reset
       target:
-        entity_id: input_number.litterbox_visits
-      data:
-        value: 0
+        entity_id: counter.litterbox_visits
+      
+
 
     - choose:
       - conditions:
