@@ -94,3 +94,15 @@ litterbox_visits:
   step: 1
   mode: box
   icon: "mdi:cat"
+
+dahlia_warn:
+  name: "Temperaturvarning"
+  min: 0
+  max: 15
+  step: 1
+
+dahlia_crit:
+  name: "Kritiskt temperatur"
+  min: 0
+  max: 15
+  step: 1

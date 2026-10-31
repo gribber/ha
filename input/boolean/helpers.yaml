@@ -57,3 +57,6 @@ ev_allow_grid:
 
 christmas_lights:
   name: "Julbelysning aktiv"
+
+dahlina_notify:
+  name: "Aktivera notifieringar"

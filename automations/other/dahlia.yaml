@@ -1,0 +1,45 @@
+- alias: "Dahlia: warning"
+  id: 0be9c1a7-b684-4077-88cd-38a99344632c
+  trace:
+    stored_traces: 10
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.dahlia_tubers_temperature
+      below: input_number.dahlia_warn
+      id: "dahlia_warn"
+
+    - trigger: time_pattern
+      minutes: 1
+      id: "dahlia_crit"
+
+  conditions:
+    - condition: state
+      entity_id: input_boolean.dahlina_notify
+      state: "on"
+
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: "dahlia_warn"
+          sequence:
+            - action: notify.send_message
+              data:
+                title: "Dahlia varning"
+                message: "Temperaturen har sjunkit under {{ states('input_number.dahlia_warn') }} grader ({{ states('sensor.dahlia_tubers_temperature') }}°C)"
+              target:
+                entity_id: notify.isabells_iphone_16_pro
+
+        - conditions:
+            - condition: trigger
+              id: "dahlia_crit"
+            - condition: numeric_state
+              entity_id: sensor.dahlia_tubers_temperature
+              below: input_number.dahlia_crit
+          sequence:
+            - action: notify.send_message
+              data:
+                title: "Dahlia kritisk"
+                message: "Temperaturen är under {{ states('input_number.dahlia_crit') }} grader! ({{ states('sensor.dahlia_tubers_temperature') }}°C)"
+              target:
+                entity_id: notify.isabells_iphone_16_pro
