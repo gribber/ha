@@ -14,7 +14,9 @@
     # - condition: template
     #   value_template: "{{ trigger.event.data.data.status == 'unhealthy' or trigger.event.data.data.state == 'failed' }}"
   actions:
-    - action: notify.telegram_castle_log
+    - action: notify.send_message
+      target:
+        entity_id: notify.telegram_castle_log
       data:
         title: "🚨 Add-on Failed"
         message: "Add-on {{ trigger.event.data.data.name }} changed status to an unstable state. (status: {{ trigger.event.data.data.status }}, state: {{ trigger.event.data.data.state }})"

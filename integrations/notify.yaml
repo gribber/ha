@@ -4,10 +4,10 @@
     - service: mobile_app_kb2003
     - service: mobile_app_isabells_iphone_16_pro
 
-- platform: telegram
-  name: telegram_castle
-  chat_id: !secret telegram_id_castle
+# - platform: telegram
+#   name: telegram_castle
+#   chat_id: !secret telegram_id_castle
 
-- platform: telegram
-  name: telegram_castle_log
-  chat_id: !secret telegram_id_castle_log
+# - platform: telegram
+#   name: telegram_castle_log
+#   chat_id: !secret telegram_id_castle_log
