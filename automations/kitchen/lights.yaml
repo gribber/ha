@@ -18,6 +18,7 @@
       entity_id:
         - event.kitchen_remote_action
         - event.kitchen_remote_2_action
+        - event.kitchen_remote_3_action
       not_from: unavailable
       id: remote
 
