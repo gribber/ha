@@ -4,7 +4,9 @@
     stored_traces: 10
   triggers:
     - trigger: numeric_state
-      entity_id: sensor.dahlia_tubers_temperature
+      entity_id: 
+        - sensor.dahlia_tubers_temperature
+        - sensor.dahlia_tubers_2_temperature
       below: input_number.dahlia_warn
       id: "dahlia_warn"
 
@@ -33,13 +35,23 @@
         - conditions:
             - condition: trigger
               id: "dahlia_crit"
-            - condition: numeric_state
-              entity_id: sensor.dahlia_tubers_temperature
-              below: input_number.dahlia_crit
+            - condition: or
+              conditions:
+                - condition: numeric_state
+                  entity_id: sensor.dahlia_tubers_temperature
+                  below: input_number.dahlia_crit
+                - condition: numeric_state
+                  entity_id: sensor.dahlia_tubers_2_temperature
+                  below: input_number.dahlia_crit
           sequence:
             - action: notify.send_message
               data:
                 title: "Dahlia kritisk"
-                message: "Temperaturen är under {{ states('input_number.dahlia_crit') }} grader! ({{ states('sensor.dahlia_tubers_temperature') }}°C)"
+                message: >-
+                  {% set ns = namespace(r=[]) %}
+                  {% for s in expand('sensor.dahlia_tubers_temperature', 'sensor.dahlia_tubers_2_temperature') if s.state | float(0) < states('input_number.dahlia_crit') | float(0) %}
+                    {% set ns.r = ns.r + [area_name(s.entity_id) ~ ': ' ~ s.state ~ '°C'] %}
+                  {% endfor %}
+                  Temperaturen är under {{ states('input_number.dahlia_crit') }} grader! ({{ ns.r | join(', ') }})
               target:
                 entity_id: notify.isabells_iphone_16_pro
