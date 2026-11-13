@@ -9,8 +9,12 @@ update_interval: never
 lambda: |-
   if (id(wifi_bssid).state != "") {
     if (id(wifi_bssid).state == "B4:FB:E4:4A:2D:10") {
-      return {"ap-kitchen"};
+      return {"ap-kitchen-old"};
     } else if (id(wifi_bssid).state == "FC:EC:DA:8A:A4:84") {
+      return {"ap-office-old"};
+    } else if (id(wifi_bssid).state == "74:F9:2C:C0:27:AB") {
+      return {"ap-kitchen};
+    } else if (id(wifi_bssid).state == "74:F9:2C:BA:A5:B1") {
       return {"ap-office"};
     } else if (id(wifi_bssid).state == "9C:05:D6:F3:7F:01") {
       return {"ap-garage-s"};
