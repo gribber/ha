@@ -43,13 +43,15 @@
 
   actions:
     - action: notify.send_message
-      data_template:
+      target:
         entity_id: notify.telegram_castle
+      data:
         title: "Alzheimers"
-        message:
-          "Stängde av {{ lights_left_on | count }} lampor som inte släckts.
+        message: >
+          Stängde av {{ lights_left_on | count }} lampor som inte släckts.
           {{ lights_left_on | join(', ')}}
-          "
+        data:
+          parse_mode: ""
     - action: light.turn_off
       target:
         entity_id: "{{ lights_left_on }}"
