@@ -7,24 +7,27 @@ id: wifi_access_point
 entity_category: diagnostic
 update_interval: never
 lambda: |-
-  if (id(wifi_bssid).state != "") {
-    if (id(wifi_bssid).state == "B4:FB:E4:4A:2D:10") {
-      return {"ap-kitchen-old"};
-    } else if (id(wifi_bssid).state == "FC:EC:DA:8A:A4:84") {
-      return {"ap-office-old"};
-    } else if (id(wifi_bssid).state == "74:F9:2C:C0:27:AB") {
-      return {"ap-kitchen};
-    } else if (id(wifi_bssid).state == "74:F9:2C:BA:A5:B1") {
-      return {"ap-office"};
-    } else if (id(wifi_bssid).state == "9C:05:D6:F3:7F:01") {
-      return {"ap-garage-s"};
-    } else if (id(wifi_bssid).state == "68:D7:9A:0C:DD:6A") {
-      return {"ap-garage-n"};
-    } else if (id(wifi_bssid).state == "78:8A:20:B6:6F:EE") {
-      return {"ap-solarfarm"};
-    } else {
-      return {"Unknown AP"};
-    }
-  } else {
+  if (id(wifi_bssid).state.empty()) {
     return {"Unknown"};
   }
+
+  static const std::map<std::string, std::vector<std::string>> ap_groups = {
+    {"ap-kitchen-old", {"B4:FB:E4:4A:2D:10"}},
+    {"ap-office-old",  {"FC:EC:DA:8A:A4:84"}},
+    {"ap-kitchen",     {"74:F9:2C:C0:27:AB", "74:F9:2C:C0:27:AC"}},
+    {"ap-office",      {"74:F9:2C:BA:A5:B1", "74:F9:2C:BA:A5:B2"}},
+    {"ap-garage-s",    {"9C:05:D6:F3:7F:01"}},
+    {"ap-garage-n",    {"68:D7:9A:0C:DD:6A"}},
+    {"ap-solarfarm",   {"78:8A:20:B6:6F:EE"}},
+  };
+
+  const std::string &current_bssid = id(wifi_bssid).state;
+
+  for (const auto &entry : ap_groups) {
+    const auto &mac_list = entry.second;
+    if (std::find(mac_list.begin(), mac_list.end(), current_bssid) != mac_list.end()) {
+      return {entry.first};
+    }
+  }
+
+  return {"Unknown AP"};
