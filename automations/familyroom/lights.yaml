@@ -30,6 +30,13 @@
       id: remote
 
     - trigger: state
+      entity_id:
+        - event.allrum_pyssel_remote_button_1
+        - event.allrum_pyssel_remote_button_2
+      not_from: unavailable
+      id: pyssel_remote
+
+    - trigger: state
       id: senile
       entity_id:
         - group.motion_family_room
@@ -102,6 +109,85 @@
                         target:
                           entity_id:
                             - light.julgranen
+
+
+      - conditions:
+          - condition: trigger
+            id: "pyssel_remote"
+
+        sequence:
+          - variables:
+              button: "{{ trigger.entity_id.split('.')[1] }}"
+              action: "{{ trigger.to_state.attributes.event_type }}"
+
+          - alias: "Remote buttons"
+            choose:
+              - alias: "Upper button pressed once"
+                conditions: "{{ button == 'allrum_pyssel_remote_button_1' }}"
+                sequence:
+                  - choose:
+                      - conditions:
+                          - alias: "if single press"
+                            condition: "{{ action == 'multi_press_1' }}"
+                          - alias: "if led strip is off"
+                            condition: state
+                            entity_id:
+                              - light.pyssel_led_strip
+                            state: "off"
+
+                        sequence:
+                          - alias: "turn on led strip"
+                            action: light.turn_on
+                            target:
+                              entity_id: light.pyssel_led_strip
+                            data:
+                              color_temp_kelvin: 3558
+                              brightness: 20
+
+                      - conditions:
+                          - alias: "if single press"
+                            condition: "{{ action == 'multi_press_1' }}"
+                          - alias: "if led strip is on"
+                            condition: state
+                            entity_id:
+                              - light.pyssel_led_strip
+                            state: "on"
+
+                        sequence:
+                          - action: input_select.select_next
+                            target:
+                              entity_id: input_select.rgb_pyssel
+                            data:
+                              cycle: true
+                          - action: light.turn_on
+                            target:
+                              entity_id: light.pyssel_led_strip
+                            data:
+                              rgb_color: "{{ states('input_select.rgb_pyssel').split(':')[1] }}"
+                              brightness: 40
+
+                              
+                      - conditions:
+                          - alias: "if double or long press"
+                            condition: "{{ action in ['multi_press_2', 'long_press'] }}"
+
+                        sequence:
+                          - alias: "turn on led strip with whitish color"
+                            action: light.turn_on
+                            target:
+                              entity_id: light.pyssel_led_strip
+                            data:
+                              brightness: 20
+                              color_temp_kelvin: 3558
+
+              - alias: "Lower button pressed once"
+                conditions: "{{ button == 'allrum_pyssel_remote_button_2' and action == 'multi_press_1' }}"
+                sequence:
+                  - alias: "turn off led strip"
+                    action: light.turn_off
+                    target:
+                      entity_id: light.pyssel_led_strip
+
 
       - conditions:
           # when no movement is detected for a fair amount of time, consider the room empty and that 'someone' forgot to turn off the lights

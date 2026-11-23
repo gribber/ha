@@ -8,3 +8,15 @@ rgb_lo:
     - "purple:[127,0,255]"
     - "pink:[255,0,127]"
     - "lime:[0,255,127]"
+
+
+rgb_pyssel:
+  name: "Färger över pysselsbord"
+  options:
+    - "red:[255,0,0]"
+    - "green:[0,255,0]"
+    - "blue:[0,0,255]"
+    - "yellow:[255,214,10]"
+    - "purple:[127,0,255]"
+    - "pink:[255,0,127]"
+    - "lime:[0,255,127]"
