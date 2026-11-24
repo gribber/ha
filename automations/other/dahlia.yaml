@@ -28,7 +28,7 @@
             - action: notify.send_message
               data:
                 title: "Dahlia varning"
-                message: "Temperaturen har sjunkit under {{ states('input_number.dahlia_warn') }} grader ({{ states('sensor.dahlia_tubers_temperature') }}°C)"
+                message: "Temperaturen har sjunkit under {{ states('input_number.dahlia_warn') }} grader ({{ trigger.to_state.state }}°C)"
               target:
                 entity_id: notify.isabells_iphone_16_pro
 
